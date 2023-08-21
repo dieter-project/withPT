@@ -1,6 +1,7 @@
 "use client";
 
 import styled from "styled-components";
+import Link from "next/link";
 
 const Wrap = styled.div`
   background-color: white;
@@ -160,13 +161,16 @@ export default function step2() {
           <ButtonAreaFixed>
             <div
               style={{
-                display: "flex",
                 width: "100%",
                 justifyContent: "space-between",
               }}
             >
-              <NextTimeButton>넘어가기</NextTimeButton>
-              <NextStepButton>입력완료</NextStepButton>
+              <Link href="/trainer/register/finished">
+                <NextTimeButton>넘어가기</NextTimeButton>
+              </Link>
+              <Link href="/trainer/register/finished">
+                <NextStepButton>입력완료</NextStepButton>
+              </Link>
             </div>
           </ButtonAreaFixed>
         </ContentInnerBody>

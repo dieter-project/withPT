@@ -1,6 +1,7 @@
 "use client";
 
 import styled from "styled-components";
+import Link from "next/link";
 
 const Wrap = styled.div`
   background-color: white;
@@ -71,6 +72,8 @@ const RegisterInput = styled.input`
   font-weight: bold;
   font-size: 1rem;
   text-align: center;
+  width: 100%;
+  margin: 0 0.3rem;
 `;
 
 const ButtonAreaFixed = styled.div`
@@ -147,6 +150,7 @@ export default function step1() {
                   type="text"
                   style={{ width: "33%" }}
                   placeholder="12"
+                  required
                 ></RegisterInput>
                 /{" "}
                 <RegisterInput
@@ -164,7 +168,9 @@ export default function step1() {
             </div>
           </form>
           <ButtonAreaFixed>
-            <NextStepButton>다음</NextStepButton>
+            <Link href="/trainer/register/step2">
+              <NextStepButton>다음</NextStepButton>
+            </Link>
           </ButtonAreaFixed>
         </ContentInnerBody>
       </ContentBody>
