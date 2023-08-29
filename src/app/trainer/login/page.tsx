@@ -1,8 +1,9 @@
 "use client";
 import styled from "styled-components";
 import Link from "next/link";
+import { useSession, signIn, signOut } from "next-auth/react";
 
-const Wrap = styled.div`
+const LoginWrap = styled.div`
   background-color: beige;
   margin: 0;
   padding: 0;
@@ -12,7 +13,8 @@ const Wrap = styled.div`
 `;
 
 const ContentBody = styled.div`
-  padding: 6.8rem 1.6rem 3.2rem 1.6rem;
+  height: 80rem;
+  padding: 15rem 1.6rem 3.2rem 1.6rem;
   text-align: center;
   margin: 0 auto;
 `;
@@ -20,24 +22,24 @@ const ContentBody = styled.div`
 const KaKaoLoginButton = styled.button`
   display: block;
   width: 100%;
-  padding: 0.8rem;
+  padding: 1.3rem 0;
   margin-bottom: 0.6rem;
-  border-radius: 0.3rem;
+  border-radius: 0.5rem;
   border: none;
   background-color: #fee500;
-  font-size: 0.9rem;
+  font-size: 1.1rem;
   font-weight: bold;
 `;
 
 const GoogleLoginButton = styled.button`
   display: block;
-  padding: 0.8rem;
+  padding: 1.3rem 0;
   width: 100%;
   border: none;
-  border-radius: 0.3rem;
+  border-radius: 0.5rem;
   background-color: white;
   color: black;
-  font-size: 0.9rem;
+  font-size: 1.1rem;
   font-weight: bold;
 `;
 
@@ -53,41 +55,55 @@ const LinkToMember = styled(Link)`
 `;
 
 export default function Login() {
-  return (
-    <Wrap>
-      <ContentBody>
-        <div>
-          <div
-            style={{
-              backgroundColor: "#D9D9D9",
-              width: "80%",
-              margin: "0 auto",
-              height: "5rem",
-            }}
-          >
-            {" "}
-            ?
-          </div>
-          <div style={{ marginTop: "5rem" }}>
-            <KaKaoLoginButton>카카오로 시작하기</KaKaoLoginButton>
-            <GoogleLoginButton> 구글로 시작하기</GoogleLoginButton>
+  const { data: session } = useSession();
+  if (session && session.user) {
+    return (
+      <>
+        <div>{session.user.name}님 로그인됨</div>
+        <button onClick={() => signOut()}>Sign out</button>
+        <Link href="/trainer/main">메인화면</Link>
+      </>
+    );
+  } else
+    return (
+      <LoginWrap>
+        <ContentBody>
+          <div>
             <div
               style={{
-                color: "#666666",
-                marginTop: "0.5rem",
-                fontWeight: "bold",
-                fontSize: "0.8rem",
+                backgroundColor: "#D9D9D9",
+                width: "80%",
+                margin: "0 auto",
+                height: "5rem",
               }}
             >
-              문의하기
+              {" "}
+              ?
+            </div>
+            <div style={{ marginTop: "8rem" }}>
+              <KaKaoLoginButton>카카오로 시작하기</KaKaoLoginButton>
+              <GoogleLoginButton onClick={() => signIn()}>
+                {" "}
+                구글로 시작하기
+              </GoogleLoginButton>
+
+              <div
+                style={{
+                  color: "#666666",
+                  marginTop: "0.5rem",
+                  fontWeight: "bold",
+                  fontSize: "1rem",
+                }}
+              >
+                문의하기
+              </div>
+            </div>
+            <div style={{ marginTop: "7rem" }}>
+              <AskIfMember>혹시 회원이신가요?</AskIfMember>
+              <LinkToMember href="member/login">회원 회원가입</LinkToMember>
             </div>
           </div>
-          <div style={{ marginTop: "5rem" }}>
-            <AskIfMember>혹시 회원이신가요?</AskIfMember>
-            <LinkToMember href="member/login">회원 회원가입</LinkToMember>
-          </div>
-        </div>
-      </ContentBody>
-    </Wrap>
-  );
+        </ContentBody>
+      </LoginWrap>
+    );
 }

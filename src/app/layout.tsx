@@ -1,6 +1,9 @@
 import "./globals.css";
 import type { Metadata } from "next";
 import StyledJsxRegistry from "./registry";
+import { SessionProvider } from "next-auth/react";
+import Providers from "./components/Providers";
+import { getServerSession } from "next-auth";
 
 export const metadata: Metadata = {
   title: "WithPT",
@@ -15,7 +18,9 @@ export default function RootLayout({
   return (
     <html>
       <body>
-        <StyledJsxRegistry>{children}</StyledJsxRegistry>
+        <Providers>
+          <StyledJsxRegistry>{children}</StyledJsxRegistry>
+        </Providers>
       </body>
     </html>
   );
