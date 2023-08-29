@@ -56,6 +56,26 @@ const LinkToMember = styled(Link)`
 
 export default function Login() {
   const { data: session } = useSession();
+
+  //   try {
+  //     // 구글 로그인 프로세스 수행
+  //     const googleUser = await performGoogleLogin();
+
+  //     // 서버로 userType과 구글 사용자 정보 전송
+  //     const response = await sendUserInfoToServer(userType, googleUser);
+
+  //     if (response.ok) {
+  //       const data = await response.json();
+  //       console.log(data.message); // '로그인 성공'
+  //       console.log('사용자 유형:', data.userType); // 'trainer' 또는 'member'
+  //     } else {
+  //       console.error('로그인 실패');
+  //     }
+  //   } catch (error) {
+  //     console.error('에러 발생', error);
+  //   }
+  // };
+
   if (session && session.user) {
     return (
       <>
@@ -83,8 +103,8 @@ export default function Login() {
             <div style={{ marginTop: "8rem" }}>
               <KaKaoLoginButton>카카오로 시작하기</KaKaoLoginButton>
               <GoogleLoginButton onClick={() => signIn()}>
-                {" "}
-                구글로 시작하기
+                {/* onClick={() => signInAndSendUserType('member')} */} 구글로
+                시작하기
               </GoogleLoginButton>
 
               <div
