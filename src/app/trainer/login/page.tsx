@@ -57,24 +57,29 @@ const LinkToMember = styled(Link)`
 export default function Login() {
   const { data: session } = useSession();
 
+  // async function performGoogleLogin() {
+  //   // 구글 로그인 프로세스를 수행하는 로직
+  //   // 실제 구글 로그인 API를 사용하여 구현해야 합니다.
+  //   // 반환값으로 구글 사용자 정보를 제공합니다.
+  //   const googleUser = await /* 실제 구글 로그인 API 호출 */;
+  //   return googleUser;
+  // }
+
+  // async function sendUserInfoToServer(userType, googleUser) {
   //   try {
-  //     // 구글 로그인 프로세스 수행
-  //     const googleUser = await performGoogleLogin();
+  //     const response = await fetch('/api/login', {
+  //       method: 'POST',
+  //       headers: {
+  //         'Content-Type': 'application/json',
+  //       },
+  //       body: JSON.stringify({ userType, googleUser }),
+  //     });
 
-  //     // 서버로 userType과 구글 사용자 정보 전송
-  //     const response = await sendUserInfoToServer(userType, googleUser);
-
-  //     if (response.ok) {
-  //       const data = await response.json();
-  //       console.log(data.message); // '로그인 성공'
-  //       console.log('사용자 유형:', data.userType); // 'trainer' 또는 'member'
-  //     } else {
-  //       console.error('로그인 실패');
-  //     }
+  //     return response;
   //   } catch (error) {
   //     console.error('에러 발생', error);
   //   }
-  // };
+  // }
 
   if (session && session.user) {
     return (
@@ -102,7 +107,7 @@ export default function Login() {
             </div>
             <div style={{ marginTop: "8rem" }}>
               <KaKaoLoginButton>카카오로 시작하기</KaKaoLoginButton>
-              <GoogleLoginButton onClick={() => signIn()}>
+              <GoogleLoginButton onClick={() => signIn("google")}>
                 {/* onClick={() => signInAndSendUserType('member')} */} 구글로
                 시작하기
               </GoogleLoginButton>
