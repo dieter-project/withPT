@@ -122,8 +122,35 @@ export default function Management() {
       <MainHeader>수업관리</MainHeader>
 
       <MainContentWrap>
-        <MainTitle>회원 통계</MainTitle>
-        <TrainerMainWrap></TrainerMainWrap>
+        <div>
+          <div>
+            <h4>회원관리</h4>
+            <span>총 회원 수 : 31명</span>
+            <span>2023. 11월</span>
+          </div>
+          <div>
+            <span>아자 아자 피트니스 센터</span>
+            <span>5명</span>
+          </div>
+          <div>
+            <span>으라차차 피트니스 센터</span>
+            <span>5명</span>
+          </div>
+          <div>
+            <span>득근득근 피트니스 센터</span>
+            <span>5명</span>
+          </div>
+        </div>
+
+        <div>
+          <div>
+            <h4>스케줄</h4>
+            <div>
+              <div>달력</div>
+              <button> 수업 일정 확인하기</button>
+            </div>
+          </div>
+        </div>
       </MainContentWrap>
       <MainFooter>
         <FooterCtgWrap>
