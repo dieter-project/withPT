@@ -116,37 +116,38 @@ const FooterItemImg = styled.img`
   display: block;
 `;
 
-export default function ManagementMember() {
+export default function ManagementSchedule() {
   return (
     <MainContainer>
       <MainHeader>회원 관리</MainHeader>
 
       <MainContentWrap>
         <div>
-          <span>아자아자 피트니스 센터</span>
-          <span>5명</span>
+          <div>
+            <span>총 회원 수 : 31명</span>
+            <span>2023. 11월</span>
+          </div>
+          <div>
+            <span>아자 아자 피트니스 센터</span>
+            <span>5명</span>
+          </div>
+          <div>
+            <span>으라차차 피트니스 센터</span>
+            <span>5명</span>
+          </div>
+          <div>
+            <span>득근득근 피트니스 센터</span>
+            <span>5명</span>
+          </div>
         </div>
 
         <div>
           <div>
-            <span>맥도날드 회원님</span>
-            <span>상세정보 입력 필요</span>
-          </div>
-          <div>
-            <span>버거킹 회원님</span>
-            <span>잔여:16회/36회</span>
-          </div>
-          <div>
-            <span>신형만 회원님</span>
-            <span>잔여:11회/24회</span>
-          </div>
-          <div>
-            <span>김땡땡 회원님</span>
-            <span>잔여:5회/36회</span>
-          </div>
-          <div>
-            <span>아자아자 회원님</span>
-            <span>잔여:0회/50회</span>
+            <h4>스케줄</h4>
+            <div>
+              <div>달력</div>
+              <button> 수업 일정 확인하기</button>
+            </div>
           </div>
         </div>
       </MainContentWrap>

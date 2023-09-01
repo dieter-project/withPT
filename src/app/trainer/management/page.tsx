@@ -116,13 +116,14 @@ const FooterItemImg = styled.img`
   display: block;
 `;
 
-export default function Management() {
+export default function ManagementMain() {
   return (
     <MainContainer>
       <MainHeader>수업관리</MainHeader>
 
       <MainContentWrap>
         <div>
+          <button>신규 회원 등록하기</button>
           <div>
             <h4>회원관리</h4>
             <span>총 회원 수 : 31명</span>
