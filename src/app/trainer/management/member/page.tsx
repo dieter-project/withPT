@@ -24,72 +24,16 @@ const MainContentWrap = styled.div`
   margin-bottom: 0.2rem;
   padding: 1rem;
   overflow: auto;
+  background-color: white;
 `;
 
-const MainTitle = styled.h4`
-  font-weight: bold;
+const MemberMangePic = styled.div`
+  text-align: center;
 `;
 
-const TrainerMainWrap = styled.div`
-  background-color: #ffffff;
-  padding: 1rem;
-  margin-top: 0.3rem;
+const MemberMangeName = styled.span`
+  text-align: center;
 `;
-
-const TrainerScheduleContentWrap = styled.div``;
-
-const TrainerScheduleTap = styled.div`
-  display: flex;
-  justify-content: space-around;
-  font-size: 1rem;
-  margin-bottom: 1rem;
-`;
-
-const TrainerScheduleItem = styled.button`
-  all: unset;
-  font-weight: bold;
-`;
-
-const ScheduleContentItem = styled.div`
-  display: flex;
-  justify-content: space-between;
-  padding: 1rem 0;
-  border-bottom: 1px solid gray;
-`;
-
-const CheckAllScheduleBtn = styled.button`
-  width: 100%;
-  background-color: #eaeaea;
-  color: #000000;
-  border: none;
-  padding: 0.7rem;
-  margin-top: 1rem;
-  font-weight: bold;
-  font-size: 0%.8;
-`;
-
-const MonthMemberWrap = styled.div`
-  display: flex;
-  justify-content: right;
-  align-items: center;
-`;
-
-const MonthMemberMonth = styled.span`
-  font-weight: bold;
-  color: gray;
-`;
-
-const MonthMemberNum = styled.span`
-  font-size: 2rem;
-  font-weight: bold;
-`;
-
-const MemberInfo = styled.div`
-  margin-top: 0.3rem;
-  font-size: 0.9rem;
-`;
-
-const MemberInfoType = styled.span``;
 
 const MainFooter = styled.footer`
   display: fixed;
@@ -119,18 +63,20 @@ const FooterItemImg = styled.img`
 export default function ManagementMember() {
   return (
     <MainContainer>
-      <MainHeader>회원 관리</MainHeader>
+      <MainHeader>회원 정보</MainHeader>
 
       <MainContentWrap>
-        <div>
-          <span>아자아자 피트니스 센터</span>
-          <span>5명</span>
-        </div>
-
+        <MemberMangePic>
+          <img src="!#" alt="회원사진"></img>
+          <div>
+            <MemberMangeName>맥도날드</MemberMangeName>
+            <span>아자아자 피트니스 센터</span>
+          </div>
+        </MemberMangePic>
         <div>
           <div>
-            <span>버거킹 회원님</span>
-            <span>잔여:16회/36회</span>
+            <span>이름</span>
+            <span>곽두팔</span>
           </div>
         </div>
       </MainContentWrap>
