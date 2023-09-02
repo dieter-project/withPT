@@ -31,7 +31,7 @@ const ButtonHistoryBack = styled.button`
 const RegisterTitle = styled.h2`
   line-height: 3rem;
   color: #222;
-  font-size: 1.5rem;
+  font-size: 1.6rem;
   font-weight: 700;
   letter-spacing: -0;
 `;
