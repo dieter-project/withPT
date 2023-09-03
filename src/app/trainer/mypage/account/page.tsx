@@ -20,8 +20,9 @@ const ContentBody = styled.div`
 `;
 
 const MainContentWrap = styled.div`
+  height: 100vh;
   margin-bottom: 0.2rem;
-  padding: 1rem;
+  padding: 3.5rem 1.2rem 5rem;
   overflow: auto;
 `;
 

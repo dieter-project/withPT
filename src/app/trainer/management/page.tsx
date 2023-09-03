@@ -6,13 +6,14 @@ import ko from "date-fns/locale/ko";
 import { useState, useEffect } from "react";
 import tabBar from "../../public/tabBar.png";
 
-const MainContainer = styled.div`
-  background-color: #efefef;
-`;
+const MainContainer = styled.div``;
 
 const MainHeader = styled.header`
+  position: fixed;
+  left: 0;
+  top: 0;
   height: 3rem;
-  display: fixed;
+  width: 100%;
   display: flex;
   align-items: center;
   background-color: #ffffff;
@@ -20,76 +21,69 @@ const MainHeader = styled.header`
   z-index: 100;
 `;
 
-const MainContentWrap = styled.div`
+const ManageContentWrap = styled.div`
+  height: 100vh;
   margin-bottom: 0.2rem;
-  padding: 1rem;
+  padding: 3.5rem 1.2rem 5rem;
   overflow: auto;
 `;
 
 const MainTitle = styled.h4`
   font-weight: bold;
+  margin: 0 auto;
 `;
 
-const TrainerMainWrap = styled.div`
-  background-color: #ffffff;
-  padding: 1rem;
-  margin-top: 0.3rem;
-`;
-
-const TrainerScheduleContentWrap = styled.div``;
-
-const TrainerScheduleTap = styled.div`
-  display: flex;
-  justify-content: space-around;
-  font-size: 1rem;
+const NewMemberRegist = styled.div`
+  background-color: #868e96;
+  color: white;
+  padding: 0.6rem;
   margin-bottom: 1rem;
+  font-size: 1rem;
+  text-align: center;
+  border-radius: 0.5rem;
 `;
 
-const TrainerScheduleItem = styled.button`
-  all: unset;
-  font-weight: bold;
-`;
-
-const ScheduleContentItem = styled.div`
+const ManageTitleWrap = styled.div`
   display: flex;
   justify-content: space-between;
-  padding: 1rem 0;
-  border-bottom: 1px solid gray;
 `;
 
-const CheckAllScheduleBtn = styled.button`
-  width: 100%;
-  background-color: #eaeaea;
-  color: #000000;
-  border: none;
-  padding: 0.7rem;
-  margin-top: 1rem;
-  font-weight: bold;
-  font-size: 0%.8;
+const ManageTitle = styled.h4`
+  color: black;
+  font-size: 1rem;
+  margin-right: 0.2rem;
+  display: inline-block;
 `;
-
-const MonthMemberWrap = styled.div`
-  display: flex;
-  justify-content: right;
-  align-items: center;
-`;
-
-const MonthMemberMonth = styled.span`
-  font-weight: bold;
+const ManageTitlesubTxt = styled.span`
   color: gray;
 `;
 
-const MonthMemberNum = styled.span`
-  font-size: 2rem;
+const ManageTitleDate = styled.span`
+  color: black;
+`;
+
+const CenterNameItem = styled(Link)`
+  display: flex;
+  justify-content: space-between;
+  background-color: #f4f4f4;
+  padding: 1rem 0.5rem;
+  margin-bottom: 0.3rem;
+  border-radius: 0.5rem;
   font-weight: bold;
 `;
 
-const MemberInfo = styled.div`
-  margin-top: 0.3rem;
-  font-size: 0.9rem;
+const CalendarWrap = styled.div`
+  background-color: #f4f4f4;
+  border-radius: 0.5rem;
 `;
 
-const MemberInfoType = styled.span``;
+const ScheduleLink = styled(Link)`
+  display: block;
+  text-align: center;
+  background-color: #dacece;
+  border-radius: 0.5rem;
+  padding: 0.3rem;
+`;
 
 const MainFooter = styled.footer`
   display: fixed;
@@ -116,43 +110,50 @@ const FooterItemImg = styled.img`
   display: block;
 `;
 
-export default function ManagementMain() {
+export default function ManageMain() {
   return (
     <MainContainer>
-      <MainHeader>수업관리</MainHeader>
-
-      <MainContentWrap>
+      <MainHeader>
+        <MainTitle>수업관리</MainTitle>
+      </MainHeader>
+      <ManageContentWrap>
         <div>
-          <button>신규 회원 등록하기</button>
-          <div>
-            <h4>회원관리</h4>
-            <span>총 회원 수 : 31명</span>
-            <span>2023. 11월</span>
-          </div>
-          <div>
+          <Link href="/trainer/management/member/regist">
+            {" "}
+            <NewMemberRegist>신규 회원 등록하기</NewMemberRegist>
+          </Link>
+          <ManageTitleWrap>
+            <div>
+              <ManageTitle>회원관리</ManageTitle>
+              <ManageTitlesubTxt>총 인원수 : 31명</ManageTitlesubTxt>
+            </div>
+            <ManageTitleDate>2023.11월</ManageTitleDate>
+          </ManageTitleWrap>
+
+          <CenterNameItem href="#!">
             <span>아자 아자 피트니스 센터</span>
             <span>5명</span>
-          </div>
-          <div>
+          </CenterNameItem>
+          <CenterNameItem href="#!">
             <span>으라차차 피트니스 센터</span>
             <span>5명</span>
-          </div>
-          <div>
+          </CenterNameItem>
+          <CenterNameItem href="#!">
             <span>득근득근 피트니스 센터</span>
             <span>5명</span>
-          </div>
+          </CenterNameItem>
         </div>
 
         <div>
-          <div>
-            <h4>스케줄</h4>
+          <h4>스케줄</h4>
+          <CalendarWrap>
+            <div>달력</div>
             <div>
-              <div>달력</div>
-              <button> 수업 일정 확인하기</button>
+              <ScheduleLink href="#!"> 수업 일정 확인하기</ScheduleLink>
             </div>
-          </div>
+          </CalendarWrap>
         </div>
-      </MainContentWrap>
+      </ManageContentWrap>
       <MainFooter>
         <FooterCtgWrap>
           <li>

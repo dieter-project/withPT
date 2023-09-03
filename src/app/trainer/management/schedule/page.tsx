@@ -11,8 +11,11 @@ const MainContainer = styled.div`
 `;
 
 const MainHeader = styled.header`
+  position: fixed;
+  left: 0;
+  top: 0;
   height: 3rem;
-  display: fixed;
+  width: 100%;
   display: flex;
   align-items: center;
   background-color: #ffffff;
@@ -21,8 +24,9 @@ const MainHeader = styled.header`
 `;
 
 const MainContentWrap = styled.div`
+  height: 100vh;
   margin-bottom: 0.2rem;
-  padding: 1rem;
+  padding: 3.5rem 1.2rem 5rem;
   overflow: auto;
 `;
 

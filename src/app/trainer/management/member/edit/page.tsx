@@ -11,9 +11,11 @@ const MainContainer = styled.div`
 `;
 
 const MainHeader = styled.header`
+  position: fixed;
+  left: 0;
+  top: 0;
   height: 3rem;
-  display: fixed;
-  display: flex;
+  width: 100%;
   align-items: center;
   background-color: #ffffff;
   justify-content: space-between;
@@ -21,8 +23,9 @@ const MainHeader = styled.header`
 `;
 
 const MainContentWrap = styled.div`
+  height: 100vh;
   margin-bottom: 0.2rem;
-  padding: 1rem;
+  padding: 3.5rem 1.2rem 5rem;
   overflow: auto;
 `;
 
@@ -119,35 +122,12 @@ const FooterItemImg = styled.img`
 export default function ManagementMember() {
   return (
     <MainContainer>
-      <MainHeader>회원 관리</MainHeader>
+      <MainHeader>다시해야함!! 회원 관리</MainHeader>
 
       <MainContentWrap>
         <div>
           <span>아자아자 피트니스 센터</span>
           <span>5명</span>
-        </div>
-
-        <div>
-          <div>
-            <span>맥도날드 회원님</span>
-            <span>상세정보 입력 필요</span>
-          </div>
-          <div>
-            <span>버거킹 회원님</span>
-            <span>잔여:16회/36회</span>
-          </div>
-          <div>
-            <span>신형만 회원님</span>
-            <span>잔여:11회/24회</span>
-          </div>
-          <div>
-            <span>김땡땡 회원님</span>
-            <span>잔여:5회/36회</span>
-          </div>
-          <div>
-            <span>아자아자 회원님</span>
-            <span>잔여:0회/50회</span>
-          </div>
         </div>
       </MainContentWrap>
       <MainFooter>

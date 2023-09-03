@@ -58,10 +58,7 @@ const ResumeModifBtn = styled.button`
 
 const TrainerMainWrap = styled.div``;
 
-const TrainerResumeTap = styled.div`
-  display: flex;
-  justify-content: space-between;
-`;
+const TrainerResumeTap = styled.div``;
 
 const TrainerResume = styled.div`
   padding: 1rem;
@@ -151,7 +148,7 @@ const FooterItemImg = styled.img`
   display: block;
 `;
 
-export default function Mypage() {
+export default function MypageNone() {
   return (
     <MainContainer>
       <MainHeader>마이페이지</MainHeader>
@@ -165,18 +162,8 @@ export default function Mypage() {
         <TrainerMainWrap>
           <TrainerResumeTap>
             <MainTitle>내 이력관리</MainTitle>
-            <ResumeModifBtn>수정</ResumeModifBtn>
           </TrainerResumeTap>
           <TrainerResume>
-            <TrainerResumeName>
-              <ResumeName>김땡땡 트레이너</ResumeName>
-              <TrainerTag>재활치료</TrainerTag>
-              <TrainerTag>보디빌딩</TrainerTag>
-            </TrainerResumeName>
-            <TrainerResumeAward>
-              <span>2023 .03</span>
-              <span>보디빌더 대회 최우수상</span>
-            </TrainerResumeAward>
             <TrainerResumeAward>
               <span>2022 .03</span>
               <span>보디빌더 대회 우수상</span>

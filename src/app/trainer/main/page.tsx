@@ -11,8 +11,10 @@ const MainContainer = styled.div`
 `;
 
 const MainHeader = styled.header`
+  position: fixed;
+  left: 0;
+  top: 0;
   height: 3rem;
-  display: fixed;
   display: flex;
   align-items: center;
   background-color: #ffffff;
@@ -21,8 +23,9 @@ const MainHeader = styled.header`
 `;
 
 const MainContentWrap = styled.div`
+  height: 100vh;
   margin-bottom: 0.2rem;
-  padding: 1rem;
+  padding: 3.5rem 1.2rem 5rem;
   overflow: auto;
 `;
 
@@ -62,10 +65,10 @@ const CheckAllScheduleBtn = styled.button`
   background-color: #eaeaea;
   color: #000000;
   border: none;
+  border-radius: 0.5rem;
   padding: 0.7rem;
   margin-top: 1rem;
   font-weight: bold;
-  font-size: 0%.8;
 `;
 
 const MonthMemberWrap = styled.div`
@@ -77,6 +80,7 @@ const MonthMemberWrap = styled.div`
 const MonthMemberMonth = styled.span`
   font-weight: bold;
   color: gray;
+  margin-right: 0.5rem;
 `;
 
 const MonthMemberNum = styled.span`
@@ -87,6 +91,7 @@ const MonthMemberNum = styled.span`
 const MemberInfo = styled.div`
   margin-top: 0.3rem;
   font-size: 0.9rem;
+  text-align: center;
 `;
 
 const MemberInfoType = styled.span``;
@@ -207,13 +212,7 @@ export default function Main() {
           <div style={{ backgroundColor: "darkGray", padding: "7rem" }}>
             그래프
           </div>
-          <MemberInfo>
-            <MemberInfoType>신규회원</MemberInfoType>{" "}
-            <span>6명의 신규회원이 생겼어요</span>
-          </MemberInfo>
-          <MemberInfo>
-            <span>재등록회원</span> <span>5명의 회원이 재등록했어요</span>
-          </MemberInfo>
+          <MemberInfo>신규회원 6명 | 재등록회원 5명</MemberInfo>
         </TrainerMainWrap>
       </MainContentWrap>
       <MainFooter>

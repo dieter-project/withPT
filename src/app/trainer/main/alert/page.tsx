@@ -6,17 +6,19 @@ import ko from "date-fns/locale/ko";
 import { useState, useEffect } from "react";
 import tabBar from "../../public/tabBar.png";
 
-const MainContainer = styled.div`
-  background-color: #efefef;
-`;
+const MainContainer = styled.div``;
 
 const MainTitle = styled.h4`
   font-weight: bold;
+  margin: 0 auto;
 `;
 
 const MainHeader = styled.header`
+  position: fixed;
+  left: 0;
+  top: 0;
   height: 3rem;
-  display: fixed;
+  position: relative;
   display: flex;
   text-align: center;
   font-weight: bold;
@@ -24,6 +26,10 @@ const MainHeader = styled.header`
   background-color: #ffffff;
   justify-content: space-between;
   z-index: 100;
+`;
+
+const Before = styled.span`
+  position: absolute;
 `;
 
 const TrainerAlertWrap = styled.div`
@@ -43,6 +49,7 @@ const TrainerAlertTop = styled.div`
   display: flex;
   justify-content: space-between;
   font-size: 0.5rem;
+  margin-bottom: 0.3rem;
 `;
 
 const TrainerAlertContent = styled.div`
@@ -55,7 +62,8 @@ export default function MainAlert() {
   return (
     <MainContainer>
       <MainHeader>
-        <h4>알림</h4>
+        <Before>뒤</Before>
+        <MainTitle>알림</MainTitle>
       </MainHeader>
       <div>
         <TrainerAlertWrap>
