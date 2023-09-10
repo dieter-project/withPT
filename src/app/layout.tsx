@@ -1,6 +1,7 @@
 import "./globals.css";
 import type { Metadata } from "next";
-import StyledJsxRegistry from "./registry";
+import styled from "styled-components";
+import StyledComponentsRegistry from "./registry";
 import { SessionProvider } from "next-auth/react";
 import Providers from "./components/Providers";
 import { getServerSession } from "next-auth";
@@ -17,11 +18,11 @@ export default function RootLayout({
 }) {
   return (
     <html>
-      <body>
-        <Providers>
-          <StyledJsxRegistry>{children}</StyledJsxRegistry>
-        </Providers>
-      </body>
+      <StyledComponentsRegistry>
+        <body>
+          <Providers>{children}</Providers>
+        </body>
+      </StyledComponentsRegistry>
     </html>
   );
 }

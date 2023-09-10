@@ -28,7 +28,7 @@ const ButtonHistoryBack = styled.button`
   background-color: green;
 `;
 
-const RegisterTitle = styled.h2`
+const RegisterTitle = styled.h4`
   line-height: 3rem;
   color: #222;
   font-size: 1.6rem;
@@ -49,10 +49,20 @@ const RegisterStepInfo = styled.p`
   letter-spacing: -0.04rem;
 `;
 
+const SignupFormWrap = styled.div`
+  margin-bottom: 1rem;
+`;
+
 const FormTitle = styled.h4`
   font-weight: bold;
-  font-size: 1.2rem;
+  font-size: 1rem;
   margin-bottom: 0.2rem;
+`;
+
+const TrGenderLabel = styled.label``;
+
+const TrGenderRadio = styled.input`
+  appearance: none;
 `;
 
 const RegisterOrder = styled.span`
@@ -64,15 +74,21 @@ const RegisterOrder = styled.span`
   font-weight: bold;
 `;
 
+const TrRegisItemWrap = styled.div`
+  display: "flex";
+  align-items: center;
+  justify-content: space-between;
+  font-size: "0.8rem";
+`;
+
 const RegisterInput = styled.input`
+  border: none;
   border-radius: 0.2rem;
   margin-bottom: 1rem;
   line-height: 2.3rem;
   background-color: #efefef;
   font-weight: bold;
-  font-size: 1rem;
   text-align: center;
-  width: 100%;
   margin: 0 0.3rem;
 `;
 
@@ -87,12 +103,14 @@ const ButtonAreaFixed = styled.div`
 `;
 
 const NextStepButton = styled.button`
-  background-color: #7f7f7f;
-  padding: 0 1.6rem;
+  border: none;
+  border-radius: 0.6rem;
   height: 3rem;
   width: 100%;
+  background-color: #7f7f7f;
+  color: white;
+  padding: 0 1.6rem;
   text-align: center;
-  border-radius: 0.6rem;
 `;
 
 const NameInput = styled.input`
@@ -121,51 +139,70 @@ export default function step1() {
             <RegisterOrder>2</RegisterOrder>
           </div>
           <div style={{ marginBottom: "1rem" }}>
-            <RegisterStepInfo>안녕하세요 00님!</RegisterStepInfo>
+            <RegisterStepInfo>안녕하세요 트레이너님!</RegisterStepInfo>
             <RegisterStepInfo style={{ fontSize: "1rem", color: "#797979" }}>
               아래 정보가 맞는지 확인해주세요.
             </RegisterStepInfo>
           </div>
           <form method="post" autoComplete="on">
-            <div>
+            <SignupFormWrap>
               <FormTitle>이름</FormTitle>
-              <RegisterInput
-                style={{ width: "100%" }}
-                type="text"
-                required
-              ></RegisterInput>
-            </div>
-            <div>
+              <TrRegisItemWrap>
+                <RegisterInput
+                  style={{ width: "100%" }}
+                  type="text"
+                  required
+                ></RegisterInput>
+              </TrRegisItemWrap>
+            </SignupFormWrap>
+            <SignupFormWrap>
               <FormTitle>생년월일</FormTitle>
-              <div style={{ display: "flex", fontSize: "1.5rem" }}>
+              <TrRegisItemWrap>
                 {" "}
                 <RegisterInput
                   type="text"
-                  style={{ width: "33%" }}
                   placeholder="2023"
                   required
                 ></RegisterInput>
-                /
+                <span>/</span>
                 <RegisterInput
                   type="text"
-                  style={{ width: "33%" }}
                   placeholder="12"
                   required
                 ></RegisterInput>
-                /{" "}
+                <span>/</span>
                 <RegisterInput
                   type="text"
-                  style={{ width: "33%" }}
                   placeholder="31"
                   required
                 ></RegisterInput>
-              </div>
-            </div>
-            <div>
+              </TrRegisItemWrap>
+            </SignupFormWrap>
+            <SignupFormWrap>
               <FormTitle>성별</FormTitle>
-              <button type="submit">남</button>
-              <button type="submit">여</button>
-            </div>
+              <TrRegisItemWrap>
+                <TrGenderLabel htmlFor="radio-box1">
+                  <TrGenderRadio
+                    type="radio"
+                    name="radio-box"
+                    id="radio-box1"
+                    value="남자"
+                  ></TrGenderRadio>
+                  남자
+                </TrGenderLabel>
+              </TrRegisItemWrap>
+              <TrRegisItemWrap>
+                <TrGenderLabel htmlFor="radio-box2">
+                  <TrGenderRadio
+                    type="radio"
+                    name="radio-box"
+                    id="radio-box2"
+                    value="여자"
+                  ></TrGenderRadio>
+                  여자
+                </TrGenderLabel>
+              </TrRegisItemWrap>
+            </SignupFormWrap>
           </form>
           <ButtonAreaFixed>
             <Link href="/trainer/register/step2">

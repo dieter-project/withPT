@@ -51,51 +51,26 @@ const MainTitle = styled.h4`
   font-weight: bold;
 `;
 
-const ResumeModifBtn = styled.button`
-  all: unset;
-  color: gray;
-`;
-
 const TrainerMainWrap = styled.div``;
 
 const TrainerResumeTap = styled.div``;
 
-const TrainerResume = styled.div`
+const TrainerResumeWrap = styled.div`
   padding: 1rem;
   background-color: #f4f4f4;
 `;
 
-const TrainerTag = styled.button`
-  background-color: #d9d9d9;
-  color: #919191;
-  font-weight: bold;
-  padding: 0.3rem;
-  margin-left: 0.3rem;
-  border-radius: 0.8rem;
-  border: none;
-`;
-
-const TrainerResumeName = styled.div`
-  align-items: center;
-  border-bottom: 1px solid #919191;
-  padding-bottom: 0.8rem;
-`;
-
-const TrainerResumeAward = styled.div`
+const TrainerResumeAward = styled(Link)`
   display: flex;
   justify-content: space-between;
+  align-items: center;
   padding: 0.3rem;
 `;
 
-const ResumeName = styled.span`
-  font-weight: bold;
-`;
-
-const ShowMoreBtn = styled.button`
-  all: unset;
-  width: 100%;
-  text-align: center;
-  border-top: 1px solid #919191;
+const AwardMessage = styled.span`
+  display: block;
+  color: gray;
+  font-size: 0.8rem;
 `;
 
 const CenterList = styled.div`
@@ -163,52 +138,27 @@ export default function MypageNone() {
           <TrainerResumeTap>
             <MainTitle>내 이력관리</MainTitle>
           </TrainerResumeTap>
-          <TrainerResume>
-            <TrainerResumeAward>
-              <span>2022 .03</span>
-              <span>보디빌더 대회 우수상</span>
+          <TrainerResumeWrap>
+            <TrainerResumeAward href="#">
+              <div>
+                <AwardMessage>현재 작성된 이력이 없으세요.</AwardMessage>
+                <div>이력 입력하기</div>
+              </div>
+              <div>뿅</div>
             </TrainerResumeAward>
-            <TrainerResumeAward>
-              <span>2010 .03 ~ 2016 . 02</span>
-              <span>보디빌더 대회 최우수상</span>
-            </TrainerResumeAward>
-            <ShowMoreBtn> 더보기 </ShowMoreBtn>
-          </TrainerResume>
+          </TrainerResumeWrap>
         </TrainerMainWrap>
-
         <div>
-          <MainTitle>내 센터관리</MainTitle>
-          <CenterListWrap>
-            <CenterList>
-              아자아자
-              <br />
-              피트니스 센터
-            </CenterList>
-            <CenterList>
-              으라차차
-              <br />
-              피트니스 센터
-            </CenterList>
-            <CenterList>
-              득근득근
-              <br />
-              피트니스 센터
-            </CenterList>
-          </CenterListWrap>
+          <h4>설정</h4>
+          <MypageCtg>
+            <span>공지사항</span>
+            <span> ㅅ </span>
+          </MypageCtg>
+          <MypageCtg>
+            <Link href="trainer/login">로그아웃</Link>
+            <span> ㅅ </span>
+          </MypageCtg>
         </div>
-
-        <MypageCtg>
-          <span>공지사항</span>
-          <span> ㅅ </span>
-        </MypageCtg>
-        <MypageCtg>
-          <Link href="trainer/login">로그아웃</Link>
-          <span> ㅅ </span>
-        </MypageCtg>
-        <MypageCtg>
-          <span>계정관리</span>
-          <span> ㅅ </span>
-        </MypageCtg>
       </MainContentWrap>
       <MainFooter>
         <FooterCtgWrap>

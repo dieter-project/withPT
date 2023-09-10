@@ -8,7 +8,7 @@ import tabBar from "../../public/tabBar.png";
 import { autoBatchEnhancer } from "@reduxjs/toolkit";
 
 const MainContainer = styled.div`
-  background-color: #efefef;
+  background-color: var(--primary);
 `;
 
 const MainHeader = styled.header`
@@ -45,10 +45,24 @@ const MainContentWrap = styled.div`
 const ProfileWrap = styled.div`
   margin: 0 auto;
   text-align: center;
+  margin-bottom: 2rem;
 `;
 
 const ProfileName = styled.span`
   display: block;
+`;
+
+const ProfileContent = styled.div`
+  display: flex;
+  justify-content: space-between;
+`;
+
+const ProfileContentTitle = styled.span`
+  width: 2rem;
+`;
+
+const ProfileContentInput = styled.input`
+  width: 18rem;
 `;
 
 const MainFooter = styled.footer`
@@ -98,26 +112,32 @@ export default function ManagementMember() {
           </div>
         </ProfileWrap>
         <div className="profilecontentwrap">
+          <ProfileContent>
+            <ProfileContentTitle>이름</ProfileContentTitle>
+            <ProfileContentInput type="text"></ProfileContentInput>
+          </ProfileContent>
           <div>
-            <span>이름</span>
-            <input type="text"></input>
+            <ProfileContentTitle>성별</ProfileContentTitle>
+            <ProfileContentInput type="text"></ProfileContentInput>
           </div>
           <div>
-            <span>성별</span>
-            <input type="text"></input>
+            <ProfileContentTitle>키/체중</ProfileContentTitle>
+            <ProfileContentInput
+              type="text"
+              placeholder="175cm/60kg"
+            ></ProfileContentInput>
           </div>
           <div>
-            <span>키/체중</span>
-            <input type="text" placeholder="175cm/60kg"></input>
-          </div>
-          <div>
-            <span>목표</span>
-            <input type="text"></input>
+            <ProfileContentTitle>목표</ProfileContentTitle>
+            <ProfileContentInput type="text"></ProfileContentInput>
           </div>
           <div>
             <span>PT</span>
             <div>
-              <input type="text" placeholder="아직 입력 전이에요."></input>
+              <ProfileContentInput
+                type="text"
+                placeholder="아직 입력 전이에요."
+              ></ProfileContentInput>
             </div>
             <Link href="!#">입장하기</Link>
           </div>
