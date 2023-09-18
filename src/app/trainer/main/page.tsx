@@ -12,6 +12,7 @@ const MainContainer = styled.div`
 
 const MainHeader = styled.header`
   position: fixed;
+  width: 100%;
   left: 0;
   top: 0;
   height: 3rem;
@@ -23,10 +24,7 @@ const MainHeader = styled.header`
 `;
 
 const MainContentWrap = styled.div`
-  height: 100vh;
-  margin-bottom: 0.2rem;
-  padding: 3.5rem 1.2rem 5rem;
-  overflow: auto;
+  padding: 4rem 1.2rem 5rem;
 `;
 
 const MainTitle = styled.h4`
@@ -97,27 +95,28 @@ const MemberInfo = styled.div`
 const MemberInfoType = styled.span``;
 
 const MainFooter = styled.footer`
-  display: fixed;
+  position: fixed;
+  display: flex;
+  width: 100%;
+  left: 0;
+  bottom: 0;
   height: 3rem;
-  padding: 1rem 2rem 1rem;
+  padding: 0 1rem;
   align-items: center;
   background-color: #ffffff;
   justify-content: space-between;
   z-index: 100;
 `;
 
-const FooterCtgWrap = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-`;
-
 const FooterCtgItem = styled.button`
   all: unset;
-  align-items: center;
+  text-align: center;
+  width: 100%;
 `;
 
-const FooterItemImg = styled.img`
+const FooterItemImg = styled.img``;
+
+const FooterImgSpan = styled.span`
   display: block;
 `;
 
@@ -201,47 +200,36 @@ export default function Main() {
             <CheckAllScheduleBtn>오늘일정 전체 확인하기</CheckAllScheduleBtn>
           </TrainerScheduleContentWrap>
         </TrainerMainWrap>
-      </MainContentWrap>
-      <MainContentWrap>
         <MainTitle>회원 통계</MainTitle>
         <TrainerMainWrap>
           <MonthMemberWrap>
             <MonthMemberMonth>{formattedDate2}월 회원수 </MonthMemberMonth>
             <MonthMemberNum> 31명</MonthMemberNum>
           </MonthMemberWrap>
-          <div style={{ backgroundColor: "darkGray", padding: "7rem" }}>
-            그래프
-          </div>
+          <div></div>
           <MemberInfo>신규회원 6명 | 재등록회원 5명</MemberInfo>
         </TrainerMainWrap>
       </MainContentWrap>
       <MainFooter>
-        <FooterCtgWrap>
-          <li>
-            <FooterCtgItem>
-              <FooterItemImg src="#!"></FooterItemImg>
-              <span>홈</span>
-            </FooterCtgItem>
-          </li>
-          <li>
-            <FooterCtgItem>
-              <FooterItemImg src="#!"></FooterItemImg>
-              <span>수업관리</span>
-            </FooterCtgItem>
-          </li>
-          <li>
-            <FooterCtgItem>
-              <FooterItemImg src="#!"></FooterItemImg>
-              <span>채팅</span>
-            </FooterCtgItem>
-          </li>
-          <li>
-            <FooterCtgItem>
-              <FooterItemImg src="#!"></FooterItemImg>
-              <span>마이페이지</span>
-            </FooterCtgItem>
-          </li>
-        </FooterCtgWrap>
+        <FooterCtgItem>
+          <FooterItemImg src="#!"></FooterItemImg>
+          <FooterImgSpan>홈</FooterImgSpan>
+        </FooterCtgItem>
+
+        <FooterCtgItem>
+          <FooterItemImg src="#!"></FooterItemImg>
+          <FooterImgSpan>수업관리</FooterImgSpan>
+        </FooterCtgItem>
+
+        <FooterCtgItem>
+          <FooterItemImg src="#!"></FooterItemImg>
+          <FooterImgSpan>채팅</FooterImgSpan>
+        </FooterCtgItem>
+
+        <FooterCtgItem>
+          <FooterItemImg src="#!"></FooterItemImg>
+          <FooterImgSpan>마이페이지</FooterImgSpan>
+        </FooterCtgItem>
       </MainFooter>
     </MainContainer>
   );

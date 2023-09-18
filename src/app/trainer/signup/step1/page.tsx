@@ -59,7 +59,16 @@ const FormTitle = styled.h4`
   margin-bottom: 0.2rem;
 `;
 
-const TrGenderLabel = styled.label``;
+const TrGenderLabel = styled.label`
+  width: 100%;
+  text-align: center;
+  border: none;
+  border-radius: 0.2rem;
+  margin-bottom: 1rem;
+  line-height: 2.3rem;
+  background-color: #efefef;
+  margin: 0 0.3rem;
+`;
 
 const TrGenderRadio = styled.input`
   appearance: none;
@@ -75,10 +84,10 @@ const RegisterOrder = styled.span`
 `;
 
 const TrRegisItemWrap = styled.div`
-  display: "flex";
+  display: flex;
   align-items: center;
   justify-content: space-between;
-  font-size: "0.8rem";
+  font-size: 0.8rem;
 `;
 
 const RegisterInput = styled.input`
@@ -89,6 +98,7 @@ const RegisterInput = styled.input`
   background-color: #efefef;
   font-weight: bold;
   text-align: center;
+  width: 100%;
   margin: 0 0.3rem;
 `;
 
@@ -102,19 +112,16 @@ const ButtonAreaFixed = styled.div`
   background-color: transparent;
 `;
 
-const NextStepButton = styled.button`
+const NextStep = styled(Link)`
+  display: block;
   border: none;
   border-radius: 0.6rem;
-  height: 3rem;
+  line-height: 3rem;
   width: 100%;
   background-color: #7f7f7f;
   color: white;
   padding: 0 1.6rem;
   text-align: center;
-`;
-
-const NameInput = styled.input`
-  width: 100%;
 `;
 
 export default function step1() {
@@ -158,7 +165,6 @@ export default function step1() {
             <SignupFormWrap>
               <FormTitle>생년월일</FormTitle>
               <TrRegisItemWrap>
-                {" "}
                 <RegisterInput
                   type="text"
                   placeholder="2023"
@@ -190,24 +196,20 @@ export default function step1() {
                   ></TrGenderRadio>
                   남자
                 </TrGenderLabel>
-              </TrRegisItemWrap>
-              <TrRegisItemWrap>
                 <TrGenderLabel htmlFor="radio-box2">
                   <TrGenderRadio
                     type="radio"
                     name="radio-box"
                     id="radio-box2"
                     value="여자"
-                  ></TrGenderRadio>
+                  ></TrGenderRadio>{" "}
                   여자
                 </TrGenderLabel>
               </TrRegisItemWrap>
             </SignupFormWrap>
           </form>
           <ButtonAreaFixed>
-            <Link href="/trainer/register/step2">
-              <NextStepButton>다음</NextStepButton>
-            </Link>
+            <NextStep href="/trainer/register/step2">다음</NextStep>
           </ButtonAreaFixed>
         </ContentInnerBody>
       </ContentBody>

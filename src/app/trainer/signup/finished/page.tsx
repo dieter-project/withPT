@@ -1,6 +1,7 @@
 "use client";
 
 import styled from "styled-components";
+import Link from "next/link";
 
 const Wrap = styled.div`
   background-color: white;
@@ -49,33 +50,10 @@ const RegisterStepInfo = styled.p`
   white-space: nowrap;
 `;
 
-const FormTitle = styled.h4`
-  font-weight: bold;
-  font-size: 1.2rem;
-  margin-bottom: 0.2rem;
-`;
-
-const RegisterOrder = styled.span`
-  background-color: #f3f3f3;
-  margin-right: 0.3rem;
-  padding: 0.1rem 0.5rem;
-  border-radius: 0.3rem;
-  font-size: 1rem;
-  font-weight: bold;
-`;
-
-const RegisterInput = styled.input`
-  border-radius: 0.2rem;
-  margin-bottom: 1rem;
-  line-height: 2.3rem;
-  background-color: #efefef;
-  font-weight: bold;
-  font-size: 1rem;
-  text-align: center;
-`;
-
 const ButtonAreaFixed = styled.div`
   position: fixed;
+  display: flex;
+  justify-content: space-between;
   bottom: 0;
   left: 0;
   padding: 2.4rem 1.6rem 1.6rem;
@@ -84,19 +62,17 @@ const ButtonAreaFixed = styled.div`
   background-color: transparent;
 `;
 
-const NextStepButton = styled.button`
-  background-color: #7f7f7f;
-  color: #ffffff;
-  font-weight: bold;
-  padding: 0 1.6rem;
-  height: 3rem;
-  width: 100%;
-  text-align: center;
+const NextStep = styled(Link)`
+  display: block;
+  border: none;
   border-radius: 0.6rem;
-`;
-
-const NameInput = styled.input`
+  line-height: 3rem;
   width: 100%;
+  background-color: #7f7f7f;
+  color: white;
+  padding: 0 1.6rem;
+  margin-right: 0.2rem;
+  text-align: center;
 `;
 
 export default function finished() {
@@ -128,15 +104,7 @@ export default function finished() {
             }}
           ></div>
           <ButtonAreaFixed>
-            <div
-              style={{
-                display: "flex",
-                width: "100%",
-                justifyContent: "space-between",
-              }}
-            >
-              <NextStepButton>위피티 시작하기</NextStepButton>
-            </div>
+            <NextStep href="/trainer/signup/finished">위피티 시작하기</NextStep>
           </ButtonAreaFixed>
         </ContentInnerBody>
       </ContentBody>

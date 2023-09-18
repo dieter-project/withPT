@@ -17,9 +17,9 @@ const ContentHeader = styled.div`
   position: fixed;
   width: 100%;
   height: 4.4rem;
+  display: flex;
   align-items: center;
   z-index: 100;
-  display: flex;
 `;
 
 const ButtonHistoryBack = styled.button`
@@ -47,7 +47,10 @@ const RegisterStepInfo = styled.p`
   font-size: 1.6rem;
   font-weight: 700;
   letter-spacing: -0.04rem;
-  white-space: nowrap;
+`;
+
+const SignupFormWrap = styled.div`
+  margin-bottom: 1rem;
 `;
 
 const FormTitle = styled.h4`
@@ -65,18 +68,28 @@ const RegisterOrder = styled.span`
   font-weight: bold;
 `;
 
+const TrRegisItemWrap = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.8rem;
+`;
+
 const RegisterInput = styled.input`
+  border: none;
   border-radius: 0.2rem;
   margin-bottom: 1rem;
   line-height: 2.3rem;
   background-color: #efefef;
   font-weight: bold;
-  font-size: 1rem;
   text-align: center;
+  margin: 0 0.3rem;
 `;
 
 const ButtonAreaFixed = styled.div`
   position: fixed;
+  display: flex;
+  justify-content: space-between;
   bottom: 0;
   left: 0;
   padding: 2.4rem 1.6rem 1.6rem;
@@ -85,23 +98,27 @@ const ButtonAreaFixed = styled.div`
   background-color: transparent;
 `;
 
-const NextTimeButton = styled.button`
-  background-color: #d9d9d9;
+const NextStep = styled(Link)`
+  display: block;
+  border: none;
+  border-radius: 0.6rem;
+  line-height: 3rem;
+  width: 100%;
+  background-color: #7f7f7f;
+  color: white;
   padding: 0 1.6rem;
   margin-right: 0.2rem;
-  height: 3rem;
-  width: 45%;
   text-align: center;
-  border-radius: 0.6rem;
 `;
 
 const NextStepButton = styled.button`
-  background-color: #7f7f7f;
-  padding: 0 1.6rem;
-  height: 3rem;
-  width: 45%;
-  text-align: center;
+  border: none;
   border-radius: 0.6rem;
+  height: 3rem;
+  background-color: #7f7f7f;
+  color: white;
+  padding: 0 1.6rem;
+  text-align: center;
 `;
 
 const NameInput = styled.input`
@@ -136,42 +153,54 @@ export default function step2() {
             </RegisterStepInfo>
           </div>
           <form method="post" autoComplete="on">
-            <div>
-              <FormTitle>경력</FormTitle>
-              <RegisterInput
-                placeholder="+"
-                style={{ width: "100%" }}
-                type="text"
-                required
-              ></RegisterInput>
-            </div>
-            <div>
-              <FormTitle>학력</FormTitle>
-              <div style={{ display: "flex", fontSize: "1.5rem" }}>
-                {" "}
+            <SignupFormWrap>
+              <FormTitle>센터정보 등록</FormTitle>
+              <TrRegisItemWrap>
                 <RegisterInput
                   placeholder="+"
                   style={{ width: "100%" }}
                   type="text"
                   required
                 ></RegisterInput>
-              </div>
-            </div>
+              </TrRegisItemWrap>
+            </SignupFormWrap>
+            <SignupFormWrap>
+              <FormTitle>경력 입력</FormTitle>
+              <TrRegisItemWrap>
+                <RegisterInput
+                  placeholder="+"
+                  style={{ width: "100%" }}
+                  type="text"
+                  required
+                ></RegisterInput>
+              </TrRegisItemWrap>
+            </SignupFormWrap>
+            <SignupFormWrap>
+              <FormTitle>학력사항 등록</FormTitle>
+              <TrRegisItemWrap>
+                <RegisterInput
+                  placeholder="+"
+                  style={{ width: "100%" }}
+                  type="text"
+                  required
+                ></RegisterInput>
+              </TrRegisItemWrap>
+            </SignupFormWrap>
+            <SignupFormWrap>
+              <FormTitle>보유기술 등록</FormTitle>
+              <TrRegisItemWrap>
+                <RegisterInput
+                  placeholder="+"
+                  style={{ width: "100%" }}
+                  type="text"
+                  required
+                ></RegisterInput>
+              </TrRegisItemWrap>
+            </SignupFormWrap>
           </form>
           <ButtonAreaFixed>
-            <div
-              style={{
-                width: "100%",
-                justifyContent: "space-between",
-              }}
-            >
-              <Link href="/trainer/register/finished">
-                <NextTimeButton>넘어가기</NextTimeButton>
-              </Link>
-              <Link href="/trainer/register/finished">
-                <NextStepButton>입력완료</NextStepButton>
-              </Link>
-            </div>
+            <NextStep href="/trainer/signup/finished">넘어가기</NextStep>
+            <NextStep href="/trainer/signup/finished">입력완료</NextStep>
           </ButtonAreaFixed>
         </ContentInnerBody>
       </ContentBody>

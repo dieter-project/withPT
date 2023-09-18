@@ -15,24 +15,28 @@ const MainTitle = styled.h4`
 
 const MainHeader = styled.header`
   position: fixed;
+  width: 100%;
   left: 0;
   top: 0;
   height: 3rem;
-  position: relative;
   display: flex;
-  text-align: center;
-  font-weight: bold;
   align-items: center;
   background-color: #ffffff;
   justify-content: space-between;
   z-index: 100;
 `;
 
+const MainContentWrap = styled.div`
+  padding: 4rem 1.2rem 5rem;
+`;
+
 const Before = styled.span`
   position: absolute;
 `;
 
-const TrainerAlertWrap = styled.div`
+const TrainerAlertList = styled.ul``;
+
+const TrainerAlertWrap = styled.li`
   border-bottom: 1px solid gray;
   padding: 0.5rem;
 `;
@@ -65,26 +69,28 @@ export default function MainAlert() {
         <Before>뒤</Before>
         <MainTitle>알림</MainTitle>
       </MainHeader>
-      <div>
-        <TrainerAlertWrap>
-          <TrainerAlertTop>
-            <AlertTopic>식단 피드백</AlertTopic>
-            <AlertTime>10분 전</AlertTime>
-          </TrainerAlertTop>
-          <TrainerAlertContent>
-            신형만 회원님으로부터 식단 피드백 요청이 도착했어요.
-          </TrainerAlertContent>
-        </TrainerAlertWrap>
-        <TrainerAlertWrap>
-          <TrainerAlertTop>
-            <AlertTopic>공지사항</AlertTopic>
-            <AlertTime>3시간 전</AlertTime>
-          </TrainerAlertTop>
-          <TrainerAlertContent>
-            김땡땡 트레이너 님으로부터 전체 공지가 도착했어요.
-          </TrainerAlertContent>
-        </TrainerAlertWrap>
-      </div>
+      <MainContentWrap>
+        <TrainerAlertList>
+          <TrainerAlertWrap>
+            <TrainerAlertTop>
+              <AlertTopic>식단 피드백</AlertTopic>
+              <AlertTime>10분 전</AlertTime>
+            </TrainerAlertTop>
+            <TrainerAlertContent>
+              신형만 회원님으로부터 식단 피드백 요청이 도착했어요.
+            </TrainerAlertContent>
+          </TrainerAlertWrap>
+          <TrainerAlertWrap>
+            <TrainerAlertTop>
+              <AlertTopic>공지사항</AlertTopic>
+              <AlertTime>3시간 전</AlertTime>
+            </TrainerAlertTop>
+            <TrainerAlertContent>
+              김땡땡 트레이너 님으로부터 전체 공지가 도착했어요.
+            </TrainerAlertContent>
+          </TrainerAlertWrap>
+        </TrainerAlertList>
+      </MainContentWrap>
     </MainContainer>
   );
 }
