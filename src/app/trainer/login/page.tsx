@@ -2,6 +2,8 @@
 import styled from "styled-components";
 import Link from "next/link";
 import { useSession, signIn, signOut } from "next-auth/react";
+import React, { useEffect } from "react";
+import Script from "next/script";
 
 const LoginWrap = styled.div`
   background-color: beige;
@@ -55,80 +57,21 @@ const LinkToMember = styled(Link)`
 `;
 
 export default function Login() {
-  const { data: session } = useSession();
+  const { data, status } = useSession();
 
-  // async function performGoogleLogin() {
-  //   // 구글 로그인 프로세스를 수행하는 로직
-  //   // 실제 구글 로그인 API를 사용하여 구현해야 합니다.
-  //   // 반환값으로 구글 사용자 정보를 제공합니다.
-  //   const googleUser = await /* 실제 구글 로그인 API 호출 */;
-  //   return googleUser;
-  // }
-
-  // async function sendUserInfoToServer(userType, googleUser) {
-  //   try {
-  //     const response = await fetch('/api/login', {
-  //       method: 'POST',
-  //       headers: {
-  //         'Content-Type': 'application/json',
-  //       },
-  //       body: JSON.stringify({ userType, googleUser }),
-  //     });
-
-  //     return response;
-  //   } catch (error) {
-  //     console.error('에러 발생', error);
-  //   }
-  // }
-
-  if (session && session.user) {
+  if (status === "loading") return <h1> loading... please wait</h1>;
+  if (status === "authenticated") {
     return (
-      <>
-        <div>{session.user.name}님 로그인됨</div>
-        <button onClick={() => signOut()}>Sign out</button>
-        <Link href="/trainer/main">메인화면</Link>
-      </>
+      <div>
+        <h1> hi {data.user.name}</h1>
+        <img src={data.user.image} alt={data.user.name + " photo"} />
+        <button onClick={signOut}>sign out</button>
+      </div>
     );
-  } else
-    return (
-      <LoginWrap>
-        <ContentBody>
-          <div>
-            <div
-              style={{
-                backgroundColor: "#D9D9D9",
-                width: "80%",
-                margin: "0 auto",
-                height: "5rem",
-              }}
-            >
-              {" "}
-              ?
-            </div>
-            <div style={{ marginTop: "8rem" }}>
-              <KaKaoLoginButton>카카오로 시작하기</KaKaoLoginButton>
-              <GoogleLoginButton onClick={() => signIn("google")}>
-                {/* onClick={() => signInAndSendUserType('member')} */} 구글로
-                시작하기
-              </GoogleLoginButton>
-
-              <div
-                style={{
-                  color: "#666666",
-                  marginTop: "0.5rem",
-                  fontWeight: "bold",
-                  fontSize: "1rem",
-                }}
-              >
-                문의하기
-              </div>
-            </div>
-            <div style={{ marginTop: "7rem" }}>
-              <AskIfMember>혹시 회원이신가요?</AskIfMember>
-              <LinkToMember href="member/login">회원 회원가입</LinkToMember>
-            </div>
-          </div>
-        </ContentBody>
-      </LoginWrap>
-    );
+  }
+  return (
+    <div>
+      <button onClick={() => signIn("google")}>sign in with gooogle</button>
+    </div>
+  );
 }
