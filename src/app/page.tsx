@@ -1,9 +1,11 @@
-import { SessionProvider } from "next-auth/react"
+import Image from "next/image";
 
 export default function Home() {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <h1>Social Login Test</h1>
+    <main>
+      <div>홈입니다.</div>
     </main>
-  )
+  );
 }
+
+
