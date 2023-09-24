@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useSession, signIn, signOut } from "next-auth/react";
 import React, { useEffect } from "react";
 import Script from "next/script";
+import { useSearchParams } from "next/navigation";
 
 const LoginWrap = styled.div`
   background-color: beige;
@@ -57,25 +58,8 @@ const LinkToMember = styled(Link)`
 `;
 
 export default function Login() {
-  const { data, status } = useSession();
-
-  if (status === "loading") return <h1> loading... please wait</h1>;
-  if (status === "authenticated") {
-    return (
-      <div>
-        <h1> hi {data.user.name}</h1>
-        <img src={data.user.image} alt={data.user.name + " photo"} />
-<<<<<<< HEAD
-        <button onClick={signOut}>sign out</button>
-=======
-        <button onClick={() => signOut()}>sign out</button>
->>>>>>> 37000fc03dcdd13e9b232aee594ca46978b7e8e9
-      </div>
-    );
-  }
-  return (
-    <div>
-      <button onClick={() => signIn("google")}>sign in with gooogle</button>
-    </div>
-  );
+  const searchParams = useSearchParams();
+  const code = searchParams.get("code");
+  console.log(code);
+  return <div>구글보내주는 페이지</div>;
 }

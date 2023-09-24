@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import "./globals.css";
 import type { Metadata } from "next";
 import styled from "styled-components";
@@ -5,6 +6,13 @@ import StyledComponentsRegistry from "./registry";
 import { SessionProvider } from "next-auth/react";
 import Providers from "./components/Providers";
 import { getServerSession } from "next-auth";
+=======
+import AuthContext from '@/components/AuthContext'
+import './globals.css'
+import type { Metadata } from 'next'
+import { Providers } from '../redux/provider'
+import StyledComponentsRegistry from '@/lib/StyledComponentsRegistry'
+>>>>>>> 37000fc03dcdd13e9b232aee594ca46978b7e8e9
 
 export const metadata: Metadata = {
   title: "WithPT",
@@ -17,12 +25,25 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
+<<<<<<< HEAD
     <html>
       <StyledComponentsRegistry>
         <body>
           <Providers>{children}</Providers>
         </body>
       </StyledComponentsRegistry>
+=======
+    <html lang="ko">
+      <body>
+        <Providers>
+            <AuthContext>
+              <StyledComponentsRegistry>
+                {children}
+              </StyledComponentsRegistry>
+            </AuthContext>
+        </Providers>
+      </body>
+>>>>>>> 37000fc03dcdd13e9b232aee594ca46978b7e8e9
     </html>
   );
 }
