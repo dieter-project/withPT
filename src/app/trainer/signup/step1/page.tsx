@@ -42,10 +42,10 @@ const ContentBody = styled.div`
 
 const ContentInnerBody = styled.div``;
 
-const RegisterStepInfo = styled.p`
+const SignupStepInfo = styled.p`
   color: #222;
   font-size: 1.6rem;
-  font-weight: 700;
+  font-weight: bold;
   letter-spacing: -0.04rem;
 `;
 
@@ -66,7 +66,7 @@ const TrGenderLabel = styled.label`
   border-radius: 0.2rem;
   margin-bottom: 1rem;
   line-height: 2.3rem;
-  background-color: #efefef;
+  background-color: var(--purple50);
   margin: 0 0.3rem;
 `;
 
@@ -74,11 +74,29 @@ const TrGenderRadio = styled.input`
   appearance: none;
 `;
 
-const RegisterOrder = styled.span`
-  background-color: #f3f3f3;
+const SignupOrderWrap = styled.div`
+  display: flex;
+  align-items: center;
+  margin-bottom: 1.5rem;
+`;
+
+const SignupOrderCurrent = styled.span`
+  background-color: var(--primary);
+  color: var(--white);
+  margin-bottom: "0.2rem";
   margin-right: 0.3rem;
   padding: 0.1rem 0.5rem;
-  border-radius: 0.3rem;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  font-weight: bold;
+`;
+
+const SignupOrder = styled.span`
+  background-color: var(--purple100);
+  color: var(--purple200);
+  margin-right: 0.3rem;
+  padding: 0.1rem 0.5rem;
+  border-radius: 0.5rem;
   font-size: 1rem;
   font-weight: bold;
 `;
@@ -90,12 +108,12 @@ const TrRegisItemWrap = styled.div`
   font-size: 0.8rem;
 `;
 
-const RegisterInput = styled.input`
+const SignupInput = styled.input`
   border: none;
   border-radius: 0.2rem;
   margin-bottom: 1rem;
   line-height: 2.3rem;
-  background-color: #efefef;
+  background-color: var(--purple50);
   font-weight: bold;
   text-align: center;
   width: 100%;
@@ -118,7 +136,7 @@ const NextStep = styled(Link)`
   border-radius: 0.6rem;
   line-height: 3rem;
   width: 100%;
-  background-color: #7f7f7f;
+  background-color: var(--primary);
   color: white;
   padding: 0 1.6rem;
   text-align: center;
@@ -133,55 +151,48 @@ export default function step1() {
       </ContentHeader>
       <ContentBody>
         <ContentInnerBody>
-          <div style={{ marginBottom: "0.2rem" }}>
-            <RegisterOrder
-              style={{
-                backgroundColor: "#000000",
-                color: "white",
-                marginBottom: "0.2rem",
-              }}
-            >
-              1
-            </RegisterOrder>
-            <RegisterOrder>2</RegisterOrder>
-          </div>
+          <SignupOrderWrap>
+            <SignupOrderCurrent>1</SignupOrderCurrent>
+            <SignupOrder>2</SignupOrder>
+            <SignupOrder>3</SignupOrder>
+          </SignupOrderWrap>
           <div style={{ marginBottom: "1rem" }}>
-            <RegisterStepInfo>안녕하세요 트레이너님!</RegisterStepInfo>
-            <RegisterStepInfo style={{ fontSize: "1rem", color: "#797979" }}>
+            <SignupStepInfo>안녕하세요 트레이너님!</SignupStepInfo>
+            <SignupStepInfo style={{ fontSize: "1rem", color: "#797979" }}>
               아래 정보가 맞는지 확인해주세요.
-            </RegisterStepInfo>
+            </SignupStepInfo>
           </div>
           <form method="post" autoComplete="on">
             <SignupFormWrap>
               <FormTitle>이름</FormTitle>
               <TrRegisItemWrap>
-                <RegisterInput
+                <SignupInput
                   style={{ width: "100%" }}
                   type="text"
                   required
-                ></RegisterInput>
+                ></SignupInput>
               </TrRegisItemWrap>
             </SignupFormWrap>
             <SignupFormWrap>
               <FormTitle>생년월일</FormTitle>
               <TrRegisItemWrap>
-                <RegisterInput
+                <SignupInput
                   type="text"
                   placeholder="2023"
                   required
-                ></RegisterInput>
+                ></SignupInput>
                 <span>/</span>
-                <RegisterInput
+                <SignupInput
                   type="text"
                   placeholder="12"
                   required
-                ></RegisterInput>
+                ></SignupInput>
                 <span>/</span>
-                <RegisterInput
+                <SignupInput
                   type="text"
                   placeholder="31"
                   required
-                ></RegisterInput>
+                ></SignupInput>
               </TrRegisItemWrap>
             </SignupFormWrap>
             <SignupFormWrap>

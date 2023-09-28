@@ -8,6 +8,7 @@ import tabBar from "../../public/tabBar.png";
 
 const MainContainer = styled.div`
   background-color: #efefef;
+  min-height: 100vh;
 `;
 
 const MainHeader = styled.header`
@@ -137,12 +138,6 @@ export default function Main() {
   const formattedDate = format(currentTime, "MM.dd EEEE", { locale: ko }); // 'ko'는 한국어를 나타내는 로케일 식별자입니다.
   const formattedDate2 = format(currentTime, "M", { locale: ko });
   // 클릭한 탭 보여주기
-<<<<<<< HEAD
-  const handleTabClick = tab => {
-    setActiveTab(tab);
-  };
-=======
->>>>>>> 37000fc03dcdd13e9b232aee594ca46978b7e8e9
 
   return (
     <MainContainer>

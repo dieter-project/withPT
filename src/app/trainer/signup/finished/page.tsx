@@ -2,6 +2,7 @@
 
 import styled from "styled-components";
 import Link from "next/link";
+import Image from "next/image";
 
 const Wrap = styled.div`
   background-color: white;
@@ -42,6 +43,11 @@ const ContentBody = styled.div`
 
 const ContentInnerBody = styled.div``;
 
+const SignupFinWrap = styled.div`
+  margin-bottom: 1rem;
+  text-align: center;
+`;
+
 const RegisterStepInfo = styled.p`
   color: #222;
   font-size: 1.6rem;
@@ -68,10 +74,9 @@ const NextStep = styled(Link)`
   border-radius: 0.6rem;
   line-height: 3rem;
   width: 100%;
-  background-color: #7f7f7f;
+  background-color: var(--primary);
   color: white;
   padding: 0 1.6rem;
-  margin-right: 0.2rem;
   text-align: center;
 `;
 
@@ -80,11 +85,19 @@ export default function finished() {
     <Wrap>
       <ContentHeader>
         <ButtonHistoryBack type="button">뒤</ButtonHistoryBack>
+
         <RegisterTitle>가입완료</RegisterTitle>
       </ContentHeader>
       <ContentBody>
         <ContentInnerBody>
-          <div style={{ marginBottom: "1rem", textAlign: "center" }}>
+          <SignupFinWrap>
+            <Image
+              style={{ display: "inline-block" }}
+              src="/lastStep.jpg"
+              alt="회원가입 완료 사진"
+              width="50"
+              height="50"
+            />
             <RegisterStepInfo>회원가입이 완료 되었어요!</RegisterStepInfo>
             <RegisterStepInfo
               style={{
@@ -95,7 +108,7 @@ export default function finished() {
             >
               함께 목표를 향해 열심히 노력해보아요 :)
             </RegisterStepInfo>
-          </div>
+          </SignupFinWrap>
           <div
             style={{
               padding: "1rem 2rem",
