@@ -1,25 +1,28 @@
 "use client";
 import styled from "styled-components";
 import Link from "next/link";
-import tabBar from "../../../../assets/icons/tabBar.png";
-import { format } from "date-fns";
-import ko from "date-fns/locale/ko";
 import { useState, useEffect } from "react";
+import Image from "next/image";
 
-const MainContainer = styled.div``;
+const MainContainer = styled.div`
+  background-color: #ffffff;
+  min-height: 100vh;
+`;
 
 const MainHeader = styled.header`
   position: fixed;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
   left: 0;
   top: 0;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
   height: 3rem;
-  padding: 1rem 0;
   background-color: #ffffff;
+  padding: 1rem;
   z-index: 100;
+  text-align: center;
+  font-weight: bold;
 `;
 
 const MainTitle = styled.h4`
@@ -28,20 +31,20 @@ const MainTitle = styled.h4`
 `;
 
 const ManageContentWrap = styled.div`
-  height: 100vh;
-  margin-bottom: 0.2rem;
-  padding: 3.5rem 1.2rem 5rem;
-  overflow: auto;
+  padding: 4rem 1.2rem 5rem;
 `;
 
 const CenterNameItem = styled.div`
   display: flex;
   justify-content: space-between;
-  background-color: #f4f4f4;
+  background-color: var(--purple50);
   padding: 1rem 0.5rem;
-  margin-bottom: 2rem;
+  margin-bottom: 0.5rem;
   border-radius: 0.5rem;
-  font-weight: bold;
+`;
+
+const CenterName = styled.span`
+  font-weight: 600;
 `;
 
 const CenterMember = styled.div`
@@ -49,14 +52,37 @@ const CenterMember = styled.div`
   justify-content: space-between;
   align-items: center;
   padding: 1rem 0.5rem;
-  border-bottom: 1px solid gray;
+  border-bottom: 1px solid var(--border-gray);
+`;
+
+const MemberName = styled.span`
+  font-size: var(--middle);
+  font-weight: 600;
 `;
 
 const NeedMoreInfo = styled.span`
-  border: 1px solid red;
+  font-size: var(--font-s);
+  border: 1px solid var(--coral);
   border-radius: 0.5rem;
-  padding: 0.2rem;
-  color: red;
+  padding: 0.3rem;
+  color: var(--coral);
+`;
+
+const AwaitReqMember = styled.div`
+  display: flex;
+  justify-content: space-between;
+  padding: 0.5rem;
+  color: var(--font-gray500);
+  font-weight: 500;
+  border-bottom: 1px solid var(--border-gray);
+`;
+
+const AlertResend = styled.span`
+  font-size: var(--font-s);
+  border: 1px solid var(--font-gray500);
+  border-radius: 0.5rem;
+  padding: 0.3rem 0.5rem;
+  color: var(--font-gray500);
 `;
 
 const MainFooter = styled.footer`
@@ -88,41 +114,93 @@ const FooterItemImg = styled.img`
 `;
 
 export default function ManageMember() {
+  const [isTapOpen, setIsTapOpen] = useState(false);
+
+  const toggleTap = () => {
+    setIsTapOpen(!isTapOpen);
+  };
   return (
     <MainContainer>
       <MainHeader>
-        <span>뒤</span>
+        <Image
+          style={{ display: "inline-block" }}
+          src="/beforePage.jpg"
+          alt="회원가입 완료 사진"
+          width="25"
+          height="25"
+        />
         <MainTitle>회원관리</MainTitle>
-        <span>탭</span>
+        <Image
+          style={{ display: "inline-block" }}
+          src="/setting.jpg"
+          alt="회원가입 완료 사진"
+          width="20"
+          height="25"
+        />
       </MainHeader>
 
       <ManageContentWrap>
         <CenterNameItem>
-          <span>아자 아자 피트니스 센터</span>
+          <CenterName>아자 아자 피트니스 센터</CenterName>
           <span>5명</span>
         </CenterNameItem>
         <div>
           <CenterMember>
-            <span>맥도날드 회원님</span>
+            <MemberName>맥도날드 회원님</MemberName>
             <NeedMoreInfo>상세정보 입력 필요</NeedMoreInfo>
           </CenterMember>
           <CenterMember>
-            <span>버거킹 회원님</span>
-            <span>잔여:16회/36회</span>
+            <MemberName>버거킹 회원님</MemberName>
+            <span>잔여:16회 / 36회</span>
           </CenterMember>
           <CenterMember>
-            <span>신형만 회원님</span>
-            <span>잔여:11회/24회</span>
+            <MemberName>신형만 회원님</MemberName>
+            <span>잔여: 11회 / 24회</span>
           </CenterMember>
           <CenterMember>
-            <span>김땡땡 회원님</span>
-            <span>잔여:5회/36회</span>
+            <MemberName>김땡땡 회원님</MemberName>
+            <span>잔여: 5회 / 36회</span>
           </CenterMember>
           <CenterMember>
-            <span>아자아자 회원님</span>
-            <span>잔여:0회/50회</span>
+            <MemberName>아자아자 회원님</MemberName>
+            <span>잔여: 0회 / 50회</span>
           </CenterMember>
         </div>
+        <AwaitReqMember onClick={toggleTap}>
+          <div>
+            회원 등록 요청 대기중 <span>2</span>
+          </div>
+          {!isTapOpen && (
+            <Image
+              style={{ display: "inline-block" }}
+              src="/toggleClose.jpg"
+              alt="토글 닫힘"
+              width="5"
+              height="2"
+            />
+          )}
+          {isTapOpen && (
+            <Image
+              style={{ display: "inline-block" }}
+              src="/toggleOpen.jpg"
+              alt="토글 열림"
+              width="5"
+              height="2"
+            />
+          )}
+        </AwaitReqMember>
+        {isTapOpen && (
+          <div>
+            <CenterMember>
+              <MemberName>맥도날드 회원님</MemberName>
+              <AlertResend>알림 재전송</AlertResend>
+            </CenterMember>
+            <CenterMember>
+              <MemberName>나득근 회원님</MemberName>
+              <AlertResend>알림 재전송</AlertResend>
+            </CenterMember>
+          </div>
+        )}
       </ManageContentWrap>
       <MainFooter>
         <FooterCtgWrap>
