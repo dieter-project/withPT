@@ -30,6 +30,34 @@ const MainTitle = styled.h4`
   margin: 0 auto;
 `;
 
+const SettingImg = styled.img`
+  display: inline-block;
+`;
+
+const SettingTabImg = styled.img`
+  display: inline-block;
+  position: absolute;
+  top: 2rem;
+  right: 0;
+`;
+
+const SettingTopTxt = styled.div`
+  position: absolute;
+  top: 4rem;
+  right: 2rem;
+  font-weight: normal;
+  padding: 0.1rem 0;
+  border-bottom: 1px solid var(--border-gray);
+`;
+
+const SettingUnderTxt = styled.div`
+  position: absolute;
+  top: 6rem;
+  right: 2rem;
+  font-weight: normal;
+  padding: 0.1rem 0;
+`;
+
 const ManageContentWrap = styled.div`
   padding: 4rem 1.2rem 5rem;
 `;
@@ -116,27 +144,58 @@ const FooterItemImg = styled.img`
 export default function ManageMember() {
   const [isTapOpen, setIsTapOpen] = useState(false);
 
+  const [isSettingOpen, setIsSettingOpen] = useState(false);
+
+  const [selectedNames, setSelectedNames] = useState([]);
+
+  // const toggleNameSelection = name => {
+  //   if (selectedNames.includes(name)) {
+  //     setSelectedNames(selectedNames.filter(n => n !== name));
+  //   } else {
+  //     setSelectedNames([...selectedNames, name]);
+  //   }
+  // };
+
   const toggleTap = () => {
     setIsTapOpen(!isTapOpen);
   };
+
+  const toggleSetting = () => {
+    setIsSettingOpen(!isSettingOpen);
+  };
+
   return (
     <MainContainer>
       <MainHeader>
         <Image
           style={{ display: "inline-block" }}
           src="/beforePage.jpg"
-          alt="회원가입 완료 사진"
+          alt="이전 페이지 이미지"
           width="25"
           height="25"
         />
         <MainTitle>회원관리</MainTitle>
-        <Image
-          style={{ display: "inline-block" }}
-          src="/setting.jpg"
-          alt="회원가입 완료 사진"
-          width="20"
-          height="25"
-        />
+        <div style={{ position: "relative" }}>
+          <SettingImg
+            src="/setting.jpg"
+            alt="설정 이미지"
+            width="20"
+            height="25"
+            onClick={toggleSetting}
+          />
+        </div>
+        {isSettingOpen && (
+          <>
+            <SettingTabImg
+              src="/settingTab.png"
+              alt="설정 하단 탭 이미지"
+              width="150"
+              height="150"
+            />
+            <SettingTopTxt>회원 정보 추가</SettingTopTxt>
+            <SettingUnderTxt>회원 해제하기</SettingUnderTxt>
+          </>
+        )}
       </MainHeader>
 
       <ManageContentWrap>
@@ -166,6 +225,21 @@ export default function ManageMember() {
             <span>잔여: 0회 / 50회</span>
           </CenterMember>
         </div>
+        {/* 이름 데이터 들어가면 수정 */}
+        {/* <div>
+      {names.map((name) => (
+        <Link key={name}>
+          <label>
+            <input
+              type="checkbox"
+              checked={selectedNames.includes(name)}
+              onChange={() => toggleNameSelection(name)}
+            />
+            {name}
+          </label>
+        </ㅣ>
+      ))}
+    </div> */}
         <AwaitReqMember onClick={toggleTap}>
           <div>
             회원 등록 요청 대기중 <span>2</span>
