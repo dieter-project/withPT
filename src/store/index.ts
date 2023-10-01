@@ -1,32 +1,36 @@
-import { Middleware, Store, combineReducers } from "redux"
-import { persistReducer, persistStore } from "redux-persist"
-import storage from 'redux-persist/lib/storage/session'
+import { Middleware, Store, combineReducers } from "redux";
+import { persistReducer, persistStore } from "redux-persist";
+import storage from "redux-persist/lib/storage/session";
 import memberReducer from "../redux/reducers/memberSlice";
-import { EnhancedStore, ThunkAction, configureStore, Action } from "@reduxjs/toolkit";
+import {
+  EnhancedStore,
+  ThunkAction,
+  configureStore,
+  Action,
+} from "@reduxjs/toolkit";
 import { MakeStore, createWrapper } from "next-redux-wrapper";
 
 const persistConfig = {
-  key: 'root',
+  key: "root",
   storage,
   // whitelist: ['auth'],
-  timeout: 5000
-}
+  timeout: 5000,
+};
 
 const rootReducer = combineReducers({
-  member: memberReducer
-})
+  member: memberReducer,
+});
 
-const persistedReducer = persistReducer(persistConfig, rootReducer)
+const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 export const store = configureStore({
   reducer: persistedReducer,
-})
+});
 
-export const persistor = persistStore(store)
+export const persistor = persistStore(store);
 
 // const setupStore = (context: any): EnhancedStore => store;
 // const makeStore: MakeStore<any> = (context: any) => setupStore(context)
-
 
 // export const wrapper = createWrapper<Store>(makeStore)
 

@@ -3,7 +3,6 @@ import styled from "styled-components";
 import Link from "next/link";
 import { useSession, signIn, signOut } from "next-auth/react";
 import React, { useEffect } from "react";
-import Script from "next/script";
 
 const LoginWrap = styled.div`
   background-color: beige;
@@ -65,11 +64,7 @@ export default function Login() {
       <div>
         <h1> hi {data.user.name}</h1>
         <img src={data.user.image} alt={data.user.name + " photo"} />
-<<<<<<< HEAD
-        <button onClick={signOut}>sign out</button>
-=======
         <button onClick={() => signOut()}>sign out</button>
->>>>>>> 37000fc03dcdd13e9b232aee594ca46978b7e8e9
       </div>
     );
   }

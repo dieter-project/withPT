@@ -16,7 +16,7 @@ const MainHeader = styled.header`
   top: 0;
   height: 3rem;
   background-color: #ffffff;
-  padding: 1rem 0;
+  padding: 1rem;
   z-index: 100;
   text-align: center;
   font-weight: bold;
@@ -24,18 +24,6 @@ const MainHeader = styled.header`
 
 const ManageContentWrap = styled.div`
   padding: 3rem 1.2rem 5rem;
-`;
-
-const RegisNewMember = styled(Link)`
-  width: 100%;
-  display: block;
-  text-align: center;
-  background-color: var(--primary);
-  color: var(--white);
-  border: none;
-  border-radius: 0.5rem;
-  padding: 0.7rem;
-  margin-top: 1rem;
 `;
 
 const ManageMemberWrap = styled.div`
@@ -49,18 +37,7 @@ const ManageTitleWrap = styled.div`
 `;
 
 const ManageTitle = styled.h4`
-  color: black;
-  font-size: 1rem;
-  margin-right: 0.2rem;
-  display: inline-block;
-`;
-
-const ManageTitlesubTxt = styled.span`
-  color: gray;
-`;
-
-const ManageTitleDate = styled.span`
-  color: black;
+  font-weight: 600;
 `;
 
 const CenterNameItem = styled(Link)`
@@ -74,23 +51,6 @@ const CenterNameItem = styled(Link)`
 
 const CenterName = styled.span`
   font-weight: 600;
-`;
-
-const CalanderWrap = styled.div`
-  padding: 1rem;
-  background-color: var(--purple50);
-`;
-
-const ScheduleLink = styled(Link)`
-  width: 100%;
-  display: block;
-  text-align: center;
-  background-color: var(--primary);
-  color: var(--white);
-  border: none;
-  border-radius: 0.5rem;
-  padding: 0.5rem;
-  margin-top: 1rem;
 `;
 
 const MainFooter = styled.footer`
@@ -119,48 +79,40 @@ const FooterImgSpan = styled.span`
   display: block;
 `;
 
-export default function ManageMain() {
-  const today = new Date();
-  const [startDate, setStartDate] = useState(startOfWeek(today));
-  const endDate = addDays(startDate, 13);
-
+export default function MemberRegist() {
   return (
     <MainContainer>
-      <MainHeader>수업관리</MainHeader>
+      <MainHeader>
+        <div style={{ display: "flex", justifyContent: "space-between" }}>
+          <img
+            style={{ display: "inline-block" }}
+            src="/beforePage.jpg"
+            alt="이전 페이지 이미지"
+            width="25"
+            height="25"
+          />
+          <ManageTitle>신규회원 등록</ManageTitle>
+          <div></div>
+        </div>
+      </MainHeader>
       <ManageContentWrap>
-        <RegisNewMember href="/trainer/management/member/regist">
-          {" "}
-          신규 회원 등록하기
-        </RegisNewMember>
         <ManageMemberWrap>
           <ManageTitleWrap>
-            <div>
-              <ManageTitle>회원관리</ManageTitle>
-              <ManageTitlesubTxt>총 인원수 : 31명</ManageTitlesubTxt>
-            </div>
-            <ManageTitleDate>2023.11월</ManageTitleDate>
+            <ManageTitle>센터 목록</ManageTitle>
           </ManageTitleWrap>
 
           <CenterNameItem href="#!">
             <CenterName>아자 아자 피트니스 센터</CenterName>
-            <span>5명</span>
+            <span>이</span>
           </CenterNameItem>
           <CenterNameItem href="#!">
             <CenterName>으라차차 피트니스 센터</CenterName>
-            <span>5명</span>
+            <span>미</span>
           </CenterNameItem>
           <CenterNameItem href="#!">
             <CenterName>득근득근 피트니스 센터</CenterName>
-            <span>5명</span>
+            <span>지</span>
           </CenterNameItem>
-        </ManageMemberWrap>
-
-        <ManageMemberWrap>
-          <ManageTitle>스케줄</ManageTitle>
-          <CalanderWrap>
-            캘린더
-            <ScheduleLink href="#!"> 수업 일정 확인하기</ScheduleLink>
-          </CalanderWrap>
         </ManageMemberWrap>
       </ManageContentWrap>
       <MainFooter>

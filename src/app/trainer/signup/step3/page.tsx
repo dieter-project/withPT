@@ -17,9 +17,9 @@ const ContentHeader = styled.div`
   position: fixed;
   width: 100%;
   height: 4.4rem;
+  display: flex;
   align-items: center;
   z-index: 100;
-  display: flex;
 `;
 
 const ButtonHistoryBack = styled.button`
@@ -28,10 +28,10 @@ const ButtonHistoryBack = styled.button`
   background-color: green;
 `;
 
-const SignupTitle = styled.h4`
+const SignupTitle = styled.h2`
   line-height: 3rem;
   color: #222;
-  font-size: 1.6rem;
+  font-size: 1.5rem;
   font-weight: 700;
   letter-spacing: -0;
 `;
@@ -42,10 +42,9 @@ const ContentBody = styled.div`
 
 const ContentInnerBody = styled.div``;
 
-const SignupStepInfo = styled.p`
+const RegisterStepInfo = styled.p`
   color: #222;
   font-size: 1.6rem;
-  font-weight: bold;
   letter-spacing: -0.04rem;
 `;
 
@@ -57,21 +56,6 @@ const FormTitle = styled.h4`
   font-weight: bold;
   font-size: 1rem;
   margin-bottom: 0.2rem;
-`;
-
-const TrGenderLabel = styled.label`
-  width: 100%;
-  text-align: center;
-  border: none;
-  border-radius: 0.2rem;
-  margin-bottom: 1rem;
-  line-height: 2.3rem;
-  background-color: var(--purple50);
-  margin: 0 0.3rem;
-`;
-
-const TrGenderRadio = styled.input`
-  appearance: none;
 `;
 
 const SignupOrderWrap = styled.div`
@@ -113,6 +97,7 @@ const SignupInput = styled.input`
   border-radius: 0.2rem;
   margin-bottom: 1rem;
   line-height: 2.3rem;
+  text-align: center;
   background-color: var(--purple50);
   font-size: 1rem;
   width: 100%;
@@ -121,6 +106,8 @@ const SignupInput = styled.input`
 
 const ButtonAreaFixed = styled.div`
   position: fixed;
+  display: flex;
+  justify-content: space-between;
   bottom: 0;
   left: 0;
   padding: 2.4rem 1.6rem 1.6rem;
@@ -129,63 +116,75 @@ const ButtonAreaFixed = styled.div`
   background-color: transparent;
 `;
 
-const NextStep = styled(Link)`
+const NextTime = styled(Link)`
+  display: block;
+  border: none;
+  border-radius: 0.6rem;
+  line-height: 3rem;
+  width: 100%;
+  background-color: var(--purple100);
+  color: var(--font-secondary);
+  padding: 0 1.6rem;
+  margin-right: 0.2rem;
+  text-align: center;
+`;
+
+const InputFinish = styled(Link)`
   display: block;
   border: none;
   border-radius: 0.6rem;
   line-height: 3rem;
   width: 100%;
   background-color: var(--primary);
-  color: white;
+  color: var(--white);
   padding: 0 1.6rem;
+  margin-right: 0.2rem;
   text-align: center;
 `;
 
-export default function step2() {
+export default function step3() {
   return (
     <Wrap>
       <ContentHeader>
-        <ButtonHistoryBack type="button"></ButtonHistoryBack>
+        <ButtonHistoryBack type="button">뒤</ButtonHistoryBack>
         <SignupTitle>회원가입</SignupTitle>
       </ContentHeader>
       <ContentBody>
         <ContentInnerBody>
           <SignupOrderWrap>
             <SignupOrder>1</SignupOrder>
-            <SignupOrderCurrent>2</SignupOrderCurrent>
-            <SignupOrder>3</SignupOrder>
+            <SignupOrder>2</SignupOrder>
+            <SignupOrderCurrent>3</SignupOrderCurrent>
           </SignupOrderWrap>
           <div style={{ marginBottom: "1rem" }}>
-            <SignupStepInfo>센터 정보와 일정을 등록해주세요.</SignupStepInfo>
-            <SignupStepInfo style={{ fontSize: "1rem", color: "#797979" }}>
-              재직 중인 센터와 센터별 일정을 등록해 주세요.
-            </SignupStepInfo>
+            <RegisterStepInfo>정보를 지금 입력하시겠어요?</RegisterStepInfo>
+            <RegisterStepInfo style={{ fontSize: "1rem", color: "#797979" }}>
+              회원가입 후 마이페이지에서도 입력이 가능해요.
+            </RegisterStepInfo>
           </div>
           <form method="post" autoComplete="on">
             <SignupFormWrap>
-              <FormTitle>센터정보 등록</FormTitle>
+              <FormTitle>경력 입력</FormTitle>
               <TrRegisItemWrap>
-                <SignupInput
-                  type="text"
-                  placeholder="등록하실 센터를 검색해보세요"
-                  required
-                ></SignupInput>
+                <SignupInput placeholder="+" type="text" required></SignupInput>
               </TrRegisItemWrap>
             </SignupFormWrap>
             <SignupFormWrap>
-              <FormTitle>일정 등록하기</FormTitle>
+              <FormTitle>학력사항 등록</FormTitle>
               <TrRegisItemWrap>
-                <SignupInput
-                  style={{ textAlign: "center" }}
-                  type="text"
-                  placeholder="+"
-                  required
-                ></SignupInput>
+                <SignupInput placeholder="+" type="text" required></SignupInput>
+              </TrRegisItemWrap>
+            </SignupFormWrap>
+            <SignupFormWrap>
+              <FormTitle>보유기술 등록</FormTitle>
+              <TrRegisItemWrap>
+                <SignupInput placeholder="+" type="text" required></SignupInput>
               </TrRegisItemWrap>
             </SignupFormWrap>
           </form>
           <ButtonAreaFixed>
-            <NextStep href="/trainer/register/step2">다음</NextStep>
+            <NextTime href="/trainer/signup/finished">넘어가기</NextTime>
+            <InputFinish href="/trainer/signup/finished">입력완료</InputFinish>
           </ButtonAreaFixed>
         </ContentInnerBody>
       </ContentBody>
