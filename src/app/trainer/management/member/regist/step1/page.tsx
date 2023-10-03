@@ -49,20 +49,36 @@ const SearchMemberName = styled.div`
   border-radius: 0.5rem;
 `;
 
-const SearchIcon = styled.img`
-  width: 8%;
-  display: inline-block;
-  padding-right: 0.3rem;
-`;
-
 const SearchInput = styled.input`
   background-image: url("/searchLight.png");
-  background-size: 2rem 2rem;
+  background-size: auto;
+  background-color: var(--purple50);
   background-repeat: no-repeat;
   width: 90%;
+  padding-left: 2em;
   border: none;
-  background: none;
   outline: none;
+`;
+
+const MemberList = styled.li`
+  display: flex;
+  justify-content: space-between;
+  border: 1px solid var(--font-gray400);
+  border-radius: 0.5rem;
+  padding: 1rem;
+`;
+
+const MemberListItem = styled.span`
+  margin: 0 0.3rem;
+  color: var(--font-gray500);
+`;
+
+const SendReqButton = styled.button`
+  width: 100%;
+  margin-top: 1rem;
+  padding: 1rem 0;
+  border: 1px solid var(--font-gray400);
+  border-radius: 0.5rem;
 `;
 
 const MainFooter = styled.footer`
@@ -92,16 +108,25 @@ const FooterImgSpan = styled.span`
 `;
 
 export default function MemberRegistStep1() {
+  const [selectedItem, setSelectedItem] = useState(null);
+
+  //   const handleItemClick = index => {
+  //     setSelectedItem(index);
+  //   };
   return (
     <MainContainer>
       <MainHeader>
-        <div style={{ display: "flex", justifyContent: "space-between" }}>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignContent: "center",
+          }}
+        >
           <img
             style={{ display: "inline-block" }}
             src="/beforePage.jpg"
             alt="이전 페이지 이미지"
-            width="25"
-            height="25"
           />
           <ManageTitle>회원 등록</ManageTitle>
           <div></div>
@@ -114,12 +139,35 @@ export default function MemberRegistStep1() {
           </ManageTitleWrap>
 
           <SearchMemberName>
-            {/* <SearchIcon src="/searchLight.png" alt="검색 돋보기 이미지" /> */}
             <SearchInput
               type="text"
               placeholder="회원 닉네임을 검색해보세요."
             ></SearchInput>
           </SearchMemberName>
+          <div>
+            <ul>
+              <MemberList
+              //    style={{
+              //     cursor: 'pointer',
+              //     backgroundColor: selectedItem === index ? 'lightblue' : 'white',
+              //   }}
+              >
+                {/* {items.map((item, index) => (
+            <MemberList
+              key={index}
+              onClick={() => handleItemClick(index)}
+              isSelected={selectedItem === index}
+            >))} */}
+                <div>
+                  <img src="#!" style={{ display: "inline-block" }}></img>
+                  <span>이은서</span>
+                  <MemberListItem>happylee</MemberListItem>
+                </div>
+                <div>여자 / 95년생</div>
+              </MemberList>
+            </ul>
+            <SendReqButton>등록 요청 보내기</SendReqButton>
+          </div>
         </ManageMemberWrap>
       </ManageContentWrap>
       <MainFooter>

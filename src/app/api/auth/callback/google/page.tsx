@@ -5,15 +5,7 @@ import { useSession, signIn, signOut } from "next-auth/react";
 import React, { useEffect } from "react";
 import Script from "next/script";
 import { useSearchParams } from "next/navigation";
-
-const LoginWrap = styled.div`
-  background-color: beige;
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  width: 100%;
-  height: 100%;
-`;
+import { api } from "@/utils/axios";
 
 const ContentBody = styled.div`
   height: 80rem;
@@ -61,5 +53,25 @@ export default function Login() {
   const searchParams = useSearchParams();
   const code = searchParams.get("code");
   console.log(code);
+
+  const handleGetAuthCode = async () => {
+    try {
+      const response = await api.post(
+        "http://43.200.45.234/api/v1/oauth/google",
+        {
+          authorizationCode: code,
+          role: "TRAINER",
+        },
+      );
+      console.log("response: ", response);
+    } catch (error) {
+      console.log("error: ", error);
+    }
+  };
+  useEffect(() => {
+    console.log("code: ", code);
+    handleGetAuthCode();
+  }, []);
+
   return <div>구글보내주는 페이지</div>;
 }

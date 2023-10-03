@@ -18,6 +18,7 @@ const persistConfig = {
 };
 
 const rootReducer = combineReducers({
+  // trainer: trainerReducer,
   member: memberReducer,
 });
 
