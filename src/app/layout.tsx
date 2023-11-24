@@ -1,10 +1,8 @@
-import "./globals.css";
-import type { Metadata } from "next";
-import styled from "styled-components";
-import StyledComponentsRegistry from "./registry";
-import { SessionProvider } from "next-auth/react";
-import Providers from "./components/Providers";
-import { getServerSession } from "next-auth";
+import AuthContext from '@/components/AuthContext'
+import './globals.css'
+import type { Metadata } from 'next'
+import { Providers } from '../redux/provider'
+import StyledComponentsRegistry from '@/lib/StyledComponentsRegistry'
 
 export const metadata: Metadata = {
   title: "WithPT",
@@ -17,10 +15,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html>
+    <html lang="ko">
       <body>
         <Providers>
-          <StyledComponentsRegistry>{children}</StyledComponentsRegistry>
+            <AuthContext>
+              <StyledComponentsRegistry>
+                {children}
+              </StyledComponentsRegistry>
+            </AuthContext>
         </Providers>
       </body>
     </html>
