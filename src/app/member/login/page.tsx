@@ -1,104 +1,93 @@
 'use client';
 
-import { Container } from '@/styles/Container';
-import { signIn, useSession } from 'next-auth/react';
+import PageTitle from '@/components/PageTitle';
+import { BaseContentWrap } from '@/styles/Layout';
+import { getCsrfToken, signIn, useSession } from 'next-auth/react';
 import Link from 'next/link';
 import React, { useEffect } from 'react'
 import { styled } from 'styled-components'
 
-
-const KakaoLogninButton = styled.button`
+const LogoWrap = styled.div`
+  text-align: center;
+  margin: 130px 0 100px;
+`
+const LogninButton = styled.button`
   width: 100%;
   height: 56px;
+  text-align: center;
+  border-radius: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.625rem;
+`
+
+const KakaoLoginButton = styled(LogninButton)`
   background-color: #FEE500;
-  text-align: center;
-  border-radius: 8px;
-  margin: 4px 0;
+  &::before {
+    display: block;
+    content: "";
+    width: 1.5rem;
+    height: 1.5rem;
+    background: url(/svgs/icon_kakao.svg) no-repeat;
+    background-position: center;
+    background-size: contain;
+  }
 `
 
-const GoogleLogninButton = styled.button`
-  width: 100%;
-  height: 56px;
+const GoogleLoginButton = styled(LogninButton)`
   border: 1px solid var(--border-gray);
-  text-align: center;
-  border-radius: 8px;
-  margin: 4px 0;
+  &::before {
+    display: block;
+    content: "";
+    width: 1.375rem;
+    height: 1.375rem;
+    background: url(/svgs/icon_google.svg) no-repeat;
+    background-position: center;
+    background-size: contain;
+  }
 `
 
-const LoginPageWrap = styled.div`
+const LoginButtonWrap = styled.div`
   width: 100%;
   height: 100vh;
   text-align: center;
   display: flex;
+  gap: 0.5rem;
   flex-direction: column;
-  justify-content: space-between;
-
-  h1 {
-    margin-top: 240px;
-  }
-
-  .login {
-    display: flex;
-    justify-content: center;
-    margin-top: 10px;
-    a {
-      color: var(--font-gray700);
-      font-size: var(--font-s);
-      /* &:first-child{
-        position: relative;
-        margin-right: 20px;
-        &::after{
-          content: '';
-          display: block;
-          width: 1px;
-          height: 11px;
-          position: absolute;
-          top: 50%;
-          right: -10px;
-          transform: translateY(-50%);
-          background-color: #666666;
-        }
-      } */
-    }
-  }
-
-  .bottom {
-    margin-bottom: 80px;
-    div {
-      color: #ACACAC;
-      font-size: 12px;
-    }
-    a {
-      text-decoration: underline;
-    }
-  }
 `
 
 const page = () => {
-  const { data: session } = useSession();
 
   useEffect(()=>{
-    console.log('session: ', session);
+    
   }, [])
+
+  const onKakaoSocialLogin = ():any => {
+    const redirectUri = 'http://localhost:3000/callback/kakao'
+    const restApiKey = process.env.NEXT_PUBLIC_KAKAO_CLIENT_ID
+    const kakaoURL = `https://kauth.kakao.com/oauth/authorize?client_id=${restApiKey}&redirect_uri=${redirectUri}&response_type=code`
+    window.location.href=kakaoURL
+}
   
   return (
-    <Container>
-      <LoginPageWrap>
-        <h1>로고</h1>
-        <div>
-          <KakaoLogninButton onClick={() => signIn('kakao')}>카카오톡으로 시작하기</KakaoLogninButton>
-          <GoogleLogninButton onClick={() => signIn('google')}>Google로 시작하기</GoogleLogninButton>
+    <>
+      <PageTitle title=''/>
+      <BaseContentWrap>
+        <LogoWrap>로고</LogoWrap>
+        <LoginButtonWrap>
+          <KakaoLoginButton 
+            // onClick={() => signIn('kakao')}
+            onClick={onKakaoSocialLogin}
+          >카카오톡으로 시작하기</KakaoLoginButton>
+          <GoogleLoginButton onClick={() => signIn('google')}>Google로 시작하기</GoogleLoginButton>
           <div className='login'>
             {/* <Link href="/">로그인</Link> */}
             <Link href="/">문의하기</Link>
           </div>
-        </div>
-        <div className='bottom'>
-          <div>혹시 트레이너이신가요?</div>
-          <a href="/">트레이너 회원가입</a>
-        </div>
-      </LoginPageWrap>
-    </Container>
+        </LoginButtonWrap>
+      </BaseContentWrap>
+    </>
   )
 }
 

@@ -1,26 +1,15 @@
 'use client';
 
 import PageTitle from '@/components/PageTitle';
-import { Container } from '@/styles/Container';
 import { signIn, useSession } from 'next-auth/react';
 import React, { useEffect } from 'react'
 import { styled } from 'styled-components'
-
-
-const Button = styled.button`
-  width: 100%;
-  height: 45px;
-  border: 1px solid #e8e8e8;
-  text-align: center;
-  line-height: 2.5rem;
-`
-
 
 const page = () => {
   const title = '식단 입력'
   
   return (
-    <Container>
+    <>
       <PageTitle title={title}/>
       <div>
         <div>
@@ -61,7 +50,7 @@ const page = () => {
         <input type="radio" />
       </div>
       <button>저장하기</button>
-    </Container>
+    </>
   )
 }
 

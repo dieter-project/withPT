@@ -10,6 +10,7 @@ export const Button = styled.button<ButtonProps>`
   height: ${props => props.height || "3.5rem"};
   border: none;
   text-align: center;
+<<<<<<< HEAD
   border-radius: 0.5rem;
 
   ${props =>
@@ -78,3 +79,27 @@ export const ListButton = styled.button`
   margin-bottom: 0.75rem;
   font-size: var(--font-l);
 `;
+=======
+  line-height: 2.5rem;
+  border-radius: 0.5rem;
+
+  ${props => props.variant === 'primary' && css`
+    background-color: var(--primary);
+    color: var(--white);
+    `}
+    
+    ${props => props.variant === 'disabled' && css`
+    background-color: var(--disabled);
+    color: var(--white);
+    `}
+    
+    ${props => props.variant === 'ghost' && css`
+      background-color: var(--primary);
+      color: var(--primary);
+  `}
+
+  ${props => props.variant === 'outline' && css`
+    border: 1px solid var(--font-gray400);
+  `}
+`
+>>>>>>> 95197a1f04a5406aba428791132cbaad2708eaba

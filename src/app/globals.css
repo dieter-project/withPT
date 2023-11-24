@@ -5,6 +5,7 @@
 
 :root {
   /* color */
+<<<<<<< HEAD
   --primary: #6c69ff;
   --purple50: #f8f8fc;
   --purple75: #eeeeff;
@@ -16,6 +17,27 @@
   --gray: #8a8a8a;
   --white: #ffffff;
   --black: #222222;
+=======
+  --primary: #6C69FF;
+  --purple50: #F4F4FB;
+  --purple100: #E7E7FF;
+  --purple200: #BBBAFF;
+  --disabled: #EEEEFF;
+  --yellow: #FFE926;
+  --coral: #FF5E5E;
+  --mint: #33DFD5;
+  --gray: #8A8A8A;
+  --white: #ffffff;
+  --black: #222222;
+  --tab: #4D4BA9;
+  
+  --border-gray: #EAEAEA;
+  
+  --font-secondary: #7D7BB7;
+  --font-gray700: #444444;
+  --font-gray500: #A2A2A5;
+  --font-gray400: #B1B0BB;
+>>>>>>> 95197a1f04a5406aba428791132cbaad2708eaba
 
   --tab: #4d4ba9;
   --inputpurple: #f4f4fb;

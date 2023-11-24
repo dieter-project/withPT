@@ -5,7 +5,7 @@ import styled from "styled-components";
 import Link from "next/link";
 import beforePage from "../../../../../public/icons/beforePage.png";
 import { Button } from "@/styles/Button";
-import { Input } from "@/styles/Input";
+import { Input2 } from "@/styles/TrainerInput";
 
 const Wrap = styled.div`
   background-color: white;
@@ -202,29 +202,29 @@ export default function step1() {
             <SignupFormWrap>
               <FormTitle>이름</FormTitle>
               <TrRegisItemWrap>
-                <Input type="text" required></Input>
+                <Input2 type="text" required></Input2>
               </TrRegisItemWrap>
             </SignupFormWrap>
             <SignupFormWrap>
               <FormTitle>생년월일</FormTitle>
               <TrRegisItemWrap>
-                <Input
+                <Input2
                   type="text"
                   style={{ textAlign: "center" }}
                   required
-                ></Input>
+                ></Input2>
                 <Slash>/</Slash>
-                <Input
+                <Input2
                   type="text"
                   style={{ textAlign: "center" }}
                   required
-                ></Input>
+                ></Input2>
                 <Slash>/</Slash>
-                <Input
+                <Input2
                   type="text"
                   style={{ textAlign: "center" }}
                   required
-                ></Input>
+                ></Input2>
               </TrRegisItemWrap>
             </SignupFormWrap>
             <SignupFormWrap>

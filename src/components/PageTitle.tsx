@@ -1,3 +1,4 @@
+import { BaseHeader } from '@/styles/Layout';
 import { NextPage } from 'next';
 import { useRouter } from 'next/navigation';
 import React from 'react'
@@ -7,19 +8,16 @@ interface Props {
   title: string;
 }
 
-const TitleWrap = styled.header`
-  position: relative;
-  width: 100%;
-  height: 56px;
+const TitleWrap = styled(BaseHeader)`
   div {
     position: absolute;
-    left: 20px;
+    left: 1.25rem;
     top: 50%;
     transform: translateY(-50%);
   }
   button {
-    width: 12px;
-    height: 12px;
+    width: 0.75rem;
+    height: 0.75rem;
     border-left: 2px solid var(--black);
     border-bottom: 2px solid var(--black);
     transform: rotate(45deg);

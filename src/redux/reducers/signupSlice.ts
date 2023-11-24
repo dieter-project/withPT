@@ -1,31 +1,33 @@
 import { PayloadAction, createSlice, current } from "@reduxjs/toolkit";
 
 export type SignupState = {
+  email: string | null,
   name: string | null,
-  year: string | null,
-  month: string | null,
-  date: string | null,
-  gender: string | null,
+  birth: string | null,
+  sex: string | null,
   nickname: string | null,
-  height: string | null,
-  weight: string | null,
-  meal_plan: string | null,
-  workout_plan: string | null,
-  weight_plan: string | null
+  height: number | null,
+  weight: number | null,
+  dietType: string | null,
+  exerciseFrequency: number | null,
+  targetWeight: number | null,
+  oauthProvider: string | null,
+  role: string | null
 };
 
 let initialState: SignupState = {
+  email: null,
   name: null,
-  year: null,
-  month: null,
-  date: null,
-  gender: null,
+  birth: null,
+  sex: null,
   nickname: null,
   height: null,
   weight: null,
-  meal_plan: null,
-  workout_plan: null,
-  weight_plan: null
+  dietType: null,
+  exerciseFrequency: null,
+  targetWeight: null,
+  oauthProvider: null,
+  role: null
 }
 
 const signupSlice = createSlice({
@@ -36,7 +38,7 @@ const signupSlice = createSlice({
       return { ...state, ...action.payload }
     },
     signupStateReset: (state) => {
-      state = initialState
+      return state = initialState
     }
   }
 });

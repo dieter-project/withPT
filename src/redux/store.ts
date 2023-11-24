@@ -1,6 +1,7 @@
 import { Action, ThunkAction, combineReducers, configureStore } from "@reduxjs/toolkit";
 import member from "./reducers/memberSlice";
 import signup from "./reducers/signupSlice";
+import workoutRecord from "./reducers/workoutRecordSlice";
 import storage from 'redux-persist/lib/storage/session'
 import { persistReducer, persistStore } from "redux-persist";
 import createWebStorage from "redux-persist/es/storage/createWebStorage";
@@ -27,13 +28,14 @@ import createWebStorage from "redux-persist/es/storage/createWebStorage";
 const persistConfig = {
   key: 'root',
   storage,
-  whitelist: ['signup'], //적용할 리듀서
+  whitelist: ['signup', 'workoutRecord'], //적용할 리듀서
   timeout: 1000
 }
 
 const rootReducer = combineReducers({
   member,
   signup,
+  workoutRecord
 })
 
 const persistedReducer = persistReducer(persistConfig, rootReducer)

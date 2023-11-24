@@ -1,22 +1,34 @@
 import { styled } from "styled-components";
 
-export const SignupTitle = styled.div`
+export const SignUpTitleText = styled.div`
   font-size: 24px;
   font-weight: var(--font-semibold);
 `
 
-export const Subtext = styled.div`
+export const SignUpSubtext = styled.div`
   font-size: 16px;
-  color: #797979;
+  color: var(--font-gray700);
 `
 
 export const LabelTitle = styled.div`
   font-size: 16px;
   font-weight: var(--font-semibold);
-  margin-bottom: 8px;
+  margin-bottom: 0.5rem;
 `
 
 export const Caption = styled.div`
   font-size: 12px;
-  color: #736F6F;
+  color: var(--font-gray700);
+`
+
+export const ExclamationMark = styled.span`
+  width: 1.375rem;
+  height: 1.375rem;
+  border-radius: 50%;
+  background-color: var(--purple200);
+  color: var(--white);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--font-s);
 `

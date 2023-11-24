@@ -2,18 +2,19 @@
 
 import PageTitle from '@/components/PageTitle'
 import JoinStep from '@/components/SignUpStep'
-import { Container } from '@/styles/Container'
 import { useRouter } from 'next/navigation'
-import React, { useEffect, useRef, useState } from 'react'
-import { LabelTitle, Subtext, SignupTitle } from '@/styles/Text'
-import { styled } from 'styled-components'
-import { Input, InputRowWrap } from '@/styles/Input'
+import React, { MutableRefObject, useEffect, useRef, useState } from 'react'
+import { LabelTitle, SignUpTitleText, SignUpSubtext } from '@/styles/Text'
+import { Input, InputRowWrap, InputWrap } from '@/styles/Input'
 import { Button } from '@/styles/Button'
-import { UserInfoForm } from '@/styles/UserInfoForm'
 import { useDispatch } from 'react-redux'
 import { signupActions } from '@/redux/reducers/signupSlice'
+import { BaseContentWrap, ButtonAreaFixed } from '@/styles/Layout'
+import { SignUpInputContainer, SignUpTitleWrap } from '@/styles/SignupForm'
+import { useAppSelector } from '@/redux/hooks'
+import { RadioButton } from './styles'
 
-interface Ibirthdate {
+interface Ibirth {
   year: string,
   month: string,
   date: string,
@@ -21,58 +22,32 @@ interface Ibirthdate {
 
 interface Imember {
   name: string,
-  birthdate: Ibirthdate | string,
-  gender: string
+  birth: Ibirth | string,
+  sex: string,
+  height: string,
+  weight: string,
 }
 
-const RadioButton = styled.div`
-  width: 100%;
-  display: flex;
-  gap: 4px;
-
-  label {
-    width: 100%;
-    height: 48px;
-    display: flex;
-  }
-
-  input[type='radio'] {
-    display: none;
-  }
-
-  input[type='radio'] + span {
-    width: 100%;
-    height: 48px;
-    background-color: var(--purple50);
-    border-radius: 8px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-  }
-  
-  input[type='radio']:checked + span {
-    background-color: var(--purple200);
-    color: var(--black);
-  }
-`
 
 const page = () => {
   const [inputData, setInputData] = useState<Imember>({
     name: "",
-    birthdate: {
+    birth: {
       year: "",
       month: "",
       date: ""
     },
-    gender: ""
+    sex: "",
+    height: "",
+    weight: "",
   })
   
   const title = '회원가입'
 
   const router = useRouter()
-  const inputRef = useRef([])
+  const inputRef = useRef<null[] | HTMLInputElement[]>([])
   const dispatch = useDispatch();
+  const states = useAppSelector((state) => state.signup)
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
@@ -80,11 +55,11 @@ const page = () => {
     if (name === 'year' || name === 'month' || name === 'date') {
       setInputData(prevState => ({
         ...prevState,
-        birthdate: 
-          typeof prevState.birthdate !== 'string' 
+        birth: 
+          typeof prevState.birth !== 'string' 
           ? { 
-            ...prevState.birthdate,
-            [name]: value
+            ...prevState.birth,
+            [name]: value.replace(/[^0-9.]/g,"")
           }
           : ''
       }))
@@ -95,128 +70,183 @@ const page = () => {
       })
     }
   }
-  
-  // useEffect(()=>{
-    // birthdateFormat = `${birthdate.year}-${birthdate.month.padStart(2, '0')}-${birthdate.date.padStart(2, '0')}`
-    
-    // console.log('birthdateFormat: ', birthdateFormat);
-  // }, [birthdate])
 
+  const handleHeightWeightChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = event.target;
+    
+    setInputData({
+      ...inputData,
+      [name]: value.replace(/[^0-9.]/g,"")
+    })
+  }
+  
   const handleNext = () => {
     
-    // if (inputData.name.trim() === "") return false;
-    // if (inputData.birthdate === "") return false;
-    // if (inputData.gender.trim() === "") return false;
-
-    const birthdateJoin = typeof inputData.birthdate !== 'string' 
-      ? `${inputData.birthdate.year}-${inputData.birthdate.month.padStart(2, '0')}-${inputData.birthdate.date.padStart(2, '0')}`
+    const birthJoin = typeof inputData.birth !== 'string' 
+      ? `${inputData.birth.year}-${inputData.birth.month.padStart(2, '0')}-${inputData.birth.date.padStart(2, '0')}`
       : ''
     
-    // setInputData({
-    //   ...inputData,
-    //   birthdate: birthdateJoin,
-    // })
+    if (inputData.name.length <= 0 && inputRef.current[0] !== null) { 
+      inputRef.current[0].focus();
+      return false;
+    }
+    if (typeof inputData.birth !== 'string' && inputData.birth.year.length <= 0 && inputRef.current[1] !== null) { 
+      inputRef.current[1].focus();
+      return false;
+    }
+    if (typeof inputData.birth !== 'string' && inputData.birth.month.length <= 0 && inputRef.current[2] !== null) { 
+      inputRef.current[2].focus();
+      return false;
+    }
+    if (typeof inputData.birth !== 'string' && inputData.birth.date.length <= 0 && inputRef.current[3] !== null) { 
+      inputRef.current[3].focus();
+      return false;
+    }
+    if (inputData.sex.length <= 0 && inputRef.current[4] !== null) { 
+      inputRef.current[4].focus();
+      return false;
+    }
+    if (inputData.height.length <= 0 && inputRef.current[5] !== null) { 
+      inputRef.current[5].focus();
+      return false;
+    }
+    if (inputData.weight.length <= 0 && inputRef.current[6] !== null) { 
+      inputRef.current[6].focus();
+      return false;
+    }
+
     dispatch(signupActions.saveSignupState({
-      name: inputData.name,
-      birthdate: birthdateJoin,
-      gender: inputData.gender
+      name: inputData.name.trim(),
+      birth: birthJoin,
+      sex: inputData.sex,
+      height: inputData.height.trim(),
+      weight: inputData.weight.trim()
     }))
     // sessionStorage.setItem('member_login_step1', JSON.stringify(inputData))
     router.push(`/member/signup/step2`)
+    console.log('states: ', states);
   }
 
   useEffect(() => {
-    //step2 에서 뒤로가기 눌렀을 때
-    // const session = sessionStorage.getItem('member_login_step1')
-    // const sessionObj = JSON.parse(session || '{}') //''로만 넣으면 parse할 수 없어서 에러나는 듯
-    
-    // if(sessionObj !== null) {
-    //   setInputData({
-    //     ...inputData, 
-    //     name: sessionObj.name,
-    //     year: sessionObj.year,
-    //     month: sessionObj.month,
-    //     date: sessionObj.date,
-    //     gender: sessionObj.gender
-    //   })
-    // }
     
   }, [])
 
   return (
-    <Container>
+    <>
       <PageTitle title={title}/>
-      <JoinStep active={'1'}/>
-      <UserInfoForm>
+      <BaseContentWrap>
+        <JoinStep active={'1'}/>
         <div>
-          <div className='title'>
-            <SignupTitle>안녕하세요, 회원님!</SignupTitle>
-            <Subtext>아래 정보가 맞는지 확인해주세요.</Subtext>
-          </div>
+          <SignUpTitleWrap>
+            <SignUpTitleText>안녕하세요, 회원님!</SignUpTitleText>
+            <SignUpSubtext>아래 정보가 맞는지 확인해주세요.</SignUpSubtext>
+          </SignUpTitleWrap>
           <div>
-            <div>
+            <SignUpInputContainer>
               <LabelTitle>이름</LabelTitle>
               <Input 
                 type="text" 
                 name="name"
                 value={inputData.name} 
                 onChange={handleInputChange}
+                ref={(element) => inputRef.current[0] = element}
               />
-            </div>
-            <div>
+            </SignUpInputContainer>
+            <SignUpInputContainer>
               <LabelTitle>생년월일</LabelTitle>
               <InputRowWrap>
                 <Input 
                   type="text" 
                   name="year"
-                  value={typeof inputData.birthdate !== 'string' ? inputData.birthdate.year : ""} 
+                  value={typeof inputData.birth !== 'string' ? inputData.birth.year : ""} 
                   maxLength={4}
-                  onChange={handleInputChange}/>/
+                  onChange={handleInputChange}
+                  ref={(element) => inputRef.current[1] = element}
+                  inputMode='decimal'
+                  />/
                 <Input 
                   type="text"
                   name="month" 
                   maxLength={2}
-                  value={typeof inputData.birthdate !== 'string' ? inputData.birthdate.month : ""} 
-                  onChange={handleInputChange}/>/
+                  value={typeof inputData.birth !== 'string' ? inputData.birth.month : ""} 
+                  onChange={handleInputChange}
+                  ref={(element) => inputRef.current[2] = element}
+                  inputMode='decimal'
+                />/
                 <Input 
                   type="text" 
                   name="date"
                   maxLength={2}
-                  value={typeof inputData.birthdate !== 'string' ? inputData.birthdate.date : ""} 
-                  onChange={handleInputChange}/>
+                  value={typeof inputData.birth !== 'string' ? inputData.birth.date : ""} 
+                  onChange={handleInputChange}
+                  ref={(element) => inputRef.current[3] = element}
+                  inputMode='decimal'
+                />
               </InputRowWrap>
-            </div>
-            <div>
+            </SignUpInputContainer>
+            <SignUpInputContainer>
               <LabelTitle>성별</LabelTitle>
               <RadioButton>
                 <label>
                   <input 
                     type="radio"
-                    name="gender" 
-                    value="male" 
-                    onChange={handleInputChange}/>
+                    name="sex" 
+                    value="MAN" 
+                    onChange={handleInputChange}
+                    ref={(element) => inputRef.current[4] = element}  
+                  />
                   <span>남성</span>
                 </label>
                 <label>
                   <input 
                     type="radio"
-                    name="gender" 
-                    value="female" 
-                    onChange={handleInputChange}/>
+                    name="sex" 
+                    value="WOMAN" 
+                    onChange={handleInputChange}
+                    ref={(element) => inputRef.current[4] = element}
+                  />
                   <span>여성</span>
                 </label>
               </RadioButton>
-            </div>
+            </SignUpInputContainer>
+            <SignUpInputContainer>
+              <LabelTitle>키, 몸무게</LabelTitle>
+              <InputRowWrap>
+                <InputWrap>
+                  <Input 
+                    type="text" 
+                    value={inputData.height} 
+                    name='height'
+                    onChange={handleHeightWeightChange}
+                    ref={(element) => inputRef.current[5] = element}
+                    inputMode='decimal'
+                  />
+                  <span>cm</span>
+                </InputWrap>
+                /
+                <InputWrap>
+                  <Input 
+                    type="text" 
+                    value={inputData.weight} 
+                    name='weight'
+                    onChange={handleHeightWeightChange}
+                    ref={(element) => inputRef.current[6] = element}
+                    inputMode='decimal'
+                  />
+                  <span>kg</span>
+                </InputWrap>
+              </InputRowWrap>
+            </SignUpInputContainer>
           </div>
         </div>
-        <div>
+        <ButtonAreaFixed nav={false}>
           <Button 
             variant='primary' 
             onClick={handleNext}
           >다음</Button>
-        </div>
-      </UserInfoForm>
-    </Container>
+        </ButtonAreaFixed>
+      </BaseContentWrap>
+    </>
   )
 }
 
