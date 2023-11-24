@@ -10,8 +10,8 @@ const MealSearchModalWrap = styled.div`
     bottom: 0;
     z-index: 1000;
     background-color: var(--white);
-    padding: 20px;
-    border-radius: 16px 16px 0 0;
+    padding: 1.25rem;
+    border-radius: 1rem 1rem 0 0;
   }
   .mask {
     width: 100%;
@@ -51,8 +51,8 @@ const ListTop = styled.div`
 
 const RecentRegistMealList = styled.ul`
   display: flex;
-  gap: 10px;
-  margin-top: 20px;
+  gap: 0.625rem;
+  margin-top: 1.25rem;
   margin-bottom: 54px;
 
   li {
@@ -62,15 +62,15 @@ const RecentRegistMealList = styled.ul`
     font-size: var(--font-s);
     font-weight: var(--font-semibold);
     background-color: var(--purple50);
-    border-radius: 8px;
+    border-radius: 0.5rem;
     display: flex;
     align-items: center;
     justify-content: center;
     
     button {
       position: absolute;
-      top: 10px;
-      right: 10px;
+      top: 0.625rem;
+      right: 0.625rem;
     }
   }
   `
@@ -83,7 +83,7 @@ const RecentSearchtMealList = styled.ul`
     justify-content: space-between;
     font-size: var(--font-s);
     font-weight: var(--font-medium);
-    padding: 20px 0;
+    padding: 1.25rem 0;
     border-bottom: 1px solid var(--border-gray);
   }
   .not-result {

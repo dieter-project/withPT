@@ -1,141 +1,72 @@
 'use client';
 
 import PageTitle from '@/components/PageTitle';
-import { Container } from '@/styles/Container';
 import { api } from '@/utils/axios';
 import React, { useEffect, useState } from 'react'
 import { styled } from 'styled-components'
 import Timeline from '../../../../../public/svgs/icon_timeline.svg'
 import { LabelTitle } from '@/styles/Text';
+import { BaseContentWrap, ContentSection, RoundBox } from '@/styles/Layout';
 
-const TrainerWrap = styled.section`
-  margin-bottom: 24px;
-  ul {
+const InfoWrap = styled(RoundBox)`
+  li {
     display: flex;
-    overflow-x: scroll;
-    li {
-      padding: 20px;
-      min-width: 90%;
-      display: flex;
-      justify-content: space-between;
-      background-color: var(--purple50);
-      border-radius: 8px;
-      &:not(:last-child) {
-        margin-right: 20px;
-      }
-      > div {
-        &:first-child {
-          display: flex;
-          .profile {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            background-color: #eee;
-            margin-right: 8px;
-          }
-          .name {
-            font-weight: var(--font-semibold);
-            margin-bottom: 4px;
-          }
-          .gym {
-            font-size: var(--font-s);
-            color: var(--font-gray700);
-            margin-bottom: 4px;
-          }
-          .time {
-            display: flex;
-            font-size: var(--font-xs);
-            color: var(--font-gray500);
-            margin-bottom: 4px;
-            span {
-              display: block;
-              width: 18px;
-              height: 18px;
-            }
-          }
-          .reminder {
-
-          }
-        }
-        &:last-child {
-          width: 8px;
-          height: 8px;
-          border-right: 1px solid var(--black);
-          border-bottom: 1px solid var(--black);
-          transform: rotate(-45deg);
-          overflow: hidden;
-          text-indent: -999px;
-        }
-      }
+    gap: 0.625rem;
+    align-items: center;
+    justify-content: space-between;
+    font-size: var(--font-xs);
+    > div {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      line-height: 1.5rem;
+    }
+    > div:first-child {
+      flex: 1;
+    }
+    > div:last-child {
+      flex: 1;
+      text-align: right;
+    }
+  }
+   
+  .more-view {
+    border-top: 1px solid var(--border-gray);
+    font-size: var(--font-s);
+    font-weight: var(--font-semibold);
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    margin-top: 0.75rem;
+    padding-top: 0.5rem;
+    &::after {
+      content: "";
+      display: block;
+      width: 0.5rem;
+      height: 0.5rem;
+      border-right: 1px solid var(--black);
+      border-bottom: 1px solid var(--black);
+      transform: rotate(45deg);
+      margin-top: 4px;
+      margin-left: 0.5rem;
     }
   }
 `
 
-const TrainerInfoWrap = styled.div`
-  margin-bottom: 24px;
-  .trainer-contents {
-    width: 100%;
-    height: auto;
-    background-color: var(--purple50);
-    border-radius: 8px;
-    padding: 20px;
-    margin-top: 10px;
-    .info {
-      display: flex;
-      >div {
-        &:first-child {
-          width: 50px;
-          height: 50px;
-          border-radius: 50%;
-          background-color: #d9d9d9;
-          margin-right: 10px;
-        }
-      }
+const LicenseWrap = styled(InfoWrap)`
+  li {
+    > div:first-child {
+      flex: 1;
     }
-    .history {
-      ul {
-        border-top: 1px solid #D9D9D9;
-        border-bottom: 1px solid #D9D9D9;
-        margin: 10px 0;
-        li {
-          display: flex;
-          justify-content: space-between;
-          padding: 10px 0;
-          div {
-            font-size: var(--font-xs);
-            font-weight: var(--font-medium);
-          }
-        }
-      }
-      >div {
-        text-align: center;
-        font-size: var(--font-s);
-        font-weight: var(--font-semibold);
-      }
+    > div:last-child {
+      flex: 4;
     }
-  }
-`
 
-const TrainerScheduleWrap = styled.div`
-  ul {
-    display: flex;
-    gap: 12px;
-    li {
-      width: 50%;
-      border: 1px solid var(--border-gray);
-      border-radius: 10px;
-      padding: 20px;
-      div {
-        &:first-child {
-          color: var(--font-gray700);
-        }
-      }
-    }
   }
 `
 
 const page = ({ params }: { params: { id: number } }) => {
-  const title = '담당 트레이너'
+  let title = '트레이너'
   const trainerId = params.id
   const [trainerData, setTrainerData] = useState({
     
@@ -159,70 +90,68 @@ const page = ({ params }: { params: { id: number } }) => {
   }
 
   return (
-    <Container>
+    <>
       <PageTitle title={title}/>
-      <div>
-        <TrainerWrap>
-          <LabelTitle>담당 트레이너</LabelTitle>
-          <div className='trainer-container'>
-            <ul>
-              <li className='section-contents'>
-                <div>
-                  <div className='profile'>이미지</div>
-                  <div>
-                    <div className='name'>김땡땡 트레이너</div>
-                    <div className='gym'>아자아자 피트니스 센터</div>
-                    <div className='time'>
-                      <span><Timeline /></span>
-                      <div>10:00 ~ 22:00</div>
-                    </div>
-                  <div className='remainder'>잔여: 16회 / 36회</div>
-                  </div>
-                </div>
-                <div>바로가기</div>
-              </li>
-              <li className='section-contents'>
-                <div>
-                  <div className='profile'>이미지</div>
-                  <div>
-                    <div className='name'>김땡땡 트레이너</div>
-                    <div className='gym'>아자아자 피트니스 센터</div>
-                    <div className='time'>10:00 ~ 22:00</div>
-                    <div className='remainder'>잔여: 16회 / 36회</div>
-                  </div>
-                </div>
-                <div>바로가기</div>
-              </li>
-            </ul>
-          </div>
-        </TrainerWrap>
-        <TrainerInfoWrap>
-          <LabelTitle>트레이너 정보</LabelTitle>
-          <div className='trainer-contents'>
-            <div className='history'>
-              <ul>
-                <li>
-                  <div>2022.06</div>
-                  <div>보디빌더 대회 최우수상</div>
-                </li>
-              </ul>
-              <div>더보기</div>
-            </div>
-          </div>
-        </TrainerInfoWrap>
-        <TrainerScheduleWrap>
-          <LabelTitle>트레이너 수업 일정</LabelTitle>
-          <div>
+      <BaseContentWrap>
+        <ContentSection>
+          <LabelTitle>경력 입력</LabelTitle>
+          <InfoWrap variant='purple'>
             <ul>
               <li>
-                <div>월/수/목</div>
-                <div>10:00 ~ 18:00</div>
+                <div>2022.08 ~ 현재</div>
+                <div>아자아자 피트니스 센터장</div>
+              </li>
+              <li>
+                <div>2022.08 ~ 2022.05</div>
+                <div>바디포커스 PT 팀장</div>
+              </li>
+              <li>
+                <div>2022.08 ~ 현재</div>
+                <div>엑슬휘트니스 PT</div>
               </li>
             </ul>
-          </div>
-        </TrainerScheduleWrap>
-      </div>
-    </Container>
+            <div className='more-view'>
+              <div>더보기</div>
+              <span></span>
+            </div>
+          </InfoWrap>
+        </ContentSection>
+        <ContentSection>
+          <LabelTitle>자격증/수상/교육</LabelTitle>
+          <LicenseWrap variant='purple'>
+            <ul>
+              <li>
+                <div>2023.03</div>
+                <div>스포츠지도자 2급 보디빌딩 / 문화체육관광부</div>
+              </li>
+              <li>
+                <div>2023.03</div>
+                <div>체형분석과 운동처방 PART 1,2 / 박시현 아카데미</div>
+              </li>
+              <li>
+                <div>2023.03</div>
+                <div>운동해결전략 및 운동처방 교육 / 한국인재교육원</div>
+              </li>
+            </ul>
+            <div className='more-view'>
+              <div>더보기</div>
+              <span></span>
+            </div>
+          </LicenseWrap>
+        </ContentSection>
+        <ContentSection>
+          <LabelTitle>학력사항</LabelTitle>
+          <InfoWrap variant='purple'>
+            <ul>
+              <li>
+                <div>2023. 03</div>
+                <div>경희대학교 학사</div>
+              </li>
+            </ul>
+          </InfoWrap>
+        </ContentSection>
+      </BaseContentWrap>
+    </>
   )
 }
 

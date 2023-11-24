@@ -1,7 +1,7 @@
 'use client';
 
 import PageTitle from '@/components/PageTitle';
-import { Container } from '@/styles/Container';
+import { BaseContentWrap, ContentSection } from '@/styles/Layout';
 import { LabelTitle } from '@/styles/Text';
 import { api } from '@/utils/axios';
 import { usePathname, useRouter } from 'next/navigation';
@@ -9,25 +9,25 @@ import React, { useEffect } from 'react'
 import ReactApexChart from 'react-apexcharts';
 import { styled } from 'styled-components'
 
-const MealDetailWrap = styled.div`
-  .meal-title {
-    font-weight: var(--font-semibold);
-  }
-  
-  .img-wrap {
+const DateText = styled(LabelTitle)`
+  text-align: center;
+`
+
+const ImgContainer = styled.div`
+  div {
     width: 100%;
-    height: 220px;
-    margin-bottom: 24px;
+    height: 21.25rem;
+    margin-bottom: 1.5rem;
     img {
       width: 100%;
       height: 100%;
       object-fit: cover;
     }
   }
-  `
+`
 
 const GraphWrap = styled.div`
-  margin-bottom: 24px;
+  margin-bottom: 1.5rem;
   .bar {
     width: 100%;
     height: 15px;
@@ -51,8 +51,8 @@ const GraphWrap = styled.div`
   }
   .legend {
     display: flex;
-    margin-top: 18px;
-    font-size: var(--font-s);
+    margin-top: 1.125rem;
+    font-size: var(--font-xs);
     > div {
         display: flex;
         align-items: center;
@@ -60,8 +60,8 @@ const GraphWrap = styled.div`
         &::before {
           content: "";
           display: block;
-          width: 12px;
-          height: 12px;
+          width: 0.75rem;
+          height: 0.75rem;
           border-radius: 2px;
           margin-right: 5px;
         }
@@ -84,8 +84,8 @@ const GraphWrap = styled.div`
 
         span {
           display: block;
-          margin-left: 10px;
-          margin-right: 10px;
+          margin-left: 0.625rem;
+          margin-right: 0.625rem;
         }
       }
   }
@@ -105,12 +105,12 @@ const MealList = styled.div`
   }
   ul {
     border-bottom: 1px solid var(--border-gray);
-    margin: 10px 0;
+    margin: 0.625rem 0;
     li {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 10px 0;
+      padding: 0.625rem 0;
 
       .detail {
         font-size: var(--font-s);
@@ -132,14 +132,18 @@ const page = ({ params }: { params: { id: number } }) => {
   }
   
   return (
-    <Container>
+    <>
       <PageTitle title={title}/>
-      <MealDetailWrap>
-        <div>
-          <LabelTitle>2023년 11월 15일(목) 08:30 am</LabelTitle>
-          <div className='img-wrap'>
-            <img src="" alt="" />
-          </div>
+      <BaseContentWrap>
+        <ContentSection>
+          <DateText>2023년 11월 15일(목) 08:30 am</DateText>
+          <ImgContainer>
+            <div>
+              <img src="" alt="" />
+            </div>
+          </ImgContainer>
+        </ContentSection>
+        <ContentSection>
           <LabelTitle>영양소 비율</LabelTitle>
           <GraphWrap>
             <div className='bar'>
@@ -162,26 +166,28 @@ const page = ({ params }: { params: { id: number } }) => {
               </div>
             </div>
           </GraphWrap>
-        </div>
-        <MealList>
-          <div className='list-top'>
-            <LabelTitle>식단</LabelTitle>
-            <div>총 칼로리 <strong>360 kcal</strong></div>
-          </div>
-          <ul>
-            <li>
-              <div>
-                <div>그릭요거트</div>
-                <div className='detail'>1개, 150g</div>
-              </div>
-              <div>
-                180 kcal
-              </div>
-            </li>
-          </ul>
-        </MealList>
-      </MealDetailWrap>
-    </Container>
+        </ContentSection>
+        <ContentSection>
+          <MealList>
+            <div className='list-top'>
+              <LabelTitle>식단</LabelTitle>
+              <div>총 칼로리 <strong>360 kcal</strong></div>
+            </div>
+            <ul>
+              <li>
+                <div>
+                  <div>그릭요거트</div>
+                  <div className='detail'>1개, 150g</div>
+                </div>
+                <div>
+                  180 kcal
+                </div>
+              </li>
+            </ul>
+          </MealList>
+        </ContentSection>
+      </BaseContentWrap>
+    </>
   )
 }
 

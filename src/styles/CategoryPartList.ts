@@ -1,18 +1,17 @@
 import { styled } from "styled-components";
 
 export const CategoryPartList = styled.ul`
-  margin-bottom: 24px;
   display: flex;
-  gap: 8px;
+  gap: 0.5rem;
   overflow-x: scroll;
 
   li {
     white-space: nowrap;
     /* min-width: 60px;
     height: 40px; */
-    padding: 8px 16px;
+    padding: 0.5rem 1rem;
     border: 1px solid var(--border-gray);
-    border-radius: 8px;
+    border-radius: 0.5rem;
     display: flex;
     align-items: center;
     justify-content: center;

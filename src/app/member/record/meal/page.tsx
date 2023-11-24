@@ -1,9 +1,11 @@
 'use client';
 
 import Header from '@/components/Header';
-import { AddRecordBox } from '@/styles/AddRecordBox';
-import { Container } from '@/styles/Container';
+import { TimeModal } from '@/components/TimeModal';
+import { AddRecordButton } from '@/styles/AddButton';
+import { BaseContentWrap, ContentSection, RoundBox } from '@/styles/Layout';
 import { LabelTitle } from '@/styles/Text';
+import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react'
 import ReactApexChart from 'react-apexcharts';
 import { css, styled } from 'styled-components'
@@ -31,15 +33,10 @@ const MyGoal = styled.section`
 `
 
 const GraphWrap = styled.div`
-  width: 100%;
-  height: 269px;
-  padding: 20px;
-  border-radius: 8px;
-  background-color: var(--purple50);
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-bottom: 24px;
+  margin-bottom: 1.5rem;
 
   .nutrition-graph {
     width: 100%;
@@ -50,7 +47,7 @@ const GraphWrap = styled.div`
 
 const NutritionProgress = styled.div`
   width: 100%;
-  gap: 10px;
+  gap: 0.625rem;
   display: flex;
 `
 
@@ -72,42 +69,33 @@ const ProgressWrap = styled.div<ProgressProps>`
     }
     ${props => props.type === 'carb' && css`
       &::-webkit-progress-value {
-        border-radius:10px;
+        border-radius:0.625rem;
         background: var(--yellow);
       }
     `}
     ${props => props.type === 'prot' && css`
       &::-webkit-progress-value {
-        border-radius:10px;
+        border-radius:0.625rem;
         background: var(--coral);
       }
     `}
     ${props => props.type === 'fats' && css`
       &::-webkit-progress-value {
-        border-radius:10px;
+        border-radius:0.625rem;
         background: var(--mint);
       }
     `}
   }
 `
 
-const MealWrap = styled.div`
-  li {
-    display: flex;
-    .detail {
-      &:not(:first-child) {
-        font-size: 12px;
-      }
-    }
-  }
-`
 
 const MealList = styled.li`
+  display: flex;
   .meal-img {
     width: 140px;
     height: 140px;
-    border-radius: 8px;
-    margin-right: 10px;
+    border-radius: 0.5rem;
+    margin-right: 0.625rem;
     img {
       object-fit: cover;
     }
@@ -118,7 +106,7 @@ const MealList = styled.li`
         display: flex;
         align-items: center;
         justify-content: space-between;
-        margin-bottom: 20px;
+        margin-bottom: 1.25rem;
       }
     }
     .time {
@@ -137,138 +125,137 @@ const MealList = styled.li`
   }
 `
 
-const TrainerFeedback = styled.div`
-  width: 100%;
-  padding: 20px;
-  background-color: var(--purple50);
-  border-radius: 8px;
+const TrainerFeedback = styled(RoundBox)`
   font-size: var(--font-s);
 `
 
 const page = () => {
-  const [todayRecord, setTodayRecord] = useState([])
-
+  const [todayRecord, setTodayRecord] = useState(null);
+  const router = useRouter();
+  
   return (
-    <Container>
+    <>
       <Header/>
-      <div>
+      <BaseContentWrap>
         <section>
           달력
         </section>
-        <section>
-          <MyGoal>
-            <div className='section-contents'>
-              <div>나의 목표</div>
-              <div className='goal-contents'>
-                <div>탄단지식단</div>
-                <div>주 2회이상 운동</div>
-              </div>
+        <MyGoal>
+          <div className='section-contents'>
+            <div>나의 목표</div>
+            <div className='goal-contents'>
+              <div>탄단지식단</div>
+              <div>주 2회이상 운동</div>
             </div>
-          </MyGoal>
-          <GraphWrap>
-            <div>1일 목표칼로리 1500kcal</div>
-            <div className='nutrition-graph'>
-              <div>
-                <ReactApexChart
-                  type="donut"
-                  series={[44, 55]}
-                  options={{
-                    chart: {
-                      type: 'donut',
-                    },
-                    colors: ['#FFE926', '#cccccc'],
-                    dataLabels: {
-                      enabled: false,
-                      dropShadow: {
+          </div>
+        </MyGoal>
+        <ContentSection>
+          <RoundBox variant='purple'>
+            <GraphWrap>
+              <div>1일 목표칼로리 1500kcal</div>
+              <div className='nutrition-graph'>
+                <div>
+                  <ReactApexChart
+                    type="donut"
+                    series={[44, 55]}
+                    options={{
+                      chart: {
+                        type: 'donut',
+                      },
+                      colors: ['#FFE926', '#cccccc'],
+                      dataLabels: {
                         enabled: false,
-                      }
-                    },
-                    legend: {
-                      show: false,
-                    },
-                    plotOptions: {
-                      pie: {
-                        customScale: 0.7,
-                        donut: {
-                          size: '80%',
-                          labels: {
-                            show: true,
-                            total: {
-                              showAlways: false,
+                        dropShadow: {
+                          enabled: false,
+                        }
+                      },
+                      legend: {
+                        show: false,
+                      },
+                      plotOptions: {
+                        pie: {
+                          customScale: 0.7,
+                          donut: {
+                            size: '80%',
+                            labels: {
                               show: true,
-                              fontSize: '2rem',
-                              color: '#6C69FF',
-                              fontWeight: 'bold',
-                            },
-                            value: {
-                              fontSize: '3.5rem',
-                              show: true,
-                              color: '#6C69FF',
-                              fontWeight: 'bold',
+                              total: {
+                                showAlways: false,
+                                show: true,
+                                fontSize: '2rem',
+                                color: '#6C69FF',
+                                fontWeight: 'bold',
+                              },
+                              value: {
+                                fontSize: '3.5rem',
+                                show: true,
+                                color: '#6C69FF',
+                                fontWeight: 'bold',
+                              },
                             },
                           },
                         },
                       },
-                    },
-                  }}
-                />
-              </div>
-              <NutritionProgress>
-                <ProgressWrap type='carb'>
-                  <div>탄수화물 0%</div>
-                  <progress value='50'></progress>
-                  <div>0g / <span>120g</span></div>
-                </ProgressWrap>
-                <ProgressWrap type='prot'>
-                  <div>단백질 0%</div>
-                  <progress value='50'></progress>
-                  <div>0g / <span>120g</span></div>
-                </ProgressWrap>
-                <ProgressWrap type='fats'>
-                  <div>지방 0%</div>
-                  <progress value='50'></progress>
-                  <div>0g / <span>120g</span></div>
-                </ProgressWrap>
-              </NutritionProgress>
-            </div>
-          </GraphWrap>
-          <MealWrap>
-            <LabelTitle>식단</LabelTitle>
-            {todayRecord == null
-              ? <AddRecordBox>
-                  <p>식단을 입력해주세요</p>
-                  <div>+</div>
-                </AddRecordBox>
-              : <div>
-                  <ul>
-                    <MealList>
-                      <div className='meal-img'>
-                        <img src="" alt="" />  
-                      </div>
-                      <div className='meal-detail'>
-                        <div>
-                          <div className='time'>아침</div>
-                          <div className='calorie'>360 kcal</div>
-                        </div>
-                        <div className='nutrition'>탄 50g 단 20g 지 10g</div>
-                        <div className='menu'>메뉴</div>
-                        <div className='menu'>메뉴</div>
-                        <div className='menu'>메뉴</div>
-                      </div>
-                    </MealList>
-                  </ul>
+                    }}
+                  />
                 </div>
-            }
-          </MealWrap>
-          <div>
-            <LabelTitle>트레이너 피드백</LabelTitle>
-            <TrainerFeedback>
-              단백질이 부족해요ㅜ 매 끼니에 단백질을 더 드셔야 합니다!
-            </TrainerFeedback>
-          </div>
-        </section>
-      </div>
-    </Container>
+                <NutritionProgress>
+                  <ProgressWrap type='carb'>
+                    <div>탄수화물 0%</div>
+                    <progress value='50'></progress>
+                    <div>0g / <span>120g</span></div>
+                  </ProgressWrap>
+                  <ProgressWrap type='prot'>
+                    <div>단백질 0%</div>
+                    <progress value='50'></progress>
+                    <div>0g / <span>120g</span></div>
+                  </ProgressWrap>
+                  <ProgressWrap type='fats'>
+                    <div>지방 0%</div>
+                    <progress value='50'></progress>
+                    <div>0g / <span>120g</span></div>
+                  </ProgressWrap>
+                </NutritionProgress>
+              </div>
+            </GraphWrap>
+          </RoundBox>
+        </ContentSection>
+        <ContentSection>
+          <LabelTitle>식단</LabelTitle>
+          {todayRecord == null
+            ? <AddRecordButton variant='purple' onClick={() => router.push('/member/record/meal/register')}>
+                <div>!</div>
+                <p>식단을 입력해주세요</p>
+              </AddRecordButton>
+            : <div>
+                <ul>
+                  <MealList>
+                    <div className='meal-img'>
+                      <img src="" alt="" />  
+                    </div>
+                    <div className='meal-detail'>
+                      <div>
+                        <div className='time'>아침</div>
+                        <div className='calorie'>360 kcal</div>
+                      </div>
+                      <div className='nutrition'>탄 50g 단 20g 지 10g</div>
+                      <div className='menu'>메뉴</div>
+                      <div className='menu'>메뉴</div>
+                      <div className='menu'>메뉴</div>
+                    </div>
+                  </MealList>
+                </ul>
+              </div>
+          }
+        </ContentSection>
+        <ContentSection>
+          <LabelTitle>트레이너 피드백</LabelTitle>
+          <TrainerFeedback variant='purple'>
+            단백질이 부족해요ㅜ 매 끼니에 단백질을 더 드셔야 합니다!
+          </TrainerFeedback>
+        </ContentSection>
+      </BaseContentWrap>
+    </>
   )
 }
 

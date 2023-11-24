@@ -3,16 +3,16 @@
 import { MealSearchModal } from '@/components/MealSearchModal';
 import PageTitle from '@/components/PageTitle';
 import { Button } from '@/styles/Button';
-import { Container } from '@/styles/Container';
 import { Input, InputRowWrap, InputWrap } from '@/styles/Input';
+import { BaseContentWrap } from '@/styles/Layout';
 import { LabelTitle } from '@/styles/Text';
 import { signIn, useSession } from 'next-auth/react';
 import React, { useEffect } from 'react'
 import { styled } from 'styled-components'
 
-const ContentsWrap = styled.div`
+const ContentsWrap = styled(BaseContentWrap)`
   width: 100%;
-  height: calc(100vh - 120px);
+  height: 100vh;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -23,27 +23,25 @@ const page = () => {
   return (
     <>
       {/* <MealSearchModal/> */}
-      <Container>
-        <PageTitle title={title}/>
-        <ContentsWrap>
+      <PageTitle title={title}/>
+      <ContentsWrap>
+        <div>
           <div>
-            <div>
-              <LabelTitle>종류입력</LabelTitle>
-              <Input type="text" placeholder='종류를 검색해보세요'/>
-            </div>
-            <InputRowWrap>
-              <LabelTitle>그람 수</LabelTitle>
-                <InputWrap>
-                  <Input type="text" name="" id="" className=''/>
-                  <span>g</span>
-                </InputWrap>
-            </InputRowWrap>
+            <LabelTitle>종류입력</LabelTitle>
+            <Input type="text" placeholder='종류를 검색해보세요'/>
           </div>
-          <div>
-            <Button variant='primary'>저장하기</Button>
-          </div>
-        </ContentsWrap>
-      </Container>
+          <InputRowWrap>
+            <LabelTitle>그람 수</LabelTitle>
+              <InputWrap>
+                <Input type="text" name="" id="" className=''/>
+                <span>g</span>
+              </InputWrap>
+          </InputRowWrap>
+        </div>
+        <div>
+          <Button variant='primary'>저장하기</Button>
+        </div>
+      </ContentsWrap>
     </>
   )
 }

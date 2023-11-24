@@ -2,16 +2,16 @@
 
 import Header from '@/components/Header';
 import PageTitle from '@/components/PageTitle';
-import { Container } from '@/styles/Container';
+import { BaseContentWrap } from '@/styles/Layout';
 import { api } from '@/utils/axios';
 import { signIn, useSession } from 'next-auth/react';
 import React, { useEffect } from 'react'
 import { styled } from 'styled-components'
 
 
-const NotificationListWrap = styled.section`
+const NotificationList = styled.ul`
   li {
-    padding: 12px 0;
+    padding: 0.75rem 0;
     
     &:not(:last-child) {
       border-bottom: 1px solid var(--border-gray);
@@ -25,7 +25,7 @@ const NotificationListWrap = styled.section`
       }
       &:last-child {
         font-size: var(--font-s);
-        margin-top: 8px;
+        margin-top: 0.5rem;
       }
     }
   }
@@ -60,10 +60,10 @@ const page = () => {
   }, [])
 
   return (
-    <Container>
+    <>
       <PageTitle title={title}/>
-      <NotificationListWrap>
-        <ul>
+      <BaseContentWrap>
+        <NotificationList>
           <li>
             <div>
               <div className='category'>식단 피드백</div>
@@ -85,9 +85,9 @@ const page = () => {
             </div>
             <div>김땡땡 트레이너 님으로부터 식단 피드백이 도착했어요.</div>
           </li>
-        </ul>
-      </NotificationListWrap>
-    </Container>
+        </NotificationList>
+      </BaseContentWrap>
+    </>
   )
 }
 

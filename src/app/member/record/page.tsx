@@ -1,73 +1,42 @@
 'use client';
 
+import { WeeklyCalendar } from '@/components/WeeklyCalendar';
 import Header from '@/components/Header';
-import { Container } from '@/styles/Container';
-import { LabelTitle, Subtext } from '@/styles/Text';
+import { BaseContentWrap, ContentSection, RoundBox } from '@/styles/Layout';
+import { LabelTitle } from '@/styles/Text';
 import { signIn, useSession } from 'next-auth/react';
 import React, { useEffect } from 'react'
-import { styled } from 'styled-components'
+import { useRouter } from 'next/navigation';
+import { RecordBoxWrap } from './styles';
+import { api } from '@/utils/axios';
 
-
-const RecordBoxWrap = styled.div`
-  width: 100%;
-  height: 120px;
-  background-color: var(--purple50);
-  border-radius: 8px;
-  display: flex;
-  justify-content: space-between;
-  padding: 20px;
-  margin-bottom: 20px;
-  > div {
-    &:first-child {
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      p {
-        font-size: 14px;
-      }
-      .record-value {
-        font-size: var(--font-xl);
-        font-weight: var(--font-semibold);
-      }
-      .caption {
-        font-size: 12px;
-        color: var(--font-gray700);
-        display: flex;
-        span {
-          display: block;
-          width: 16px;
-          height: 16px;
-          border-radius: 50%;
-          background-color: var(--purple200);
-          color: var(--primary);
-          text-align: center;
-          margin-right: 8px;
-        }
-      }
-    }
-    .img-wrap {
-      width: 92px;
-      height: 92px;
-      border-radius: 12px;
-      img {
-        object-fit: cover;
-      }
-    }
-  }
-`
 
 const page = () => {
+  const router = useRouter()
+
+  const handleGetWorkout = async () => {
+    const response = await api.get('/api/v1/members/exercise')
+    console.log('response: ', response);
+  }
+  useEffect(() => {
+    handleGetWorkout()
+  }, [])
   
   return (
-    <Container>
-      <Header/>
-      <div>
-        <section>
+    <>
+      <Header
+        back={true}
+        bookmark={true}
+        calendar={true}
+      />
+      <BaseContentWrap>
+        {/* <section>
           달력
-        </section>
-        <section>
+        </section> */}
+        <WeeklyCalendar/>
+        <ContentSection>
           <LabelTitle>식단</LabelTitle>
-          <RecordBoxWrap>
+          <RecordBoxWrap variant='purple' onClick={() => router.push('/member/record/meal')}>
             <div>
               <div>
                 <p>오늘은 뭘 드셨나요?</p>
@@ -81,14 +50,14 @@ const page = () => {
               <img src="" alt="" />
             </div>
           </RecordBoxWrap>
-        </section>
-        <section>
+        </ContentSection>
+        <ContentSection>
           <LabelTitle>운동</LabelTitle>
-          <RecordBoxWrap>
+          <RecordBoxWrap variant='purple' onClick={() => router.push('/member/record/workout')}>
             <div>
               <div>
                 <p>오늘은 운동을 하셨나요?</p>
-                <div className='record-value'>운동 없음</div>
+                <div className='record-value'>운동 기록 없음</div>
               </div>
               <div className='caption'>
                 <span>!</span>운동을 입력해 주세요!
@@ -98,10 +67,10 @@ const page = () => {
               <img src="" alt="" />
             </div>
           </RecordBoxWrap>
-        </section>
-        <section>
+        </ContentSection>
+        <ContentSection>
           <LabelTitle>체중</LabelTitle>
-          <RecordBoxWrap>
+          <RecordBoxWrap variant='purple' onClick={() => router.push('/member/record/weight')}>
             <div>
               <div>
                 <p>오늘의 체중은?</p>
@@ -115,9 +84,9 @@ const page = () => {
               <img src="" alt="" />
             </div>
           </RecordBoxWrap>
-        </section>
-      </div>
-    </Container>
+        </ContentSection>
+      </BaseContentWrap>
+    </>
   )
 }
 

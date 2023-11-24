@@ -1,144 +1,125 @@
 'use client'
 
+import React, { useEffect, useState } from 'react'
 import PageTitle from '@/components/PageTitle'
 import JoinStep from '@/components/SignUpStep'
-import { useRouter } from 'next/navigation'
-import React, { useEffect, useState } from 'react'
-import { Container } from '@/styles/Container'
-import { UserInfoForm } from '@/styles/UserInfoForm'
-import { Button } from '@/styles/Button'
-import { LabelTitle, Subtext, SignupTitle } from '@/styles/Text'
-import { styled } from 'styled-components'
-import { useDispatch } from 'react-redux'
-import { signupActions } from '@/redux/reducers/signupSlice'
 import { useAppSelector } from '@/redux/hooks'
-import { InputWrap } from '@/styles/Input'
-
-const WeightInput = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-top: 80px;
-  margin-bottom: 20px;
-
-  input {
-    width: 200px;
-    height: 48px;
-    border: none;
-    border-radius: 8px;
-    background-color: var(--purple50);
-    padding: 0 10px;
-  }
-
-  .helper-txt {
-    margin-top: 15px;
-    font-weight: var(--font-regular);
-    text-decoration-line: underline;
-  }
-`
+import { signupActions } from '@/redux/reducers/signupSlice'
+import { Button } from '@/styles/Button'
+import { BaseContentWrap, ButtonAreaFixed } from '@/styles/Layout'
+import { SignUpTitleWrap } from '@/styles/SignupForm'
+import { SignUpTitleText, SignUpSubtext } from '@/styles/Text'
+import { useRouter } from 'next/navigation'
+import { useDispatch } from 'react-redux'
+import { api } from '@/utils/axios'
+import { memberActions } from '@/redux/reducers/memberSlice'
+import { RadioButton, RecommendBadge } from './styles'
+import { exerciseFrequency } from '@/constants/signup'
+import { setCookie } from '@/utils/cookie'
 
 const page = () => {
   const title = '목표 설정'
   const router = useRouter()
   const dispatch = useDispatch()
   const states = useAppSelector((state) => state.signup)
-  let helperTextFlag = false
-  let helperText = ""
-  
+
   const [inputData, setInputData] = useState({
-    name: "",
-    year: "",
-    month: "",
-    date: "",
-    gender: "",
-    nickname: "",
-    height: "",
-    weight: "",
-    meal_plan: "",
-    workout_plan: "",
-    weight_plan: ""
+    exerciseFrequency: ""
   })
-
-  interface Input {
-    name: string,
-    year: string,
-    month: string,
-    date: string,
-    gender: string,
-    nickname: string,
-    height: string,
-    weight: string,
-    meal_plan: string,
-    workout_plan: string,
-    weight_plan: string
-  }
-
-  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  
+  const handleOnChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setInputData({
       ...inputData, 
-      weight_plan: event.target.value
+      exerciseFrequency: event.target.value
     })
-  }
-
-  // useEffect(() => {
-
-  // }, [inputData.weight_plan])
-
-  const handleNext = () => {
-    dispatch(signupActions.saveSignupState({
-      weight_plan: inputData.weight_plan,
-    }))
-
-    router.push(`/member/signup/step5`)
   }
   
   useEffect(() => {
-    // const step1 = JSON.parse(sessionStorage.getItem('member_login_step1') || '{}') 
-    // const step2 = JSON.parse(sessionStorage.getItem('member_login_step2') || '{}') 
-    // const step3 = JSON.parse(sessionStorage.getItem('member_login_step3') || '{}') 
-    // const step4 = JSON.parse(sessionStorage.getItem('member_login_step4') || '{}') 
-    // const data = Object.assign(step1, step2, step3, step4)
+    dispatch(signupActions.saveSignupState({
+      exerciseFrequency: inputData.exerciseFrequency,
+      // email: "test@test.kr",
+      //   oauthProvider: "KAKAO",
+      // nickname: "test"
+    }))
+    console.log('states: ', states);
+  }, [inputData.exerciseFrequency])
+  
+  const handleSubmit = async () => {
+    console.log('states: ', states);
+    dispatch(signupActions.saveSignupState({
+      exerciseFrequency: inputData.exerciseFrequency,
+    }))
 
-    // setInputData({...inputData, ...data})
-    // console.log('states: ', states);
+    if (inputData.exerciseFrequency.length <= 0 ) {
+      alert('체크 plz')
+      return false;
+    }
+
+    try {
+      const response = await api.post('/api/v1/members/sign-up', states)
+      console.log('data: ', response);
+
+      if(response.data) {
+        // dispatch(memberActions.getToken(response.data.data.accessToken))
+        
+        // const now = Date.now()
+        setCookie('access', response.data.data.accessToken)
+        setCookie('refreshToken', response.data.data.refreshToken)
+        
+        // router.replace('/member/signup/finished') 
+      }
+
+    } catch (error) {
+      console.log('error: ', error);
+    }
+  }
+
+
+  useEffect(() => {
+    console.log('states: ', states);
+    // return () => {
+    //   dispatch(signupActions.signupStateReset())
+    // }
   }, [])
 
   return (
-  <Container>
+  <>
     <PageTitle title={title}/>
-    <JoinStep active={'4'}/>
-    <UserInfoForm>
+    <BaseContentWrap>
+      <JoinStep active={'4'}/>
       <div>
-        <div className='title'>
-          <SignupTitle>나의 목표를 설정해주세요!</SignupTitle>
-          <Subtext>회원님의 목표 체중을 알려주세요.</Subtext>
-        </div>
-        <div>
-          <WeightInput>
-            <LabelTitle>목표체중</LabelTitle>
-            <InputWrap>
-              <input 
-                type="text" 
-                name="" 
-                id="" 
-                onChange={handleInputChange}
-              />
-              <span>kg</span>
-            </InputWrap>
-            <div className='helper-txt'>
-              {`현재 체중에서 -${Number(states.weight) - Number(inputData.weight_plan)}kg 감량이 목표시군요!`}
-            </div>
-          </WeightInput>
-        </div>
+        <SignUpTitleWrap>
+          <SignUpTitleText>나의 목표를 설정해주세요!</SignUpTitleText>
+          <SignUpSubtext>운동을 주 몇 회를 생각하시나요?</SignUpSubtext>
+        </SignUpTitleWrap>
+        <RadioButton>
+          {
+            exerciseFrequency?.map((time, index) => {
+              return (
+                <label>
+                  <input 
+                    key={index}
+                    type="radio" 
+                    name="workout" 
+                    value={time.value} 
+                    onChange={handleOnChange}
+                  />
+                  <span>{time.title}</span>
+                  {index === 2 && <RecommendBadge>추천 목표</RecommendBadge>}
+                </label>
+              )
+            })
+          }
+        </RadioButton>
       </div>
-      <div>
+      <ButtonAreaFixed nav={false}>
         <Button 
           variant='primary' 
-          onClick={handleNext}
-        >다음</Button>
-      </div>
-    </UserInfoForm>
-  </Container>
+          onClick={handleSubmit}
+        >저장하기</Button>
+      </ButtonAreaFixed>
+    </BaseContentWrap>
+  </>
   )
 }
 
