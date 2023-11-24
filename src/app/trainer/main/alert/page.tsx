@@ -5,48 +5,51 @@ import { format } from "date-fns";
 import ko from "date-fns/locale/ko";
 import { useState, useEffect } from "react";
 import tabBar from "../../public/tabBar.png";
+import beforePageImg from "../../../../../public/icons/beforePage.png";
+import Image from "next/image";
 
 const MainContainer = styled.div``;
 
 const MainTitle = styled.h4`
-  font-weight: bold;
+  font-weight: 600;
   margin: 0 auto;
+  font-size: var(--font-xl);
 `;
 
-const MainHeader = styled.header`
+const ContentHeader = styled.header`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: white;
   position: fixed;
   width: 100%;
-  left: 0;
-  top: 0;
-  height: 3rem;
-  display: flex;
-  align-items: center;
-  background-color: #ffffff;
-  justify-content: space-between;
+  height: 3.62rem;
   z-index: 100;
+  padding: 0 1.25rem;
 `;
 
 const MainContentWrap = styled.div`
-  padding: 4rem 1.2rem 5rem;
+  padding: 5rem 1.2rem 6.2rem;
 `;
 
-const Before = styled.span`
-  position: absolute;
-`;
+const BeforeImage = styled(Image)``;
 
 const TrainerAlertList = styled.ul``;
 
 const TrainerAlertWrap = styled.li`
-  border-bottom: 1px solid gray;
-  padding: 0.5rem;
+  border-bottom: 1px solid var(--border-gray);
+  padding: 1rem 0;
 `;
 
 const AlertTopic = styled.span`
   color: gray;
+  font-size: var(--font-xs);
+  font-weight: 500;
 `;
 
 const AlertTime = styled.span`
-  color: gray;
+  color: var(--font-gray500);
+  font-size: var(--font-xxs);
 `;
 
 const TrainerAlertTop = styled.div`
@@ -58,17 +61,24 @@ const TrainerAlertTop = styled.div`
 
 const TrainerAlertContent = styled.div`
   color: black;
-  font-size: 0.8rem;
-  font-weight: bold;
+  font-size: var(--font-s);
+  font-weight: 500;
 `;
 
 export default function MainAlert() {
   return (
     <MainContainer>
-      <MainHeader>
-        <Before>뒤</Before>
+      <ContentHeader>
+        <Link href="/trainer/main ">
+          <BeforeImage
+            src={beforePageImg}
+            alt="이전 페이지"
+            width="24"
+            height="24"
+          ></BeforeImage>
+        </Link>
         <MainTitle>알림</MainTitle>
-      </MainHeader>
+      </ContentHeader>
       <MainContentWrap>
         <TrainerAlertList>
           <TrainerAlertWrap>

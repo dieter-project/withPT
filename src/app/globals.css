@@ -7,6 +7,7 @@
   /* color */
   --primary: #6c69ff;
   --purple50: #f8f8fc;
+  --purple75: #eeeeff;
   --purple100: #e7e7ff;
   --purple200: #bbbaff;
   --yellow: #ffe926;
@@ -16,13 +17,19 @@
   --white: #ffffff;
   --black: #222222;
 
+  --tab: #4d4ba9;
+  --inputpurple: #f4f4fb;
+
   --border-gray: #eaeaea;
+  --border-darkgray: #cccccc;
+  --border-lightgray: #a4a4a4;
+  --border-gray2: #444;
 
   --font-secondary: #7d7bb7;
   --font-gray700: #444444;
   --font-gray500: #a2a2a5;
   --font-gray400: #b1b0bb;
-
+  --font-gray600: #646464;
   /* font */
   --font: Pretendard Variable, Pretendard, -apple-system, BlinkMacSystemFont,
     system-ui, Roboto, sans-serif;

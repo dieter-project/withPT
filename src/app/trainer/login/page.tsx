@@ -58,19 +58,26 @@ const LinkToMember = styled(Link)`
 export default function Login() {
   const { data, status } = useSession();
 
-  if (status === "loading") return <h1> loading... please wait</h1>;
-  if (status === "authenticated") {
-    return (
-      <div>
-        <h1> hi {data.user.name}</h1>
-        <img src={data.user.image} alt={data.user.name + " photo"} />
-        <button onClick={() => signOut()}>sign out</button>
-      </div>
-    );
-  }
+  // if (status === "loading") return <h1> loading... please wait</h1>;
+  // if (status === "authenticated") {
+  //   return (
+  //     <div>
+  //       <h1> hi {data.user.name}</h1>
+  //       <img src={data.user.image} alt={data.user.name + " photo"} />
+  //       <button onClick={() => signOut()}>sign out</button>
+  //     </div>
+  //   );
+  // }
+
+  const handleLogin = () => {
+    // 구글 로그인 화면으로 이동시키기
+    window.location.href = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${process.env.GOOGLE_CLIENT_ID}&response_type=token&redirect_uri=${process.env.GOOGLE_CLIENT_SECRET}&scope=https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile`;
+  };
+
   return (
     <div>
-      <button onClick={() => signIn("google")}>sign in with gooogle</button>
+      <button onClick={handleLogin}> 로그인 </button>
+      {/* <button onClick={() => signIn("google")}>sign in with gooogle</button> */}
     </div>
   );
 }

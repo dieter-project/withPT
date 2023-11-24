@@ -5,6 +5,7 @@ import styled from "styled-components";
 import Link from "next/link";
 import beforePage from "../../../../../public/icons/beforePage.png";
 import searchIcon from "../../../../../public/searchLight.png";
+import { IconButton } from "../../../../styles/Button";
 
 const Wrap = styled.div`
   position: relative;
@@ -63,6 +64,7 @@ const SignupFormWrap = styled.div`
 const FormTitle = styled.h4`
   font-size: var(--font-l);
   margin-bottom: 0.2rem;
+  font-weight: 600;
 `;
 
 const SignupOrderWrap = styled.div`
@@ -118,7 +120,7 @@ const SignupButton = styled.button`
 
 const RegistScheTxt = styled.span`
   width: 100%;
-  color: var(--font-gray400);
+  color: var(--font-secondary);
 `;
 
 const ButtonAreaFixed = styled.div`
@@ -322,51 +324,74 @@ export default function step2() {
         <ButtonHistoryBack type="button">
           <Image src={beforePage} alt="이전 페이지 이미지" />
         </ButtonHistoryBack>
-        <SignupTitle>회원가입</SignupTitle>
+        <SignupTitle>이력 등록</SignupTitle>
       </ContentHeader>
       <ContentBody>
         <ContentInnerBody>
           <SignupOrderWrap>
             <SignupOrder>1</SignupOrder>
-            <SignupOrderCurrent>2</SignupOrderCurrent>
+            <SignupOrder>2</SignupOrder>
             <SignupOrder>3</SignupOrder>
-            <SignupOrder>4</SignupOrder>
+            <SignupOrderCurrent>4</SignupOrderCurrent>
           </SignupOrderWrap>
           <div style={{ marginBottom: "1.5rem" }}>
-            <SignupStepInfo>센터 정보를 등록해주세요.</SignupStepInfo>
+            <SignupStepInfo>내 이력을 등록해주세요.</SignupStepInfo>
             <SignupStepInfoSub>
-              재직 중인 센터를 등록해 주세요.
+              회원가입 후 마이페이지에서도 입력이 가능해요.
             </SignupStepInfoSub>
           </div>
           <SignupFormWrap>
-            <FormTitle>센터정보 등록</FormTitle>
-            <TrRegisItemWrap>
-              <SignupButton onClick={toggleModal}>
-                <Image
-                  src={searchIcon}
-                  alt="검색 아이콘"
-                  style={{ display: "inline-block", marginRight: "0.3rem" }}
-                />
-
-                {newSchedule ? (
-                  <NewScheduleWrap>
-                    <div>{newSchedule.days.join("/")}</div>
-                    <div>
-                      {newSchedule.startTime} ~ {newSchedule.endTime}
-                    </div>
-                    <div> </div>
-                  </NewScheduleWrap>
-                ) : (
-                  <span>등록할 센터를 검색해보세요.</span>
-                )}
-              </SignupButton>
-            </TrRegisItemWrap>
+            <FormTitle>경력 입력</FormTitle>
+            <IconButton onClick={toggleModal} variant="primary">
+              {" "}
+              {newSchedule ? (
+                <NewScheduleWrap>
+                  <div>{newSchedule.days.join("/")}</div>
+                  <div>
+                    {newSchedule.startTime} ~ {newSchedule.endTime}
+                  </div>
+                  <div> </div>
+                </NewScheduleWrap>
+              ) : (
+                <RegistScheTxt>+</RegistScheTxt>
+              )}
+            </IconButton>
+            <TrRegisItemWrap></TrRegisItemWrap>
           </SignupFormWrap>
           <SignupFormWrap>
-            <FormTitle>일정 등록하기</FormTitle>
-            <SignupButton style={{ textAlign: "center" }}>
-              <RegistScheTxt>+</RegistScheTxt>
-            </SignupButton>
+            <FormTitle>자격증/수상/교육 등록</FormTitle>
+            <IconButton onClick={toggleModal} variant="primary">
+              {" "}
+              {newSchedule ? (
+                <NewScheduleWrap>
+                  <div>{newSchedule.days.join("/")}</div>
+                  <div>
+                    {newSchedule.startTime} ~ {newSchedule.endTime}
+                  </div>
+                  <div> </div>
+                </NewScheduleWrap>
+              ) : (
+                <RegistScheTxt>+</RegistScheTxt>
+              )}
+            </IconButton>
+          </SignupFormWrap>
+          <SignupFormWrap>
+            <FormTitle>학력사항 등록</FormTitle>
+            <IconButton onClick={toggleModal} variant="primary">
+              {" "}
+              {newSchedule ? (
+                <NewScheduleWrap>
+                  <div>{newSchedule.days.join("/")}</div>
+                  <div>
+                    {newSchedule.startTime} ~ {newSchedule.endTime}
+                  </div>
+                  <div> </div>
+                </NewScheduleWrap>
+              ) : (
+                <RegistScheTxt>+</RegistScheTxt>
+              )}
+            </IconButton>
+            <TrRegisItemWrap></TrRegisItemWrap>
           </SignupFormWrap>
           <ButtonAreaFixed>
             <NextStep rel="preload" href="/trainer/register/step2">

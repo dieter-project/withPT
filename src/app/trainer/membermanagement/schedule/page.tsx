@@ -5,6 +5,7 @@ import { format } from "date-fns";
 import ko from "date-fns/locale/ko";
 import { useState, useEffect } from "react";
 import tabBar from "../../public/tabBar.png";
+import Footer from "../../../../components/TrainerFooter";
 
 const MainContainer = styled.div`
   background-color: #efefef;
@@ -69,7 +70,6 @@ const CheckAllScheduleBtn = styled.button`
   padding: 0.7rem;
   margin-top: 1rem;
   font-weight: bold;
-  font-size: 0%.8;
 `;
 
 const MonthMemberWrap = styled.div`
@@ -155,34 +155,7 @@ export default function ManagementSchedule() {
           </div>
         </div>
       </MainContentWrap>
-      <MainFooter>
-        <FooterCtgWrap>
-          <li>
-            <FooterCtgItem>
-              <FooterItemImg src="#!"></FooterItemImg>
-              <span>홈</span>
-            </FooterCtgItem>
-          </li>
-          <li>
-            <FooterCtgItem>
-              <FooterItemImg src="#!"></FooterItemImg>
-              <span>수업관리</span>
-            </FooterCtgItem>
-          </li>
-          <li>
-            <FooterCtgItem>
-              <FooterItemImg src="#!"></FooterItemImg>
-              <span>채팅</span>
-            </FooterCtgItem>
-          </li>
-          <li>
-            <FooterCtgItem>
-              <FooterItemImg src="#!"></FooterItemImg>
-              <span>마이페이지</span>
-            </FooterCtgItem>
-          </li>
-        </FooterCtgWrap>
-      </MainFooter>
+      <Footer />
     </MainContainer>
   );
 }

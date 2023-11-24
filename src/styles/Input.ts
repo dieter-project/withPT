@@ -2,13 +2,12 @@ import { styled } from "styled-components";
 
 export const Input = styled.input`
   width: 100%;
-  height: 48px;
+  height: 3rem;
   border: none;
-  border-radius: 8px;
-  background-color: var(--purple50);
-  margin-bottom: 20px;
-  padding: 0 10px;
-`
+  border-radius: 0.5rem;
+  background-color: var(--inputpurple);
+  padding: 1rem;
+`;
 
 export const InputRowWrap = styled.div`
   width: 100%;
@@ -26,7 +25,7 @@ export const InputRowWrap = styled.div`
       margin-right: 0;
     }
   }
-`
+`;
 
 //단위 표시된 input용 style
 export const InputWrap = styled.div`
@@ -40,4 +39,4 @@ export const InputWrap = styled.div`
     font-size: var(--font-s);
     font-weight: var(--font-semibold);
   }
-`
+`;

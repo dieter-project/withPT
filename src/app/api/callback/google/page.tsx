@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useSession, signIn, signOut } from "next-auth/react";
 import React, { useEffect } from "react";
 import Script from "next/script";
+import { useDispatch } from "react-redux";
 import { useSearchParams } from "next/navigation";
 import { api } from "@/utils/axios";
 
@@ -52,7 +53,8 @@ const LinkToMember = styled(Link)`
 export default function Login() {
   const searchParams = useSearchParams();
   const code = searchParams.get("code");
-  console.log(code);
+  const dispatch = useDispatch();
+  console.log("코드부분", code);
 
   const handleGetAuthCode = async () => {
     try {

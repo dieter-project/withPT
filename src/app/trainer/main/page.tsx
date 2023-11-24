@@ -6,38 +6,51 @@ import ko from "date-fns/locale/ko";
 import { useState, useEffect } from "react";
 import ReactApexChart from "react-apexcharts";
 import { ApexOptions } from "apexcharts";
-import tabBar from "../../public/tabBar.png";
-
+import tabBar from "@/public/tabBar.png";
+import Footer from "@/components/TrainerFooter";
+import { Button } from "@/styles/Button";
+import alert from "../../../../public/icons/alert.png";
+import Image from "next/image";
+import foodFeedbackImg from "../../../../public/Trainer/Main/foodFeedback.png";
+import changeClassImg from "../../../../public/Trainer/Main/changeClass.png";
+import newClassImg from "../../../../public/Trainer/Main/newClass.png";
 const MainContainer = styled.div`
-  background-color: #efefef;
+  background-color: var(--inputpurple);
   min-height: 100vh;
 `;
 
-const MainHeader = styled.header`
+const MainHeader = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: white;
   position: fixed;
   width: 100%;
-  left: 0;
-  top: 0;
-  height: 3rem;
-  display: flex;
-  align-items: center;
-  background-color: #ffffff;
-  justify-content: space-between;
+  height: 3.62rem;
   z-index: 100;
+  padding: 0 1.25rem;
 `;
 
 const MainContentWrap = styled.div`
-  padding: 4rem 1.2rem 5rem;
+  padding: 5rem 1.5rem 6.2rem;
 `;
 
 const MainTitle = styled.h4`
-  font-weight: bold;
+  font-weight: 600;
+  font-size: var(--font-xl);
 `;
 
 const TrainerMainWrap = styled.div`
   background-color: #ffffff;
-  padding: 1rem;
-  margin-top: 0.3rem;
+  padding: 0.94rem 1.25rem;
+  margin: 1.3rem 0;
+  height: 18rem;
+`;
+
+const TrainerGraphWrap = styled.div`
+  background-color: #ffffff;
+  padding: 0.94rem 0.8rem;
+  margin: 0.75rem 0;
 `;
 
 const TrainerScheduleContentWrap = styled.div``;
@@ -62,13 +75,27 @@ const IsTapActive = styled.div`
 
 const TrainerScheduleItem = styled.button`
   all: unset;
+  font-size: var(--font-l);
+  width: 100%;
 `;
 
 const ScheduleContentItem = styled.div`
   display: flex;
   justify-content: space-between;
-  padding: 1rem 0;
-  border-bottom: 1px solid gray;
+  border-bottom: 1px solid var(--border-gray);
+  font-weight: 600;
+  font-size: var(--font-m);
+  padding: 1rem;
+`;
+
+const AlertContentItem = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.91rem 0.62rem;
+  border-bottom: 1px solid var(--border-gray);
+  font-weight: 600;
+  font-size: var(--font-m);
 `;
 
 const CheckAllScheduleBtn = styled.button`
@@ -88,20 +115,22 @@ const MonthMemberWrap = styled.div`
 `;
 
 const MonthMemberMonth = styled.span`
+  font-size: var(--font-xs);
   font-weight: bold;
   color: gray;
   margin-right: 0.5rem;
+  padding-top: 0.3rem;
 `;
 
 const MonthMemberNum = styled.span`
-  color: var(--primary);
-  font-size: 2rem;
+  color: var(--black);
+  font-size: var(--font-xxl);
   font-weight: bold;
 `;
 
 const MemberNumberWrap = styled.div`
   margin-top: 0.3rem;
-  font-size: 0.9rem;
+  font-size: var(--font-s);
   text-align: center;
 `;
 
@@ -109,30 +138,24 @@ const MemberNumber = styled.span`
   color: var(--primary);
 `;
 
-const MainFooter = styled.footer`
-  position: fixed;
-  display: flex;
-  width: 100%;
-  left: 0;
-  bottom: 0;
-  height: 3rem;
-  padding: 0 1rem;
-  align-items: center;
-  background-color: #ffffff;
-  justify-content: space-between;
-  z-index: 100;
+const AlertTypeImg = styled(Image)`
+  display: inline-block;
 `;
 
-const FooterCtgItem = styled.button`
-  all: unset;
-  text-align: center;
-  width: 100%;
+const AlertTypeTxt = styled.span`
+  padding: 0 0.49rem;
 `;
 
-const FooterItemImg = styled.img``;
+const MemberName = styled.span`
+  font-size: var(--font-s);
+  padding: 0 0.62rem;
+  border-left: 1px solid var(--border-lightgray);
+`;
 
-const FooterImgSpan = styled.span`
-  display: block;
+const MemberTime = styled.span`
+  font-size: var(--font-s);
+  font-weight: 400;
+  color: var(--font-gray2d);
 `;
 
 export default function Main() {
@@ -172,7 +195,17 @@ export default function Main() {
       height: 350,
       type: "line",
       zoom: {
-        enabled: true,
+        enabled: false,
+      },
+      toolbar: {
+        show: false,
+      },
+    },
+    dataLabels: {
+      enabled: true,
+      style: {
+        fontSize: "12px",
+        colors: ["var(--primary)"],
       },
     },
   };
@@ -191,14 +224,19 @@ export default function Main() {
     <MainContainer>
       <MainHeader>
         <img src="#!" alt="메인 로고 이미지"></img>
-        <img src="#!" alt="카테고리 탭 로고"></img>
+        <Link href="main/alert ">
+          <Image src={alert} alt="카테고리 탭 로고"></Image>
+        </Link>
       </MainHeader>
       <MainContentWrap>
         <MainTitle>{formattedDate}</MainTitle>
         <TrainerMainWrap>
           <TrainerScheduleTap>
             <IsTapActive className={activeTab === "firstTab" ? "isActive" : ""}>
-              <TrainerScheduleItem onClick={() => setActiveTab("firstTab")}>
+              <TrainerScheduleItem
+                onClick={() => setActiveTab("firstTab")}
+                style={{ borderRight: "1px solid var(--gray)" }}
+              >
                 오늘의 일정
               </TrainerScheduleItem>
             </IsTapActive>
@@ -222,38 +260,71 @@ export default function Main() {
                 <ScheduleContentItem>
                   <span>13:00 ~ 13:50</span> <span>배고파요 회원님</span>
                 </ScheduleContentItem>
-                <ScheduleContentItem>
-                  <span>10:00 ~ 10:50</span> <span>사보리노 회원님</span>
+                <ScheduleContentItem style={{ borderBottom: "none" }}>
+                  <span>16:00 ~ 16:50</span> <span>사보리노 회원님</span>
                 </ScheduleContentItem>
               </div>
             ) : (
               /* "도착한 알림" 탭이 활성화되었을 때 */
               <div className="trainer-schedule-content">
-                <ScheduleContentItem>
+                <AlertContentItem>
                   <div>
-                    <span>식단피드백 요청</span>
-                    <span>|김땡땡 회원님</span>
+                    <AlertTypeImg
+                      src={foodFeedbackImg}
+                      alt="식단 피드백 요청 이미지"
+                      width="20"
+                      height="20"
+                    />
+                    <AlertTypeTxt>식단피드백 요청</AlertTypeTxt>
+                    <MemberName>김땡땡 회원님</MemberName>
                   </div>{" "}
-                  <span>9:45</span>
-                </ScheduleContentItem>
-                <ScheduleContentItem>
-                  <span>식단피드백 요청|맥도날드 회원님</span>
-                  <span>10:12</span>
-                </ScheduleContentItem>
-                <ScheduleContentItem>
-                  <span>식단피드백 요청|김땡땡 회원님</span> <span>10:31</span>
-                </ScheduleContentItem>
-                <ScheduleContentItem>
-                  <span>식단피드백 요청|김땡땡 회원님</span> <span>11:11</span>
-                </ScheduleContentItem>
+                  <MemberTime>9:45</MemberTime>
+                </AlertContentItem>
+                <AlertContentItem>
+                  <div>
+                    <AlertTypeImg
+                      src={changeClassImg}
+                      alt="수업변경 요청 이미지"
+                      width="20"
+                      height="20"
+                    />
+                    <AlertTypeTxt>수업변경 요청</AlertTypeTxt>
+                    <MemberName>맥도날드 회원님</MemberName>
+                  </div>
+                  <MemberTime>10:12</MemberTime>
+                </AlertContentItem>
+                <AlertContentItem>
+                  <div>
+                    <AlertTypeImg
+                      src={newClassImg}
+                      alt="신규 수업 요청 이미지"
+                      width="20"
+                      height="20"
+                    />
+                    <AlertTypeTxt>수업변경 요청</AlertTypeTxt>
+                    <MemberName>맥도날드 회원님</MemberName>
+                  </div>
+                  <MemberTime>10:12</MemberTime>
+                </AlertContentItem>
+                <AlertContentItem>
+                  <div>
+                    <AlertTypeImg
+                      src={foodFeedbackImg}
+                      alt="식단 피드백 요청 이미지"
+                      width="20"
+                      height="20"
+                    />
+                    <AlertTypeTxt>수업변경 요청</AlertTypeTxt>
+                    <MemberName>맥도날드 회원님</MemberName>
+                  </div>
+                  <MemberTime>10:12</MemberTime>
+                </AlertContentItem>
               </div>
             )}
-
-            <CheckAllScheduleBtn>오늘일정 전체 확인하기</CheckAllScheduleBtn>
           </TrainerScheduleContentWrap>
         </TrainerMainWrap>
         <MainTitle>회원 통계</MainTitle>
-        <TrainerMainWrap>
+        <TrainerGraphWrap>
           <MonthMemberWrap>
             <MonthMemberMonth>{formattedDate2}월 회원수 </MonthMemberMonth>
             <MonthMemberNum> 31명</MonthMemberNum>
@@ -264,36 +335,17 @@ export default function Main() {
               options={options}
               series={apexChartData.series}
               type="line"
-              // height={200}
+              height="120%"
             />
           </div>
           <MemberNumberWrap>
-            신규회원 <MemberNumber>6</MemberNumber>명 | 재등록회원{" "}
-            <MemberNumber>5</MemberNumber>명
+            기존 회원 <MemberNumber>6</MemberNumber>명 | 재등록회원{" "}
+            <MemberNumber>5</MemberNumber>명 | 신규 회원{" "}
+            <MemberNumber>6</MemberNumber>명
           </MemberNumberWrap>
-        </TrainerMainWrap>
+        </TrainerGraphWrap>
       </MainContentWrap>
-      <MainFooter>
-        <FooterCtgItem>
-          <FooterItemImg src="#!"></FooterItemImg>
-          <FooterImgSpan>홈</FooterImgSpan>
-        </FooterCtgItem>
-
-        <FooterCtgItem>
-          <FooterItemImg src="#!"></FooterItemImg>
-          <FooterImgSpan>수업관리</FooterImgSpan>
-        </FooterCtgItem>
-
-        <FooterCtgItem>
-          <FooterItemImg src="#!"></FooterItemImg>
-          <FooterImgSpan>채팅</FooterImgSpan>
-        </FooterCtgItem>
-
-        <FooterCtgItem>
-          <FooterItemImg src="#!"></FooterItemImg>
-          <FooterImgSpan>마이페이지</FooterImgSpan>
-        </FooterCtgItem>
-      </MainFooter>
+      <Footer />
     </MainContainer>
   );
 }

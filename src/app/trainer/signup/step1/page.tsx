@@ -1,7 +1,11 @@
 "use client";
-
+import { useState, useEffect } from "react";
+import Image from "next/image";
 import styled from "styled-components";
 import Link from "next/link";
+import beforePage from "../../../../../public/icons/beforePage.png";
+import { Button } from "@/styles/Button";
+import { Input } from "@/styles/Input";
 
 const Wrap = styled.div`
   background-color: white;
@@ -13,40 +17,44 @@ const Wrap = styled.div`
 `;
 
 const ContentHeader = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   background-color: white;
   position: fixed;
   width: 100%;
   height: 4.4rem;
-  align-items: center;
   z-index: 100;
-  display: flex;
 `;
 
 const ButtonHistoryBack = styled.button`
   width: 2.4rem;
   height: 2.4rem;
-  background-color: green;
+  padding-left: 1.25rem;
 `;
 
 const RegisterTitle = styled.h4`
-  line-height: 3rem;
   color: #222;
-  font-size: 1.6rem;
+  font-size: var(--font-xl);
   font-weight: 700;
   letter-spacing: -0;
 `;
 
 const ContentBody = styled.div`
-  padding: 6.8rem 1.6rem 3.2rem 1.6rem;
+  padding: 6.8rem 1.25rem 3.2rem 1.25rem;
 `;
 
 const ContentInnerBody = styled.div``;
 
 const SignupStepInfo = styled.p`
+  font-size: var(--font-xxxl);
+  font-weight: 600;
   color: #222;
-  font-size: 1.6rem;
-  font-weight: bold;
-  letter-spacing: -0.04rem;
+`;
+
+const SignupStepInfoSub = styled.p`
+  font-size: var(--font-m);
+  color: var(--font-gray400);
 `;
 
 const SignupFormWrap = styled.div`
@@ -54,70 +62,85 @@ const SignupFormWrap = styled.div`
 `;
 
 const FormTitle = styled.h4`
-  font-weight: bold;
-  font-size: 1rem;
+  font-size: var(--font-l);
   margin-bottom: 0.2rem;
 `;
 
 const TrGenderLabel = styled.label`
   width: 100%;
-  text-align: center;
+  height: 3rem;
+  background-color: var(--purple50);
   border: none;
   border-radius: 0.2rem;
-  margin-bottom: 1rem;
-  line-height: 2.3rem;
-  background-color: var(--purple50);
   margin: 0 0.3rem;
+  padding: 0.75rem 0;
+  text-align: center;
 `;
 
 const TrGenderRadio = styled.input`
   appearance: none;
+  background-color: var(--purple50);
+  &:checked {
+    background-color: var(--primary);
+  }
 `;
 
 const SignupOrderWrap = styled.div`
+  font-size: var(--font-xxxs);
   display: flex;
   align-items: center;
-  margin-bottom: 1.5rem;
+  margin-bottom: 2.25rem;
 `;
 
 const SignupOrderCurrent = styled.span`
+  width: 1.5rem;
+  height: 1.5rem;
   background-color: var(--primary);
   color: var(--white);
-  margin-bottom: "0.2rem";
-  margin-right: 0.3rem;
-  padding: 0.1rem 0.5rem;
+  margin-bottom: 0.2rem;
+  margin-right: 0.62rem;
+  padding: 0.25rem;
   border-radius: 0.5rem;
-  font-size: 1rem;
+  font-size: var(--font-xs);
   font-weight: bold;
+  text-align: center;
 `;
 
 const SignupOrder = styled.span`
+  width: 1.5rem;
+  height: 1.5rem;
   background-color: var(--purple100);
   color: var(--purple200);
-  margin-right: 0.3rem;
-  padding: 0.1rem 0.5rem;
+  margin-bottom: 0.2rem;
+  margin-right: 0.62rem;
+  padding: 0.25rem;
   border-radius: 0.5rem;
-  font-size: 1rem;
+  font-size: var(--font-xs);
   font-weight: bold;
+  text-align: center;
 `;
 
 const TrRegisItemWrap = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  font-size: 0.8rem;
+  /* color: var(--black); */
 `;
 
 const SignupInput = styled.input`
   border: none;
   border-radius: 0.2rem;
-  margin-bottom: 1rem;
+  margin-bottom: 2rem;
   line-height: 2.3rem;
   background-color: var(--purple50);
-  font-weight: bold;
   text-align: center;
   width: 100%;
+  height: 3rem;
   margin: 0 0.3rem;
+`;
+
+const Slash = styled.span`
+  padding: 0 0.75rem;
 `;
 
 const ButtonAreaFixed = styled.div`
@@ -134,20 +157,32 @@ const NextStep = styled(Link)`
   display: block;
   border: none;
   border-radius: 0.6rem;
-  line-height: 3rem;
+  line-height: 3.5rem;
   width: 100%;
   background-color: var(--primary);
   color: white;
-  padding: 0 1.6rem;
+  font-size: var(--font-m);
   text-align: center;
+  padding: 0 1.6rem;
 `;
 
 export default function step1() {
+  const [selectedGender, setSelectedGender] = useState("남자");
+  console.log(selectedGender);
+
   return (
     <Wrap>
       <ContentHeader>
-        <ButtonHistoryBack type="button">뒤</ButtonHistoryBack>
+        <ButtonHistoryBack type="button">
+          <Image
+            src={beforePage}
+            alt="이전 페이지 이미지"
+            width={20}
+            height={20}
+          />
+        </ButtonHistoryBack>
         <RegisterTitle>회원가입</RegisterTitle>
+        <div> </div>
       </ContentHeader>
       <ContentBody>
         <ContentInnerBody>
@@ -155,44 +190,41 @@ export default function step1() {
             <SignupOrderCurrent>1</SignupOrderCurrent>
             <SignupOrder>2</SignupOrder>
             <SignupOrder>3</SignupOrder>
+            <SignupOrder>4</SignupOrder>
           </SignupOrderWrap>
-          <div style={{ marginBottom: "1rem" }}>
+          <div style={{ marginBottom: "1.5rem" }}>
             <SignupStepInfo>안녕하세요 트레이너님!</SignupStepInfo>
-            <SignupStepInfo style={{ fontSize: "1rem", color: "#797979" }}>
+            <SignupStepInfoSub>
               아래 정보가 맞는지 확인해주세요.
-            </SignupStepInfo>
+            </SignupStepInfoSub>
           </div>
           <form method="post" autoComplete="on">
             <SignupFormWrap>
               <FormTitle>이름</FormTitle>
               <TrRegisItemWrap>
-                <SignupInput
-                  style={{ width: "100%" }}
-                  type="text"
-                  required
-                ></SignupInput>
+                <Input type="text" required></Input>
               </TrRegisItemWrap>
             </SignupFormWrap>
             <SignupFormWrap>
               <FormTitle>생년월일</FormTitle>
               <TrRegisItemWrap>
-                <SignupInput
+                <Input
                   type="text"
-                  placeholder="2023"
+                  style={{ textAlign: "center" }}
                   required
-                ></SignupInput>
-                <span>/</span>
-                <SignupInput
+                ></Input>
+                <Slash>/</Slash>
+                <Input
                   type="text"
-                  placeholder="12"
+                  style={{ textAlign: "center" }}
                   required
-                ></SignupInput>
-                <span>/</span>
-                <SignupInput
+                ></Input>
+                <Slash>/</Slash>
+                <Input
                   type="text"
-                  placeholder="31"
+                  style={{ textAlign: "center" }}
                   required
-                ></SignupInput>
+                ></Input>
               </TrRegisItemWrap>
             </SignupFormWrap>
             <SignupFormWrap>
@@ -204,6 +236,8 @@ export default function step1() {
                     name="radio-box"
                     id="radio-box1"
                     value="남자"
+                    checked={selectedGender === "남자"}
+                    onChange={() => setSelectedGender("남자")}
                   ></TrGenderRadio>
                   남자
                 </TrGenderLabel>
@@ -213,6 +247,8 @@ export default function step1() {
                     name="radio-box"
                     id="radio-box2"
                     value="여자"
+                    checked={selectedGender === "여자"}
+                    onChange={() => setSelectedGender("여자")}
                   ></TrGenderRadio>{" "}
                   여자
                 </TrGenderLabel>
@@ -220,7 +256,9 @@ export default function step1() {
             </SignupFormWrap>
           </form>
           <ButtonAreaFixed>
-            <NextStep href="/trainer/register/step2">다음</NextStep>
+            <Link href="/trainer/signup/step2">
+              <Button variant="primary">다음</Button>
+            </Link>
           </ButtonAreaFixed>
         </ContentInnerBody>
       </ContentBody>

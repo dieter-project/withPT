@@ -10,23 +10,20 @@ const MainContainer = styled.div`
 `;
 
 const MainHeader = styled.header`
-  position: fixed;
   display: flex;
-  align-items: center;
   justify-content: space-between;
+  align-items: center;
+  background-color: white;
+  position: fixed;
   width: 100%;
-  left: 0;
-  top: 0;
-  height: 3rem;
-  background-color: #ffffff;
-  padding: 1rem;
+  height: 3.62rem;
   z-index: 100;
-  text-align: center;
-  font-weight: bold;
+  padding: 0 1.25rem;
 `;
 
 const MainTitle = styled.h4`
-  font-weight: bold;
+  font-size: var(--font-xl);
+  font-weight: 600;
   margin: 0 auto;
 `;
 
