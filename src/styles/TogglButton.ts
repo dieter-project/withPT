@@ -12,7 +12,7 @@ export const ToggleButton = styled.label`
     background-color: var(--purple100);
     border-radius: 1.25em;
     width: 60px;
-    height: 30px;
+    height: 1.875rem;
     border: none;
   }
 
@@ -21,8 +21,8 @@ export const ToggleButton = styled.label`
     position: absolute;
     left: 2px;
     top: 2px;
-    width: 26px;
-    height: 26px;
+    width: 1.625rem;
+    height: 1.625rem;
     border-radius: 50%;
     transform: scale(0.8);
     background-color: var(--white);

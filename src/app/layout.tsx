@@ -3,6 +3,7 @@ import './globals.css'
 import type { Metadata } from 'next'
 import { Providers } from '../redux/provider'
 import StyledComponentsRegistry from '@/lib/StyledComponentsRegistry'
+import { BaseContainer } from '@/styles/Layout'
 
 export const metadata: Metadata = {
   title: "WithPT",
@@ -18,11 +19,11 @@ export default function RootLayout({
     <html lang="ko">
       <body>
         <Providers>
-            <AuthContext>
+            {/* <AuthContext> */}
               <StyledComponentsRegistry>
-                {children}
+                <BaseContainer>{children}</BaseContainer>
               </StyledComponentsRegistry>
-            </AuthContext>
+            {/* </AuthContext> */}
         </Providers>
       </body>
     </html>

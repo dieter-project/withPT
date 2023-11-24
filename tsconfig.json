@@ -30,6 +30,6 @@
     ".next/types/**/*.ts",
     "src/app/trainer/management/member/regist",
     "src/app/trainer/management/member/edit"
-  ],
+, "public/firebase-messaging-sw.js", "src/utils/pushNotification.js", "src/lib/firebase.js", "src/lib/firebase.js"  ],
   "exclude": ["node_modules"]
 }

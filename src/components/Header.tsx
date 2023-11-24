@@ -1,33 +1,106 @@
+import { BaseHeader } from '@/styles/Layout';
 import { NextPage } from 'next';
+import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import React from 'react'
+import React, { SetStateAction } from 'react'
 import { styled } from 'styled-components';
 
-interface Props {
-  title: string;
+interface HeaderProps {
+  title?: string;
+  back?: boolean;
+  page?: string;
+  bookmark?: boolean;
+  calendar?: boolean;
+  setting?: boolean;
+  setIsPopupMenuOpen?: SetStateAction<boolean>;
 }
 
-const HeaderContainer = styled.header`
-  div.wrap {
-    padding: 20px;
+const HomeHeader = styled(BaseHeader)`
+  padding: 0 1.25rem;
+  `
+
+const PageHeader = styled(BaseHeader)`
+  padding: 0 1.25rem;
+  height: 3.5rem;
+  > div:last-child {
     display: flex;
-    justify-content: space-between;
+    gap: 0.5rem;
   }
 `
 
-const Header= () => {
+const BackButton = styled.button`
+  width: 0.75rem;
+  height: 0.75rem;
+  border-left: 2px solid var(--black);
+  border-bottom: 2px solid var(--black);
+  transform: rotate(45deg);
+  overflow: hidden;
+  text-indent: -999px;
+`
+const HeaderIcon = styled.div`
+  width: 1.75rem;
+  height: 1.75rem;
+  overflow: hidden;
+  text-indent: -999px;
+`
+
+const BellIcon = styled(HeaderIcon)`
+  background: url(/svgs/icon_bell.svg) no-repeat;
+  background-position: center;
+`
+const BookmarkIcon = styled(HeaderIcon)`
+  background: url(/svgs/icon_bookmark.svg) no-repeat;
+  background-position: center;
+`
+const CalendarIcon = styled(HeaderIcon)`
+  background: url(/svgs/icon_calendar.svg) no-repeat;
+  background-position: center;
+`
+const SettingIcon = styled(HeaderIcon)`
+  background: url(/svgs/icon_setting.svg) no-repeat;
+  background-position: center;
+`
+
+const Header = ({
+  title,
+  back,
+  page,
+  bookmark,
+  calendar,
+  setting,
+  setIsPopupMenuOpen
+}: HeaderProps) => {
   const router = useRouter();
 
-  return (
-    <HeaderContainer>
-      <div className='wrap'>
+  if (page === 'home') {
+    return (
+      <HomeHeader>
         <h1>logo</h1>
+        <BellIcon>알림</BellIcon>
+      </HomeHeader>
+    )
+  } else {
+    return (
+      <PageHeader>
         <div>
-          알림
+          {
+            back &&
+            <BackButton
+              onClick={() => router.back()}
+              className='back-btn'
+            >뒤로</BackButton>
+          }
         </div>
-      </div>
-    </HeaderContainer>
-  )
+        <h1>{title}</h1>
+        <div>
+          {bookmark && <BookmarkIcon>북마크</BookmarkIcon>}
+          {calendar && <CalendarIcon>달력</CalendarIcon>}
+          {setting && <SettingIcon>설정</SettingIcon>}
+        </div>
+      </PageHeader>
+    )
+  }
+
 }
 
 export default Header;
