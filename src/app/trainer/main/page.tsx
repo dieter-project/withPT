@@ -8,14 +8,15 @@ import ReactApexChart from "react-apexcharts";
 import { ApexOptions } from "apexcharts";
 import tabBar from "@/public/tabBar.png";
 import Footer from "@/components/TrainerFooter";
-import { Button } from "@/styles/Button";
+import { Button } from "@/styles/TrainerButton";
 import alert from "../../../../public/icons/alert.png";
 import Image from "next/image";
 import foodFeedbackImg from "../../../../public/Trainer/Main/foodFeedback.png";
 import changeClassImg from "../../../../public/Trainer/Main/changeClass.png";
 import newClassImg from "../../../../public/Trainer/Main/newClass.png";
+
 const MainContainer = styled.div`
-  background-color: var(--inputpurple);
+  background-color: var(--purple50);
   min-height: 100vh;
 `;
 

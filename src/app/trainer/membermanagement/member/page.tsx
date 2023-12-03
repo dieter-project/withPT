@@ -3,6 +3,8 @@ import styled from "styled-components";
 import Link from "next/link";
 import { useState, useEffect } from "react";
 import Image from "next/image";
+import settingTabImg from "../../../../../public/Trainer/settingTab.png";
+import setting from "../../../../../public/Trainer/setting.jpg";
 
 const MainContainer = styled.div`
   background-color: #ffffff;
@@ -27,11 +29,11 @@ const MainTitle = styled.h4`
   margin: 0 auto;
 `;
 
-const SettingImg = styled.img`
+const SettingImg = styled(Image)`
   display: inline-block;
 `;
 
-const SettingTabImg = styled.img`
+const SettingTabImg = styled(Image)`
   display: inline-block;
   position: absolute;
   top: 2rem;
@@ -171,10 +173,10 @@ export default function ManageMember() {
           width="25"
           height="25"
         />
-        <MainTitle>회원관리</MainTitle>
+        <MainTitle>아자아자 피트니스 센터</MainTitle>
         <div style={{ position: "relative" }}>
           <SettingImg
-            src="/setting.jpg"
+            src={setting}
             alt="설정 이미지"
             width="20"
             height="25"
@@ -184,7 +186,7 @@ export default function ManageMember() {
         {isSettingOpen && (
           <>
             <SettingTabImg
-              src="/settingTab.png"
+              src={settingTabImg}
               alt="설정 하단 탭 이미지"
               width="150"
               height="150"
@@ -196,10 +198,6 @@ export default function ManageMember() {
       </MainHeader>
 
       <ManageContentWrap>
-        <CenterNameItem>
-          <CenterName>아자 아자 피트니스 센터</CenterName>
-          <span>5명</span>
-        </CenterNameItem>
         <div>
           <CenterMember>
             <MemberName>맥도날드 회원님</MemberName>
@@ -273,34 +271,6 @@ export default function ManageMember() {
           </div>
         )}
       </ManageContentWrap>
-      <MainFooter>
-        <FooterCtgWrap>
-          <li>
-            <FooterCtgItem>
-              <FooterItemImg src="#!"></FooterItemImg>
-              <span>홈</span>
-            </FooterCtgItem>
-          </li>
-          <li>
-            <FooterCtgItem>
-              <FooterItemImg src="#!"></FooterItemImg>
-              <span>수업관리</span>
-            </FooterCtgItem>
-          </li>
-          <li>
-            <FooterCtgItem>
-              <FooterItemImg src="#!"></FooterItemImg>
-              <span>채팅</span>
-            </FooterCtgItem>
-          </li>
-          <li>
-            <FooterCtgItem>
-              <img src="#!"></img>
-              <span>마이페이지</span>
-            </FooterCtgItem>
-          </li>
-        </FooterCtgWrap>
-      </MainFooter>
     </MainContainer>
   );
 }

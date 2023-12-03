@@ -7,7 +7,7 @@ export const SearchBar = styled.input`
   height: 3rem;
   border: none;
   border-radius: 0.5rem;
-  background-color: var(--inputpurple);
+  background-color: var(--purple50);
   background-image: url("../../../../../public/searchLight.png");
   background-repeat: no-repeat;
   padding: 0.88rem;

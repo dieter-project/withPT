@@ -32,17 +32,17 @@ const KaKaoLoginButton = styled.button`
   font-weight: bold;
 `;
 
-const GoogleLoginButton = styled.button`
-  display: block;
-  padding: 1.3rem 0;
-  width: 100%;
-  border: none;
-  border-radius: 0.5rem;
-  background-color: white;
-  color: black;
-  font-size: 1.1rem;
-  font-weight: bold;
-`;
+// const GoogleLoginButton = styled.button`
+//   display: block;
+//   padding: 1.3rem 0;
+//   width: 100%;
+//   border: none;
+//   border-radius: 0.5rem;
+//   background-color: white;
+//   color: black;
+//   font-size: 1.1rem;
+//   font-weight: bold;
+// `;
 
 const AskIfMember = styled.div`
   color: #acacac;
@@ -55,28 +55,43 @@ const LinkToMember = styled(Link)`
   font-size: 0.9rem;
 `;
 
+const LogninButton = styled.button`
+  width: 100%;
+  height: 56px;
+  text-align: center;
+  border-radius: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.625rem;
+`;
+
+const GoogleLoginButton = styled(LogninButton)`
+  border: 1px solid var(--border-gray);
+  &::before {
+    display: block;
+    content: "";
+    width: 1.375rem;
+    height: 1.375rem;
+    background: url(/svgs/icon_google.svg) no-repeat;
+    background-position: center;
+    background-size: contain;
+  }
+`;
+
 export default function Login() {
-  const { data, status } = useSession();
-
-  // if (status === "loading") return <h1> loading... please wait</h1>;
-  // if (status === "authenticated") {
-  //   return (
-  //     <div>
-  //       <h1> hi {data.user.name}</h1>
-  //       <img src={data.user.image} alt={data.user.name + " photo"} />
-  //       <button onClick={() => signOut()}>sign out</button>
-  //     </div>
-  //   );
-  // }
-
-  const handleLogin = () => {
-    // 구글 로그인 화면으로 이동시키기
-    window.location.href = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${process.env.GOOGLE_CLIENT_ID}&response_type=token&redirect_uri=${process.env.GOOGLE_CLIENT_SECRET}&scope=https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile`;
+  const onGoogleSocialLogin = (): any => {
+    const redirectUri = "http://localhost:3000/api/callback/google";
+    const restApiKey = process.env.GOOGLE_CLIENT_ID;
+    const googleURL = `https://accounts.google.com/o/oauth2/v2/auth?client_id=666539117814-6j9ub78ger3dqj563l3juf2jh4qr591f.apps.googleusercontent.com&redirect_uri=${redirectUri}&response_type=code&scope=https://www.googleapis.com/auth/userinfo.email`;
+    window.location.href = googleURL;
   };
 
   return (
     <div>
-      <button onClick={handleLogin}> 로그인 </button>
+      <GoogleLoginButton onClick={onGoogleSocialLogin}>
+        Google로 시작하기
+      </GoogleLoginButton>
       {/* <button onClick={() => signIn("google")}>sign in with gooogle</button> */}
     </div>
   );

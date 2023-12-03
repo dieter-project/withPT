@@ -58,15 +58,19 @@ const TrainerFooter = () => {
         <FooterImgSpan>홈</FooterImgSpan>
       </FooterCtgItem>
 
-      <FooterCtgItem href="/trainer/management/schedule">
+      <FooterCtgItem href="/trainer/membermanagement/schedule">
         <Image
-          src={pathname === "/trainer/main" ? manageCourse : manageCourseLight}
+          src={
+            pathname === "/trainer/membermanagement/schedule"
+              ? manageCourse
+              : manageCourseLight
+          }
           alt="수업관리 아이콘"
           style={{ display: "inline-block" }}
         />
         <FooterImgSpan>수업관리</FooterImgSpan>
       </FooterCtgItem>
-      <FooterCtgItem href="/trainer/management">
+      <FooterCtgItem href="/trainer/membermanagement">
         <Image
           src={
             pathname === "/trainer/membermanagement"

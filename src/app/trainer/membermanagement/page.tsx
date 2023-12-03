@@ -2,8 +2,8 @@
 import { useState } from "react";
 import styled from "styled-components";
 import Link from "next/link";
-import { Button } from "@/styles/Button";
-import { ListButton } from "@/styles/Button";
+import { Button } from "@/styles/TrainerButton";
+import { ListButton } from "@/styles/TrainerButton";
 import Footer from "@/components/TrainerFooter";
 import { startOfWeek, addDays, format } from "date-fns";
 
@@ -129,7 +129,7 @@ export default function ManageMain() {
             <ManageTitleDate>2023.11월</ManageTitleDate>
           </ManageTitleWrap>
 
-          <Link href="#!">
+          <Link href="/trainer/membermanagement/member">
             <ListButton>
               <CenterName>아자 아자 피트니스 센터</CenterName>
               <MemberNum>5명</MemberNum>

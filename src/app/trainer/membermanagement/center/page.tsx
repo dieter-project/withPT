@@ -7,6 +7,7 @@ import beforePageImg from "../../../../../public/icons/beforePage.png";
 import toggleOffButtonImg from "../../../../../public/Trainer/toggleOffButton.png";
 import toggleOnButtonImg from "../../../../../public/Trainer/toggleOnButton.png";
 import settingTabImg from "../../../../../public/Trainer/settingTab.png";
+import settingImg from "../../../../../public/Trainer/setting.jpg";
 
 const MainContainer = styled.div`
   background-color: #ffffff;
@@ -206,7 +207,7 @@ export default function ManageMember() {
         <MainTitle>아자아자 피트니스 센터</MainTitle>
         <div style={{ position: "relative" }}>
           <SettingImg
-            src="/setting.jpg"
+            src={settingImg}
             alt="설정 이미지"
             width="24"
             height="24"

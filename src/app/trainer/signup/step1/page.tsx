@@ -1,11 +1,34 @@
 "use client";
-import { useState, useEffect } from "react";
+
+import { useRouter } from "next/navigation";
+import React, { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import styled from "styled-components";
 import Link from "next/link";
 import beforePage from "../../../../../public/icons/beforePage.png";
-import { Button } from "@/styles/Button";
+import { Button } from "@/styles/TrainerButton";
 import { Input2 } from "@/styles/TrainerInput";
+import { useDispatch } from "react-redux";
+import { signupActions } from "@/redux/reducers/trainerSignupSlice";
+import { useAppSelector } from "@/redux/hooks";
+
+interface Trbirth {
+  year: string;
+  month: string;
+  date: string;
+}
+
+interface TrInfo {
+  name: string;
+  birth: Trbirth | string;
+  sex: string;
+}
+
+interface TrGenderLabelProps {
+  selected: boolean;
+  htmlFor: string;
+  children: React.ReactNode;
+}
 
 const Wrap = styled.div`
   background-color: white;
@@ -66,12 +89,12 @@ const FormTitle = styled.h4`
   margin-bottom: 0.2rem;
 `;
 
-const TrGenderLabel = styled.label`
+const TrGenderLabel = styled.label<TrGenderLabelProps>`
   width: 100%;
   height: 3rem;
   background-color: var(--purple50);
-  border: none;
-  border-radius: 0.2rem;
+  border: ${props => (props.selected ? "1.5px solid var(--primary)" : "none")};
+  border-radius: 8px;
   margin: 0 0.3rem;
   padding: 0.75rem 0;
   text-align: center;
@@ -80,9 +103,6 @@ const TrGenderLabel = styled.label`
 const TrGenderRadio = styled.input`
   appearance: none;
   background-color: var(--purple50);
-  &:checked {
-    background-color: var(--primary);
-  }
 `;
 
 const SignupOrderWrap = styled.div`
@@ -167,8 +187,107 @@ const NextStep = styled(Link)`
 `;
 
 export default function step1() {
-  const [selectedGender, setSelectedGender] = useState("남자");
-  console.log(selectedGender);
+  const [inputData, setInputData] = useState<TrInfo>({
+    name: "",
+    birth: {
+      year: "",
+      month: "",
+      date: "",
+    },
+    sex: "",
+  });
+
+  const [selectedGender, setSelectedGender] = useState<string | null>(null);
+
+  const router = useRouter();
+  const inputRef = useRef<null[] | HTMLInputElement[]>([]);
+  const dispatch = useDispatch();
+  const states = useAppSelector(state => state.signup);
+
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = event.target;
+
+    if (name === "year" || name === "month" || name === "date") {
+      setInputData(prevState => ({
+        ...prevState,
+        birth:
+          typeof prevState.birth !== "string"
+            ? {
+                ...prevState.birth,
+                [name]: value.replace(/[^0-9.]/g, ""),
+              }
+            : "",
+      }));
+    } else {
+      setInputData({
+        ...inputData,
+        [name]: value,
+      });
+    }
+  };
+
+  console.log(inputData);
+
+  const handleNext = () => {
+    const birthJoin =
+      typeof inputData.birth !== "string"
+        ? `${inputData.birth.year}-${inputData.birth.month.padStart(
+            2,
+            "0",
+          )}-${inputData.birth.date.padStart(2, "0")}`
+        : "";
+
+    if (
+      inputData.name.length <= 0 &&
+      inputRef.current[0] !== null &&
+      inputRef.current[0] !== undefined
+    ) {
+      inputRef.current[0].focus();
+      return false;
+    }
+    if (
+      typeof inputData.birth !== "string" &&
+      inputData.birth.year.length <= 0 &&
+      inputRef.current[1] !== null &&
+      inputRef.current[1] !== undefined
+    ) {
+      inputRef.current[1].focus();
+      return false;
+    }
+    if (
+      typeof inputData.birth !== "string" &&
+      inputData.birth.month.length <= 0 &&
+      inputRef.current[2] !== null
+    ) {
+      inputRef.current[2].focus();
+      return false;
+    }
+    if (
+      typeof inputData.birth !== "string" &&
+      inputData.birth.date.length <= 0 &&
+      inputRef.current[3] !== null
+    ) {
+      inputRef.current[3].focus();
+      return false;
+    }
+    if (inputData.sex.length <= 0 && inputRef.current[4] !== null) {
+      inputRef.current[4].focus();
+      return false;
+    }
+
+    dispatch(
+      signupActions.saveSignupState({
+        name: inputData.name.trim(),
+        birth: birthJoin,
+        sex: inputData.sex,
+      }),
+    );
+    // sessionStorage.setItem('member_login_step1', JSON.stringify(inputData))
+    router.push(`/trainer/signup/step2`);
+    console.log("states: ", states);
+  };
+
+  useEffect(() => {}, []);
 
   return (
     <Wrap>
@@ -202,7 +321,13 @@ export default function step1() {
             <SignupFormWrap>
               <FormTitle>이름</FormTitle>
               <TrRegisItemWrap>
-                <Input2 type="text" required></Input2>
+                <Input2
+                  name="name"
+                  type="text"
+                  required
+                  value={inputData.name}
+                  onChange={handleInputChange}
+                ></Input2>
               </TrRegisItemWrap>
             </SignupFormWrap>
             <SignupFormWrap>
@@ -210,18 +335,47 @@ export default function step1() {
               <TrRegisItemWrap>
                 <Input2
                   type="text"
+                  name="year"
+                  value={
+                    typeof inputData.birth !== "string"
+                      ? inputData.birth.year
+                      : ""
+                  }
+                  maxLength={4}
+                  onChange={handleInputChange}
+                  ref={element => (inputRef.current[1] = element)}
                   style={{ textAlign: "center" }}
                   required
                 ></Input2>
                 <Slash>/</Slash>
                 <Input2
                   type="text"
+                  name="month"
+                  maxLength={2}
+                  value={
+                    typeof inputData.birth !== "string"
+                      ? inputData.birth.month
+                      : ""
+                  }
+                  onChange={handleInputChange}
+                  ref={element => (inputRef.current[2] = element)}
+                  inputMode="decimal"
                   style={{ textAlign: "center" }}
                   required
                 ></Input2>
                 <Slash>/</Slash>
                 <Input2
                   type="text"
+                  name="date"
+                  maxLength={2}
+                  value={
+                    typeof inputData.birth !== "string"
+                      ? inputData.birth.date
+                      : ""
+                  }
+                  onChange={handleInputChange}
+                  ref={element => (inputRef.current[3] = element)}
+                  inputMode="decimal"
                   style={{ textAlign: "center" }}
                   required
                 ></Input2>
@@ -230,10 +384,16 @@ export default function step1() {
             <SignupFormWrap>
               <FormTitle>성별</FormTitle>
               <TrRegisItemWrap>
-                <TrGenderLabel htmlFor="radio-box1">
+                <TrGenderLabel
+                  name="sex"
+                  htmlFor="radio-box1"
+                  selected={selectedGender === "남자"}
+                  onChange={handleInputChange}
+                  ref={element => (inputRef.current[4] = element)}
+                >
                   <TrGenderRadio
                     type="radio"
-                    name="radio-box"
+                    name="sex"
                     id="radio-box1"
                     value="남자"
                     checked={selectedGender === "남자"}
@@ -241,10 +401,15 @@ export default function step1() {
                   ></TrGenderRadio>
                   남자
                 </TrGenderLabel>
-                <TrGenderLabel htmlFor="radio-box2">
+                <TrGenderLabel
+                  htmlFor="radio-box2"
+                  selected={selectedGender === "여자"}
+                  onChange={handleInputChange}
+                  ref={element => (inputRef.current[4] = element)}
+                >
                   <TrGenderRadio
                     type="radio"
-                    name="radio-box"
+                    name="sex"
                     id="radio-box2"
                     value="여자"
                     checked={selectedGender === "여자"}
@@ -257,7 +422,9 @@ export default function step1() {
           </form>
           <ButtonAreaFixed>
             <Link href="/trainer/signup/step2">
-              <Button variant="primary">다음</Button>
+              <Button variant="primary" onClick={handleNext}>
+                다음
+              </Button>
             </Link>
           </ButtonAreaFixed>
         </ContentInnerBody>

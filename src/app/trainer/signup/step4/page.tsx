@@ -5,7 +5,7 @@ import styled from "styled-components";
 import Link from "next/link";
 import beforePage from "../../../../../public/icons/beforePage.png";
 import searchIcon from "../../../../../public/searchLight.png";
-import { IconButton } from "../../../../styles/Button";
+import { IconButton } from "../../../../styles/TrainerButton";
 
 const Wrap = styled.div`
   position: relative;

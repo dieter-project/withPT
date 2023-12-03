@@ -1,19 +1,18 @@
-'use client';
+"use client";
 
-import PageTitle from '@/components/PageTitle';
-import { Button } from '@/styles/Button';
-import { BaseContentWrap, ContentSection, RoundBox } from '@/styles/Layout';
-import { LabelTitle } from '@/styles/Text';
-import { api } from '@/utils/axios';
-import { signIn, useSession } from 'next-auth/react';
-import React, { useEffect } from 'react'
-import { styled } from 'styled-components'
-
+import PageTitle from "@/components/PageTitle";
+import { Button } from "@/styles/Button";
+import { BaseContentWrap, ContentSection, RoundBox } from "@/styles/Layout";
+import { LabelTitle } from "@/styles/Text";
+import { api } from "@/utils/axios";
+import { signIn, useSession } from "next-auth/react";
+import React, { useEffect } from "react";
+import { styled } from "styled-components";
 
 const ScheduleDate = styled.div`
   border-bottom: 1px solid var(--border-gray);
   padding: 0 0.625rem;
-  `
+`;
 
 const ScheduleDetail = styled.div`
   display: flex;
@@ -40,22 +39,21 @@ const ScheduleDetail = styled.div`
       font-size: var(--font-s);
     }
   }
-`
-
+`;
 
 const page = () => {
-  const title = '나의 수업일정'
+  const title = "나의 수업일정";
 
   const getSchedule = async () => {
-    const response = await api.get('')  
-  }
+    const response = await api.get("");
+  };
 
   return (
     <>
-      <PageTitle title={title}/>
+      <PageTitle title={title} />
       <BaseContentWrap>
         <ContentSection>
-          <RoundBox variant='outline'>달력</RoundBox>
+          <RoundBox variant="outline">달력</RoundBox>
         </ContentSection>
         <ContentSection>
           <LabelTitle>수업일정</LabelTitle>
@@ -82,12 +80,12 @@ const page = () => {
             </ul>
           </div>
           <div>
-            <Button variant='primary'>수업 예약하기</Button>
+            <Button variant="primary">수업 예약하기</Button>
           </div>
         </ContentSection>
       </BaseContentWrap>
     </>
-  )
-}
+  );
+};
 
-export default page
+export default page;

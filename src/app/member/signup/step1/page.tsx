@@ -1,33 +1,32 @@
-'use client'
+"use client";
 
-import PageTitle from '@/components/PageTitle'
-import JoinStep from '@/components/SignUpStep'
-import { useRouter } from 'next/navigation'
-import React, { MutableRefObject, useEffect, useRef, useState } from 'react'
-import { LabelTitle, SignUpTitleText, SignUpSubtext } from '@/styles/Text'
-import { Input, InputRowWrap, InputWrap } from '@/styles/Input'
-import { Button } from '@/styles/Button'
-import { useDispatch } from 'react-redux'
-import { signupActions } from '@/redux/reducers/signupSlice'
-import { BaseContentWrap, ButtonAreaFixed } from '@/styles/Layout'
-import { SignUpInputContainer, SignUpTitleWrap } from '@/styles/SignupForm'
-import { useAppSelector } from '@/redux/hooks'
-import { RadioButton } from './styles'
+import PageTitle from "@/components/PageTitle";
+import JoinStep from "@/components/SignUpStep";
+import { useRouter } from "next/navigation";
+import React, { MutableRefObject, useEffect, useRef, useState } from "react";
+import { LabelTitle, SignUpTitleText, SignUpSubtext } from "@/styles/Text";
+import { Input, InputRowWrap, InputWrap } from "@/styles/Input";
+import { Button } from "@/styles/Button";
+import { useDispatch } from "react-redux";
+import { signupActions } from "@/redux/reducers/signupSlice";
+import { BaseContentWrap, ButtonAreaFixed } from "@/styles/Layout";
+import { SignUpInputContainer, SignUpTitleWrap } from "@/styles/SignupForm";
+import { useAppSelector } from "@/redux/hooks";
+import { RadioButton } from "./styles";
 
 interface Ibirth {
-  year: string,
-  month: string,
-  date: string,
+  year: string;
+  month: string;
+  date: string;
 }
 
 interface Imember {
-  name: string,
-  birth: Ibirth | string,
-  sex: string,
-  height: string,
-  weight: string,
+  name: string;
+  birth: Ibirth | string;
+  sex: string;
+  height: string;
+  weight: string;
 }
-
 
 const page = () => {
   const [inputData, setInputData] = useState<Imember>({
@@ -35,107 +34,124 @@ const page = () => {
     birth: {
       year: "",
       month: "",
-      date: ""
+      date: "",
     },
     sex: "",
     height: "",
     weight: "",
-  })
-  
-  const title = '회원가입'
+  });
 
-  const router = useRouter()
-  const inputRef = useRef<null[] | HTMLInputElement[]>([])
+  const title = "회원가입";
+
+  const router = useRouter();
+  const inputRef = useRef<null[] | HTMLInputElement[]>([]);
   const dispatch = useDispatch();
-  const states = useAppSelector((state) => state.signup)
+  const states = useAppSelector(state => state.signup);
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
-    
-    if (name === 'year' || name === 'month' || name === 'date') {
+
+    if (name === "year" || name === "month" || name === "date") {
       setInputData(prevState => ({
         ...prevState,
-        birth: 
-          typeof prevState.birth !== 'string' 
-          ? { 
-            ...prevState.birth,
-            [name]: value.replace(/[^0-9.]/g,"")
-          }
-          : ''
-      }))
+        birth:
+          typeof prevState.birth !== "string"
+            ? {
+                ...prevState.birth,
+                [name]: value.replace(/[^0-9.]/g, ""),
+              }
+            : "",
+      }));
     } else {
       setInputData({
         ...inputData,
-        [name]: value
-      })
+        [name]: value,
+      });
     }
-  }
+  };
 
-  const handleHeightWeightChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleHeightWeightChange = (
+    event: React.ChangeEvent<HTMLInputElement>,
+  ) => {
     const { name, value } = event.target;
-    
+
     setInputData({
       ...inputData,
-      [name]: value.replace(/[^0-9.]/g,"")
-    })
-  }
-  
+      [name]: value.replace(/[^0-9.]/g, ""),
+    });
+  };
+
   const handleNext = () => {
-    
-    const birthJoin = typeof inputData.birth !== 'string' 
-      ? `${inputData.birth.year}-${inputData.birth.month.padStart(2, '0')}-${inputData.birth.date.padStart(2, '0')}`
-      : ''
-    
-    if (inputData.name.length <= 0 && inputRef.current[0] !== null) { 
+    const birthJoin =
+      typeof inputData.birth !== "string"
+        ? `${inputData.birth.year}-${inputData.birth.month.padStart(
+            2,
+            "0",
+          )}-${inputData.birth.date.padStart(2, "0")}`
+        : "";
+
+    if (inputData.name.length <= 0 && inputRef.current[0] !== null) {
       inputRef.current[0].focus();
       return false;
     }
-    if (typeof inputData.birth !== 'string' && inputData.birth.year.length <= 0 && inputRef.current[1] !== null) { 
+    if (
+      typeof inputData.birth !== "string" &&
+      inputData.birth.year.length <= 0 &&
+      inputRef.current[1] !== null
+    ) {
       inputRef.current[1].focus();
       return false;
     }
-    if (typeof inputData.birth !== 'string' && inputData.birth.month.length <= 0 && inputRef.current[2] !== null) { 
+    if (
+      typeof inputData.birth !== "string" &&
+      inputData.birth.month.length <= 0 &&
+      inputRef.current[2] !== null
+    ) {
       inputRef.current[2].focus();
       return false;
     }
-    if (typeof inputData.birth !== 'string' && inputData.birth.date.length <= 0 && inputRef.current[3] !== null) { 
+    if (
+      typeof inputData.birth !== "string" &&
+      inputData.birth.date.length <= 0 &&
+      inputRef.current[3] !== null
+    ) {
       inputRef.current[3].focus();
       return false;
     }
-    if (inputData.sex.length <= 0 && inputRef.current[4] !== null) { 
+    if (inputData.sex.length <= 0 && inputRef.current[4] !== null) {
       inputRef.current[4].focus();
       return false;
     }
-    if (inputData.height.length <= 0 && inputRef.current[5] !== null) { 
+    if (inputData.height.length <= 0 && inputRef.current[5] !== null) {
       inputRef.current[5].focus();
       return false;
     }
-    if (inputData.weight.length <= 0 && inputRef.current[6] !== null) { 
+    if (inputData.weight.length <= 0 && inputRef.current[6] !== null) {
       inputRef.current[6].focus();
       return false;
     }
 
-    dispatch(signupActions.saveSignupState({
-      name: inputData.name.trim(),
-      birth: birthJoin,
-      sex: inputData.sex,
-      height: inputData.height.trim(),
-      weight: inputData.weight.trim()
-    }))
+    dispatch(
+      signupActions.saveSignupState({
+        name: inputData.name.trim(),
+        birth: birthJoin,
+        sex: inputData.sex,
+        height: inputData.height.trim(),
+        weight: inputData.weight.trim(),
+      }),
+    );
     // sessionStorage.setItem('member_login_step1', JSON.stringify(inputData))
-    router.push(`/member/signup/step2`)
-    console.log('states: ', states);
-  }
+    router.push(`/member/signup/step2`);
+    console.log("states: ", states);
+  };
 
-  useEffect(() => {
-    
-  }, [])
+  useEffect(() => {}, []);
 
   return (
     <>
-      <PageTitle title={title}/>
+      <PageTitle title={title} />
       <BaseContentWrap>
-        <JoinStep active={'1'}/>
+        <JoinStep active={"1"} />
         <div>
           <SignUpTitleWrap>
             <SignUpTitleText>안녕하세요, 회원님!</SignUpTitleText>
@@ -144,43 +160,57 @@ const page = () => {
           <div>
             <SignUpInputContainer>
               <LabelTitle>이름</LabelTitle>
-              <Input 
-                type="text" 
+              <Input
+                type="text"
                 name="name"
-                value={inputData.name} 
+                value={inputData.name}
                 onChange={handleInputChange}
-                ref={(element) => inputRef.current[0] = element}
+                ref={element => (inputRef.current[0] = element)}
               />
             </SignUpInputContainer>
             <SignUpInputContainer>
               <LabelTitle>생년월일</LabelTitle>
               <InputRowWrap>
-                <Input 
-                  type="text" 
+                <Input
+                  type="text"
                   name="year"
-                  value={typeof inputData.birth !== 'string' ? inputData.birth.year : ""} 
+                  value={
+                    typeof inputData.birth !== "string"
+                      ? inputData.birth.year
+                      : ""
+                  }
                   maxLength={4}
                   onChange={handleInputChange}
-                  ref={(element) => inputRef.current[1] = element}
-                  inputMode='decimal'
-                  />/
-                <Input 
+                  ref={element => (inputRef.current[1] = element)}
+                  inputMode="decimal"
+                />
+                /
+                <Input
                   type="text"
-                  name="month" 
+                  name="month"
                   maxLength={2}
-                  value={typeof inputData.birth !== 'string' ? inputData.birth.month : ""} 
+                  value={
+                    typeof inputData.birth !== "string"
+                      ? inputData.birth.month
+                      : ""
+                  }
                   onChange={handleInputChange}
-                  ref={(element) => inputRef.current[2] = element}
-                  inputMode='decimal'
-                />/
-                <Input 
-                  type="text" 
+                  ref={element => (inputRef.current[2] = element)}
+                  inputMode="decimal"
+                />
+                /
+                <Input
+                  type="text"
                   name="date"
                   maxLength={2}
-                  value={typeof inputData.birth !== 'string' ? inputData.birth.date : ""} 
+                  value={
+                    typeof inputData.birth !== "string"
+                      ? inputData.birth.date
+                      : ""
+                  }
                   onChange={handleInputChange}
-                  ref={(element) => inputRef.current[3] = element}
-                  inputMode='decimal'
+                  ref={element => (inputRef.current[3] = element)}
+                  inputMode="decimal"
                 />
               </InputRowWrap>
             </SignUpInputContainer>
@@ -188,22 +218,22 @@ const page = () => {
               <LabelTitle>성별</LabelTitle>
               <RadioButton>
                 <label>
-                  <input 
+                  <input
                     type="radio"
-                    name="sex" 
-                    value="MAN" 
+                    name="sex"
+                    value="MAN"
                     onChange={handleInputChange}
-                    ref={(element) => inputRef.current[4] = element}  
+                    ref={element => (inputRef.current[4] = element)}
                   />
                   <span>남성</span>
                 </label>
                 <label>
-                  <input 
+                  <input
                     type="radio"
-                    name="sex" 
-                    value="WOMAN" 
+                    name="sex"
+                    value="WOMAN"
                     onChange={handleInputChange}
-                    ref={(element) => inputRef.current[4] = element}
+                    ref={element => (inputRef.current[4] = element)}
                   />
                   <span>여성</span>
                 </label>
@@ -213,25 +243,25 @@ const page = () => {
               <LabelTitle>키, 몸무게</LabelTitle>
               <InputRowWrap>
                 <InputWrap>
-                  <Input 
-                    type="text" 
-                    value={inputData.height} 
-                    name='height'
+                  <Input
+                    type="text"
+                    value={inputData.height}
+                    name="height"
                     onChange={handleHeightWeightChange}
-                    ref={(element) => inputRef.current[5] = element}
-                    inputMode='decimal'
+                    ref={element => (inputRef.current[5] = element)}
+                    inputMode="decimal"
                   />
                   <span>cm</span>
                 </InputWrap>
                 /
                 <InputWrap>
-                  <Input 
-                    type="text" 
-                    value={inputData.weight} 
-                    name='weight'
+                  <Input
+                    type="text"
+                    value={inputData.weight}
+                    name="weight"
                     onChange={handleHeightWeightChange}
-                    ref={(element) => inputRef.current[6] = element}
-                    inputMode='decimal'
+                    ref={element => (inputRef.current[6] = element)}
+                    inputMode="decimal"
                   />
                   <span>kg</span>
                 </InputWrap>
@@ -240,14 +270,13 @@ const page = () => {
           </div>
         </div>
         <ButtonAreaFixed nav={false}>
-          <Button 
-            variant='primary' 
-            onClick={handleNext}
-          >다음</Button>
+          <Button variant="primary" onClick={handleNext}>
+            다음
+          </Button>
         </ButtonAreaFixed>
       </BaseContentWrap>
     </>
-  )
-}
+  );
+};
 
 export default page;
