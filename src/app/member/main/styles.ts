@@ -102,42 +102,55 @@ export const TodayTab = styled.section`
 `
 
 export const TodayMeal = styled.div`
-  >div {
+  > div {
     display: flex;
     justify-content: space-between;
+    > div {
+      width: 50%;
+    }
   } 
-  .title {
+`
+
+export const TodayMealContents = styled.div`
+  .title { 
     font-size: var(--font-s);
     color: var(--font-gray700);
   }
   span {
     font-weight: var(--font-semibold);
+    font-size: var(--font-l);
   }
-  ul {
-    margin-top: 0.625rem;
-    margin-bottom: 1.5rem;
-    li {
-      display: flex;
-      align-items: center;
-      font-size: var(--font-s);
-      line-height: var(--font-xxxl);
-      &::before {
-        content: '';
-        display: block;
-        width: 9px;
-        height: 9px;
-        border-radius: 50%;
-        margin-right: 0.5rem;
-      }
-      &:nth-child(1)::before{
-        background-color: var(--yellow);
-      } 
-      &:nth-child(2)::before {
-        background-color: var(--coral);
-      }
-      &:nth-child(3)::before {
-        background-color: var(--mint);
-      }
+`
+
+export const TodayMealList = styled.ul`
+  margin-top: 0.625rem;
+  margin-bottom: 0.5rem;
+  li {
+    display: flex;
+    align-items: center;
+    font-size: var(--font-s);
+    line-height: var(--font-xxxl);
+
+    &::before {
+      content: '';
+      display: block;
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      margin-right: 0.5rem;
+    }
+    &:nth-child(1)::before{
+      background-color: var(--carbohydrate);
+    } 
+    &:nth-child(2)::before {
+      background-color: var(--protein);
+    }
+    &:nth-child(3)::before {
+      background-color: var(--fat);
+    }
+
+    strong {
+      margin-left: 0.25rem;
     }
   }
 `

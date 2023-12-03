@@ -1,6 +1,4 @@
 import { BaseHeader } from '@/styles/Layout';
-import { NextPage } from 'next';
-import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import React, { SetStateAction } from 'react'
 import { styled } from 'styled-components';
