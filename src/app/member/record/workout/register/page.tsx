@@ -2,13 +2,13 @@
 
 import { MonthlyModal } from '@/components/MonthlyModal';
 import PageTitle from '@/components/PageTitle';
+import WorkoutList from '@/components/member/WorkoutList';
 import { useAppSelector } from '@/redux/hooks';
 import { WorkoutPayload, workoutRecordActions } from '@/redux/reducers/workoutRecordSlice';
 import { AddImgButton } from '@/styles/AddButton';
 import { Button } from '@/styles/Button';
 import { BaseContentWrap, ContentSection, RoundBox } from '@/styles/Layout';
 import { LabelTitle } from '@/styles/Text';
-import { WorkoutList } from '@/styles/WorkoutList';
 import { api } from '@/utils/axios';
 import { format } from 'date-fns';
 import { ko } from 'date-fns/locale';
@@ -96,16 +96,16 @@ const page = () => {
   }
 
   const dateText = (date: String) => {
-    if(typeof date === 'string') {
+    if (typeof date === 'string') {
       const d = new Date(date)
-      const convertDate = format(d, 'yyyy년 MM월 dd일 (EEE)', {locale: ko});
+      const convertDate = format(d, 'yyyy년 MM월 dd일 (EEE)', { locale: ko });
       return convertDate;
     }
   }
 
   const dateType = () => {
     const stringDate = activeDate?.toString();
-    if(stringDate) {
+    if (stringDate) {
       const currentDate = new Date(stringDate)
       setRecordDate(format(currentDate, 'yyyy-MM-dd'))
       // console.log(recordDate)
@@ -119,7 +119,7 @@ const page = () => {
   useEffect(() => {
     dateType()
   }, [activeDate])
-  
+
   useEffect(() => {
     handleGetWorkoutRecord()
     console.log('states: ', states);
@@ -155,31 +155,15 @@ const page = () => {
               {/* <div>!</div>
               <p>아직 등록된 운동이 없어요</p> */}
             </AddRecordButton>
-            : <WorkoutList>
-              <div>
-                <ul>
-                  {
-                    todayWorkout?.map((workout, index) => {
-                      return (
-                        <li key={index}>
-                          <div>이미지</div>
-                          <div>
-                            <div>{workout.title}</div>
-                            <div className='workout-contents'>{workout.set}</div>
-                          </div>
-                        </li>
-                      )
-                    })
-                  }
-                </ul>
-                <AddRecordButton 
-                  onClick={handleAddWorkout}
-                  style={{
-                    height: "48px",
-                  }}
-                />
-              </div>
-            </WorkoutList>
+            : <>
+              <WorkoutList workout={todayWorkout}/>
+              <AddRecordButton
+                onClick={handleAddWorkout}
+                style={{
+                  height: "48px",
+                }}
+              />
+            </>
           }
         </ContentSection>
         <ContentSection>

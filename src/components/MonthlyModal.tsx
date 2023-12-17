@@ -55,6 +55,7 @@ const ModalContainer = styled.div`
   .react-calendar {
     font-family: var(--font);
     border: none;
+    width: 100%;
   }
 
   .react-calendar__navigation {
@@ -66,6 +67,11 @@ const ModalContainer = styled.div`
   }
   .react-calendar__tile {
     color: var(--font-gray700);
+    height: 4rem;
+    /* display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    align-items: center; */
   }
   .react-calendar__tile:enabled:hover,
   .react-calendar__tile:enabled:focus,
@@ -79,10 +85,32 @@ const ModalContainer = styled.div`
     abbr {
       background-color: var(--primary);
       color: var(--white);
+      width: 1.875rem;
+      height: 1.875rem;
       border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
       padding: 0.25rem;
     }
   }
+`
+
+const DotWrap = styled.div`
+  /* display: flex; */
+  /* gap: 0.25rem; */
+  position: absolute;
+  /* align-items: center;
+  justify-content: center; */
+`
+
+const Dot = styled.div`
+  width: 0.25rem;
+  height: 0.25rem;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  background-color: var(--black);
 `
 
 
@@ -94,15 +122,23 @@ interface ModalProps {
   setActiveDate: React.Dispatch<React.SetStateAction<Value>>;
 }
 
-export const MonthlyModal = ({ 
-  displayModal, 
-  setDisplayModal, 
-  slideUpModal, 
+export const MonthlyModal = ({
+  displayModal,
+  setDisplayModal,
+  slideUpModal,
   setSlideUpModal,
   setActiveDate
 }: ModalProps) => {
   const [value, onChange] = useState<Value>(new Date());
-  
+  const markDate = [
+    '2023-11-02',
+    '2023-11-04',
+    '2023-11-10',
+    '2023-11-11',
+    '2023-11-23',
+    '2023-11-27',
+  ]
+
   useEffect(() => {
     // console.log('value: ', value?.toString());
     setActiveDate(value)
@@ -125,17 +161,31 @@ export const MonthlyModal = ({
 
   return (
     <ModalContainer>
-      <div 
-        className={`modal`} 
+      <div
+        className={`modal`}
         style={{ bottom: slideUpModal ? "0" : "-100%" }}>
-        <Calendar 
-          calendarType="gregory" 
+        <Calendar
+          calendarType="gregory"
           formatDay={(locale, date) => format(date, 'd')}
           next2Label={null}
           prev2Label={null}
           showNeighboringMonth={false}
           value={value}
           onChange={onChange}
+          tileContent={({ date, view }) => {
+            let html = []
+            if (markDate.find(x => x === format(date, 'yyyy-MM-dd'))) {
+              html.push(<Dot></Dot>)
+            }
+            return (
+              <>
+                <div>
+                  {html}
+                </div>
+              </>
+            )
+
+          }}
         />
       </div>
       <div

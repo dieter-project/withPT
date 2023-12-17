@@ -66,7 +66,7 @@ const page = () => {
         setCookie('access', response.data.data.accessToken)
         setCookie('refreshToken', response.data.data.refreshToken)
         
-        // router.replace('/member/signup/finished') 
+        router.replace('/member/signup/finished') 
       }
 
     } catch (error) {
@@ -112,7 +112,7 @@ const page = () => {
           }
         </RadioButton>
       </div>
-      <ButtonAreaFixed nav={false}>
+      <ButtonAreaFixed nav={false.toString()}>
         <Button 
           variant='primary' 
           onClick={handleSubmit}

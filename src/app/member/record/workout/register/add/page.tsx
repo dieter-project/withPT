@@ -243,7 +243,7 @@ const page = () => {
             />
           </ToggleButton>
         </BookmarkSaveToggle>
-        <ButtonAreaFixed nav={true}>
+        <ButtonAreaFixed nav={true.toString()}>
           <Button variant='primary' onClick={handleAddRecord}>추가하기</Button>
         </ButtonAreaFixed>
       </BaseContentWrap>

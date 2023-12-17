@@ -88,7 +88,7 @@ const MonthlyCalendar = () => {
   const [value, onChange] = useState<Value>(new Date());
 
   const tileContent = ({date, view} : TileArgs): ReactElement => {
-    console.log('date: ', format(date, 'yyyy-MM-dd'));
+    // console.log('date: ', format(date, 'yyyy-MM-dd'));
     let html = []
     if (markDate.find(x => x === format(date, 'yyyy-MM-dd'))) {
       html.push(<Dot></Dot>)

@@ -94,7 +94,7 @@ const page = () => {
           </WeightInput>
         </div>
       </div>
-      <ButtonAreaFixed nav={false}>
+      <ButtonAreaFixed nav={false.toString()}>
         <Button 
           variant='primary' 
           onClick={handleNext}

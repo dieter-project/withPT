@@ -45,7 +45,12 @@ const page = () => {
   const title = '회원가입'
 
   const router = useRouter()
-  const inputRef = useRef<null[] | HTMLInputElement[]>([])
+  const nameRef = useRef<null | HTMLInputElement>(null)
+  const birthRef = useRef<null[] | HTMLInputElement[]>([])
+  const sexRef = useRef<null | HTMLInputElement>(null)
+  const heightRef = useRef<null | HTMLInputElement>(null)
+  const weightRef = useRef<null | HTMLInputElement>(null)
+
   const dispatch = useDispatch();
   const states = useAppSelector((state) => state.signup)
 
@@ -86,32 +91,32 @@ const page = () => {
       ? `${inputData.birth.year}-${inputData.birth.month.padStart(2, '0')}-${inputData.birth.date.padStart(2, '0')}`
       : ''
     
-    if (inputData.name.length <= 0 && inputRef.current[0] !== null) { 
-      inputRef.current[0].focus();
+    if (inputData.name.length <= 0 && nameRef.current !== null) { 
+      nameRef.current.focus();
       return false;
     }
-    if (typeof inputData.birth !== 'string' && inputData.birth.year.length <= 0 && inputRef.current[1] !== null) { 
-      inputRef.current[1].focus();
+    if (typeof inputData.birth !== 'string' && inputData.birth.year.length <= 0 && birthRef.current[0] !== null) { 
+      birthRef.current[0].focus();
       return false;
     }
-    if (typeof inputData.birth !== 'string' && inputData.birth.month.length <= 0 && inputRef.current[2] !== null) { 
-      inputRef.current[2].focus();
+    if (typeof inputData.birth !== 'string' && inputData.birth.month.length <= 0 && birthRef.current[1] !== null) { 
+      birthRef.current[1].focus();
       return false;
     }
-    if (typeof inputData.birth !== 'string' && inputData.birth.date.length <= 0 && inputRef.current[3] !== null) { 
-      inputRef.current[3].focus();
+    if (typeof inputData.birth !== 'string' && inputData.birth.date.length <= 0 && birthRef.current[2] !== null) { 
+      birthRef.current[2].focus();
       return false;
     }
-    if (inputData.sex.length <= 0 && inputRef.current[4] !== null) { 
-      inputRef.current[4].focus();
+    if (inputData.sex.length <= 0 && sexRef.current !== null) { 
+      sexRef.current.focus();
       return false;
     }
-    if (inputData.height.length <= 0 && inputRef.current[5] !== null) { 
-      inputRef.current[5].focus();
+    if (inputData.height.length <= 0 && heightRef.current !== null) { 
+      heightRef.current.focus();
       return false;
     }
-    if (inputData.weight.length <= 0 && inputRef.current[6] !== null) { 
-      inputRef.current[6].focus();
+    if (inputData.weight.length <= 0 && weightRef.current !== null) { 
+      weightRef.current.focus();
       return false;
     }
 
@@ -149,7 +154,7 @@ const page = () => {
                 name="name"
                 value={inputData.name} 
                 onChange={handleInputChange}
-                ref={(element) => inputRef.current[0] = element}
+                ref={nameRef}
               />
             </SignUpInputContainer>
             <SignUpInputContainer>
@@ -161,7 +166,7 @@ const page = () => {
                   value={typeof inputData.birth !== 'string' ? inputData.birth.year : ""} 
                   maxLength={4}
                   onChange={handleInputChange}
-                  ref={(element) => inputRef.current[1] = element}
+                  ref={(element) => birthRef.current[0] = element}
                   inputMode='decimal'
                   />/
                 <Input 
@@ -170,7 +175,7 @@ const page = () => {
                   maxLength={2}
                   value={typeof inputData.birth !== 'string' ? inputData.birth.month : ""} 
                   onChange={handleInputChange}
-                  ref={(element) => inputRef.current[2] = element}
+                  ref={(element) => birthRef.current[1] = element}
                   inputMode='decimal'
                 />/
                 <Input 
@@ -179,7 +184,7 @@ const page = () => {
                   maxLength={2}
                   value={typeof inputData.birth !== 'string' ? inputData.birth.date : ""} 
                   onChange={handleInputChange}
-                  ref={(element) => inputRef.current[3] = element}
+                  ref={(element) => birthRef.current[2] = element}
                   inputMode='decimal'
                 />
               </InputRowWrap>
@@ -193,7 +198,7 @@ const page = () => {
                     name="sex" 
                     value="MAN" 
                     onChange={handleInputChange}
-                    ref={(element) => inputRef.current[4] = element}  
+                    ref={sexRef}  
                   />
                   <span>남성</span>
                 </label>
@@ -203,7 +208,7 @@ const page = () => {
                     name="sex" 
                     value="WOMAN" 
                     onChange={handleInputChange}
-                    ref={(element) => inputRef.current[4] = element}
+                    ref={sexRef}
                   />
                   <span>여성</span>
                 </label>
@@ -218,7 +223,7 @@ const page = () => {
                     value={inputData.height} 
                     name='height'
                     onChange={handleHeightWeightChange}
-                    ref={(element) => inputRef.current[5] = element}
+                    ref={heightRef}
                     inputMode='decimal'
                   />
                   <span>cm</span>
@@ -230,7 +235,7 @@ const page = () => {
                     value={inputData.weight} 
                     name='weight'
                     onChange={handleHeightWeightChange}
-                    ref={(element) => inputRef.current[6] = element}
+                    ref={weightRef}
                     inputMode='decimal'
                   />
                   <span>kg</span>
@@ -239,7 +244,7 @@ const page = () => {
             </SignUpInputContainer>
           </div>
         </div>
-        <ButtonAreaFixed nav={false}>
+        <ButtonAreaFixed nav={false.toString()}>
           <Button 
             variant='primary' 
             onClick={handleNext}

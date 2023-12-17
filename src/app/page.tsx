@@ -71,7 +71,7 @@ export default function Home() {
   })
   const router = useRouter()
   const { fcmToken,notificationPermissionStatus } = useFcmToken();
-  fcmToken && console.log('FCM token:', fcmToken);
+  // fcmToken && console.log('FCM token:', fcmToken);
 
   // if ('serviceWorker' in navigator) {
   //   window.addEventListener('load', () => {
@@ -84,7 +84,7 @@ export default function Home() {
     if (typeof window !== 'undefined' && 'serviceWorker' in navigator) {
       const messaging = getMessaging(firebaseApp);
       const unsubscribe = onMessage(messaging, (payload) => {
-        console.log('Foreground push notification received:', payload);
+        // console.log('Foreground push notification received:', payload);
         // Handle the received push notification while the app is in the foreground
         // You can display a notification or update the UI based on the payload
       });
@@ -137,15 +137,10 @@ export default function Home() {
           <input type="radio" name="role" value="member" onChange={handleOnChange}/>
           <div className='role'>
             <ImgWrap>
-              <img src="" alt="" />
+              <img src="/images/member_profile.png" alt="member image" />
             </ImgWrap>
             <div 
               className='role-type'
-              style={
-                isActive.trainer === true 
-                ? {color: "#A2A2A5", fontWeight: "500"} 
-                : {}
-              }
             >일반회원</div>
           </div>
         </RoleChoiceButton>
@@ -153,7 +148,7 @@ export default function Home() {
           <input type="radio" name="role" value="trainer" onChange={handleOnChange}/>
           <div className='role'>
             <ImgWrap>
-              <img src="" alt="" />
+              <img src="/images/trainer_profile.png" alt="trainer image" />
             </ImgWrap>
             <div 
               className='role-type'
@@ -167,7 +162,7 @@ export default function Home() {
         </RoleChoiceButton>
       </RoleChoiceButtonWrap>
       { isActive.member === true || isActive.trainer === true 
-        ? <ButtonAreaFixed nav={true}>
+        ? <ButtonAreaFixed nav={true.toString()}>
             <Button
               variant='primary' 
               onClick={handleOnNext}

@@ -85,7 +85,7 @@ const page = () => {
           }
         </RadioButton>
       </div>
-      <ButtonAreaFixed nav={false}>
+      <ButtonAreaFixed nav={false.toString()}>
         <Button variant="primary" onClick={handleNext}>다음</Button>
       </ButtonAreaFixed>
     </BaseContentWrap>

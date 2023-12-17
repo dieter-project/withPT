@@ -147,7 +147,7 @@ const page = () => {
             </EmptyBookmark>
         }
       </BaseContentWrap>
-      <ButtonAreaFixed nav={true}>
+      <ButtonAreaFixed nav={true.toString()}>
         <Button variant='primary' onClick={() => router.push('/member/record/workout/bookmark/register')}>북마크 등록하기</Button>
       </ButtonAreaFixed>
     </>

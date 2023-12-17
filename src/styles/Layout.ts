@@ -6,7 +6,7 @@ interface BoxProps {
 }
 
 interface BottomProps {
-  nav: boolean;
+  nav: string;
 }
 
 export const BaseContainer = styled.div`
