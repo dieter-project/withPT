@@ -1,8 +1,11 @@
 "use client";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import Link from "next/link";
+import { BaseContentWrap } from "@/styles/Layout";
 import { useSession, signIn, signOut } from "next-auth/react";
-import React, { useEffect } from "react";
+import Image from "next/image";
+import WePTLogo from "../../../../public/icons/weptLogo.png";
 
 const LoginWrap = styled.div`
   background-color: beige;
@@ -30,6 +33,10 @@ const KaKaoLoginButton = styled.button`
   background-color: #fee500;
   font-size: 1.1rem;
   font-weight: bold;
+`;
+
+const WePTLogoImg = styled(Image)`
+  margin: 0 auto;
 `;
 
 // const GoogleLoginButton = styled.button`
@@ -87,12 +94,59 @@ export default function Login() {
     window.location.href = googleURL;
   };
 
+  const LogoWrap = styled.div`
+    text-align: center;
+    margin: 130px 0 100px;
+  `;
+
+  const LoginButtonWrap = styled.div`
+    width: 100%;
+    height: 100vh;
+    text-align: center;
+    display: flex;
+    gap: 0.5rem;
+    flex-direction: column;
+  `;
+
+  const KakaoLoginButton = styled(LogninButton)`
+    background-color: #fee500;
+    &::before {
+      display: block;
+      content: "";
+      width: 1.5rem;
+      height: 1.5rem;
+      background: url(/svgs/icon_kakao.svg) no-repeat;
+      background-position: center;
+      background-size: contain;
+    }
+  `;
+
   return (
-    <div>
-      <GoogleLoginButton onClick={onGoogleSocialLogin}>
-        Google로 시작하기
-      </GoogleLoginButton>
-      {/* <button onClick={() => signIn("google")}>sign in with gooogle</button> */}
-    </div>
+    <>
+      <BaseContentWrap>
+        <LogoWrap>
+          <WePTLogoImg
+            src={WePTLogo}
+            alt="식단 피드백 요청 이미지"
+            width="100"
+            height="100"
+          />
+        </LogoWrap>
+        <LoginButtonWrap>
+          <KakaoLoginButton
+          // onClick={onKakaoSocialLogin}
+          >
+            카카오톡으로 시작하기
+          </KakaoLoginButton>
+          <GoogleLoginButton onClick={onGoogleSocialLogin}>
+            Google로 시작하기
+          </GoogleLoginButton>
+          <div className="login">
+            {/* <Link href="/">로그인</Link> */}
+            <Link href="/">문의하기</Link>
+          </div>
+        </LoginButtonWrap>
+      </BaseContentWrap>
+    </>
   );
 }

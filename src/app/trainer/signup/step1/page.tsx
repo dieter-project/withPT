@@ -84,7 +84,7 @@ const SignupFormWrap = styled.div`
   margin-bottom: 1rem;
 `;
 
-const FormTitle = styled.h4`
+const FormTitle = styled.h4<TrInfo>`
   font-size: var(--font-l);
   margin-bottom: 0.2rem;
 `;
@@ -95,6 +95,7 @@ const TrGenderLabel = styled.label<TrGenderLabelProps>`
   background-color: var(--purple50);
   border: ${props => (props.selected ? "1.5px solid var(--primary)" : "none")};
   border-radius: 8px;
+  color: ${props => (props.selected ? "var(--primary)" : "black")};
   margin: 0 0.3rem;
   padding: 0.75rem 0;
   text-align: center;
@@ -226,7 +227,7 @@ export default function step1() {
     }
   };
 
-  console.log(inputData);
+  // console.log(inputData);
 
   const handleNext = () => {
     const birthJoin =

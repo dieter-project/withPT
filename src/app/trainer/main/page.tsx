@@ -14,6 +14,7 @@ import Image from "next/image";
 import foodFeedbackImg from "../../../../public/Trainer/Main/foodFeedback.png";
 import changeClassImg from "../../../../public/Trainer/Main/changeClass.png";
 import newClassImg from "../../../../public/Trainer/Main/newClass.png";
+import wePTLogo from "../../../../public/Trainer/wePTLogo.png";
 
 const MainContainer = styled.div`
   background-color: var(--purple50);
@@ -224,7 +225,7 @@ export default function Main() {
   return (
     <MainContainer>
       <MainHeader>
-        <img src="#!" alt="메인 로고 이미지"></img>
+        <Image src={wePTLogo} alt="메인 로고 이미지"></Image>
         <Link href="main/alert ">
           <Image src={alert} alt="카테고리 탭 로고"></Image>
         </Link>

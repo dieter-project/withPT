@@ -5,7 +5,7 @@ import Link from "next/link";
 import Script from "next/script";
 import { useDispatch } from "react-redux";
 import { api } from "@/utils/axios";
-import { signupActions } from "@/redux/reducers/signupSlice";
+import { signupActions } from "@/redux/reducers/trainerSignupSlice";
 import { setCookie } from "@/utils/cookie";
 
 export default function page() {

@@ -53,7 +53,7 @@ const SignupStepInfo = styled.p`
 
 const SignupStepInfoSub = styled.p`
   font-size: var(--font-m);
-  color: var(--font-gray400);
+  color: var(--black);
 `;
 
 const SignupFormWrap = styled.div`
@@ -338,36 +338,9 @@ export default function step2() {
               재직 중인 센터를 등록해 주세요.
             </SignupStepInfoSub>
           </div>
-          <SignupFormWrap>
-            <FormTitle>센터정보 등록</FormTitle>
-            <TrRegisItemWrap>
-              <SignupButton onClick={toggleModal}>
-                <Image
-                  src={searchIcon}
-                  alt="검색 아이콘"
-                  style={{ display: "inline-block", marginRight: "0.3rem" }}
-                />
-
-                {newSchedule ? (
-                  <NewScheduleWrap>
-                    <div>{newSchedule.days.join("/")}</div>
-                    <div>
-                      {newSchedule.startTime} ~ {newSchedule.endTime}
-                    </div>
-                    <div> </div>
-                  </NewScheduleWrap>
-                ) : (
-                  <span>등록할 센터를 검색해보세요.</span>
-                )}
-              </SignupButton>
-            </TrRegisItemWrap>
-          </SignupFormWrap>
-          <SignupFormWrap>
-            <FormTitle>일정 등록하기</FormTitle>
-            <SignupButton style={{ textAlign: "center" }}>
-              <RegistScheTxt>+</RegistScheTxt>
-            </SignupButton>
-          </SignupFormWrap>
+          <button>
+            <div>등록할 센터를 검색해 주세요.</div>
+          </button>
           <ButtonAreaFixed>
             <NextStep rel="preload" href="/trainer/register/step2">
               다음
