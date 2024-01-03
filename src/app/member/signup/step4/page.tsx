@@ -57,7 +57,7 @@ const page = () => {
 
     try {
       const response = await api.post('/api/v1/members/sign-up', states)
-      console.log('data: ', response);
+      console.log('data: ', response.data);
 
       if(response.data) {
         // dispatch(memberActions.getToken(response.data.data.accessToken))

@@ -35,7 +35,7 @@ export const KakaoLoginButton = styled(LogninButton)`
 `
 
 export const GoogleLoginButton = styled(LogninButton)`
-  border: 1px solid var(--border-gray);
+  border: 1px solid var(--border-gray300);
   &::before {
     display: block;
     content: "";

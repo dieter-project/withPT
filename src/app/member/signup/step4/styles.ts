@@ -13,7 +13,7 @@ export const RadioButton = styled.div`
   input[type='radio'] + span {
     width: 100%;
     height: 60px;
-    border: 1px solid var(--border-gray);
+    border: 1px solid var(--border-gray300);
     border-radius: 0.5rem;
     display: flex;
     align-items: center;

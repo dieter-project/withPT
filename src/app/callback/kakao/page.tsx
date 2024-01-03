@@ -14,13 +14,15 @@ export default function page () {
   const router = useRouter();
   
   const code = searchParams.get('code');
-  const role = window.sessionStorage.getItem('role');
+  const sessionRole = window.sessionStorage.getItem('role');
+  const localRole = window.localStorage.getItem('role');
   
   const handleGetAuthCode = async () => {
+    let role = sessionRole || localRole
     try {
       const response = await api.post('/api/v1/oauth/kakao',{
         authorizationCode: code,
-        role
+        role: "MEMBER"
       })
       
       if (response.data.accessToken) {
