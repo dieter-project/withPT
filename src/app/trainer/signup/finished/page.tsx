@@ -3,7 +3,7 @@ import ContentHeader from "@/components/TrainerPageTitle";
 import styled from "styled-components";
 import Link from "next/link";
 import Image from "next/image";
-import CheckIconGray from "../../../../../public/Trainer/Common/lastStep.jpg";
+import CheckIconPurple from "../../../../../public/Trainer/icons/checkIconPurple.png";
 
 const Wrap = styled.div`
   background-color: white;
@@ -74,7 +74,10 @@ export default function finished() {
       <ContentBody>
         <ContentInnerBody>
           <SignupFinWrap>
-            <SignupFinishImg src={CheckIconGray} alt="회원가입 완료 사진" />
+            <SignupFinishImg
+              src={CheckIconPurple}
+              alt="회원가입 완료 체크 버튼"
+            />
             <RegisterStepInfo>회원가입이 완료 되었어요!</RegisterStepInfo>
             <RegisterStepInfo
               style={{

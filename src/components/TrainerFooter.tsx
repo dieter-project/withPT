@@ -59,10 +59,10 @@ const TrainerFooter = () => {
         <FooterImgSpan>홈</FooterImgSpan>
       </FooterCtgItem>
 
-      <FooterCtgItem href="/trainer/membermanagement/schedule">
+      <FooterCtgItem href="/trainer/coursemanagement">
         <Image
           src={
-            pathname === "/trainer/membermanagement/schedule"
+            pathname === "/trainer/coursemanagement"
               ? manageCourse
               : manageCourseLight
           }

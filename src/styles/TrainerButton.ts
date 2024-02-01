@@ -34,9 +34,17 @@ export const Button = styled.button<ButtonProps>`
     `}
 
   ${props =>
-    props.variant === "outline" &&
+    props.variant === "outlinegray" &&
     css`
       border: 1px solid var(--border-gray);
+    `}
+
+    ${props =>
+    props.variant === "outlinepurple" &&
+    css`
+      border: 1px solid var(--primary);
+      background-color: var(--white);
+      color: var(--primary);
     `}
 `;
 

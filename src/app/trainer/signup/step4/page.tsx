@@ -325,7 +325,6 @@ export default function step4() {
     Array<{ days: string[]; startTime: string; endTime: string }>
   >([]);
   const [searchValue, setSearchValue] = useState("");
-  // console.log(selectedSchedules);
 
   //error message
   const [overlapError, setOverlapError] = useState<string | null>(null);
