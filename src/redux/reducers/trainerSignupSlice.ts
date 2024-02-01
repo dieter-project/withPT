@@ -60,7 +60,7 @@ interface Educations {
   acquisitionYearMonth: string;
 }
 
-export type SignupState = {
+export type TrainerSignupState = {
   email: string | null;
   name: string | null;
   birth: string | null;
@@ -75,7 +75,7 @@ export type SignupState = {
   role: string | null;
 };
 
-let initialState: SignupState = {
+let initialState: TrainerSignupState = {
   email: null,
   name: null,
   birth: null,
@@ -90,8 +90,8 @@ let initialState: SignupState = {
   role: null,
 };
 
-const signupSlice = createSlice({
-  name: "signup",
+const trainerSignupSlice = createSlice({
+  name: "trainersignup",
   initialState,
   reducers: {
     saveSignupState: (state, action) => {
@@ -103,5 +103,5 @@ const signupSlice = createSlice({
   },
 });
 
-export const signupActions = signupSlice.actions;
-export default signupSlice.reducer;
+export const signupActions = trainerSignupSlice.actions;
+export default trainerSignupSlice.reducer;

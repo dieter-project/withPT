@@ -1,7 +1,7 @@
 import { useRouter } from "next/navigation";
 import React from "react";
 import { styled } from "styled-components";
-import beforePage from "../../public/icons/beforePage.png";
+import beforePage from "../../../public/icons/beforePage.png";
 import Image from "next/image";
 
 interface Props {
@@ -37,7 +37,7 @@ const Transparent = styled.div`
   color: transparent;
 `;
 
-const PageTitle: React.FC<Props> = ({ title }) => {
+const TrPageTitle: React.FC<Props> = ({ title }) => {
   const router = useRouter();
 
   return (
@@ -51,4 +51,4 @@ const PageTitle: React.FC<Props> = ({ title }) => {
   );
 };
 
-export default PageTitle;
+export default TrPageTitle;

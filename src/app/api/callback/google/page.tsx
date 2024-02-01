@@ -12,7 +12,6 @@ export default function page() {
   const searchParams = useSearchParams();
   const dispatch = useDispatch();
   const router = useRouter();
-  // console.log("코드부분", code);
 
   const code = searchParams.get("code");
   const role = window.sessionStorage.getItem("role");
@@ -51,5 +50,5 @@ export default function page() {
     handleGetAuthCode();
   }, []);
 
-  return <div>구글보내주는 페이지</div>;
+  return <div>구글 보내주는 페이지</div>;
 }

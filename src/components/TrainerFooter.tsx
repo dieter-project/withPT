@@ -11,6 +11,7 @@ import manageMember from "./../../public/Trainer/Footer/manageMember.png";
 import manageMemberLight from "./../../public/Trainer/Footer/manageMemberLight.png";
 import chatLight from "./../../public/Trainer/Footer/chatLight.png";
 import myPageLight from "./../../public/Trainer/Footer/myPageLight.png";
+import myPage from "./../../public/Trainer/Footer/myPage.png";
 
 const MainFooter = styled.footer`
   position: fixed;
@@ -94,7 +95,7 @@ const TrainerFooter = () => {
 
       <FooterCtgItem href="/trainer/mypage">
         <Image
-          src={myPageLight}
+          src={pathname === "/trainer/mypage" ? myPage : myPageLight}
           alt="마이페이지 아이콘"
           style={{ display: "inline-block" }}
         />

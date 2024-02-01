@@ -1,10 +1,8 @@
 "use client";
 import styled from "styled-components";
 import Link from "next/link";
-import { format } from "date-fns";
-import ko from "date-fns/locale/ko";
+import ContentHeader from "@/components/TrainerPageTitle";
 import { useState, useEffect } from "react";
-import tabBar from "../../public/tabBar.png";
 import beforePageImg from "../../../../../public/icons/beforePage.png";
 import Image from "next/image";
 
@@ -14,18 +12,6 @@ const MainTitle = styled.h4`
   font-weight: 600;
   margin: 0 auto;
   font-size: var(--font-xl);
-`;
-
-const ContentHeader = styled.header`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background-color: white;
-  position: fixed;
-  width: 100%;
-  height: 3.62rem;
-  z-index: 100;
-  padding: 0 1.25rem;
 `;
 
 const MainContentWrap = styled.div`
@@ -66,19 +52,10 @@ const TrainerAlertContent = styled.div`
 `;
 
 export default function MainAlert() {
+  const title = "알림";
   return (
     <MainContainer>
-      <ContentHeader>
-        <Link href="/trainer/main ">
-          <BeforeImage
-            src={beforePageImg}
-            alt="이전 페이지"
-            width="24"
-            height="24"
-          ></BeforeImage>
-        </Link>
-        <MainTitle>알림</MainTitle>
-      </ContentHeader>
+      <ContentHeader title={title}></ContentHeader>
       <MainContentWrap>
         <TrainerAlertList>
           <TrainerAlertWrap>

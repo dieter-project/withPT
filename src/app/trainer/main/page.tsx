@@ -6,10 +6,9 @@ import ko from "date-fns/locale/ko";
 import { useState, useEffect } from "react";
 import ReactApexChart from "react-apexcharts";
 import { ApexOptions } from "apexcharts";
-import tabBar from "@/public/tabBar.png";
 import Footer from "@/components/TrainerFooter";
 import { Button } from "@/styles/TrainerButton";
-import alert from "../../../../public/icons/alert.png";
+import alert from "../../../../public/Trainer/Main/bell-solid.png";
 import Image from "next/image";
 import foodFeedbackImg from "../../../../public/Trainer/Main/foodFeedback.png";
 import changeClassImg from "../../../../public/Trainer/Main/changeClass.png";
@@ -227,7 +226,7 @@ export default function Main() {
       <MainHeader>
         <Image src={wePTLogo} alt="메인 로고 이미지"></Image>
         <Link href="main/alert ">
-          <Image src={alert} alt="카테고리 탭 로고"></Image>
+          <Image src={alert} alt="알림 탭 로고"></Image>
         </Link>
       </MainHeader>
       <MainContentWrap>

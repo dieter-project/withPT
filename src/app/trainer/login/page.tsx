@@ -6,6 +6,7 @@ import { BaseContentWrap } from "@/styles/Layout";
 import { useSession, signIn, signOut } from "next-auth/react";
 import Image from "next/image";
 import WePTLogo from "../../../../public/icons/weptLogo.png";
+import store from "../../../redux/store";
 
 const LoginWrap = styled.div`
   background-color: beige;
@@ -90,8 +91,16 @@ export default function Login() {
   const onGoogleSocialLogin = (): any => {
     const redirectUri = "http://localhost:3000/api/callback/google";
     const restApiKey = process.env.GOOGLE_CLIENT_ID;
-    const googleURL = `https://accounts.google.com/o/oauth2/v2/auth?client_id=666539117814-6j9ub78ger3dqj563l3juf2jh4qr591f.apps.googleusercontent.com&redirect_uri=${redirectUri}&response_type=code&scope=https://www.googleapis.com/auth/userinfo.email`;
+    const googleURL = `https://accounts.google.com/o/oauth2/v2/auth?client_id=393755297276-okv1n31pe5lm29819tolnkrq5annv4lk.apps.googleusercontent.com&redirect_uri=${redirectUri}&response_type=code&scope=https://www.googleapis.com/auth/userinfo.email`;
     window.location.href = googleURL;
+  };
+
+  const switchToTrainer = () => {
+    // 트레이너로 전환될 때 whitelist에 trainer, trainersignup 추가
+    persistor.persist().then(() => {
+      persistor.updateRehydratedNames(["trainer", "trainersignup"]);
+    });
+    // 추가적으로 필요한 작업 수행
   };
 
   const LogoWrap = styled.div`
@@ -101,7 +110,6 @@ export default function Login() {
 
   const LoginButtonWrap = styled.div`
     width: 100%;
-    height: 100vh;
     text-align: center;
     display: flex;
     gap: 0.5rem;
@@ -142,7 +150,6 @@ export default function Login() {
             Google로 시작하기
           </GoogleLoginButton>
           <div className="login">
-            {/* <Link href="/">로그인</Link> */}
             <Link href="/">문의하기</Link>
           </div>
         </LoginButtonWrap>

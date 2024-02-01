@@ -1,14 +1,18 @@
 "use client";
-import ContentHeader from "../../../../components/TrainerPageTitle";
+import ContentHeader from "@/components/TrainerPageTitle";
+import JoinStep from "@/components/Trainer/TrSignUpStep";
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import styled from "styled-components";
 import Link from "next/link";
+import ModalCloseXButtonImg from "../../../../../public/Trainer/Modal/close-line.png";
 import beforePage from "../../../../../public/icons/beforePage.png";
-import searchIcon from "../../../../../public/searchLight.png";
+import searchIconImg from "../../../../../public/searchLight.png";
 import deleteIcon from "../../../../../public/Trainer/delete.png";
 import checkIconPurple from "../../../../../public/Trainer/checkIconPurple.png";
 import checkIconGray from "../../../../../public/Trainer/checkIconGray.png";
+import { api } from "@/utils/axios";
+import { setCookie } from "@/utils/cookie";
 
 const Wrap = styled.div`
   position: relative;
@@ -19,16 +23,6 @@ const Wrap = styled.div`
   width: 100%;
   height: auto;
 `;
-
-// const ContentHeader = styled.div`
-//   background-color: white;
-//   position: fixed;
-//   width: 100%;
-//   height: 4.4rem;
-//   align-items: center;
-//   z-index: 100;
-//   display: flex;
-// `;
 
 const ButtonHistoryBack = styled.button`
   width: 2.4rem;
@@ -61,46 +55,12 @@ const SignupStepInfoSub = styled.p`
 `;
 
 const SignupFormWrap = styled.div`
-  margin-bottom: 1rem;
+  margin-bottom: 1.5rem;
 `;
 
 const FormTitle = styled.h4`
   font-size: var(--font-l);
   margin-bottom: 0.2rem;
-`;
-
-const SignupOrderWrap = styled.div`
-  font-size: var(--font-xxxs);
-  display: flex;
-  align-items: center;
-  margin-bottom: 1.5rem;
-`;
-const SignupOrderCurrent = styled.span`
-  width: 1.5rem;
-  height: 1.5rem;
-  background-color: var(--primary);
-  color: var(--white);
-  margin-bottom: 0.2rem;
-  margin-right: 0.62rem;
-  padding: 0.25rem;
-  border-radius: 0.5rem;
-  font-size: var(--font-xs);
-  font-weight: bold;
-  text-align: center;
-`;
-
-const SignupOrder = styled.span`
-  width: 1.5rem;
-  height: 1.5rem;
-  background-color: var(--purple100);
-  color: var(--purple200);
-  margin-bottom: 0.2rem;
-  margin-right: 0.62rem;
-  padding: 0.25rem;
-  border-radius: 0.5rem;
-  font-size: var(--font-xs);
-  font-weight: bold;
-  text-align: center;
 `;
 
 const TrRegisItemWrap = styled.div`
@@ -110,20 +70,19 @@ const TrRegisItemWrap = styled.div`
 const SignupButton = styled.button`
   width: 100%;
   border: none;
-  border-radius: 0.2rem;
+  border-radius: 0.5rem;
   margin-bottom: 1rem;
-  line-height: 2.3rem;
+  line-height: 3.5rem;
   background-color: var(--purple50);
   padding: 0.3rem 0.5rem;
   font-size: var(--font-m);
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
 `;
 
-const RegistScheTxt = styled.span`
-  width: 100%;
-  color: var(--font-gray400);
+const AlertMessage = styled.div`
+  font-size: var(--font-s);
+  font-weight: 500;
+  text-align: center;
+  margin-bottom: 1.56rem;
 `;
 
 const ButtonAreaFixed = styled.div`
@@ -136,12 +95,30 @@ const ButtonAreaFixed = styled.div`
   background-color: transparent;
 `;
 
-const NextStep = styled(Link)`
+const StepButtonWrap = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
+
+const NextTime = styled(Link)`
+  display: block;
+  border: 1px solid var(--primary);
+  border-radius: 0.6rem;
+  line-height: 3.5rem;
+  width: 10.3rem;
+  background-color: #fff;
+  color: var(--primary);
+  padding: 0 1.6rem;
+  text-align: center;
+`;
+
+const NextStep = styled.button`
   display: block;
   border: none;
   border-radius: 0.6rem;
-  line-height: 3rem;
-  width: 100%;
+  line-height: 3.5rem;
+  width: 10.3rem;
   background-color: var(--primary);
   color: white;
   padding: 0 1.6rem;
@@ -157,12 +134,18 @@ const Modal = styled.div`
   z-index: 999;
 `;
 
+const ModalCloseXButton = styled(Image)`
+  position: absolute;
+  top: 1%;
+  right: 2%;
+`;
+
 const ModalWrap = styled.div`
   position: absolute;
   bottom: -100%;
   left: 0;
   width: 100%;
-  max-height: 90vh;
+  height: 100vh;
   background-color: white;
   padding: 1.75rem 1rem 3.38rem;
   border-radius: 1rem 1rem 0 0;
@@ -214,7 +197,19 @@ const RegisterSchedule = styled.button`
   font-size: var(--font-xxxl);
 `;
 
-const ModalFormWrap = styled.div``;
+const ModalFormWrap = styled.div`
+  display: flex;
+  align-items: center;
+  background-color: var(--purple50);
+  border: none;
+  padding-left: 1vh;
+`;
+
+const ModalFormInput = styled.input`
+  background-color: transparent;
+  border: none;
+  outline: none;
+`;
 
 const ModalFormLabel = styled.label`
   padding: 0.62rem 0.75rem;
@@ -243,12 +238,6 @@ const ModalCheckBox = styled.input`
   &:checked + label {
     background-color: white;
   }
-`;
-
-const NewScheduleWrap = styled.div`
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
 `;
 
 const TimeSelect = styled.select`
@@ -281,10 +270,6 @@ const RegisterMessage = styled.span`
   color: var(--primary);
 `;
 
-const RegisterBeforeMessage = styled.span`
-  color: var(--font-gray400);
-`;
-
 const SelectedItemDay = styled.div`
   display: flex;
   justify-content: space-between;
@@ -292,7 +277,7 @@ const SelectedItemDay = styled.div`
 
 const SelectedItemTime = styled.div``;
 
-const overLapErrorMessage = styled.div``;
+const OverLapErrorMessage = styled.div``;
 
 const ScheduleFlexWrap = styled.div`
   border: 1px solid var(--font-gray400);
@@ -311,6 +296,23 @@ const CheckIcon = styled(Image)`
   margin-right: 0.38rem;
 `;
 
+const RegisterTitle = styled.div`
+  font-size: 1rem;
+  font-weight: 600;
+`;
+
+const PlusIcon = styled.span`
+  font-size: 1.5rem;
+  color: var(--font-secondary);
+  font-weight: 400;
+`;
+
+const SearchIcon = styled(Image)`
+  display: inline-block;
+  width: 1.5rem;
+  height: 1.5rem;
+`;
+
 export default function step4() {
   const title = "이력 등록";
 
@@ -322,7 +324,7 @@ export default function step4() {
   const [selectedSchedules, setSelectedSchedules] = useState<
     Array<{ days: string[]; startTime: string; endTime: string }>
   >([]);
-
+  const [searchValue, setSearchValue] = useState("");
   // console.log(selectedSchedules);
 
   //error message
@@ -465,23 +467,105 @@ export default function step4() {
 
   const timeOptions = generateTimeOptions();
 
+  const handleSubmit = async () => {
+    const dataToSend = {
+      email: "yellowbutter0327@gmail.com",
+      name: "조은혜",
+      birth: "2024-01-07",
+      sex: "MAN",
+      oauthProvider: "GOOGLE",
+      careers: [
+        {
+          centerName: "우당탕헬스장",
+          jobPosition: "트레이너",
+          status: "EMPLOYED",
+          startOfWorkYearMonth: "2022-01",
+          endOfWorkYearMonth: "2024-01",
+        },
+      ],
+      academics: [
+        {
+          institution: "FOUR_YEAR_UNIVERSITY",
+          name: "위피티대학교",
+          major: "위피티",
+          degree: "HIGH_SCHOOL_DIPLOMA",
+          country: "서울",
+          enrollmentYear: "2020",
+          graduationYear: "2023",
+        },
+      ],
+      certificates: [
+        {
+          name: "재활치료자격증",
+          institution: "재활치료협회",
+          acquisitionYearMonth: "2022-03",
+        },
+      ],
+      awards: [
+        {
+          name: "위피티수상",
+          institution: "위피티대학교",
+          acquisitionYear: "2020",
+        },
+      ],
+      educations: [
+        {
+          name: "위피티학원",
+          institution: "위피티",
+          acquisitionYearMonth: "2020-03",
+        },
+      ],
+      gyms: [
+        {
+          name: "헬스장1",
+          address: "서울시 강동구 성내동",
+          latitude: 3.1413161,
+          longitude: 4.151771,
+          workSchedules: [
+            {
+              day: "MON",
+              inTime: "13:00",
+              outTime: "17:00",
+            },
+          ],
+        },
+      ],
+    };
+
+    try {
+      const response = await api.post(
+        "http://43.200.45.234/api/v1/trainers/sign-up",
+        dataToSend,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        },
+      );
+      console.log("data: ", response);
+
+      // if (response.data) {
+      //   setCookie("access", response.data.accessToken);
+      //   setCookie("refreshToken", response.data.refreshToken);
+      // }
+    } catch (error) {
+      console.log("error: ", error);
+    }
+  };
+
   return (
     <Wrap>
       <ContentHeader title={title}></ContentHeader>
       <ContentBody>
         <ContentInnerBody>
-          <SignupOrderWrap>
-            <SignupOrder>1</SignupOrder>
-            <SignupOrder>2</SignupOrder>
-            <SignupOrder>3</SignupOrder>
-            <SignupOrderCurrent>4</SignupOrderCurrent>
-          </SignupOrderWrap>
+          <JoinStep active={"4"} />
           <div style={{ marginBottom: "1.5rem" }}>
             <SignupStepInfo>내 이력을 등록해주세요</SignupStepInfo>
             <SignupStepInfoSub>
               회원가입 후 마이페이지에서도 입력이 가능해요.
             </SignupStepInfoSub>
           </div>
+          <RegisterTitle>경력 입력</RegisterTitle>
           <SignupFormWrap>
             <TrRegisItemWrap>
               <SignupButton onClick={toggleModal}>
@@ -491,7 +575,9 @@ export default function step4() {
                     <RegisterMessage>등록 완료 </RegisterMessage>
                   </RegisterStatus>
                 ) : (
-                  <RegisterStatus>+</RegisterStatus>
+                  <>
+                    <PlusIcon>+</PlusIcon>
+                  </>
                 )}
               </SignupButton>
             </TrRegisItemWrap>
@@ -510,10 +596,79 @@ export default function step4() {
               ""
             )}
           </SignupFormWrap>
+          <RegisterTitle>자격증/수상/교육 등록</RegisterTitle>
+          <SignupFormWrap>
+            <TrRegisItemWrap>
+              <SignupButton onClick={toggleModal}>
+                {selectedSchedules[0] ? (
+                  <RegisterStatus>
+                    <CheckIcon src={checkIconPurple} alt="등록 완료 이미지" />
+                    <RegisterMessage>등록 완료 </RegisterMessage>
+                  </RegisterStatus>
+                ) : (
+                  <>
+                    <PlusIcon>+</PlusIcon>
+                  </>
+                )}
+              </SignupButton>
+            </TrRegisItemWrap>
+            {selectedSchedules[0] ? (
+              <ScheduleFlexWrap>
+                {selectedSchedules.map((schedule, index) => (
+                  <ScheduleFlex key={index}>
+                    <span>{schedule.days.join("/")}</span>
+                    <span>
+                      {schedule.startTime} ~ {schedule.endTime}
+                    </span>
+                  </ScheduleFlex>
+                ))}
+              </ScheduleFlexWrap>
+            ) : (
+              ""
+            )}
+          </SignupFormWrap>
+          <RegisterTitle>학력사항 등록</RegisterTitle>
+          <SignupFormWrap>
+            <TrRegisItemWrap>
+              <SignupButton onClick={toggleModal}>
+                {selectedSchedules[0] ? (
+                  <RegisterStatus>
+                    <CheckIcon src={checkIconPurple} alt="등록 완료 이미지" />
+                    <RegisterMessage>등록 완료 </RegisterMessage>
+                  </RegisterStatus>
+                ) : (
+                  <>
+                    <PlusIcon>+</PlusIcon>
+                  </>
+                )}
+              </SignupButton>
+            </TrRegisItemWrap>
+            {selectedSchedules[0] ? (
+              <ScheduleFlexWrap>
+                {selectedSchedules.map((schedule, index) => (
+                  <ScheduleFlex key={index}>
+                    <span>{schedule.days.join("/")}</span>
+                    <span>
+                      {schedule.startTime} ~ {schedule.endTime}
+                    </span>
+                  </ScheduleFlex>
+                ))}
+              </ScheduleFlexWrap>
+            ) : (
+              ""
+            )}
+          </SignupFormWrap>
+
           <ButtonAreaFixed>
-            <NextStep rel="preload" href="/trainer/register/step2">
-              다음
-            </NextStep>
+            <AlertMessage>
+              등록된 트레이너 이력은 회원페이지에 노출이 됩니다.
+            </AlertMessage>
+            <StepButtonWrap>
+              <NextTime rel="preload" href="/trainer/register/step5">
+                넘어가기
+              </NextTime>
+              <NextStep onClick={handleSubmit}>다음</NextStep>
+            </StepButtonWrap>
           </ButtonAreaFixed>
         </ContentInnerBody>
       </ContentBody>
@@ -521,13 +676,32 @@ export default function step4() {
         <Modal>
           <ModalWrap style={{ bottom: showModalContent ? "0" : "-100%" }}>
             <ModalHeader>경력 입력</ModalHeader>
+            <ModalCloseXButton
+              src={ModalCloseXButtonImg}
+              alt="모달을 닫는 버튼"
+              onClick={() => setIsModalOpen(false)}
+            />
             <ModalBody>
               <ModalContent>
                 <ModalContentTit>센터</ModalContentTit>
-                <ModalFormWrap>검색</ModalFormWrap>
+                <ModalFormWrap>
+                  {!searchValue && (
+                    <SearchIcon src={searchIconImg} alt="검색 돋보기 이미지" />
+                  )}
+                  <ModalFormInput
+                    type="text"
+                    placeholder="검색"
+                    value={searchValue}
+                    onChange={e => setSearchValue(e.target.value)}
+                  ></ModalFormInput>
+                </ModalFormWrap>
               </ModalContent>
               <ModalContent>
                 <ModalContentTit>직책</ModalContentTit>
+              </ModalContent>
+
+              <ModalContent>
+                <ModalContentTit>일정</ModalContentTit>
                 <TimeSelect
                   value={selectedStartTime}
                   onChange={e => handleStartTimeChange(e.target.value)}
@@ -539,7 +713,6 @@ export default function step4() {
                     </option>
                   ))}
                 </TimeSelect>
-                <ModalContentTit>종료</ModalContentTit>
                 <TimeSelect
                   value={selectedEndTime}
                   onChange={e => handleEndTimeChange(e.target.value)}
@@ -556,9 +729,6 @@ export default function step4() {
                 <RegisterSchedule onClick={handleConfirm}>+</RegisterSchedule>
               </ModalContent>
 
-              <div>
-                <ModalContentTit>일정</ModalContentTit>
-              </div>
               <div style={{ paddingBottom: "10rem" }}>
                 <ScheduleWrap>
                   {selectedSchedules.map((schedule, index) => (
@@ -574,11 +744,11 @@ export default function step4() {
                   ))}
                 </ScheduleWrap>
                 {overlapError && (
-                  <overLapErrorMessage
+                  <OverLapErrorMessage
                     style={{ color: "red", marginBottom: "1rem" }}
                   >
                     {overlapError}
-                  </overLapErrorMessage>
+                  </OverLapErrorMessage>
                 )}
               </div>
               <ModalCloseButton onClick={modalClose}>저장하기</ModalCloseButton>

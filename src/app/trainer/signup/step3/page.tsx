@@ -1,14 +1,17 @@
 "use client";
-import ContentHeader from "../../../../components/TrainerPageTitle";
+import ContentHeader from "@/components/TrainerPageTitle";
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import styled from "styled-components";
 import Link from "next/link";
+import JoinStep from "@/components/Trainer/TrSignUpStep";
 import beforePage from "../../../../../public/icons/beforePage.png";
 import searchIcon from "../../../../../public/searchLight.png";
 import deleteIcon from "../../../../../public/Trainer/delete.png";
 import checkIconPurple from "../../../../../public/Trainer/checkIconPurple.png";
 import checkIconGray from "../../../../../public/Trainer/checkIconGray.png";
+import ModalCloseXButtonImg from "../../../../../public/Trainer/Modal/close-line.png";
+import { arrayBuffer } from "stream/consumers";
 
 const Wrap = styled.div`
   position: relative;
@@ -19,16 +22,6 @@ const Wrap = styled.div`
   width: 100%;
   height: auto;
 `;
-
-// const ContentHeader = styled.div`
-//   background-color: white;
-//   position: fixed;
-//   width: 100%;
-//   height: 4.4rem;
-//   align-items: center;
-//   z-index: 100;
-//   display: flex;
-// `;
 
 const ButtonHistoryBack = styled.button`
   width: 2.4rem;
@@ -50,7 +43,7 @@ const ContentBody = styled.div`
 const ContentInnerBody = styled.div``;
 
 const SignupStepInfo = styled.p`
-  font-size: var(--font-xxxl);
+  font-size: var(--font-xl);
   font-weight: 600;
   color: #222;
 `;
@@ -112,9 +105,9 @@ const SignupButton = styled.button`
   border: none;
   border-radius: 0.2rem;
   margin-bottom: 1rem;
-  line-height: 2.3rem;
+  line-height: 1.18rem;
   background-color: var(--purple50);
-  padding: 0.3rem 0.5rem;
+  padding: 1rem 0.88rem;
   font-size: var(--font-m);
   display: flex;
   justify-content: space-between;
@@ -150,11 +143,13 @@ const NextStep = styled(Link)`
 
 const Modal = styled.div`
   position: fixed;
+  display: flex;
+  align-items: center;
   width: 100%;
   height: 100%;
   top: 0;
   left: 0;
-  z-index: 999;
+  z-index: 100;
 `;
 
 const ModalWrap = styled.div`
@@ -162,11 +157,17 @@ const ModalWrap = styled.div`
   bottom: -100%;
   left: 0;
   width: 100%;
-  max-height: 90vh;
+  height: 100vh;
   background-color: white;
   padding: 1.75rem 1rem 3.38rem;
   border-radius: 1rem 1rem 0 0;
   transition: 0.3s;
+`;
+
+const ModalCloseXButton = styled(Image)`
+  position: absolute;
+  top: 1%;
+  right: 2%;
 `;
 
 const ModalCloseButton = styled.button`
@@ -269,6 +270,8 @@ const SelectedItem = styled.div`
 `;
 
 const CenterName = styled.div`
+  width: 60%;
+  text-align: left;
   color: black;
 `;
 
@@ -292,9 +295,10 @@ const SelectedItemDay = styled.div`
 
 const SelectedItemTime = styled.div``;
 
-const overLapErrorMessage = styled.div``;
+const OverLapErrorMessage = styled.div``;
 
 const ScheduleFlexWrap = styled.div`
+  position: relative;
   border: 1px solid var(--font-gray400);
   border-radius: 0.5rem;
   padding: 1rem 1.19rem;
@@ -311,8 +315,54 @@ const CheckIcon = styled(Image)`
   margin-right: 0.38rem;
 `;
 
+const OverLapWrap = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 300;
+  border-radius: 0.5rem;
+`;
+
+const OverLapModal = styled.div`
+  font-family: var(--font);
+  width: 18.125rem;
+  height: 9.5rem;
+  padding-top: 1.19rem;
+  text-align: center;
+  background-color: white;
+  border-radius: 0.5rem;
+  color: black;
+  font-size: 3vh;
+`;
+
+const OverLapTitle = styled.h4`
+  text-align: center;
+  font-weight: 600;
+  font-size: 17px;
+`;
+
+const OverLapMessage = styled.div`
+  font-size: var(--font-m);
+  color: rgba(0, 0, 0, 0.5);
+  margin-bottom: 1.06rem;
+`;
+
+const OverLapClose = styled.button`
+  all: unset;
+  width: 100%;
+  font-size: var(--font-m);
+  padding-top: 0.62rem;
+  border-top: 1px solid rgba(0, 0, 0, 0.3);
+`;
+
 export default function step3() {
-  const title = "회원 가입";
+  const title = "센터일정 등록";
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [showModalContent, setShowModalContent] = useState(false);
@@ -326,7 +376,7 @@ export default function step3() {
   // console.log(selectedSchedules);
 
   //error message
-  const [overlapError, setOverlapError] = useState<string | null>(null);
+  const [overlapError, setOverlapError] = useState<boolean>(false);
 
   const [allSchedules, setAllSchedules] = useState<
     Array<{ days: string[]; startTime: string; endTime: string }>
@@ -353,7 +403,7 @@ export default function step3() {
     });
 
     if (isOverlap) {
-      setOverlapError("날짜와 시간이 겹칩니다.");
+      setOverlapError(true);
     } else {
       setOverlapError(null);
 
@@ -388,9 +438,9 @@ export default function step3() {
     });
 
     if (isOverlap) {
-      setOverlapError("날짜와 시간이 겹칩니다.");
+      setOverlapError(true);
     } else {
-      setOverlapError(null);
+      setOverlapError(false);
 
       // 선택한 일정 정보를 저장
       const schedule = {
@@ -423,11 +473,14 @@ export default function step3() {
   }, [isModalOpen]);
 
   const handleDayClick = (day: string) => {
-    // 선택한 요일을 추가 또는 제거합니다.
     if (selectedDays.includes(day)) {
       setSelectedDays(selectedDays.filter(d => d !== day));
     } else {
-      setSelectedDays([...selectedDays, day]);
+      const updatedDays = [...selectedDays, day].sort((a, b) => {
+        const daysOrder = ["월", "화", "수", "목", "금", "토", "일"];
+        return daysOrder.indexOf(a) - daysOrder.indexOf(b);
+      });
+      setSelectedDays(updatedDays);
     }
   };
 
@@ -465,6 +518,12 @@ export default function step3() {
 
   const timeOptions = generateTimeOptions();
 
+  const handleRemoveSchedule = index => {
+    const newSelectedSchedules = [...selectedSchedules];
+    newSelectedSchedules.splice(index, 1);
+    setSelectedSchedules(newSelectedSchedules);
+  };
+
   return (
     <Wrap>
       {/* <ContentHeader>
@@ -477,13 +536,8 @@ export default function step3() {
 
       <ContentBody>
         <ContentInnerBody>
-          <SignupOrderWrap>
-            <SignupOrder>1</SignupOrder>
-            <SignupOrder>2</SignupOrder>
-            <SignupOrderCurrent>3</SignupOrderCurrent>
-            <SignupOrder>4</SignupOrder>
-          </SignupOrderWrap>
-          <div style={{ marginBottom: "1.5rem" }}>
+          <JoinStep active={"3"} />
+          <div style={{ marginBottom: "0.81rem" }}>
             <SignupStepInfo>센터일정을 등록해주세요.</SignupStepInfo>
             <SignupStepInfoSub>
               센터별로 수업이 가능한 시간을 등록해 주세요.
@@ -508,6 +562,12 @@ export default function step3() {
             </TrRegisItemWrap>
             {selectedSchedules[0] ? (
               <ScheduleFlexWrap>
+                <ModalCloseXButton
+                  src={ModalCloseXButtonImg}
+                  alt="리스트 삭제 버튼"
+                  onClick={() => handleRemoveSchedule()}
+                />
+                {/* <img></img> */}
                 {selectedSchedules.map((schedule, index) => (
                   <ScheduleFlex key={index}>
                     <span>{schedule.days.join("/")}</span>
@@ -532,6 +592,11 @@ export default function step3() {
         <Modal>
           <ModalWrap style={{ bottom: showModalContent ? "0" : "-100%" }}>
             <ModalHeader>아자아자 피트니스 센터</ModalHeader>
+            <ModalCloseXButton
+              src={ModalCloseXButtonImg}
+              alt="모달을 닫는 버튼"
+              onClick={() => setIsModalOpen(false)}
+            />
             <ModalBody>
               <ModalContent>
                 <ModalContentTit>날짜</ModalContentTit>
@@ -607,7 +672,6 @@ export default function step3() {
                   value={selectedStartTime}
                   onChange={e => handleStartTimeChange(e.target.value)}
                 >
-                  <option value="">06:00</option>
                   {timeOptions.map((timeOption, index) => (
                     <option key={index} value={timeOption}>
                       {timeOption}
@@ -619,7 +683,6 @@ export default function step3() {
                   value={selectedEndTime}
                   onChange={e => handleEndTimeChange(e.target.value)}
                 >
-                  <option value="">24:00</option>
                   {timeOptions.map((timeOption, index) => (
                     <option key={index} value={timeOption}>
                       {timeOption}
@@ -640,7 +703,6 @@ export default function step3() {
                     <SelectedItem key={index}>
                       <SelectedItemDay>
                         <span>{schedule.days.join("/")}</span>
-                        <span>x</span>
                       </SelectedItemDay>
                       <SelectedItemTime>
                         {schedule.startTime} ~ {schedule.endTime}
@@ -648,19 +710,33 @@ export default function step3() {
                     </SelectedItem>
                   ))}
                 </ScheduleWrap>
-                {overlapError && (
-                  <overLapErrorMessage
+                {/* {overlapError && (
+                  <OverLapErrorMessage
                     style={{ color: "red", marginBottom: "1rem" }}
                   >
                     {overlapError}
-                  </overLapErrorMessage>
-                )}
+                  </OverLapErrorMessage>
+                )} */}
               </div>
               <ModalCloseButton onClick={modalClose}>저장하기</ModalCloseButton>
             </ModalBody>
           </ModalWrap>
           <ModalDimmed></ModalDimmed>
         </Modal>
+      )}
+      {overlapError && (
+        <OverLapWrap>
+          <OverLapModal>
+            <OverLapTitle>일정 중복</OverLapTitle>
+            <OverLapMessage>
+              {" "}
+              기존 일정과 중복된 시간이 있어
+              <br />
+              등록을 할 수 없습니다.
+            </OverLapMessage>
+            <OverLapClose>확인</OverLapClose>
+          </OverLapModal>
+        </OverLapWrap>
       )}
     </Wrap>
   );

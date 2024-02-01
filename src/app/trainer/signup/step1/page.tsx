@@ -11,6 +11,7 @@ import { Input2 } from "@/styles/TrainerInput";
 import { useDispatch } from "react-redux";
 import { signupActions } from "@/redux/reducers/trainerSignupSlice";
 import { useAppSelector } from "@/redux/hooks";
+import JoinStep from "@/components/Trainer/TrSignUpStep";
 
 interface Trbirth {
   year: string;
@@ -203,7 +204,7 @@ export default function step1() {
   const router = useRouter();
   const inputRef = useRef<null[] | HTMLInputElement[]>([]);
   const dispatch = useDispatch();
-  const states = useAppSelector(state => state.signup);
+  const states = useAppSelector(state => state.trainerSignup);
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
@@ -284,7 +285,8 @@ export default function step1() {
       }),
     );
     // sessionStorage.setItem('member_login_step1', JSON.stringify(inputData))
-    router.push(`/trainer/signup/step2`);
+    console.log("inputData", inputData);
+    // router.push(`/trainer/signup/step2`);
     console.log("states: ", states);
   };
 
@@ -306,12 +308,7 @@ export default function step1() {
       </ContentHeader>
       <ContentBody>
         <ContentInnerBody>
-          <SignupOrderWrap>
-            <SignupOrderCurrent>1</SignupOrderCurrent>
-            <SignupOrder>2</SignupOrder>
-            <SignupOrder>3</SignupOrder>
-            <SignupOrder>4</SignupOrder>
-          </SignupOrderWrap>
+          <JoinStep active={"1"} />
           <div style={{ marginBottom: "1.5rem" }}>
             <SignupStepInfo>안녕하세요 트레이너님!</SignupStepInfo>
             <SignupStepInfoSub>

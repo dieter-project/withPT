@@ -89,10 +89,10 @@ const MemberName = styled.span`
 
 const NeedMoreInfo = styled.span`
   font-size: var(--font-s);
-  border: 1px solid var(--coral);
+  border: 1px solid var(--primary);
   border-radius: 0.5rem;
   padding: 0.3rem;
-  color: var(--coral);
+  color: var(--primary);
 `;
 
 const AwaitReqMember = styled.div`
@@ -140,20 +140,49 @@ const FooterItemImg = styled.img`
   display: block;
 `;
 
+const TabContainer = styled.div`
+  display: flex;
+  justify-content: space-around;
+`;
+
+const TabItem = styled.button`
+  font-size: var(--font-l);
+  cursor: pointer;
+  width: 100%;
+  padding-bottom: 0.59rem;
+`;
+
+const MemberSearchInput = styled.input`
+  width: 100%;
+  margin-top: 1.12rem;
+  padding: 0.62rem 0.88rem;
+  background-color: var(--purple50);
+  font-size: 1rem;
+  font-weight: 400;
+  border: none;
+`;
+
 export default function ManageMember() {
+  const [activeTab, setActiveTab] = useState("members");
   const [isTapOpen, setIsTapOpen] = useState(false);
-
   const [isSettingOpen, setIsSettingOpen] = useState(false);
+  const [showCheckboxes, setShowCheckboxes] = useState(false);
 
-  const [selectedNames, setSelectedNames] = useState([]);
+  const [members, setMembers] = useState([
+    {
+      id: 1,
+      name: "맥도날드 회원님",
+      checked: false,
+      remaining: 10,
+      total: 20,
+    },
+    { id: 2, name: "버거킹 회원님", checked: false, remaining: 5, total: 15 },
+    // ... 다른 회원 데이터들
+  ]);
 
-  // const toggleNameSelection = name => {
-  //   if (selectedNames.includes(name)) {
-  //     setSelectedNames(selectedNames.filter(n => n !== name));
-  //   } else {
-  //     setSelectedNames([...selectedNames, name]);
-  //   }
-  // };
+  const handleTabChange = tab => {
+    setActiveTab(tab);
+  };
 
   const toggleTap = () => {
     setIsTapOpen(!isTapOpen);
@@ -161,6 +190,25 @@ export default function ManageMember() {
 
   const toggleSetting = () => {
     setIsSettingOpen(!isSettingOpen);
+  };
+
+  const toggleCheckboxes = () => {
+    setShowCheckboxes(!showCheckboxes);
+  };
+  const handleCheckboxChange = id => {
+    setMembers(prevMembers =>
+      prevMembers.map(member =>
+        member.id === id ? { ...member, checked: !member.checked } : member,
+      ),
+    );
+  };
+
+  const handleRemoveMembers = () => {
+    const selectedMembers = members.filter(member => member.checked);
+    // 선택된 회원을 삭제하는 로직을 구현하세요 (예: 서버에 요청을 보내는 등)
+    console.log("삭제할 회원:", selectedMembers);
+    setMembers(prevMembers => prevMembers.filter(member => !member.checked));
+    setShowCheckboxes(false); // 회원을 삭제한 후 체크박스 감추기
   };
 
   return (
@@ -196,29 +244,61 @@ export default function ManageMember() {
           </>
         )}
       </MainHeader>
-
       <ManageContentWrap>
+        <TabContainer>
+          <TabItem
+            onClick={() => handleTabChange("members")}
+            style={{
+              color: activeTab === "members" ? "blue" : "black",
+              borderBottom:
+                activeTab === "members" ? "1px solid black" : "none",
+            }}
+          >
+            회원 목록
+          </TabItem>
+          <TabItem
+            onClick={() => handleTabChange("waiting")}
+            style={{
+              color: activeTab === "waiting" ? "blue" : "black",
+              borderBottom:
+                activeTab === "waiting" ? "1px solid black" : "none",
+            }}
+          >
+            대기 회원
+          </TabItem>
+        </TabContainer>
         <div>
-          <CenterMember>
-            <MemberName>맥도날드 회원님</MemberName>
-            <NeedMoreInfo>상세정보 입력 필요</NeedMoreInfo>
-          </CenterMember>
-          <CenterMember>
-            <MemberName>버거킹 회원님</MemberName>
-            <span>잔여:16회 / 36회</span>
-          </CenterMember>
-          <CenterMember>
-            <MemberName>신형만 회원님</MemberName>
-            <span>잔여: 11회 / 24회</span>
-          </CenterMember>
-          <CenterMember>
-            <MemberName>김땡땡 회원님</MemberName>
-            <span>잔여: 5회 / 36회</span>
-          </CenterMember>
-          <CenterMember>
-            <MemberName>아자아자 회원님</MemberName>
-            <span>잔여: 0회 / 50회</span>
-          </CenterMember>
+          {activeTab === "members" && (
+            <>
+              <div>
+                <MemberSearchInput
+                  type="text"
+                  placeholder="검색"
+                ></MemberSearchInput>
+              </div>
+
+              <CenterMember>
+                <MemberName>맥도날드 회원님</MemberName>
+                <NeedMoreInfo>상세정보 입력 필요</NeedMoreInfo>
+              </CenterMember>
+              <CenterMember>
+                <MemberName>버거킹 회원님</MemberName>
+                <span>잔여:16회 / 36회</span>
+              </CenterMember>
+              <CenterMember>
+                <MemberName>신형만 회원님</MemberName>
+                <span>잔여: 11회 / 24회</span>
+              </CenterMember>
+              <CenterMember>
+                <MemberName>김땡땡 회원님</MemberName>
+                <span>잔여: 5회 / 36회</span>
+              </CenterMember>
+              <CenterMember>
+                <MemberName>아자아자 회원님</MemberName>
+                <span>잔여: 0회 / 50회</span>
+              </CenterMember>
+            </>
+          )}
         </div>
         {/* 이름 데이터 들어가면 수정 */}
         {/* <div>
@@ -235,42 +315,59 @@ export default function ManageMember() {
         </ㅣ>
       ))}
     </div> */}
-        <AwaitReqMember onClick={toggleTap}>
-          <div>
-            회원 등록 요청 대기중 <span>2</span>
-          </div>
-          {!isTapOpen && (
-            <Image
-              style={{ display: "inline-block" }}
-              src="/toggleClose.jpg"
-              alt="토글 닫힘"
-              width="5"
-              height="2"
-            />
-          )}
-          {isTapOpen && (
-            <Image
-              style={{ display: "inline-block" }}
-              src="/toggleOpen.jpg"
-              alt="토글 열림"
-              width="5"
-              height="2"
-            />
-          )}
-        </AwaitReqMember>
-        {isTapOpen && (
-          <div>
-            <CenterMember>
-              <MemberName>맥도날드 회원님</MemberName>
-              <AlertResend>알림 재전송</AlertResend>
-            </CenterMember>
-            <CenterMember>
-              <MemberName>나득근 회원님</MemberName>
-              <AlertResend>알림 재전송</AlertResend>
-            </CenterMember>
-          </div>
+        {activeTab === "waiting" && (
+          <>
+            <div>
+              <CenterMember>
+                <MemberName>맥도날드 회원님</MemberName>
+                <AlertResend>알림 재전송</AlertResend>
+              </CenterMember>
+              <CenterMember>
+                <MemberName>나득근 회원님</MemberName>
+                <AlertResend>알림 재전송</AlertResend>
+              </CenterMember>
+            </div>
+          </>
         )}
       </ManageContentWrap>
     </MainContainer>
   );
 }
+
+// {activeTab === "members" && (
+//   <>
+//     <div>
+//       <MemberSearchInput type="text" placeholder="검색" />
+//     </div>
+
+//     {showCheckboxes && (
+//       <div>
+//         {members.map((member) => (
+//           <CenterMember key={member.id}>
+//             <label>
+//               <input
+//                 type="checkbox"
+//                 checked={member.checked}
+//                 onChange={() => handleCheckboxChange(member.id)}
+//               />
+//               <MemberName>{member.name}</MemberName>
+//               <span>잔여: {member.remaining}회 / {member.total}회</span>
+//             </label>
+//           </CenterMember>
+//         ))}
+//       </div>
+//     )}
+
+//     <div>
+//       <SettingUnderTxt onClick={toggleCheckboxes}>
+//         회원해제
+//       </SettingUnderTxt>
+//     </div>
+
+//     {showCheckboxes && (
+//       <div>
+//         <button onClick={handleRemoveMembers}>회원해제</button>
+//       </div>
+//     )}
+//   </>
+// )}
