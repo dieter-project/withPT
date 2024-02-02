@@ -4,8 +4,8 @@ import Link from "next/link";
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import beforePageImg from "../../../../../public/icons/beforePage.png";
-import toggleOffButtonImg from "../../../../../public/Trainer/toggleOffButton.png";
-import toggleOnButtonImg from "../../../../../public/Trainer/toggleOnButton.png";
+import toggleOffButtonImg from "../../../../../public/Trainer/icons/toggleOffButton.png";
+import toggleOnButtonImg from "../../../../../public/Trainer/icons/toggleOnButton.png";
 import settingTabImg from "../../../../../public/Trainer/settingTab.png";
 import settingImg from "../../../../../public/Trainer/setting.jpg";
 
