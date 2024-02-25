@@ -2,7 +2,9 @@
 import styled from "styled-components";
 import Link from "next/link";
 import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import Image from "next/image";
+import beforePage from "../../../../../public/icons/beforePage.png";
 import settingTabImg from "../../../../../public/Trainer/settingTab.png";
 import setting from "../../../../../public/Trainer/setting.jpg";
 
@@ -106,10 +108,10 @@ const AwaitReqMember = styled.div`
 
 const AlertResend = styled.span`
   font-size: var(--font-s);
-  border: 1px solid var(--font-gray500);
+  border: 1px solid var(--primary);
   border-radius: 0.5rem;
   padding: 0.3rem 0.5rem;
-  color: var(--font-gray500);
+  color: var(--primary);
 `;
 
 const MainFooter = styled.footer`
@@ -162,6 +164,10 @@ const MemberSearchInput = styled.input`
   border: none;
 `;
 
+const TotalClassCount = styled.span`
+  color: var(--font-gray600);
+`;
+
 export default function ManageMember() {
   const [activeTab, setActiveTab] = useState("members");
   const [isTapOpen, setIsTapOpen] = useState(false);
@@ -211,16 +217,20 @@ export default function ManageMember() {
     setShowCheckboxes(false); // 회원을 삭제한 후 체크박스 감추기
   };
 
+  const router = useRouter();
+
   return (
     <MainContainer>
       <MainHeader>
-        <Image
-          style={{ display: "inline-block" }}
-          src="/beforePage.jpg"
-          alt="이전 페이지 이미지"
-          width="25"
-          height="25"
-        />
+        <button onClick={() => router.back()}>
+          <Image
+            style={{ display: "inline-block" }}
+            src={beforePage}
+            alt="이전 페이지 이미지"
+            width="25"
+            height="25"
+          />
+        </button>
         <MainTitle>아자아자 피트니스 센터</MainTitle>
         <div style={{ position: "relative" }}>
           <SettingImg
@@ -239,7 +249,7 @@ export default function ManageMember() {
               width="150"
               height="150"
             />
-            <SettingTopTxt>회원 정보 추가</SettingTopTxt>
+            <SettingTopTxt>회원 정보 수정</SettingTopTxt>
             <SettingUnderTxt>회원 해제하기</SettingUnderTxt>
           </>
         )}
@@ -249,22 +259,34 @@ export default function ManageMember() {
           <TabItem
             onClick={() => handleTabChange("members")}
             style={{
-              color: activeTab === "members" ? "blue" : "black",
               borderBottom:
                 activeTab === "members" ? "1px solid black" : "none",
             }}
           >
-            회원 목록
+            회원 목록{" "}
+            <span
+              style={{
+                color: activeTab === "members" ? "blue" : "black",
+              }}
+            >
+              12
+            </span>
           </TabItem>
           <TabItem
             onClick={() => handleTabChange("waiting")}
             style={{
-              color: activeTab === "waiting" ? "blue" : "black",
               borderBottom:
                 activeTab === "waiting" ? "1px solid black" : "none",
             }}
           >
-            대기 회원
+            대기 회원{" "}
+            <span
+              style={{
+                color: activeTab === "waiting" ? "blue" : "black",
+              }}
+            >
+              5
+            </span>
           </TabItem>
         </TabContainer>
         <div>
@@ -283,19 +305,31 @@ export default function ManageMember() {
               </CenterMember>
               <CenterMember>
                 <MemberName>버거킹 회원님</MemberName>
-                <span>잔여:16회 / 36회</span>
+                <div>
+                  <span>잔여 : 16회</span>
+                  <TotalClassCount> / 36회</TotalClassCount>
+                </div>
               </CenterMember>
               <CenterMember>
                 <MemberName>신형만 회원님</MemberName>
-                <span>잔여: 11회 / 24회</span>
+                <div>
+                  <span>잔여 : 16회</span>
+                  <TotalClassCount> / 36회</TotalClassCount>
+                </div>
               </CenterMember>
               <CenterMember>
                 <MemberName>김땡땡 회원님</MemberName>
-                <span>잔여: 5회 / 36회</span>
+                <div>
+                  <span>잔여 : 16회</span>
+                  <TotalClassCount> / 36회</TotalClassCount>
+                </div>
               </CenterMember>
               <CenterMember>
                 <MemberName>아자아자 회원님</MemberName>
-                <span>잔여: 0회 / 50회</span>
+                <div>
+                  <span>잔여 : 16회</span>
+                  <TotalClassCount> / 36회</TotalClassCount>
+                </div>
               </CenterMember>
             </>
           )}

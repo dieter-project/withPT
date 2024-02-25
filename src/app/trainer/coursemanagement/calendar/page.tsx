@@ -81,6 +81,21 @@ const ReactCalender = ({ onChange, value }) => {
       /* border-radius: 50%;
       background: paleturquoise !important; */
     }
+
+    .react-calendar__month-view__days__day--weekend:not(
+        .react-calendar__month-view__days__day--neighboringMonth
+      ) {
+      color: #d10000 !important;
+    }
+
+    .react-calendar__month-view__days__day:not(
+        .react-calendar__month-view__days__day--weekend
+      )
+      + .react-calendar__month-view__days__day--weekend:not(
+        .react-calendar__month-view__days__day--neighboringMonth
+      ) {
+      color: black !important;
+    }
   `;
 
   const curDate = new Date(); // 현재 날짜

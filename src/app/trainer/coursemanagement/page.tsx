@@ -17,7 +17,7 @@ import ModalCloseXButtonImg from "../../../../public/Trainer/Modal/close-line.pn
 import Calendar from "../coursemanagement/calendar/page";
 
 const MainContainer = styled.div`
-  background-color: var(--purple100);
+  background-color: var(--purple50);
   min-height: 100vh;
   position: relative;
 `;
@@ -36,7 +36,12 @@ const MainHeader = styled.header`
 `;
 
 const MainContentWrap = styled.div`
-  padding-top: 3rem;
+  padding: 3.6rem 0;
+`;
+
+const MainTopContent = styled.div`
+  background-color: white;
+  padding: 0 1rem;
 `;
 
 const RegisNewMember = styled(Link)`
@@ -53,7 +58,7 @@ const RegisNewMember = styled(Link)`
 
 const ManageCourseWrap = styled.div`
   margin-top: 2.5rem;
-  padding: 0 2rem;
+  padding: 0 1rem;
 `;
 
 const ManageTitleWrap = styled.div`
@@ -69,63 +74,10 @@ const ManageTitle = styled.button`
   display: inline-block;
 `;
 
-const ManageTitlesubTxt = styled.span`
-  font-size: var(--font-m);
-  color: var(--font-secondary);
-`;
-
-const ManageTitleDate = styled.span`
-  font-size: 15px;
-  color: black;
-`;
-
-const CenterNameItem = styled(Link)`
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  background-color: var(--purple50);
-  padding: 1rem 0.5rem;
-  margin-bottom: 0.5rem;
-  border-radius: 0.5rem;
-`;
-
-const CenterName = styled.div`
-  font-weight: 600;
-`;
-
-const MemberNum = styled.div`
-  font-weight: 400;
-  position: absolute;
-  right: 3%;
-`;
-
-const ButtonWrap = styled.div`
-  display: flex;
-  padding: 2rem 2rem 0 2rem;
-  background-color: white;
-`;
-
 const ButtonIcon = styled(Image)`
   display: inline-block;
   width: 1.5rem;
   height: 1.5rem;
-`;
-
-const CalanderWrap = styled.div`
-  padding: 1rem;
-  background-color: var(--purple50);
-`;
-
-const ScheduleLink = styled(Link)`
-  width: 100%;
-  display: block;
-  text-align: center;
-  background-color: var(--primary);
-  color: var(--white);
-  border: none;
-  border-radius: 0.5rem;
-  padding: 0.5rem;
-  margin-top: 1rem;
 `;
 
 const Modal = styled.div`
@@ -176,20 +128,6 @@ const ModalContent = styled.div`
   margin-bottom: 1rem;
   line-height: 2.5rem;
 `;
-
-const ScheduleWrap = styled.div``;
-
-const ModalContentTit = styled.div`
-  margin-right: 1rem;
-`;
-
-const ClassConfirmInfo = styled.div`
-  text-align: center;
-  margin: 0 auto;
-  color: var(--primary);
-`;
-
-const PurpleCheckIcon = styled(Image)``;
 
 const CenterList = styled.li`
   display: flex;
@@ -260,7 +198,17 @@ export default function ManageMain() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [showModalContent, setShowModalContent] = useState(false);
   const [value, onChange] = useState(new Date());
-  const [pickedCenter, setPickedCenter] = useState(null);
+
+  const centerList = [
+    "전체 센터 수업",
+    "으라라차차 피트니스 센터",
+    "득근득근 피트니스 센터",
+    "해피닥터 피트니스 24시 연중무휴",
+  ];
+
+  const [pickedCenter, setPickedCenter] = useState(
+    centerList ? centerList[0] : null,
+  );
 
   const toggleModal = () => {
     setIsModalOpen(!isModalOpen);
@@ -277,87 +225,94 @@ export default function ManageMain() {
   }, [isModalOpen]);
 
   //모달 닫기 버튼
-  const modalClose = () => {
+  const modalClose = (centerName: string) => {
     setIsModalOpen(false);
+    setPickedCenter(centerName);
   };
 
   return (
     <MainContainer>
       <MainHeader>일정 관리</MainHeader>
       <MainContentWrap>
-        <ButtonWrap>
-          <Link href="/trainer/membermanagement/member/regist">
+        <MainTopContent>
+          <div style={{ display: "flex" }}>
             {" "}
-            <Button variant="primary" height="3.5rem">
-              <ButtonIcon src={purplePlusIcon} alt="플러스 아이콘" />
-              신규 회원 등록
-            </Button>
-          </Link>
-          <Link href="/trainer/membermanagement/member/regist">
-            {" "}
+            <Button
+              variant="primary"
+              height="3.5rem"
+              style={{ marginRight: "1rem" }}
+            >
+              <Link href="/trainer/membermanagement/member/regist">
+                <ButtonIcon src={purplePlusIcon} alt="플러스 아이콘" />
+                신규수업 등록
+              </Link>
+            </Button>{" "}
             <Button variant="outlinepurple" height="3.5rem">
-              <ButtonIcon src={purpleExcalmiIcon} alt="플러스 아이콘" /> 대기
-              회원
+              <Link href="/trainer/membermanagement/member/regist">
+                <ButtonIcon src={purpleExcalmiIcon} alt="플러스 아이콘" /> 대기
+                수업 <span>5</span>
+              </Link>
             </Button>
-          </Link>
-        </ButtonWrap>
-        <button onClick={toggleModal}>전체 센터 수업</button>
-        <Calendar onChange={onChange} value={value} />
+          </div>
+          <button onClick={toggleModal}>{pickedCenter}</button>
+          <Calendar onChange={onChange} value={value} />
+        </MainTopContent>
         <ManageCourseWrap>
           <ManageTitleWrap>
             <div>
               <ManageTitle>11월 15일 (수)</ManageTitle>
             </div>
           </ManageTitleWrap>
-
-          <Link href="/trainer/membermanagement/member">
-            <CenterList>
-              <CourseTime>10:00</CourseTime>
-              <CourseMember>
-                <div>000 고객</div>
-                <div>000 지점</div>
-              </CourseMember>
-              <CourseConfirmed>
-                <ConfirmedCheckIcon
-                  src={purpleCheckIcon}
-                  alt="확정 아이콘"
-                ></ConfirmedCheckIcon>
-                <span>확정</span>
-              </CourseConfirmed>
-            </CenterList>
-          </Link>
-          <Link href="/trainer/membermanagement/member">
-            <CenterList>
-              <CourseTime>10:00</CourseTime>
-              <CourseMember>
-                <div>000 고객</div>
-                <div>000 지점</div>
-              </CourseMember>
-              <CourseConfirmed>
-                <ConfirmedCheckIcon
-                  src={redMinusIcon}
-                  alt="취소 아이콘"
-                ></ConfirmedCheckIcon>
-                <span>취소</span>
-              </CourseConfirmed>
-            </CenterList>
-          </Link>
-          <Link href="/trainer/membermanagement/member">
-            <CenterList>
-              <CourseTime>10:00</CourseTime>
-              <CourseMember>
-                <CourseMemberTopTxt>000 고객</CourseMemberTopTxt>
-                <CourseMemberBottomTxt>000 지점</CourseMemberBottomTxt>
-              </CourseMember>
-              <CourseConfirmed>
-                <ConfirmedCheckIcon
-                  src={purpleCheckIcon}
-                  alt="확정 아이콘"
-                ></ConfirmedCheckIcon>
-                <span>확정</span>
-              </CourseConfirmed>
-            </CenterList>
-          </Link>
+          <ul>
+            <Link href="/trainer/membermanagement/member">
+              <CenterList>
+                <CourseTime>10:00</CourseTime>
+                <CourseMember>
+                  <div>000 고객</div>
+                  <div>000 지점</div>
+                </CourseMember>
+                <CourseConfirmed>
+                  <ConfirmedCheckIcon
+                    src={purpleCheckIcon}
+                    alt="확정 아이콘"
+                  ></ConfirmedCheckIcon>
+                  <span>확정</span>
+                </CourseConfirmed>
+              </CenterList>
+            </Link>
+            <Link href="/trainer/membermanagement/member">
+              <CenterList>
+                <CourseTime>10:00</CourseTime>
+                <CourseMember>
+                  <div>000 고객</div>
+                  <div>000 지점</div>
+                </CourseMember>
+                <CourseConfirmed>
+                  <ConfirmedCheckIcon
+                    src={redMinusIcon}
+                    alt="취소 아이콘"
+                  ></ConfirmedCheckIcon>
+                  <span>취소</span>
+                </CourseConfirmed>
+              </CenterList>
+            </Link>
+            <Link href="/trainer/membermanagement/member">
+              <CenterList>
+                <CourseTime>10:00</CourseTime>
+                <CourseMember>
+                  <CourseMemberTopTxt>000 고객</CourseMemberTopTxt>
+                  <CourseMemberBottomTxt>000 지점</CourseMemberBottomTxt>
+                </CourseMember>
+                <CourseConfirmed>
+                  <ConfirmedCheckIcon
+                    src={purpleCheckIcon}
+                    alt="확정 아이콘"
+                  ></ConfirmedCheckIcon>
+                  <span>확정</span>
+                </CourseConfirmed>
+              </CenterList>
+            </Link>
+          </ul>
         </ManageCourseWrap>
       </MainContentWrap>
       <Footer />
@@ -371,36 +326,19 @@ export default function ManageMain() {
             />
             <ModalBody>
               <ModalContent>
-                <CenterChooseButton>
-                  <CenterChooseContent>
-                    <span>청담 지점</span>
-                    <Image src={purpleCheckIcon} alt="보라색 체크 아이콘" />
-                  </CenterChooseContent>
-                </CenterChooseButton>
-                <CenterChooseButton>
-                  <CenterChooseContent>
-                    <span>청담 지점</span>
-                    <Image src={purpleCheckIcon} alt="보라색 체크 아이콘" />
-                  </CenterChooseContent>
-                </CenterChooseButton>
-                <CenterChooseButton>
-                  <CenterChooseContent>
-                    <span>청담 지점</span>
-                    <Image src={purpleCheckIcon} alt="보라색 체크 아이콘" />
-                  </CenterChooseContent>
-                </CenterChooseButton>
-                <CenterChooseButton>
-                  <CenterChooseContent>
-                    <span>청담 지점</span>
-                    <Image src={purpleCheckIcon} alt="보라색 체크 아이콘" />
-                  </CenterChooseContent>
-                </CenterChooseButton>
-                <CenterChooseButton>
-                  <CenterChooseContent>
-                    <span>청담 지점</span>
-                    <Image src={purpleCheckIcon} alt="보라색 체크 아이콘" />
-                  </CenterChooseContent>
-                </CenterChooseButton>
+                {centerList.map((center, i) => {
+                  return (
+                    <CenterChooseButton
+                      key={i}
+                      onClick={() => modalClose(center)}
+                    >
+                      <CenterChooseContent>
+                        <span>{center}</span>
+                        <Image src={purpleCheckIcon} alt="보라색 체크 아이콘" />
+                      </CenterChooseContent>
+                    </CenterChooseButton>
+                  );
+                })}
               </ModalContent>
             </ModalBody>
           </ModalWrap>

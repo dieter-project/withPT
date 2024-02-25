@@ -74,7 +74,7 @@ const TrainerFooter = () => {
       <FooterCtgItem href="/trainer/membermanagement">
         <Image
           src={
-            pathname === "/trainer/membermanagement"
+            pathname.includes("/trainer/membermanagement")
               ? manageMember
               : manageMemberLight
           }
