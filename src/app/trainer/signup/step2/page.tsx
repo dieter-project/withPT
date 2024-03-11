@@ -4,15 +4,30 @@ import { useState, useEffect } from "react";
 import Image from "next/image";
 import styled from "styled-components";
 import Link from "next/link";
+import { Container } from "@/styles/TrainerLayout";
+import ContentHeader from "@/components/TrainerPageTitle";
+import {
+  SearchBarWrap,
+  SearchIcon,
+  SearchBarInput,
+} from "@/styles/TrainerSearchBar";
+import {
+  Modal,
+  ModalWrap,
+  ModalCloseXButton,
+  ModalDimmed,
+  ModalHeader,
+  ModalBody,
+  ModalContent,
+} from "@/styles/TrainerModal";
+
 import JoinStep from "@/components/Trainer/TrSignUpStep";
-import beforePage from "../../../../../public/icons/beforePage.png";
-import searchIcon from "../../../../../public/searchLight.png";
+import searchIcon from "../../../../../public/Trainer/icons/searchLightGray.png";
 import registerIcon from "../../../../../public/Trainer/plusCircleIcon.png";
 import ModalCloseXButtonImg from "../../../../../public/Trainer/Modal/close-line.png";
-
+import deleteIcon from "../../../../../public/Trainer/icons/deleteIconGray.png";
 import { Button } from "@/styles/TrainerButton";
 import axios from "axios";
-import LandingPage from "./views/LandingPage/LandingPage";
 import { useDispatch } from "react-redux";
 import { signupActions } from "@/redux/reducers/trainerSignupSlice";
 import { useAppSelector } from "@/redux/hooks";
@@ -22,39 +37,6 @@ interface TrInfo {
   // birth: Trbirth | string;
   // sex: string;
 }
-
-const Wrap = styled.div`
-  position: relative;
-  background-color: white;
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  width: 100%;
-  height: auto;
-`;
-
-const ContentHeader = styled.div`
-  background-color: white;
-  position: fixed;
-  width: 100%;
-  height: 4.4rem;
-  align-items: center;
-  z-index: 100;
-  display: flex;
-`;
-
-const ButtonHistoryBack = styled.button`
-  width: 2.4rem;
-  height: 2.4rem;
-`;
-
-const SignupTitle = styled.h4`
-  line-height: 3rem;
-  color: #222;
-  font-size: 1.6rem;
-  font-weight: 700;
-  letter-spacing: -0;
-`;
 
 const ContentBody = styled.div`
   padding: 6.8rem 1.25rem 3.2rem 1.25rem;
@@ -73,118 +55,20 @@ const SignupStepInfoSub = styled.p`
   color: var(--black);
 `;
 
-const SignupOrderWrap = styled.div`
-  font-size: var(--font-xxxs);
-  display: flex;
-  align-items: center;
-  margin-bottom: 1.5rem;
-`;
-const SignupOrderCurrent = styled.span`
-  width: 1.5rem;
-  height: 1.5rem;
-  background-color: var(--primary);
-  color: var(--white);
-  margin-bottom: 0.2rem;
-  margin-right: 0.62rem;
-  padding: 0.25rem;
-  border-radius: 0.5rem;
-  font-size: var(--font-xs);
-  font-weight: bold;
-  text-align: center;
-`;
-
-const SignupOrder = styled.span`
-  width: 1.5rem;
-  height: 1.5rem;
-  background-color: var(--purple100);
-  color: var(--purple200);
-  margin-bottom: 0.2rem;
-  margin-right: 0.62rem;
-  padding: 0.25rem;
-  border-radius: 0.5rem;
-  font-size: var(--font-xs);
-  font-weight: bold;
-  text-align: center;
-`;
-
 const ButtonAreaFixed = styled.div`
   position: fixed;
   bottom: 0;
   left: 0;
-  padding: 2.4rem 1.6rem 1.6rem;
-  width: 100%;
   z-index: 100;
+  width: 100%;
+  padding: 2.4rem 1.6rem 1.6rem;
   background-color: transparent;
 `;
 
-const NextStep = styled(Link)`
-  display: block;
-  border: none;
-  border-radius: 0.6rem;
-  line-height: 3.5rem;
-  width: 100%;
-  background-color: var(--primary);
-  color: white;
-  padding: 0 1.6rem;
-  text-align: center;
-`;
-
-const Modal = styled.div`
-  position: fixed;
-  width: 100%;
-  height: 100%;
-  top: 0;
-  left: 0;
-  z-index: 999;
-`;
-
-const ModalWrap = styled.div`
-  position: absolute;
-  bottom: -100%;
-  left: 0;
-  width: 100%;
-  height: 100vh;
-  background-color: white;
-  padding: 20px;
-  border-radius: 1rem 1rem 0 0;
-  transition: 0.3s;
-`;
-
-const ModalCloseXButton = styled(Image)`
-  position: absolute;
-  top: 1%;
-  right: 2%;
-`;
-
-const SearchBar = styled.input`
-  border: none;
+const ModalMessage = styled.div`
+  margin-top: 2rem;
   color: black;
-  width: 100%;
-  padding: 0.81rem;
-  background-color: var(--purple50);
-
-  &::placeholder {
-    color: gray;
-  }
-`;
-
-const ModalDimmed = styled.div`
-  z-index: -1;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.7);
-`;
-
-const ModalHeader = styled.header`
   text-align: center;
-  font-size: var(--font-l);
-  font-weight: 700;
-`;
-
-const ModalBody = styled.div``;
-
-const ModalContent = styled.div`
-  margin: 3vh 0 2vh 0;
 `;
 
 const SearchListTitleWrap = styled.div`
@@ -236,15 +120,30 @@ const CenterSearchList = styled.li`
 `;
 
 const CenterRegisterButton = styled.button`
+  width: 100%;
   border: 1px solid var(--font-gray400);
   border-radius: 0.5rem;
-  width: 100%;
   font-weight: 400;
   font-size: 3.5vh;
 `;
 
+const RecentSearchList = styled.li`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem;
+  border-bottom: 1px solid var(--border-gray);
+  font-size: var(--font-s);
+`;
+
+const DeleteIcon = styled(Image)``;
+
 export default function step2() {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [showModalContent, setShowModalContent] = useState(false);
+
   const dispatch = useDispatch();
+  const title = "센터 등록";
   const [inputData, setInputData] = useState<TrInfo>({
     name: "",
     birth: {
@@ -254,9 +153,6 @@ export default function step2() {
     },
     sex: "",
   });
-
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [showModalContent, setShowModalContent] = useState(false);
 
   const toggleModal = () => {
     setIsModalOpen(!isModalOpen);
@@ -289,14 +185,11 @@ export default function step2() {
     console.log("states: ", states);
   };
 
+  const centerLists = ["청담점", "잠실점", "고양점"];
+
   return (
-    <Wrap>
-      <ContentHeader>
-        <ButtonHistoryBack type="button">
-          <Image src={beforePage} alt="이전 페이지 이미지" />
-        </ButtonHistoryBack>
-        <SignupTitle>회원가입</SignupTitle>
-      </ContentHeader>
+    <Container>
+      <ContentHeader title={title}></ContentHeader>
       <ContentBody>
         <ContentInnerBody>
           <JoinStep active={"2"} />
@@ -339,24 +232,40 @@ export default function step2() {
             />
             <ModalBody>
               <ModalContent>
-                <SearchBar
-                  type="text"
-                  name="센터 검색바"
-                  placeholder="검색"
-                ></SearchBar>
-                {/* <button onClick={searchPlaces}>검색</button> */}
+                <SearchBarWrap>
+                  <SearchIcon
+                    src={searchIcon}
+                    alt="검색 회색 돋보기 아이콘"
+                  ></SearchIcon>
+                  <SearchBarInput
+                    type="text"
+                    name="센터 검색바"
+                    placeholder="검색"
+                  ></SearchBarInput>
+                </SearchBarWrap>
 
                 <SearchListTitleWrap>
                   <SearchListTitle>최근 검색기록</SearchListTitle>
                   <SearchDeleteButton>전체삭제</SearchDeleteButton>
                 </SearchListTitleWrap>
+                <ul>
+                  {centerLists.map(centerList => (
+                    <RecentSearchList>
+                      <div>{centerList}</div>
+                      <DeleteIcon
+                        src={deleteIcon}
+                        alt="검색 기록 삭제 아이콘"
+                      ></DeleteIcon>
+                    </RecentSearchList>
+                  ))}
+                </ul>
+                {/* <ModalMessage>최근 검색한 기록이 없습니다.</ModalMessage> */}
               </ModalContent>
             </ModalBody>
-            {/* <ModalMessage>최근 검색한 기록이 없습니다.</ModalMessage> */}
           </ModalWrap>
           <ModalDimmed></ModalDimmed>
         </Modal>
       )}
-    </Wrap>
+    </Container>
   );
 }

@@ -52,11 +52,13 @@ const MainContentWrap = styled.div`
   overflow: auto;
 `;
 
-const MainTitle = styled.h4`
+const MainTitle = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   font-weight: bold;
   font-size: var(--font-l);
   margin-bottom: 0.75rem;
-  margin-left: 0.5rem;
 `;
 
 const TrainerMainWrap = styled.div`
@@ -123,6 +125,11 @@ const MypageCtg = styled.button`
   padding: 0.8rem 0;
 `;
 
+const CenterModifyButton = styled.button`
+  font-size: var(--font-s);
+  color: var(--font-gray700);
+`;
+
 export default function Mypage() {
   return (
     <MainContainer>
@@ -172,7 +179,10 @@ export default function Mypage() {
         </TrainerMainWrap>
 
         <CenterContentWrap>
-          <MainTitle>내 센터관리</MainTitle>
+          <MainTitle>
+            센터정보
+            <CenterModifyButton>수정</CenterModifyButton>
+          </MainTitle>
           <CenterListWrap>
             <CenterList>
               아자아자

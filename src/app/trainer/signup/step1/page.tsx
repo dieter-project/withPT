@@ -5,7 +5,8 @@ import React, { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import styled from "styled-components";
 import Link from "next/link";
-import beforePage from "../../../../../public/icons/beforePage.png";
+import { Container } from "@/styles/TrainerLayout";
+import ContentHeader from "@/components/TrainerPageTitle";
 import { Button } from "@/styles/TrainerButton";
 import { Input2 } from "@/styles/TrainerInput";
 import { useDispatch } from "react-redux";
@@ -30,32 +31,6 @@ interface TrGenderLabelProps {
   htmlFor: string;
   children: React.ReactNode;
 }
-
-const Wrap = styled.div`
-  background-color: white;
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  width: 100%;
-  height: auto;
-`;
-
-const ContentHeader = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background-color: white;
-  position: fixed;
-  width: 100%;
-  height: 4.4rem;
-  z-index: 100;
-`;
-
-const ButtonHistoryBack = styled.button`
-  width: 2.4rem;
-  height: 2.4rem;
-  padding-left: 1.25rem;
-`;
 
 const RegisterTitle = styled.h4`
   color: #222;
@@ -107,41 +82,6 @@ const TrGenderRadio = styled.input`
   background-color: var(--purple50);
 `;
 
-const SignupOrderWrap = styled.div`
-  font-size: var(--font-xxxs);
-  display: flex;
-  align-items: center;
-  margin-bottom: 2.25rem;
-`;
-
-const SignupOrderCurrent = styled.span`
-  width: 1.5rem;
-  height: 1.5rem;
-  background-color: var(--primary);
-  color: var(--white);
-  margin-bottom: 0.2rem;
-  margin-right: 0.62rem;
-  padding: 0.25rem;
-  border-radius: 0.5rem;
-  font-size: var(--font-xs);
-  font-weight: bold;
-  text-align: center;
-`;
-
-const SignupOrder = styled.span`
-  width: 1.5rem;
-  height: 1.5rem;
-  background-color: var(--purple100);
-  color: var(--purple200);
-  margin-bottom: 0.2rem;
-  margin-right: 0.62rem;
-  padding: 0.25rem;
-  border-radius: 0.5rem;
-  font-size: var(--font-xs);
-  font-weight: bold;
-  text-align: center;
-`;
-
 const TrRegisItemWrap = styled.div`
   display: flex;
   align-items: center;
@@ -169,24 +109,24 @@ const ButtonAreaFixed = styled.div`
   position: fixed;
   bottom: 0;
   left: 0;
-  padding: 2.4rem 1.6rem 1.6rem;
   width: 100%;
+  padding: 2.4rem 1.6rem 1.6rem;
   z-index: 100;
   background-color: transparent;
 `;
 
-const NextStep = styled(Link)`
-  display: block;
-  border: none;
-  border-radius: 0.6rem;
-  line-height: 3.5rem;
-  width: 100%;
-  background-color: var(--primary);
-  color: white;
-  font-size: var(--font-m);
-  text-align: center;
-  padding: 0 1.6rem;
-`;
+// const NextStep = styled(Link)`
+//   display: block;
+//   width: 100%;
+//   line-height: 3.5rem;
+//   padding: 0 1.6rem;
+//   border: none;
+//   border-radius: 0.6rem;
+//   background-color: var(--primary);
+//   color: white;
+//   font-size: var(--font-m);
+//   text-align: center;
+// `;
 
 export default function step1() {
   const [inputData, setInputData] = useState<TrInfo>({
@@ -205,7 +145,7 @@ export default function step1() {
   const inputRef = useRef<null[] | HTMLInputElement[]>([]);
   const dispatch = useDispatch();
   const states = useAppSelector(state => state.trainerSignup);
-
+  const title = "회원가입";
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
 
@@ -227,8 +167,6 @@ export default function step1() {
       });
     }
   };
-
-  // console.log(inputData);
 
   const handleNext = () => {
     const birthJoin =
@@ -293,24 +231,13 @@ export default function step1() {
   useEffect(() => {}, []);
 
   return (
-    <Wrap>
-      <ContentHeader>
-        <ButtonHistoryBack type="button">
-          <Image
-            src={beforePage}
-            alt="이전 페이지 이미지"
-            width={20}
-            height={20}
-          />
-        </ButtonHistoryBack>
-        <RegisterTitle>회원가입</RegisterTitle>
-        <div> </div>
-      </ContentHeader>
+    <Container>
+      <ContentHeader title={title}></ContentHeader>
       <ContentBody>
         <ContentInnerBody>
           <JoinStep active={"1"} />
           <div style={{ marginBottom: "1.5rem" }}>
-            <SignupStepInfo>안녕하세요 트레이너님!</SignupStepInfo>
+            <SignupStepInfo>안녕하세요 조은혜님!</SignupStepInfo>
             <SignupStepInfoSub>
               아래 정보가 맞는지 확인해주세요.
             </SignupStepInfoSub>
@@ -427,6 +354,6 @@ export default function step1() {
           </ButtonAreaFixed>
         </ContentInnerBody>
       </ContentBody>
-    </Wrap>
+    </Container>
   );
 }
