@@ -13,7 +13,6 @@ import { BaseContentWrap, ButtonAreaFixed } from '@/styles/Layout'
 import { SignUpInputContainer, SignUpTitleWrap } from '@/styles/SignupForm'
 import { useAppSelector } from '@/redux/hooks'
 import { RadioButton } from './styles'
-
 interface Ibirth {
   year: string,
   month: string,
@@ -27,7 +26,6 @@ interface Imember {
   height: string,
   weight: string,
 }
-
 
 const page = () => {
   const [inputData, setInputData] = useState<Imember>({
@@ -133,7 +131,7 @@ const page = () => {
   }
 
   useEffect(() => {
-    
+    // dispatch(signupActions.signupStateReset())
   }, [])
 
   return (
@@ -244,7 +242,7 @@ const page = () => {
             </SignUpInputContainer>
           </div>
         </div>
-        <ButtonAreaFixed nav={false.toString()}>
+        <ButtonAreaFixed $nav={false}>
           <Button 
             variant='primary' 
             onClick={handleNext}

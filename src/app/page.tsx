@@ -162,7 +162,7 @@ export default function Home() {
         </RoleChoiceButton>
       </RoleChoiceButtonWrap>
       { isActive.member === true || isActive.trainer === true 
-        ? <ButtonAreaFixed nav={true.toString()}>
+        ? <ButtonAreaFixed $nav>
             <Button
               variant='primary' 
               onClick={handleOnNext}

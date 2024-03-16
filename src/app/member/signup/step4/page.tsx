@@ -57,16 +57,22 @@ const page = () => {
 
     try {
       const response = await api.post('/api/v1/members/sign-up', states)
-      console.log('data: ', response.data);
 
-      if(response.data) {
+      if(response.data.data.accessToken) {
         // dispatch(memberActions.getToken(response.data.data.accessToken))
-        
+        dispatch(memberActions.isLogin({
+          name: response.data.data.name,
+          email: response.data.data.email,
+          id: response.data.data.id,
+          accessToken: response.data.data.accessToken
+        }))
         // const now = Date.now()
         setCookie('access', response.data.data.accessToken)
         setCookie('refreshToken', response.data.data.refreshToken)
         
         router.replace('/member/signup/finished') 
+      } else {
+        //alert
       }
 
     } catch (error) {
@@ -96,9 +102,8 @@ const page = () => {
           {
             exerciseFrequency?.map((time, index) => {
               return (
-                <label>
+                <label key={index}>
                   <input 
-                    key={index}
                     type="radio" 
                     name="workout" 
                     value={time.value} 
@@ -112,7 +117,7 @@ const page = () => {
           }
         </RadioButton>
       </div>
-      <ButtonAreaFixed nav={false.toString()}>
+      <ButtonAreaFixed $nav={false}>
         <Button 
           variant='primary' 
           onClick={handleSubmit}

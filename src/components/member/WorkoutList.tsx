@@ -10,7 +10,7 @@ const WorkoutListBox = styled.div`
     padding: 0.625rem 0;
     margin-bottom: 0.625rem;
     &:not(:last-child) {
-      border-bottom: 1px solid var(--border-gray);
+      border-bottom: 1px solid var(--border-gray300);
     }
     >div {
       &:first-child {

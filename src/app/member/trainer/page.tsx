@@ -43,7 +43,7 @@ const TrainerScheduleWrap = styled.ul`
   gap: 0.75rem;
   li {
     width: 50%;
-    border: 1px solid var(--border-gray);
+    border: 1px solid var(--border-gray300);
     border-radius: 0.625rem;
     padding: 1.25rem;
     div {

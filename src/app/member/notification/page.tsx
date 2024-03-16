@@ -14,7 +14,7 @@ const NotificationList = styled.ul`
     padding: 0.75rem 0;
     
     &:not(:last-child) {
-      border-bottom: 1px solid var(--border-gray);
+      border-bottom: 1px solid var(--border-gray300);
     }
     > div {
       &:first-child {

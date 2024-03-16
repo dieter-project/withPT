@@ -90,7 +90,7 @@ const page = () => {
           <SignUpTitleText>회원가입이 완료 되었어요!</SignUpTitleText>
           <SignUpSubtext>함께 목표를 향해 열심히 노력해보아요 :)</SignUpSubtext>
         </div>
-        <ButtonAreaFixed nav={true.toString()}>
+        <ButtonAreaFixed $nav>
           <Button variant='primary' onClick={handleStart}>위피티 시작하기</Button>
         </ButtonAreaFixed>
       </FinishedPageWrap>

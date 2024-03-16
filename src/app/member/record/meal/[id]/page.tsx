@@ -104,7 +104,7 @@ const MealList = styled.div`
     }
   }
   ul {
-    border-bottom: 1px solid var(--border-gray);
+    border-bottom: 1px solid var(--border-gray300);
     margin: 0.625rem 0;
     li {
       display: flex;
