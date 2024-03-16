@@ -21,7 +21,11 @@
   --protein: #AE9AFF;;
   --fat: #7BCEFC;
   
-  --border-gray: #EAEAEA;
+  --block-orange: #FC8E0D;
+  --block-red: #FF5E5E;
+  --block-green: #05AF68;
+  --border-gray300: #EAEAEA;
+  --border-gray400: #CCCCCC;
   
   --font-secondary: #7D7BB7;
   --font-gray700: #444444;
