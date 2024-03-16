@@ -19,9 +19,11 @@ export const MyGoal = styled.section`
     justify-content: space-between;
     white-space: nowrap;
     align-items: center;
-    background-color: var(--white);
+    gap: 1rem;
     border-radius: 0.5rem;
     padding: 0 1.25rem;
+    background-color: var(--white);
+
     > div:first-child {
       font-size: var(--font-s);
       font-weight: var(--font-semibold);
@@ -31,20 +33,27 @@ export const MyGoal = styled.section`
 
 export const GoalContents = styled.div`
   display: flex;
-  /* white-space: nowrap; */
-
+  width: 70%;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  
   > div {
-    /* display: in; */
-    /* gap: 0.25rem; */
-    align-items: center;
-    
-    div {
+    width: 50%;
+    span { width: 20% } 
+    div { 
+      width: 80%;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    > div:last-child {
       font-weight: var(--font-semibold);
     }
 
     &:first-child {
       display: flex;
-      /* white-space: nowrap; */
+      align-items: center;
 
       span {
         display: block;
@@ -68,7 +77,6 @@ export const GoalContents = styled.div`
     
     &:last-child {
       display: flex;
-      /* white-space: nowrap; */
       span {
         display: block;
         width: 1.625rem;

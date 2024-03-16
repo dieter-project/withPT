@@ -5,7 +5,6 @@ import { api } from '@/utils/axios';
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react'
 import { LabelTitle } from '@/styles/Text';
-// import { WorkoutList } from '@/styles/WorkoutList';
 import { ContentSection } from '@/styles/Layout';
 import MemberBottomNav from '@/components/MemberBottomNav';
 import { TrainerSwipe } from '@/components/TrainerSwipe';
@@ -59,9 +58,6 @@ const page = () => {
   const [recordDate, setRecordDate] = useState([])
   const [trainers, setTrainers] = useState([]);
 
-  useEffect(()=>{
-    handleGetTodayWorkout()
-  }, [])
 
   const handleGetGoalMeal = async () => {
     try {
@@ -88,7 +84,7 @@ const page = () => {
   const handleGetTodayWorkout = async () => {
     try {
       const response = await api.get(`/api/v1/members/exercise?dateTime=2023-11-24`)
-      const { data:  { data } } = response
+      const { data: { data } } = response
       console.log('response: ', data);
     } catch (error) {
       console.log('error: ', error);
@@ -104,11 +100,19 @@ const page = () => {
   }
   const handleGetTrainers = async () => {
     try {
+      const response = await api.get(`/api/v1/gyms/personal-trainings/members/5/trainers`)
+      const { data: { data } } = response
 
+      setTrainers(data)
     } catch (error) {
       console.log('error: ', error);
     }
   }
+
+  useEffect(() => {
+    handleGetTodayWorkout();
+    handleGetTrainers();
+  }, [])
   
   return (
     <>
@@ -171,10 +175,11 @@ const page = () => {
             <MonthlyCalendar/>
           </div>
         </ContentSection>
-        <ContentSection>
-          <LabelTitle>담당 트레이너</LabelTitle>
-          <TrainerSwipe/>
-        </ContentSection>
+        { trainers.length > 0 &&
+          <ContentSection>
+            <LabelTitle>담당 트레이너</LabelTitle>
+            <TrainerSwipe data={trainers}/>
+          </ContentSection> }
         <MemberBottomNav />
       </MainWrap>
     </>
