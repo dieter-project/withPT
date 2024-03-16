@@ -22,7 +22,7 @@ const page = () => {
               <div>맥도날드님!</div>
               <p>오늘도 힘찬 하루 보내세요!</p>
             </div>
-            <div className="profile-img">
+            <div className="profile-img" onClick={() => router.push('/member/mypage/edit/info')}>
               <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/McDonald%27s_Twitter_logo.png/200px-McDonald%27s_Twitter_logo.png" alt="" />
             </div>
           </ProfileWrap>
@@ -31,7 +31,7 @@ const page = () => {
           <LabelTitle>내 목표</LabelTitle>
           <div>
             <ul>
-              <li>
+              <li onClick={() => router.push('/member/mypage/edit/meal')}>
                 <GoalListItem variant="purple">
                   <div>
                     <GoalIcon style={{
@@ -48,7 +48,7 @@ const page = () => {
                   <NextArrow></NextArrow>
                 </GoalListItem>
               </li>
-              <li>
+              <li onClick={() => router.push('/member/mypage/edit/workout')}>
                 <GoalListItem variant="purple">
                   <div>
                     <GoalIcon style={{
@@ -65,7 +65,7 @@ const page = () => {
                   <NextArrow></NextArrow>
                 </GoalListItem>
               </li>
-              <li>
+              <li onClick={() => router.push('/member/mypage/edit/weight')}>
                 <GoalListItem variant="purple">
                   <div>
                     <GoalIcon style={{
