@@ -5,23 +5,42 @@ import Header from '@/components/Header';
 import { BaseContentWrap, ContentSection, RoundBox } from '@/styles/Layout';
 import { LabelTitle } from '@/styles/Text';
 import { signIn, useSession } from 'next-auth/react';
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation';
-import { RecordBoxWrap } from './styles';
+import { ArrowWrap, RecordBoxWrap } from './styles';
 import { api } from '@/utils/axios';
+import { NextArrow } from '../mypage/styles';
+import { todayDate } from '@/constants/record';
 
 
 const page = () => {
+  const [meal, setMeal] = useState({});
+  const [workout, setWorkout] = useState({
+    exercise: "",
+    urls: ""
+  });
+  const [weight, setWeight] = useState({})
   const router = useRouter()
-
   const handleGetWorkout = async () => {
-    const response = await api.get('/api/v1/members/exercise')
+    const { data: { data: workoutData } } = await api.get(`/api/v1/members/exercise?dateTime=${todayDate}`)
+    setWorkout({ ...workout, ...workoutData })
+  }
+
+  const handleGetMeal = async () => {
+    const response = await api.get(``)
     console.log('response: ', response);
+  }
+
+  const handleGetWeight = async () => {
+    const { data: { data: weightData } } = await api.get(`/api/v1/members/body?dateTime=${todayDate}`)
+    setWeight({ ...weight, ...weightData })
   }
   useEffect(() => {
     handleGetWorkout()
+    handleGetWeight()
+    // handleGetMeal()
   }, [])
-  
+
   return (
     <>
       <Header
@@ -33,7 +52,7 @@ const page = () => {
         {/* <section>
           달력
         </section> */}
-        <WeeklyCalendar/>
+        <WeeklyCalendar />
         <ContentSection>
           <LabelTitle>식단</LabelTitle>
           <RecordBoxWrap variant='purple' onClick={() => router.push('/member/record/meal')}>
@@ -49,6 +68,9 @@ const page = () => {
             <div className='img-wrap'>
               <img src="" alt="" />
             </div>
+            <ArrowWrap>
+              <NextArrow />
+            </ArrowWrap>
           </RecordBoxWrap>
         </ContentSection>
         <ContentSection>
@@ -57,15 +79,28 @@ const page = () => {
             <div>
               <div>
                 <p>오늘은 운동을 하셨나요?</p>
-                <div className='record-value'>운동 기록 없음</div>
+                <div className='record-value'>
+                  {workout.exercise.length < 1 ? "운동 기록 없음" : "운동 성공"}
+                </div>
               </div>
               <div className='caption'>
-                <span>!</span>운동을 입력해 주세요!
+                {workout.exercise.length < 1
+                  ? <>
+                    <span>!</span>
+                    운동을 입력해 주세요!
+                  </>
+                  : <>
+                    <span>♥</span>
+                    오운완 성공!
+                  </>}
               </div>
             </div>
             <div className='img-wrap'>
               <img src="" alt="" />
             </div>
+            <ArrowWrap>
+              <NextArrow />
+            </ArrowWrap>
           </RecordBoxWrap>
         </ContentSection>
         <ContentSection>
@@ -83,6 +118,9 @@ const page = () => {
             <div className='img-wrap'>
               <img src="" alt="" />
             </div>
+            <ArrowWrap>
+              <NextArrow />
+            </ArrowWrap>
           </RecordBoxWrap>
         </ContentSection>
       </BaseContentWrap>
