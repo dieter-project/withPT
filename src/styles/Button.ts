@@ -31,3 +31,17 @@ export const Button = styled.button<ButtonProps>`
     border: 1px solid var(--font-gray400);
   `}
 `
+
+export const CloseBtn = styled.button`
+  width: 0.795rem;
+  height: 0.795rem;
+  background: url("/svgs/icon_close.svg") no-repeat;
+  background-position: center;
+  `
+
+export const InputResetBtn = styled.button`
+  width: 1.25rem;
+  height: 1.25rem;
+  background: url("/svgs/icon_input_reset.svg") no-repeat;
+  background-position: center;
+`

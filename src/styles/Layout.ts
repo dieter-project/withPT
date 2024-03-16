@@ -45,7 +45,7 @@ export const BottomNavigation = styled.nav`
   background-color: #ffffff;
   justify-content: space-between;
   z-index: 100;
-  border-top: 1px solid var(--border-gray);
+  border-top: 1px solid var(--border-gray300);
 `
 
 export const NavItem = styled.div`
@@ -69,20 +69,16 @@ export const RoundBox = styled.div<BoxProps>`
   border-radius: 0.5rem;
   padding: 0.75rem 1rem;
   ${props => props.variant === 'outline' && css`
-    border: 1px solid var(--border-gray);
+    border: 1px solid var(--border-gray300);
   `}
   ${props => props.variant === 'purple' && css`
     background-color: var(--purple50);
   `}
 `
 
-export const ButtonAreaFixed = styled.div<BottomProps>`
+export const ButtonAreaFixed = styled.div<{ $nav?: boolean; }>`
   position: fixed;
-  ${props => props.nav 
-    ? css`bottom: 4.375rem;`
-    : css`bottom: 0;`
-  }
-  /* bottom: 4.375rem; */
+  bottom: ${props => props.$nav ? '4.375rem': '0'};
   left: 0;
   padding: 2.4rem 1.25rem 1.25rem;
   width: 100%;

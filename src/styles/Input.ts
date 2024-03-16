@@ -9,6 +9,33 @@ export const Input = styled.input`
   padding: 0 0.625rem;
 `
 
+export const Select = styled.select`
+  width: 100%;
+  height: 48px;
+  border: none;
+  border-radius: 0.5rem;
+  background-color: var(--purple50);
+  padding: 0 0.625rem;
+  position: relative;
+  -o-appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+
+  &::after {
+    width: 1.5rem;
+    height: 1.5rem;
+    content: "";
+    display: block;
+    position: absolute;
+    background: url('/svgs/icon_select.svg') no-repeat;
+    background-position: center;
+    right: 0;
+    top: 50%;
+    transform: translate3d(0, -50%, 0);
+  }
+`
+
 export const InputRowWrap = styled.div`
   width: 100%;
   display: flex;
@@ -48,4 +75,8 @@ export const Checkbox = styled.div`
     background-color: var(--primary);
     background-position: center;
   }
+`
+
+export const FileInput = styled.input`
+  display: none;    
 `
