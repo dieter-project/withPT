@@ -1,5 +1,6 @@
+import { CloseBtn, InputResetBtn } from '@/styles/Button'
 import { Input } from '@/styles/Input'
-import React from 'react'
+import React, { SetStateAction } from 'react'
 import { styled } from 'styled-components'
 
 const MealSearchModalWrap = styled.div`
@@ -18,6 +19,7 @@ const MealSearchModalWrap = styled.div`
     height: 100%;
     position: fixed;
     background-color: rgba(0, 0, 0, 0.5);
+    z-index: 200;
   }
 `
 
@@ -84,7 +86,7 @@ const RecentSearchtMealList = styled.ul`
     font-size: var(--font-s);
     font-weight: var(--font-medium);
     padding: 1.25rem 0;
-    border-bottom: 1px solid var(--border-gray);
+    border-bottom: 1px solid var(--border-gray300);
   }
   .not-result {
     font-weight: var(--font-medium);
@@ -97,7 +99,9 @@ const RecentSearchtMealList = styled.ul`
   }
 `
 
-export const MealSearchModal = () => {
+
+
+export const MealSearchModal = ({ setSearchOpen } : { setSearchOpen: React.Dispatch<SetStateAction<boolean>>}) => {
   return (
     <MealSearchModalWrap>
       <div className='container'>
@@ -105,7 +109,9 @@ export const MealSearchModal = () => {
         <div>
           <InputWrap>
             <Input type="text" placeholder='종류를 검색해보세요'/>
-            <div>취소</div>
+            <div>
+              <InputResetBtn/>
+            </div>
           </InputWrap>
           <div>
             <ListTop>
@@ -130,22 +136,28 @@ export const MealSearchModal = () => {
               <RecentSearchtMealList>
                 <li>
                   <div>햇반 작은 공기</div>
-                  <div>X</div>
+                  <div>
+                    <CloseBtn/>
+                  </div>
                 </li>
                 <li>
                   <div>두부</div>
-                  <div>X</div>
+                  <div>
+                    <CloseBtn/>
+                  </div>
                 </li>
                 <li className='not-result'>
                   <div>트러플소금으로 0개 검색되었습니다</div>
-                  <button>X</button>
+                  <div>
+                    <CloseBtn/>
+                  </div>
                 </li>
               </RecentSearchtMealList>
             </div>
           </div>
         </div>
       </div>
-      <div className='mask'></div>
+      <div className='mask' onClick={() => setSearchOpen(false)}></div>
     </MealSearchModalWrap>
   )
 }

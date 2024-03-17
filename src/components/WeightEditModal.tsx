@@ -1,14 +1,19 @@
 'use client'
 
-import React, { SetStateAction, useEffect, useState } from 'react'
-import Calendar from 'react-calendar'
+import React, { ChangeEvent, SetStateAction, useEffect, useState } from 'react'
 import { styled } from 'styled-components';
-import 'react-calendar/dist/Calendar.css';
-import { format } from 'date-fns';
+import { Input, InputRowWrap, InputWrap, Select } from '@/styles/Input';
+import { Button, CloseBtn } from '@/styles/Button';
+import { todayDate } from '@/constants/record';
+import { api } from '@/utils/axios';
+import { WeightRecord } from '@/types/member/record';
 
-type ValuePiece = Date | null;
-type Value = ValuePiece | [ValuePiece, ValuePiece];
-
+const Title = styled.div`
+  text-align: center;
+  font-size: 1.125rem;
+  font-weight: var(--font-semibold);
+  margin-bottom: 2.75rem;
+`
 const ModalContainer = styled.div`
   position: fixed;
   bottom: -150vh;
@@ -30,7 +35,7 @@ const ModalContainer = styled.div`
     z-index: 5;
   }
 
-  .overlay.show {
+  .overlay {
     display: block;
   }
 
@@ -38,111 +43,175 @@ const ModalContainer = styled.div`
     width: 100%;
     height: 60vh;
     position: fixed;
-    bottom: -150vh;
+    bottom: 0;
     left: 0;
     background-color: var(--white);
     padding: 0.75rem 0.75rem;
-    transition: bottom 0.3s ease-out;
+    animation: slideUp 0.3s ease-out;
     border-radius: 0.5rem 0.5rem 0 0;
     z-index: 10;
-  }
-  
-  .modal.show {
-    bottom: 0;
-    transition: bottom 0.3s ease-out;
-  }
 
-  .react-calendar {
-    font-family: var(--font);
-    border: none;
-  }
-
-  .react-calendar__navigation {
-    justify-content: center;
-  }
-  .react-calendar__navigation__label {
-    flex-grow: 0;
-    font-weight: var(--font-semibold);
-  }
-  .react-calendar__tile {
-    color: var(--font-gray700);
-  }
-  .react-calendar__tile:enabled:hover,
-  .react-calendar__tile:enabled:focus,
-  .react-calendar__tile--now {
-    background: none;
-    font-weight: var(--font-semibold);
-    color: var(--black);
-  }
-  .react-calendar__tile--active {
-    background: none;
-    abbr {
-      background-color: var(--primary);
-      color: var(--white);
-      border-radius: 50%;
-      padding: 0.25rem;
+    > div:first-child {
+      text-align: right;
     }
   }
+
+  @keyframes slideUp {
+    from {
+      bottom: -100%;
+    }
+    to {
+      bottom: 0;
+    }
+  }
+  
 `
 
 const WeightForm = styled.div`
-  
+  padding: 0 0.5rem;
+  label {
+    font-weight: var(--font-semibold);
+    white-space: nowrap;
+  }
 `
 
+const DateWrap = styled.div`
+  display: flex;
+  gap: 0.5rem;
+`
 
 interface ModalProps {
   displayModal: boolean;
   setDisplayModal: React.Dispatch<React.SetStateAction<boolean>>;
-  slideUpModal: boolean;
-  setSlideUpModal: React.Dispatch<React.SetStateAction<boolean>>;
-  setActiveDate: React.Dispatch<React.SetStateAction<Value>>;
+  todayWeight: WeightRecord;
+  setTodayWeight:  React.Dispatch<React.SetStateAction<WeightRecord>>;
 }
 
-export const MonthlyModal = ({ 
+export const WeightEditModal = ({ 
   displayModal, 
   setDisplayModal, 
-  slideUpModal, 
-  setSlideUpModal,
-  setActiveDate
+  todayWeight,
+  setTodayWeight
 }: ModalProps) => {
-  const [value, onChange] = useState<Value>(new Date());
-  
-  useEffect(() => {
-    // console.log('value: ', value?.toString());
-    setActiveDate(value)
-  }, [value])
-
+  const [date, setDate] = useState({
+    year: new Date().getFullYear(),
+    month: "",
+    date: ""
+  })
+  const [dateArray, setDateArray] = useState<number[]>([])
   const handleOnClose = () => {
     setDisplayModal(false)
-    setSlideUpModal(false)
+  }
+  let monthArray = [];
+
+  for (let i = 1; i <= 12; i++) {
+    monthArray.push(i)
+  }
+  
+  const handleInputChange = (e:React.ChangeEvent<HTMLInputElement>) => {
+    setTodayWeight({
+      ...todayWeight,
+      [e.target.name]: e.target.value
+    })
   }
 
+  const handleSubmit = async () => {
+    const recordDate = `${date.year}-${date.month}-${date.date}`
+    setTodayWeight({
+      ...todayWeight,
+      weightRecordDate: recordDate
+    })
+    // const response = await api.post(``);
+  }
+  
   useEffect(() => {
-    if (displayModal) {
-      setTimeout(() => {
-        setSlideUpModal(true);
-      }, 10);
-    } else {
-      setSlideUpModal(false);
+    let newArray:number[] = [];
+    let last = new Date(date.year, Number(date.month), 0);
+    for (let i = 1; i <= last.getDate(); i++) {
+      newArray.push(i)
     }
-  }, [displayModal]);
+    setDateArray(newArray)
+  }, [date.month])
+  
 
   return (
     <ModalContainer>
-      <div 
-        className={`modal`} 
-        style={{ bottom: slideUpModal ? "0" : "-100%" }}>
+      <div className='modal'>
         <div>
-          <div>신체 정보 수정</div>
+          <CloseBtn onClick={() => setDisplayModal(false)}/>
+        </div>
+        <div>
+          <Title>신체 정보 수정</Title>
           <WeightForm>
-            <div>
-              
-            </div>
+            <InputRowWrap>
+              <label>골격근량</label>
+              <InputWrap>
+                <Input 
+                  value={todayWeight.skeletalMuscle}
+                  name='skeletalMuscle'
+                  onChange={handleInputChange}
+                />
+                <span>kg</span>
+              </InputWrap>
+            </InputRowWrap>
+            <InputRowWrap>
+              <label>체지방률</label>
+              <InputWrap>
+                <Input
+                  value={todayWeight.bodyFatPercentage}
+                  name='bodyFatPercentage'
+                  onChange={handleInputChange}
+                />
+                <span>%</span>
+              </InputWrap>
+            </InputRowWrap>
+            <InputRowWrap>
+              <label>BMI</label>
+              <InputWrap>
+                <Input
+                  value={todayWeight.bmi}
+                  name='bmi'
+                  onChange={handleInputChange}
+                />
+                <span>%</span>
+              </InputWrap>
+            </InputRowWrap>
+            <InputRowWrap>
+              <label>측정일</label>
+              <DateWrap>
+                <Input value={date.year}/>
+                <Select onChange={(e) => {
+                  setDate({
+                    ...date,
+                    month: e.target.value
+                  })
+                }}>
+                  {monthArray.map((month, index) => {
+                    return (
+                      <option value={month} key={index}>{month}</option>
+                    )
+                  })}
+                </Select>
+                <Select onChange={(e) => {
+                  setDate({
+                    ...date,
+                    date: e.target.value
+                  })
+                }}>
+                  {dateArray.map((date, index) => {
+                    return (
+                      <option value={date} key={index}>{date}</option>
+                    )
+                  })}
+                </Select>
+              </DateWrap>
+            </InputRowWrap>
+            <Button variant='primary' onClick={handleSubmit}>저장하기</Button>
           </WeightForm>
         </div>
       </div>
       <div
-        className={`overlay ${slideUpModal ? "show" : ""}`}
+        className='overlay'
         onClick={handleOnClose}
       ></div>
     </ModalContainer>
