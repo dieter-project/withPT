@@ -20,19 +20,20 @@ export default function page () {
   const handleGetAuthCode = async () => {
     let role = sessionRole || localRole
     try {
-      const response = await api.post('/api/v1/oauth/kakao',{
+      const { data: { data } } = await api.post('/api/v1/oauth/kakao',{
         authorizationCode: code,
         role: "MEMBER"
       })
+      // console.log('response: ', data);
       
-      if (response.data.accessToken) {
-        setCookie('access', response.data.accessToken)
+      if (data.accessToken) {
+        setCookie('access', data.accessToken)
         router.replace('/member/main')
       } else {
         dispatch(signupActions.saveSignupState({
-          email: response.data.email,
-          oauthProvider: response.data.oauthProvider,
-          role: response.data.role,
+          email: data.email,
+          oauthProvider: data.oauthProvider,
+          role: data.role,
         }))
         router.replace('/member/signup/step1')
       }
