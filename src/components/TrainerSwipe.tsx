@@ -56,34 +56,30 @@ const TrainerListContents = styled.li<TrainerSwipeProps>`
   }
 `
 
-export const TrainerSwipe = () => {
+interface TrainerProps {
+  trainer: {
+    id: number,
+    name: string,
+    imageUrl: string,
+  },
+  gym: {
+    id: number,
+    name: string,
+  },
+  pt: {
+    id: number,
+    totalPtCount: number,
+    remainingPtCount: number,
+    infoInputStatus: string,
+    registrationAllowedStatus: string,
+    registrationRequestDate: string
+  }
+}
+export const TrainerSwipe = ({ data }: { data: TrainerProps[] }) => {
   const router = useRouter();
   const pathname = usePathname()
   const purple = !pathname.includes('main')
 
-  const [trainers, setTrainer] = useState([
-    {
-      profile: "",
-      name: "박지섭",
-      gym: "아자아자 피트니스 센터",
-      remainTimes: "16",
-      allTimes: "36",
-    },
-    {
-      profile: "",
-      name: "홍길동",
-      gym: "올데이 필라테스",
-      remainTimes: "20",
-      allTimes: "30",
-    },
-    {
-      profile: "",
-      name: "김철수",
-      gym: "액티브 피트니스 센터",
-      remainTimes: "1",
-      allTimes: "50",
-    },
-  ])
   const swiperRef = useRef(null);
 
   return (
@@ -97,7 +93,7 @@ export const TrainerSwipe = () => {
         }}
         className="mySwiper"
       >
-        {trainers?.map((trainer, index) => {
+        {data?.map((trainer, index) => {
           return (
             <SwiperSlide key={index}>
               <TrainerListContents 
@@ -106,12 +102,12 @@ export const TrainerSwipe = () => {
               >
                 <div>
                   <div className='profile'>
-                    <Image src={trainer.profile} width="50" height="50" alt='trainer profile image' />
+                    <Image src={trainer.trainer.imageUrl} width="50" height="50" alt='trainer profile image' />
                   </div>
                   <div>
-                    <div className='name'>{trainer.name} 트레이너</div>
-                    <div className='gym'>{trainer.gym}</div>
-                    <div className='remainder'>잔여: {trainer.remainTimes}회 <span>/ {trainer.allTimes}회</span></div>
+                    <div className='name'>{trainer.trainer.name} 트레이너</div>
+                    <div className='gym'>{trainer.gym.name}</div>
+                    <div className='remainder'>잔여: {trainer.pt.remainingPtCount}회 <span>/ {trainer.pt.totalPtCount}회</span></div>
                   </div>
                 </div>
                 {/* <div>바로가기</div> */}
