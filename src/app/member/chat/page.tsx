@@ -13,6 +13,7 @@ import { api } from '@/utils/axios';
 import { format } from 'date-fns';
 import { ko } from 'date-fns/locale';
 import { ChatDate, ChatTrainerList, ChatTrainerListInfo, ChatTrainerListWrap, EmptyChat, ExclamationMark, NewChatButton, ProfileCircle } from './style';
+import { getChatRooms } from '@/services/member/chat';
 
 interface ChatRooms {
   roomId: number,
@@ -34,7 +35,7 @@ const page = () => {
 
   const handleGetChats = async () => {
     try {
-      const response = await api.get('/api/v1/chat/rooms')
+      const response = await getChatRooms()
       const { data: { data } } = response;
       setChatRooms(data.roomList)
     } catch (error) {
