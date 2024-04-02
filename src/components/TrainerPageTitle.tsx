@@ -6,9 +6,10 @@ import Image from "next/image";
 
 interface Props {
   title: string;
+  variant?: "iconBack" | "center";
 }
 
-const ContentHeader = styled.div`
+const ContentHeader = styled.div<{ variant?: Props["variant"] }>`
   background-color: white;
   position: fixed;
   width: 100%;
@@ -17,7 +18,8 @@ const ContentHeader = styled.div`
   align-items: center;
   z-index: 100;
   display: flex;
-  justify-content: space-between;
+  justify-content: ${props =>
+    props.variant === "center" ? "center" : "space-between"};
 `;
 
 const ButtonHistoryBack = styled.button`
@@ -37,16 +39,20 @@ const Transparent = styled.div`
   color: transparent;
 `;
 
-const PageTitle: React.FC<Props> = ({ title }) => {
+const PageTitle: React.FC<Props> = ({
+  title,
+  variant = "iconBack" || "center",
+}) => {
   const router = useRouter();
-
   return (
-    <ContentHeader>
-      <ButtonHistoryBack onClick={() => router.back()}>
-        <Image src={beforePage} alt="이전 페이지 이미지" />
-      </ButtonHistoryBack>
+    <ContentHeader variant={variant}>
+      {variant === "iconBack" && (
+        <ButtonHistoryBack onClick={() => router.back()}>
+          <Image src={beforePage} alt="이전 페이지 이미지" />
+        </ButtonHistoryBack>
+      )}
       <SignupTitle>{title}</SignupTitle>
-      <Transparent>투명</Transparent>
+      {variant === "iconBack" && <Transparent>투명</Transparent>}
     </ContentHeader>
   );
 };

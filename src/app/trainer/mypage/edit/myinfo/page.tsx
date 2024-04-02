@@ -2,17 +2,16 @@
 
 import { useRouter } from "next/navigation";
 import React, { useEffect, useRef, useState } from "react";
-import ContentHeader from "@/components/TrainerPageTitle";
 import Image from "next/image";
 import styled from "styled-components";
 import Link from "next/link";
 import beforePage from "../../../../../public/icons/beforePage.png";
 import { Button } from "@/styles/TrainerButton";
-import { Input2 } from "@/styles/TrainerInput";
+import { NoIconInput } from "@/styles/TrainerInput";
 import { useDispatch } from "react-redux";
-import { signupActions } from "@/redux/reducers/trainerSignupSlice";
 import { useAppSelector } from "@/redux/hooks";
 import JoinStep from "@/components/Trainer/TrSignUpStep";
+import ContentHeader from "@/components/TrainerPageTitle";
 import profileNoImg from "../../../../../../public/Trainer/Mypage/profile-no-image.png";
 
 interface Trbirth {
@@ -33,59 +32,26 @@ interface TrGenderLabelProps {
   children: React.ReactNode;
 }
 
-const Wrap = styled.div`
-  background-color: white;
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  width: 100%;
-  height: auto;
+const MainContainer = styled.div`
+  background-color: #ffffff;
+  min-height: 100vh;
 `;
 
-const ButtonHistoryBack = styled.button`
-  width: 2.4rem;
-  height: 2.4rem;
-  padding-left: 1.25rem;
+const MainContentWrap = styled.div`
+  padding: 5rem 1.5rem 6.2rem;
 `;
 
-const RegisterTitle = styled.h4`
-  color: #222;
-  font-size: var(--font-xl);
-  font-weight: 700;
-  letter-spacing: -0;
-`;
-
-const ContentBody = styled.div`
-  padding: 6.8rem 1.25rem 3.2rem 1.25rem;
-`;
-
-const ContentInnerBody = styled.div``;
-
-const ProfileImage = styled(Image)`
-  width: 6.25rem;
-  height: 6.25rem;
-  border-radius: 50%;
-  margin: 0 auto;
-`;
-
-const SignupStepInfo = styled.p`
-  font-size: var(--font-xxxl);
-  font-weight: 600;
-  color: #222;
-`;
-
-const SignupStepInfoSub = styled.p`
-  font-size: var(--font-m);
-  color: var(--font-gray400);
-`;
-
-const SignupFormWrap = styled.div`
-  margin-bottom: 1rem;
-`;
-
-const FormTitle = styled.h4<TrInfo>`
+const FormTitle = styled.h4`
   font-size: var(--font-m);
   margin-bottom: 0.2rem;
+`;
+
+const SignupFormWrap = styled.form`
+  margin-top: 2rem;
+`;
+
+const SignupFormInnerWrap = styled.div`
+  margin-bottom: 2rem;
 `;
 
 const TrGenderLabel = styled.label<TrGenderLabelProps>`
@@ -105,58 +71,10 @@ const TrGenderRadio = styled.input`
   background-color: var(--purple50);
 `;
 
-const SignupOrderWrap = styled.div`
-  font-size: var(--font-xxxs);
-  display: flex;
-  align-items: center;
-  margin-bottom: 2.25rem;
-`;
-
-const SignupOrderCurrent = styled.span`
-  width: 1.5rem;
-  height: 1.5rem;
-  background-color: var(--primary);
-  color: var(--white);
-  margin-bottom: 0.2rem;
-  margin-right: 0.62rem;
-  padding: 0.25rem;
-  border-radius: 0.5rem;
-  font-size: var(--font-xs);
-  font-weight: bold;
-  text-align: center;
-`;
-
-const SignupOrder = styled.span`
-  width: 1.5rem;
-  height: 1.5rem;
-  background-color: var(--purple100);
-  color: var(--purple200);
-  margin-bottom: 0.2rem;
-  margin-right: 0.62rem;
-  padding: 0.25rem;
-  border-radius: 0.5rem;
-  font-size: var(--font-xs);
-  font-weight: bold;
-  text-align: center;
-`;
-
 const TrRegisItemWrap = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  /* color: var(--black); */
-`;
-
-const SignupInput = styled.input`
-  border: none;
-  border-radius: 0.2rem;
-  margin-bottom: 2rem;
-  line-height: 2.3rem;
-  background-color: var(--purple50);
-  text-align: center;
-  width: 100%;
-  height: 3rem;
-  margin: 0 0.3rem;
 `;
 
 const Slash = styled.span`
@@ -186,22 +104,49 @@ const NextStep = styled(Link)`
   padding: 0 1.6rem;
 `;
 
-const ProfileInputFile = styled.input``;
-
-const ProfileLabel = styled.label`
-  width: 6.25rem;
-  height: 6.25rem;
-  border-radius: 50%;
+const ProfileInputWrap = styled.div`
+  position: relative;
   margin: 0 auto;
 `;
 
+const ProfileImage = styled(Image)`
+  display: block;
+  width: 6.25rem;
+  height: 6.25rem;
+  margin: 0 auto;
+  border-radius: 50%;
+  &::-webkit-file-upload-button {
+    display: none;
+  }
+`;
+
+const ProfileInputFile = styled.input`
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  color: transparent;
+`;
+
+const ProfileLabel = styled.label`
+  position: absolute;
+  width: 6.25rem;
+  height: 6.25rem;
+  right: 35%;
+  border-radius: 50%;
+  background-color: transparent;
+  color: transparent;
+  text-align: center;
+`;
+
 export default function myinfo() {
-  const [selectedImage, setSelectedImage] = useState(null);
+  const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const [selectedGender, setSelectedGender] = useState<string | null>(null);
 
   const handleImageChange = e => {
     const file = e.target.files[0];
     setSelectedImage(file);
   };
+  const fileInput = useRef(null);
   const title = "내 정보 수정";
   const [inputData, setInputData] = useState<TrInfo>({
     name: "",
@@ -213,11 +158,9 @@ export default function myinfo() {
     sex: "",
   });
 
-  const [selectedGender, setSelectedGender] = useState<string | null>(null);
-
   const router = useRouter();
-  const inputRef = useRef<null[] | HTMLInputElement[]>([]);
   const dispatch = useDispatch();
+  const inputRef = useRef<null[] | HTMLInputElement[]>([]);
   const states = useAppSelector(state => state.trainerSignup);
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -241,8 +184,6 @@ export default function myinfo() {
       });
     }
   };
-
-  // console.log(inputData);
 
   const handleNext = () => {
     const birthJoin =
@@ -300,133 +241,142 @@ export default function myinfo() {
     );
     // sessionStorage.setItem('member_login_step1', JSON.stringify(inputData))
     console.log("inputData", inputData);
-    // router.push(`/trainer/signup/step2`);
     console.log("states: ", states);
   };
 
   useEffect(() => {}, []);
 
+  const onChangeImage = e => {
+    const file = e.target.files[0];
+    const imageUrl = URL.createObjectURL(file);
+    setSelectedImage(imageUrl);
+  };
+
   return (
-    <Wrap>
-      <ContentHeader title={title}></ContentHeader>
-      <ContentBody>
-        <ContentInnerBody>
-          <ProfileLabel
-            className="input-file-button"
-            htmlFor="input-file"
-            style={{
-              background: selectedImage
-                ? `url(${URL.createObjectURL(selectedImage)})`
-                : `${profileNoImg}`,
-              backgroundSize: "100% 100%",
-            }}
-          >
+    <MainContainer>
+      <ContentHeader title={title} variant="iconBack"></ContentHeader>
+      <MainContentWrap>
+        <ProfileInputWrap>
+          <ProfileLabel className="input-file-button" htmlFor="input-file">
             업로드
           </ProfileLabel>
           <ProfileInputFile
             type="file"
-            accept="image/*"
             id="input-file"
-            onChange={handleImageChange}
+            onChange={onChangeImage}
             style={{ display: "none" }}
           />
-          <form method="post" autoComplete="on">
-            <SignupFormWrap>
-              <FormTitle>이름</FormTitle>
-              <TrRegisItemWrap>
-                <Input2
-                  name="name"
-                  type="text"
-                  required
-                  value={inputData.name}
-                  onChange={handleInputChange}
-                ></Input2>
-              </TrRegisItemWrap>
-            </SignupFormWrap>
-            <SignupFormWrap>
-              <FormTitle>키, 몸무게</FormTitle>
-              <TrRegisItemWrap>
-                <Input2
-                  type="text"
-                  name="year"
-                  value={
-                    typeof inputData.birth !== "string"
-                      ? inputData.birth.year
-                      : ""
-                  }
-                  maxLength={4}
-                  onChange={handleInputChange}
-                  ref={element => (inputRef.current[1] = element)}
-                  style={{ textAlign: "center" }}
-                  required
-                ></Input2>
-                <Slash>/</Slash>
-                <Input2
-                  type="text"
-                  name="month"
-                  maxLength={2}
-                  value={
-                    typeof inputData.birth !== "string"
-                      ? inputData.birth.month
-                      : ""
-                  }
-                  onChange={handleInputChange}
-                  ref={element => (inputRef.current[2] = element)}
-                  inputMode="decimal"
-                  style={{ textAlign: "center" }}
-                  required
-                ></Input2>
-              </TrRegisItemWrap>
-            </SignupFormWrap>
-            <SignupFormWrap>
-              <FormTitle>성별</FormTitle>
-              <TrRegisItemWrap>
-                <TrGenderLabel
+          {selectedImage ? (
+            <ProfileImage
+              src={selectedImage}
+              alt="프로필 없을때"
+              width={30}
+              height={30}
+            />
+          ) : (
+            <ProfileImage
+              src={profileNoImg}
+              alt="프로필사진"
+              width={30}
+              height={30}
+            />
+          )}
+        </ProfileInputWrap>
+        <SignupFormWrap method="post" autoComplete="on">
+          <SignupFormInnerWrap>
+            <FormTitle>이름</FormTitle>
+            <TrRegisItemWrap>
+              <NoIconInput
+                name="name"
+                type="text"
+                required
+                value={inputData.name}
+                onChange={handleInputChange}
+              ></NoIconInput>
+            </TrRegisItemWrap>
+          </SignupFormInnerWrap>
+          <SignupFormInnerWrap>
+            <FormTitle>성별</FormTitle>
+            <TrRegisItemWrap>
+              <TrGenderLabel
+                name="sex"
+                htmlFor="radio-box1"
+                selected={selectedGender === "남자"}
+                onChange={handleInputChange}
+                ref={element => (inputRef.current[4] = element)}
+              >
+                <TrGenderRadio
+                  type="radio"
                   name="sex"
-                  htmlFor="radio-box1"
-                  selected={selectedGender === "남자"}
-                  onChange={handleInputChange}
-                  ref={element => (inputRef.current[4] = element)}
-                >
-                  <TrGenderRadio
-                    type="radio"
-                    name="sex"
-                    id="radio-box1"
-                    value="남자"
-                    checked={selectedGender === "남자"}
-                    onChange={() => setSelectedGender("남자")}
-                  ></TrGenderRadio>
-                  남자
-                </TrGenderLabel>
-                <TrGenderLabel
-                  htmlFor="radio-box2"
-                  selected={selectedGender === "여자"}
-                  onChange={handleInputChange}
-                  ref={element => (inputRef.current[4] = element)}
-                >
-                  <TrGenderRadio
-                    type="radio"
-                    name="sex"
-                    id="radio-box2"
-                    value="여자"
-                    checked={selectedGender === "여자"}
-                    onChange={() => setSelectedGender("여자")}
-                  ></TrGenderRadio>{" "}
-                  여자
-                </TrGenderLabel>
-              </TrRegisItemWrap>
-            </SignupFormWrap>
-          </form>
-
-          <ButtonAreaFixed>
-            <Link href="/trainer/signup/step2">
-              <Button variant="primary" onClick={handleNext}>
-                저장
-              </Button>
-            </Link>
-          </ButtonAreaFixed>
-        </ContentInnerBody>
-      </ContentBody>
-    </Wrap>
+                  id="radio-box1"
+                  value="남자"
+                  checked={selectedGender === "남자"}
+                  onChange={() => setSelectedGender("남자")}
+                ></TrGenderRadio>
+                남자
+              </TrGenderLabel>
+              <TrGenderLabel
+                htmlFor="radio-box2"
+                selected={selectedGender === "여자"}
+                onChange={handleInputChange}
+                ref={element => (inputRef.current[4] = element)}
+              >
+                <TrGenderRadio
+                  type="radio"
+                  name="sex"
+                  id="radio-box2"
+                  value="여자"
+                  checked={selectedGender === "여자"}
+                  onChange={() => setSelectedGender("여자")}
+                ></TrGenderRadio>{" "}
+                여자
+              </TrGenderLabel>
+            </TrRegisItemWrap>
+          </SignupFormInnerWrap>
+          <SignupFormInnerWrap>
+            <FormTitle>생년월일</FormTitle>
+            <TrRegisItemWrap>
+              <Input2
+                type="text"
+                name="year"
+                value={
+                  typeof inputData.birth !== "string"
+                    ? inputData.birth.year
+                    : ""
+                }
+                maxLength={4}
+                onChange={handleInputChange}
+                ref={element => (inputRef.current[1] = element)}
+                style={{ textAlign: "center" }}
+                required
+              ></Input2>
+              <Slash>/</Slash>
+              <Input2
+                type="text"
+                name="month"
+                maxLength={2}
+                value={
+                  typeof inputData.birth !== "string"
+                    ? inputData.birth.month
+                    : ""
+                }
+                onChange={handleInputChange}
+                ref={element => (inputRef.current[2] = element)}
+                inputMode="decimal"
+                style={{ textAlign: "center" }}
+                required
+              ></Input2>
+            </TrRegisItemWrap>
+          </SignupFormInnerWrap>
+        </SignupFormWrap>
+        <ButtonAreaFixed>
+          <Link href="/trainer/signup/step2" passHref>
+            <Button variant="primary" onClick={handleNext}>
+              저장하기
+            </Button>
+          </Link>
+        </ButtonAreaFixed>
+      </MainContentWrap>
+    </MainContainer>
   );
 }

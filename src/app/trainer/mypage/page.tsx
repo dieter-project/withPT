@@ -11,14 +11,14 @@ const MainHeader = styled.header`
   position: fixed;
   left: 0;
   top: 0;
-  height: 3rem;
-  width: 100%;
-  padding: 1.12rem 0;
-  text-align: center;
-  font-weight: 600;
-  background-color: #ffffff;
   z-index: 100;
+  width: 100%;
+  height: 3rem;
+  padding: 1.12rem 0;
+  background-color: #ffffff;
+  font-weight: 600;
   font-size: var(--font-xl);
+  text-align: center;
 `;
 
 const TrainerProfile = styled.div`
@@ -122,7 +122,7 @@ const MypageCtg = styled.button`
   display: flex;
   justify-content: space-between;
   font-weight: bold;
-  padding: 0.8rem 0;
+  padding: 0.8rem 0 0.8rem 1.06rem;
 `;
 
 const CenterModifyButton = styled.button`
@@ -130,7 +130,14 @@ const CenterModifyButton = styled.button`
   color: var(--font-gray700);
 `;
 
+let datanum = 1;
+
 export default function Mypage() {
+  const contentList = [
+    { title: "공지사항", link: "/trainer/main" },
+    { title: "로그아웃", link: "/trainer/main" },
+    { title: "계정관리", link: "/trainer/main" },
+  ];
   return (
     <MainContainer>
       <MainHeader>마이페이지</MainHeader>
@@ -141,79 +148,76 @@ export default function Mypage() {
           </TrainerName>
           <TrainerPic src="#!" alt="프로필 사진"></TrainerPic>
         </TrainerProfile>
-        <ModifyMyInfoButton href="trainer/mypage/edit/myinfo">
+        <ModifyMyInfoButton href="/trainer/mypage/edit/myinfo" passHref>
           내 정보 수정
         </ModifyMyInfoButton>
         <TrainerMainWrap>
           <TrainerResumeTap>
             <MainTitle>이력 관리</MainTitle>
           </TrainerResumeTap>
-
-          <Link href="/trainer/mypage/edit/career">
-            <TrainerResume>
-              <TrainerResumeAward>
-                <span>2023 .03</span>
-                <span>보디빌더 대회 최우수상</span>
-              </TrainerResumeAward>
-              <TrainerResumeAward>
-                <span>2022 .03</span>
-                <span>보디빌더 대회 우수상</span>
-              </TrainerResumeAward>
-              <TrainerResumeAward>
-                <span>2010 .03 ~ 2016 . 02</span>
-                <span>보디빌더 대회 최우수상</span>
-              </TrainerResumeAward>
-            </TrainerResume>
-          </Link>
-          <Link href="/trainer/mypage/edit/career">
-            <NoCareerWrap href="/trainer/mypage/edit/career">
-              <div>
-                <NoInputCareerMessage>
-                  현재 작성된 이력이 없으세요.
-                </NoInputCareerMessage>
-                <InputCareerMessage>이력 입력하기</InputCareerMessage>
-              </div>
-              <Image src={stepLigntIcon} alt="체크" />
-            </NoCareerWrap>
+          <Link href="/trainer/mypage/edit/career" passHref>
+            {datanum === 0 && (
+              <TrainerResume>
+                <TrainerResumeAward>
+                  <span>2023 .03</span>
+                  <span>보디빌더 대회 최우수상</span>
+                </TrainerResumeAward>
+                <TrainerResumeAward>
+                  <span>2022 .03</span>
+                  <span>보디빌더 대회 우수상</span>
+                </TrainerResumeAward>
+                <TrainerResumeAward>
+                  <span>2010 .03 ~ 2016 . 02</span>
+                  <span>보디빌더 대회 최우수상</span>
+                </TrainerResumeAward>
+              </TrainerResume>
+            )}
+            {datanum === 1 && (
+              <NoCareerWrap href="/trainer/mypage/edit/career" passHref>
+                <div>
+                  <NoInputCareerMessage>
+                    현재 작성된 이력이 없으세요.
+                  </NoInputCareerMessage>
+                  <InputCareerMessage>이력 입력하기</InputCareerMessage>
+                </div>
+                <Image src={stepLigntIcon} alt="체크" />
+              </NoCareerWrap>
+            )}
           </Link>
         </TrainerMainWrap>
-
-        <CenterContentWrap>
-          <MainTitle>
-            센터정보
-            <CenterModifyButton>수정</CenterModifyButton>
-          </MainTitle>
-          <CenterListWrap>
-            <CenterList>
-              아자아자
-              <br />
-              피트니스 센터
-            </CenterList>
-            <CenterList>
-              으라차차
-              <br />
-              피트니스 센터
-            </CenterList>
-            <CenterList>
-              득근득근
-              <br />
-              피트니스 센터
-            </CenterList>
-          </CenterListWrap>
-        </CenterContentWrap>
-
-        <MypageCtg>
-          <span>공지사항</span>
-          <Image src={stepLigntIcon} alt="다음 스텝으로 넘어가는 화살표" />
-        </MypageCtg>
-        <MypageCtg>
-          <Link href="trainer/login">로그아웃</Link>
-          <Image src={stepLigntIcon} alt="다음 스텝으로 넘어가는 화살표" />
-        </MypageCtg>
-        <MypageCtg>
-          <span>계정관리</span>
-          <Image src={stepLigntIcon} alt="다음 스텝으로 넘어가는 화살표" />
-        </MypageCtg>
+        {datanum === 0 && (
+          <CenterContentWrap>
+            <MainTitle>
+              센터정보
+              <CenterModifyButton>수정</CenterModifyButton>
+            </MainTitle>
+            <CenterListWrap>
+              <CenterList>
+                아자아자
+                <br />
+                피트니스 센터
+              </CenterList>
+              <CenterList>
+                으라차차
+                <br />
+                피트니스 센터
+              </CenterList>
+              <CenterList>
+                득근득근
+                <br />
+                피트니스 센터
+              </CenterList>
+            </CenterListWrap>
+          </CenterContentWrap>
+        )}
+        {contentList.map((content, i) => (
+          <Link href={content.link} passHref key={i}>
+            <MypageCtg>
+              <span>{content.title}</span>
+              <Image src={stepLigntIcon} alt="다음 스텝으로 넘어가는 화살표" />
+            </MypageCtg>
+          </Link>
+        ))}
       </MainContentWrap>
       <Footer />
     </MainContainer>

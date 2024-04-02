@@ -59,7 +59,7 @@ const ManageTitle = styled.h4`
 `;
 
 const ManageTitlesubTxt = styled.span`
-  font-size: var(--font-m);
+  font-size: var(--font-s);
   color: var(--font-secondary);
 `;
 

@@ -4,9 +4,29 @@ import Link from "next/link";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
+import {
+  SearchBarWrap,
+  SearchIcon,
+  SearchBarInput,
+} from "@/styles/TrainerSearchBar";
+import searchIcon from "../../../../../public/Trainer/icons/searchLightGray.png";
 import beforePage from "../../../../../public/icons/beforePage.png";
-import settingTabImg from "../../../../../public/Trainer/settingTab.png";
+import settingTabBeforeImg from "../../../../../public/Trainer/Header/settingTabBeforeRegion.png";
+import settingTabImg from "../../../../../public/Trainer/Header/settingTabTwoRegion.png";
 import setting from "../../../../../public/Trainer/setting.jpg";
+
+const MemberItem = ({ member, isSelected, toggleSelection }) => {
+  return (
+    <li>
+      <input
+        type="checkbox"
+        checked={isSelected}
+        onChange={() => toggleSelection(member.id)}
+      />
+      {member.name}
+    </li>
+  );
+};
 
 const MainContainer = styled.div`
   background-color: #ffffff;
@@ -33,34 +53,53 @@ const MainTitle = styled.h4`
 
 const SettingImg = styled(Image)`
   display: inline-block;
+  width: 1.5rem;
+  height: 1.5rem;
 `;
 
 const SettingTabImg = styled(Image)`
+  width: 140px;
+  height: 90px;
   display: inline-block;
   position: absolute;
-  top: 2rem;
+  top: 0;
   right: 0;
 `;
 
-const SettingTopTxt = styled.div`
+const SettingTextWrap = styled.div`
   position: absolute;
   top: 4rem;
-  right: 2rem;
-  font-weight: normal;
-  padding: 0.1rem 0;
+  right: 1rem;
+  width: 9rem;
+  background-color: white;
+  border-radius: 0.5rem;
+  box-shadow: 2px 4px 8px rgba(0, 0, 0, 0.2);
+  &::after {
+    content: "";
+    display: block;
+    position: absolute;
+    top: -1rem;
+    right: 0;
+    width: 1rem;
+    height: 1rem;
+    /* background: red; */
+    /* background-image: url("../../../../../public/Trainer/Header/settingTabBeforeRegion.png") */
+    background-image: url(${settingTabBeforeImg.src});
+    background-size: cover; /* 배경 이미지를 가득 채우도록 설정 *
+      /* no-repeat center; */
+    background-size: 100% 100%;
+  }
+`;
+
+const SettingButton = styled.button`
+  width: 100%;
+  text-align: center;
+  padding: 0.5rem 0;
   border-bottom: 1px solid var(--border-gray);
 `;
 
-const SettingUnderTxt = styled.div`
-  position: absolute;
-  top: 6rem;
-  right: 2rem;
-  font-weight: normal;
-  padding: 0.1rem 0;
-`;
-
-const ManageContentWrap = styled.div`
-  padding: 4rem 1.2rem 5rem;
+const MainContentWrap = styled.div`
+  padding: 5rem 1.2rem 5rem;
 `;
 
 const CenterNameItem = styled.div`
@@ -85,7 +124,7 @@ const CenterMember = styled.div`
 `;
 
 const MemberName = styled.span`
-  font-size: var(--middle);
+  font-size: var(--font-l);
   font-weight: 600;
 `;
 
@@ -114,37 +153,10 @@ const AlertResend = styled.span`
   color: var(--primary);
 `;
 
-const MainFooter = styled.footer`
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 3rem;
-  padding: 2rem 2rem 3rem 2rem;
-  align-items: center;
-  background-color: #ffffff;
-  justify-content: space-between;
-  z-index: 100;
-`;
-
-const FooterCtgWrap = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-`;
-
-const FooterCtgItem = styled.button`
-  all: unset;
-  align-items: center;
-`;
-
-const FooterItemImg = styled.img`
-  display: block;
-`;
-
 const TabContainer = styled.div`
   display: flex;
   justify-content: space-around;
+  margin-bottom: 1rem;
 `;
 
 const TabItem = styled.button`
@@ -168,7 +180,12 @@ const TotalClassCount = styled.span`
   color: var(--font-gray600);
 `;
 
+const RemainClassCount = styled.div`
+  font-size: var(--font-m);
+`;
+
 export default function ManageMember() {
+  const router = useRouter();
   const [activeTab, setActiveTab] = useState("members");
   const [isTapOpen, setIsTapOpen] = useState(false);
   const [isSettingOpen, setIsSettingOpen] = useState(false);
@@ -190,34 +207,32 @@ export default function ManageMember() {
     setActiveTab(tab);
   };
 
-  const toggleTap = () => {
-    setIsTapOpen(!isTapOpen);
-  };
-
   const toggleSetting = () => {
     setIsSettingOpen(!isSettingOpen);
   };
 
-  const toggleCheckboxes = () => {
-    setShowCheckboxes(!showCheckboxes);
-  };
-  const handleCheckboxChange = id => {
-    setMembers(prevMembers =>
-      prevMembers.map(member =>
-        member.id === id ? { ...member, checked: !member.checked } : member,
-      ),
-    );
+  const [members2, setMembers2] = useState([
+    { id: 1, name: "John" },
+    { id: 2, name: "Jane" },
+    { id: 3, name: "Doe" },
+  ]);
+  const [selectedMembers, setSelectedMembers] = useState([]);
+  const [isSelectionEnabled, setIsSelectionEnabled] = useState(false);
+
+  // 회원 선택 토글 함수
+  const toggleSelection = memberId => {
+    const isSelected = selectedMembers.includes(memberId);
+    if (isSelected) {
+      setSelectedMembers(selectedMembers.filter(id => id !== memberId));
+    } else {
+      setSelectedMembers([...selectedMembers, memberId]);
+    }
   };
 
-  const handleRemoveMembers = () => {
-    const selectedMembers = members.filter(member => member.checked);
-    // 선택된 회원을 삭제하는 로직을 구현하세요 (예: 서버에 요청을 보내는 등)
-    console.log("삭제할 회원:", selectedMembers);
-    setMembers(prevMembers => prevMembers.filter(member => !member.checked));
-    setShowCheckboxes(false); // 회원을 삭제한 후 체크박스 감추기
+  // 해제하기 버튼 클릭 핸들러
+  const handleRelease = () => {
+    setIsSelectionEnabled(!isSelectionEnabled);
   };
-
-  const router = useRouter();
 
   return (
     <MainContainer>
@@ -231,30 +246,23 @@ export default function ManageMember() {
             height="25"
           />
         </button>
+
         <MainTitle>아자아자 피트니스 센터</MainTitle>
         <div style={{ position: "relative" }}>
-          <SettingImg
-            src={setting}
-            alt="설정 이미지"
-            width="20"
-            height="25"
-            onClick={toggleSetting}
-          />
+          <SettingImg src={setting} alt="설정 이미지" onClick={toggleSetting} />
         </div>
         {isSettingOpen && (
           <>
-            <SettingTabImg
-              src={settingTabImg}
-              alt="설정 하단 탭 이미지"
-              width="150"
-              height="150"
-            />
-            <SettingTopTxt>회원 정보 수정</SettingTopTxt>
-            <SettingUnderTxt>회원 해제하기</SettingUnderTxt>
+            <SettingTextWrap>
+              <SettingButton>회원 정보 수정</SettingButton>
+              <SettingButton onClick={handleRelease}>
+                회원 해제하기
+              </SettingButton>
+            </SettingTextWrap>
           </>
         )}
       </MainHeader>
-      <ManageContentWrap>
+      <MainContentWrap>
         <TabContainer>
           <TabItem
             onClick={() => handleTabChange("members")}
@@ -293,10 +301,17 @@ export default function ManageMember() {
           {activeTab === "members" && (
             <>
               <div>
-                <MemberSearchInput
-                  type="text"
-                  placeholder="검색"
-                ></MemberSearchInput>
+                <SearchBarWrap>
+                  <SearchIcon
+                    src={searchIcon}
+                    alt="검색 회색 돋보기 아이콘"
+                  ></SearchIcon>
+                  <SearchBarInput
+                    type="text"
+                    name="센터 검색바"
+                    placeholder="검색"
+                  ></SearchBarInput>
+                </SearchBarWrap>
               </div>
 
               <CenterMember>
@@ -305,31 +320,31 @@ export default function ManageMember() {
               </CenterMember>
               <CenterMember>
                 <MemberName>버거킹 회원님</MemberName>
-                <div>
+                <RemainClassCount>
                   <span>잔여 : 16회</span>
                   <TotalClassCount> / 36회</TotalClassCount>
-                </div>
+                </RemainClassCount>
               </CenterMember>
               <CenterMember>
                 <MemberName>신형만 회원님</MemberName>
-                <div>
+                <RemainClassCount>
                   <span>잔여 : 16회</span>
                   <TotalClassCount> / 36회</TotalClassCount>
-                </div>
+                </RemainClassCount>
               </CenterMember>
               <CenterMember>
                 <MemberName>김땡땡 회원님</MemberName>
-                <div>
+                <RemainClassCount>
                   <span>잔여 : 16회</span>
                   <TotalClassCount> / 36회</TotalClassCount>
-                </div>
+                </RemainClassCount>
               </CenterMember>
               <CenterMember>
                 <MemberName>아자아자 회원님</MemberName>
-                <div>
+                <RemainClassCount>
                   <span>잔여 : 16회</span>
                   <TotalClassCount> / 36회</TotalClassCount>
-                </div>
+                </RemainClassCount>
               </CenterMember>
             </>
           )}
@@ -349,6 +364,29 @@ export default function ManageMember() {
         </ㅣ>
       ))}
     </div> */}
+
+        {isSelectionEnabled && (
+          <ul>
+            {members.map(member => (
+              <MemberItem
+                key={member.id}
+                member={member}
+                isSelected={selectedMembers.includes(member.id)}
+                toggleSelection={toggleSelection}
+              />
+            ))}
+          </ul>
+        )}
+
+        {!isSelectionEnabled && (
+          <ul>
+            {members2.map((member, i) => (
+              <>
+                <li key={i}> member </li>
+              </>
+            ))}
+          </ul>
+        )}
         {activeTab === "waiting" && (
           <>
             <div>
@@ -363,7 +401,7 @@ export default function ManageMember() {
             </div>
           </>
         )}
-      </ManageContentWrap>
+      </MainContentWrap>
     </MainContainer>
   );
 }

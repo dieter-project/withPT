@@ -3,12 +3,13 @@ import { useEffect, useState } from "react";
 import styled from "styled-components";
 import Link from "next/link";
 import Image from "next/image";
-import moment from "moment";
+import { Container, ContentBody } from "@/styles/TrainerLayout";
 import { Button, IconButton } from "@/styles/TrainerButton";
-import { ListButton } from "@/styles/TrainerButton";
+import ContentHeader from "@/components/TrainerPageTitle";
 import Footer from "@/components/TrainerFooter";
 import { startOfWeek, addDays, format } from "date-fns";
 import "react-calendar/dist/Calendar.css";
+import arrowCircleUnderGray from "../../../../public/Trainer/icons/arrowCircleUnderGray.png";
 import purplePlusIcon from "../../../../public/Trainer/icons/plusIconWhite.png";
 import purpleCheckIcon from "../../../../public/Trainer/icons/checkIconPurple.png";
 import purpleExcalmiIcon from "../../../../public/Trainer/icons/exclamationPurple.png";
@@ -16,49 +17,15 @@ import redMinusIcon from "../../../../public/Trainer/icons/minusIconRed.png";
 import ModalCloseXButtonImg from "../../../../public/Trainer/Modal/close-line.png";
 import Calendar from "../coursemanagement/calendar/page";
 
-const MainContainer = styled.div`
-  background-color: var(--purple50);
-  min-height: 100vh;
-  position: relative;
-`;
-
-const MainHeader = styled.header`
-  position: fixed;
-  width: 100%;
-  left: 0;
-  top: 0;
-  line-height: 3.63rem;
-  background-color: #ffffff;
-  z-index: 100;
-  text-align: center;
-  font-weight: 600;
-  font-size: var(--font-xl);
-`;
-
-const MainContentWrap = styled.div`
-  padding: 3.6rem 0;
-`;
-
 const MainTopContent = styled.div`
   background-color: white;
   padding: 0 1rem;
 `;
 
-const RegisNewMember = styled(Link)`
-  display: block;
-  width: 100%;
-  line-height: 3.5rem;
-  text-align: center;
-  background-color: var(--primary);
-  color: var(--white);
-  font-size: var(--font-m);
-  border: none;
-  border-radius: 0.5rem;
-`;
-
 const ManageCourseWrap = styled.div`
-  margin-top: 2.5rem;
-  padding: 0 1rem;
+  margin-top: 1rem;
+  padding: 1rem;
+  background-color: var(--purple50);
 `;
 
 const ManageTitleWrap = styled.div`
@@ -68,16 +35,18 @@ const ManageTitleWrap = styled.div`
 `;
 
 const ManageTitle = styled.button`
-  color: black;
-  font-size: var(--font-m);
-  margin-right: 0.2rem;
   display: inline-block;
+  color: black;
+  font-size: var(--font-l);
+  font-weight: var(--font-semibold);
+  margin-right: 0.2rem;
 `;
 
 const ButtonIcon = styled(Image)`
   display: inline-block;
   width: 1.5rem;
   height: 1.5rem;
+  margin-right: 0.2rem;
 `;
 
 const Modal = styled.div`
@@ -131,9 +100,10 @@ const ModalContent = styled.div`
 
 const CenterList = styled.li`
   display: flex;
+  justify-content: space-between;
   align-items: center;
   width: 100%;
-  background-color: var(--purple50);
+  background-color: white;
   color: var(--black);
   font-size: var(--font-l);
   border: none;
@@ -144,9 +114,10 @@ const CenterList = styled.li`
 `;
 
 const CourseTime = styled.div`
-  width: 4rem;
   display: inline-block;
+  width: 4rem;
   text-align: center;
+  border-right: 1px solid var(--border-gray);
 `;
 
 const CourseMember = styled.div`
@@ -185,6 +156,39 @@ const CenterChooseContent = styled.div`
   padding: 0.5rem;
 `;
 
+const ButtonRegionWrap = styled.div`
+  display: flex;
+  align-items: center;
+  margin-bottom: 1.5rem;
+`;
+
+const ButtonInnerRegion = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+const PickedCenterButton = styled.button`
+  font-weight: bold;
+`;
+
+const ArrowCircleUnderGray = styled(Image)`
+  display: inline-block;
+  width: 1rem;
+  line-height: 1rem;
+  margin-left: 0.5rem;
+`;
+
+const ColorContentBody = styled(ContentBody)`
+  padding: 5rem 0rem 3.2rem 0rem;
+`;
+
+const CourseListRightWrap = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
+
 const dayList = [
   "2023-03-10",
   "2023-03-21",
@@ -194,6 +198,7 @@ const dayList = [
 ];
 
 export default function ManageMain() {
+  const title = "수업관리";
   const today = new Date();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [showModalContent, setShowModalContent] = useState(false);
@@ -231,30 +236,41 @@ export default function ManageMain() {
   };
 
   return (
-    <MainContainer>
-      <MainHeader>일정 관리</MainHeader>
-      <MainContentWrap>
+    <Container>
+      <ContentHeader title={title} variant="center"></ContentHeader>
+      <ColorContentBody>
         <MainTopContent>
-          <div style={{ display: "flex" }}>
+          <ButtonRegionWrap>
             {" "}
             <Button
               variant="primary"
               height="3.5rem"
               style={{ marginRight: "1rem" }}
             >
-              <Link href="/trainer/membermanagement/member/regist">
-                <ButtonIcon src={purplePlusIcon} alt="플러스 아이콘" />
-                신규수업 등록
-              </Link>
+              <ButtonInnerRegion>
+                <Link href="/trainer/membermanagement/member/regist">
+                  <ButtonIcon src={purplePlusIcon} alt="플러스 아이콘" />
+                  <span>신규수업 등록</span>
+                </Link>
+              </ButtonInnerRegion>
             </Button>{" "}
             <Button variant="outlinepurple" height="3.5rem">
-              <Link href="/trainer/membermanagement/member/regist">
-                <ButtonIcon src={purpleExcalmiIcon} alt="플러스 아이콘" /> 대기
-                수업 <span>5</span>
-              </Link>
+              <ButtonInnerRegion>
+                <Link href="/trainer/membermanagement/member/regist">
+                  <ButtonIcon src={purpleExcalmiIcon} alt="플러스 아이콘" />
+                  <span>대기 수업</span> <span>5</span>
+                </Link>
+              </ButtonInnerRegion>
             </Button>
-          </div>
-          <button onClick={toggleModal}>{pickedCenter}</button>
+          </ButtonRegionWrap>
+
+          <PickedCenterButton onClick={toggleModal}>
+            <span>{pickedCenter}</span>
+            <ArrowCircleUnderGray
+              src={arrowCircleUnderGray}
+              alt="리스트 선택하는 아래 화살표 아이콘"
+            />
+          </PickedCenterButton>
           <Calendar onChange={onChange} value={value} />
         </MainTopContent>
         <ManageCourseWrap>
@@ -267,33 +283,37 @@ export default function ManageMain() {
             <Link href="/trainer/membermanagement/member">
               <CenterList>
                 <CourseTime>10:00</CourseTime>
-                <CourseMember>
-                  <div>000 고객</div>
-                  <div>000 지점</div>
-                </CourseMember>
-                <CourseConfirmed>
-                  <ConfirmedCheckIcon
-                    src={purpleCheckIcon}
-                    alt="확정 아이콘"
-                  ></ConfirmedCheckIcon>
-                  <span>확정</span>
-                </CourseConfirmed>
+                <CourseListRightWrap>
+                  <CourseMember>
+                    <div>000 고객</div>
+                    <div>000 지점</div>
+                  </CourseMember>
+                  <CourseConfirmed>
+                    <ConfirmedCheckIcon
+                      src={purpleCheckIcon}
+                      alt="확정 아이콘"
+                    ></ConfirmedCheckIcon>
+                    <span>확정</span>
+                  </CourseConfirmed>
+                </CourseListRightWrap>
               </CenterList>
             </Link>
             <Link href="/trainer/membermanagement/member">
               <CenterList>
                 <CourseTime>10:00</CourseTime>
-                <CourseMember>
-                  <div>000 고객</div>
-                  <div>000 지점</div>
-                </CourseMember>
-                <CourseConfirmed>
-                  <ConfirmedCheckIcon
-                    src={redMinusIcon}
-                    alt="취소 아이콘"
-                  ></ConfirmedCheckIcon>
-                  <span>취소</span>
-                </CourseConfirmed>
+                <CourseListRightWrap>
+                  <CourseMember>
+                    <div>000 고객</div>
+                    <div>000 지점</div>
+                  </CourseMember>
+                  <CourseConfirmed>
+                    <ConfirmedCheckIcon
+                      src={redMinusIcon}
+                      alt="취소 아이콘"
+                    ></ConfirmedCheckIcon>
+                    <span>취소</span>
+                  </CourseConfirmed>
+                </CourseListRightWrap>
               </CenterList>
             </Link>
             <Link href="/trainer/membermanagement/member">
@@ -314,7 +334,7 @@ export default function ManageMain() {
             </Link>
           </ul>
         </ManageCourseWrap>
-      </MainContentWrap>
+      </ColorContentBody>
       <Footer />
       {isModalOpen && (
         <Modal>
@@ -345,6 +365,6 @@ export default function ManageMain() {
           <ModalDimmed></ModalDimmed>
         </Modal>
       )}
-    </MainContainer>
+    </Container>
   );
 }

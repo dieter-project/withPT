@@ -251,75 +251,79 @@ export default function Main() {
           </TrainerScheduleTap>
           <TrainerScheduleContentWrap>
             {activeTab === "firstTab" ? (
-              <div className="trainer-schedule-content">
-                <ScheduleContentItem>
-                  <span>10:00 ~ 10:50</span> <span>김땡땡 회원님</span>
-                </ScheduleContentItem>
-                <ScheduleContentItem>
-                  <span>12:00 ~ 12:50</span> <span>맥도날드 회원님</span>
-                </ScheduleContentItem>
-                <ScheduleContentItem>
-                  <span>13:00 ~ 13:50</span> <span>배고파요 회원님</span>
-                </ScheduleContentItem>
-                <ScheduleContentItem style={{ borderBottom: "none" }}>
-                  <span>16:00 ~ 16:50</span> <span>사보리노 회원님</span>
-                </ScheduleContentItem>
-              </div>
+              <Link href="coursemanagement ">
+                <div className="trainer-schedule-content">
+                  <ScheduleContentItem>
+                    <span>10:00 ~ 10:50</span> <span>김땡땡 회원님</span>
+                  </ScheduleContentItem>
+                  <ScheduleContentItem>
+                    <span>12:00 ~ 12:50</span> <span>맥도날드 회원님</span>
+                  </ScheduleContentItem>
+                  <ScheduleContentItem>
+                    <span>13:00 ~ 13:50</span> <span>배고파요 회원님</span>
+                  </ScheduleContentItem>
+                  <ScheduleContentItem style={{ borderBottom: "none" }}>
+                    <span>16:00 ~ 16:50</span> <span>사보리노 회원님</span>
+                  </ScheduleContentItem>
+                </div>
+              </Link>
             ) : (
               /* "도착한 알림" 탭이 활성화되었을 때 */
               <div className="trainer-schedule-content">
-                <AlertContentItem>
-                  <div>
-                    <AlertTypeImg
-                      src={foodFeedbackImg}
-                      alt="식단 피드백 요청 이미지"
-                      width="20"
-                      height="20"
-                    />
-                    <AlertTypeTxt>식단피드백 요청</AlertTypeTxt>
-                    <MemberName>김땡땡 회원님</MemberName>
-                  </div>{" "}
-                  <MemberTime>9:45</MemberTime>
-                </AlertContentItem>
-                <AlertContentItem>
-                  <div>
-                    <AlertTypeImg
-                      src={changeClassImg}
-                      alt="수업변경 요청 이미지"
-                      width="20"
-                      height="20"
-                    />
-                    <AlertTypeTxt>수업변경 요청</AlertTypeTxt>
-                    <MemberName>맥도날드 회원님</MemberName>
-                  </div>
-                  <MemberTime>10:12</MemberTime>
-                </AlertContentItem>
-                <AlertContentItem>
-                  <div>
-                    <AlertTypeImg
-                      src={newClassImg}
-                      alt="신규 수업 요청 이미지"
-                      width="20"
-                      height="20"
-                    />
-                    <AlertTypeTxt>수업변경 요청</AlertTypeTxt>
-                    <MemberName>맥도날드 회원님</MemberName>
-                  </div>
-                  <MemberTime>10:12</MemberTime>
-                </AlertContentItem>
-                <AlertContentItem>
-                  <div>
-                    <AlertTypeImg
-                      src={foodFeedbackImg}
-                      alt="식단 피드백 요청 이미지"
-                      width="20"
-                      height="20"
-                    />
-                    <AlertTypeTxt>수업변경 요청</AlertTypeTxt>
-                    <MemberName>맥도날드 회원님</MemberName>
-                  </div>
-                  <MemberTime>10:12</MemberTime>
-                </AlertContentItem>
+                <Link href="/main/alert">
+                  <AlertContentItem>
+                    <div>
+                      <AlertTypeImg
+                        src={foodFeedbackImg}
+                        alt="식단 피드백 요청 이미지"
+                        width="20"
+                        height="20"
+                      />
+                      <AlertTypeTxt>식단피드백 요청</AlertTypeTxt>
+                      <MemberName>김땡땡 회원님</MemberName>
+                    </div>{" "}
+                    <MemberTime>9:45</MemberTime>
+                  </AlertContentItem>
+                  <AlertContentItem>
+                    <div>
+                      <AlertTypeImg
+                        src={changeClassImg}
+                        alt="수업변경 요청 이미지"
+                        width="20"
+                        height="20"
+                      />
+                      <AlertTypeTxt>수업변경 요청</AlertTypeTxt>
+                      <MemberName>맥도날드 회원님</MemberName>
+                    </div>
+                    <MemberTime>10:12</MemberTime>
+                  </AlertContentItem>
+                  <AlertContentItem>
+                    <div>
+                      <AlertTypeImg
+                        src={newClassImg}
+                        alt="신규 수업 요청 이미지"
+                        width="20"
+                        height="20"
+                      />
+                      <AlertTypeTxt>수업변경 요청</AlertTypeTxt>
+                      <MemberName>맥도날드 회원님</MemberName>
+                    </div>
+                    <MemberTime>10:12</MemberTime>
+                  </AlertContentItem>
+                  <AlertContentItem>
+                    <div>
+                      <AlertTypeImg
+                        src={foodFeedbackImg}
+                        alt="식단 피드백 요청 이미지"
+                        width="20"
+                        height="20"
+                      />
+                      <AlertTypeTxt>수업변경 요청</AlertTypeTxt>
+                      <MemberName>맥도날드 회원님</MemberName>
+                    </div>
+                    <MemberTime>10:12</MemberTime>
+                  </AlertContentItem>
+                </Link>
               </div>
             )}
           </TrainerScheduleContentWrap>

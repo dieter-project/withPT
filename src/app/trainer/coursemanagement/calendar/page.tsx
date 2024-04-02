@@ -26,16 +26,21 @@ const ReactCalender = ({ onChange, value }) => {
         font-weight: 400;
       }
     }
+    .react-calendar__navigation {
+      padding: 0 4rem;
+      font-size: var(--font-m);
+      span {
+        font-weight: var(--font-medium);
+      }
+    }
 
     .react-calendar__navigation button:disabled {
       border-radius: 20px 20px 0 0;
-      /* background-color: pink; */
     }
 
     .react-calendar__navigation button:enabled:hover,
     .react-calendar__navigation button:enabled:focus {
       border-radius: 20px 20px 0 0;
-      /* background-color: pink; */
     }
 
     .react-calendar__navigation button:enabled:hover,
@@ -72,14 +77,26 @@ const ReactCalender = ({ onChange, value }) => {
     .react-calendar__tile:enabled:hover,
     .react-calendar__tile:enabled:focus,
     .react-calendar__tile--active {
-      border-radius: 50%;
-      background: var(--primary) !important;
+      background: none;
       color: black !important;
-    }
-
-    .react-calendar__tile--now {
-      /* border-radius: 50%;
-      background: paleturquoise !important; */
+      abbr {
+        position: relative;
+        color: #fff;
+        z-index: 1;
+        &:before {
+          content: "";
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          display: block;
+          width: 2rem;
+          height: 2rem;
+          transform: translate(-50%, -50%);
+          border-radius: 50%;
+          background: var(--primary);
+          z-index: -1;
+        }
+      }
     }
 
     .react-calendar__month-view__days__day--weekend:not(
@@ -95,6 +112,10 @@ const ReactCalender = ({ onChange, value }) => {
         .react-calendar__month-view__days__day--neighboringMonth
       ) {
       color: black !important;
+    }
+
+    .react-calendar__tile--now {
+      background: none;
     }
   `;
 

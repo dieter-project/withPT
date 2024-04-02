@@ -7,7 +7,11 @@ const dayList = [
   "2023-03-21",
   "2024-02-02",
   "2023-11-24",
-  "2023-04-27",
+  "2024-03-01",
+  "2024-03-02",
+  "2024-03-03",
+  "2024-03-29",
+  "2024-03-30",
 ];
 
 // 각 날짜 타일에 컨텐츠 추가
@@ -19,9 +23,10 @@ const AddContent = ({ date }) => {
     contents.push(
       <div
         style={{
-          width: "1vh",
-          height: "1vh",
-          borderRadius: "0.5rem",
+          width: "0.4rem",
+          height: "0.4rem",
+          marginTop: "0.7rem",
+          borderRadius: "50%",
           backgroundColor: "var(--primary)",
         }}
       />,
