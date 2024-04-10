@@ -8,19 +8,22 @@ import { LabelTitle } from '@/styles/Text';
 import { ContentSection } from '@/styles/Layout';
 import MemberBottomNav from '@/components/MemberBottomNav';
 import { TrainerSwipe } from '@/components/TrainerSwipe';
-import { 
-  GoalContents, 
-  MainWrap, 
-  MoveButton, 
-  MyGoal, 
-  TodayMeal, 
-  TodayMealContents, 
-  TodayMealList, 
-  TodayTab 
+import {
+  GoalContents,
+  MainWrap,
+  MoveButton,
+  MyGoal,
+  TodayMeal,
+  TodayMealContents,
+  TodayMealList,
+  TodayTab
 } from './styles';
 import DonutChart from '@/components/member/main/DonutChart';
 import WorkoutList from '@/components/member/WorkoutList';
 import MonthlyCalendar from '@/components/member/MonthlyCalendar';
+import { format } from 'date-fns';
+import { ko } from 'date-fns/locale';
+import { getExercise } from '@/services/member/exercise';
 
 export type WorkoutType = {
   id: number,
@@ -36,7 +39,7 @@ export type WorkoutType = {
 const page = () => {
   const router = useRouter();
   const [tabClick, setTabClick] = useState('1')
-  const today = new Date()
+  const today = new Date();
 
   const [data, setData] = useState({
     goalMeal: "",
@@ -83,9 +86,11 @@ const page = () => {
 
   const handleGetTodayWorkout = async () => {
     try {
-      const response = await api.get(`/api/v1/members/exercise?dateTime=2023-11-24`)
-      const { data: { data } } = response
-      console.log('response: ', data);
+      const response = await getExercise(format(today, 'yyyy-MM-dd'))
+      setData(prev => ({
+        ...prev,
+        todayWorkout: response.data.data
+      }))
     } catch (error) {
       console.log('error: ', error);
     }
@@ -113,10 +118,10 @@ const page = () => {
     handleGetTodayWorkout();
     handleGetTrainers();
   }, [])
-  
+
   return (
     <>
-      <Header page='home'/>
+      <Header page='home' />
       <MainWrap>
         <ContentSection>
           <MyGoal>
@@ -134,10 +139,10 @@ const page = () => {
           </MyGoal>
         </ContentSection>
         <ContentSection>
-          <LabelTitle>11.04 목요일</LabelTitle>
+          <LabelTitle>{format(new Date(), 'MM.dd EEEE', { locale: ko })}</LabelTitle>
           <div className='section-contents'>
             <TodayTab>
-              <div 
+              <div
                 className={tabClick === '1' ? 'active' : ''}
                 onClick={() => setTabClick('1')}
               >오늘의 식단</div>
@@ -147,8 +152,8 @@ const page = () => {
               >오늘의 운동</div>
             </TodayTab>
             <div>
-            {tabClick === '1'
-              ? <TodayMeal>
+              {tabClick === '1'
+                ? <TodayMeal>
                   <TodayMealContents>
                     <div>
                       <div className='title'>섭취칼로리</div>
@@ -160,26 +165,26 @@ const page = () => {
                       </TodayMealList>
                     </div>
                     <div>
-                      <DonutChart/>
+                      <DonutChart />
                     </div>
                   </TodayMealContents>
                 </TodayMeal>
-              : <WorkoutList workout={data.todayWorkout}/>
-            }
+                : <WorkoutList workout={data.todayWorkout} />
+              }
             </div>
           </div>
         </ContentSection>
         <ContentSection>
           <LabelTitle>수업일정</LabelTitle>
           <div className='section-contents'>
-            <MonthlyCalendar/>
+            <MonthlyCalendar />
           </div>
         </ContentSection>
-        { trainers.length > 0 &&
+        {trainers.length > 0 &&
           <ContentSection>
             <LabelTitle>담당 트레이너</LabelTitle>
-            <TrainerSwipe data={trainers}/>
-          </ContentSection> }
+            <TrainerSwipe data={trainers} />
+          </ContentSection>}
         <MemberBottomNav />
       </MainWrap>
     </>
