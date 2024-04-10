@@ -20,8 +20,8 @@ export const postWeight = async (data: {}) => {
   return await api.post('/api/v1/members/body/weight', data)
 }
 
-export const postBodyImage = async (params: string, data: {}) => {
-  return await api.post(`/api/v1/members/body/image?dateTime=${params}`, data, {
+export const postBodyImage = async (data: {}) => {
+  return await api.post(`/api/v1/members/body/image`, data, {
     headers: {
       "Content-Type": 'multipart/form-data'
     }

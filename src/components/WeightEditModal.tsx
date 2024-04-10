@@ -7,6 +7,7 @@ import { Button, CloseBtn } from '@/styles/Button';
 import { todayDate } from '@/constants/record';
 import { api } from '@/utils/axios';
 import { WeightRecord } from '@/types/member/record';
+import { postBody } from '@/services/member/body';
 
 const Title = styled.div`
   text-align: center;
@@ -84,19 +85,19 @@ interface ModalProps {
   displayModal: boolean;
   setDisplayModal: React.Dispatch<React.SetStateAction<boolean>>;
   todayWeight: WeightRecord;
-  setTodayWeight:  React.Dispatch<React.SetStateAction<WeightRecord>>;
+  setTodayWeight: React.Dispatch<React.SetStateAction<WeightRecord>>;
 }
 
-export const WeightEditModal = ({ 
-  displayModal, 
-  setDisplayModal, 
+export const WeightEditModal = ({
+  displayModal,
+  setDisplayModal,
   todayWeight,
   setTodayWeight
 }: ModalProps) => {
   const [date, setDate] = useState({
     year: new Date().getFullYear(),
-    month: "",
-    date: ""
+    month: "1",
+    date: "1"
   })
   const [dateArray, setDateArray] = useState<number[]>([])
   const handleOnClose = () => {
@@ -107,8 +108,8 @@ export const WeightEditModal = ({
   for (let i = 1; i <= 12; i++) {
     monthArray.push(i)
   }
-  
-  const handleInputChange = (e:React.ChangeEvent<HTMLInputElement>) => {
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTodayWeight({
       ...todayWeight,
       [e.target.name]: e.target.value
@@ -116,29 +117,34 @@ export const WeightEditModal = ({
   }
 
   const handleSubmit = async () => {
-    const recordDate = `${date.year}-${date.month}-${date.date}`
-    setTodayWeight({
-      ...todayWeight,
-      weightRecordDate: recordDate
-    })
-    // const response = await api.post(``);
+    const recordDate = `${date.year}-${date.month.padStart(2, '0')}-${date.date.padStart(2, '0')}`
+    console.log('recordDate: ', recordDate);
+    const body = {
+      bmi: todayWeight.bmi,
+      bodyFatPercentage: todayWeight.bodyFatPercentage,
+      skeletalMuscle: todayWeight.skeletalMuscle,
+      bodyRecordDate: recordDate
+    }
+    const response = await postBody(body)
+    console.log('response: ', response);
+    setDisplayModal(false)
   }
-  
+
   useEffect(() => {
-    let newArray:number[] = [];
+    let newArray: number[] = [];
     let last = new Date(date.year, Number(date.month), 0);
     for (let i = 1; i <= last.getDate(); i++) {
       newArray.push(i)
     }
     setDateArray(newArray)
   }, [date.month])
-  
+
 
   return (
     <ModalContainer>
       <div className='modal'>
         <div>
-          <CloseBtn onClick={() => setDisplayModal(false)}/>
+          <CloseBtn onClick={() => setDisplayModal(false)} />
         </div>
         <div>
           <Title>신체 정보 수정</Title>
@@ -146,7 +152,7 @@ export const WeightEditModal = ({
             <InputRowWrap>
               <label>골격근량</label>
               <InputWrap>
-                <Input 
+                <Input
                   value={todayWeight.skeletalMuscle}
                   name='skeletalMuscle'
                   onChange={handleInputChange}
@@ -179,7 +185,7 @@ export const WeightEditModal = ({
             <InputRowWrap>
               <label>측정일</label>
               <DateWrap>
-                <Input value={date.year}/>
+                <Input value={date.year} />
                 <Select onChange={(e) => {
                   setDate({
                     ...date,
