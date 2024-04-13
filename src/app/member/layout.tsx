@@ -8,7 +8,7 @@ export default function MemberLayout({
   children: React.ReactNode
 }) {
   const pathname = usePathname()
-  const notNavRoute = ['signup', 'login']
+  const notNavRoute = ['signup', 'login', 'room']
   const navRoute = notNavRoute.some(element => pathname.includes(element))
 
   return (

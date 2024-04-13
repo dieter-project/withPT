@@ -89,22 +89,22 @@ const page = () => {
               </InputWrap>
               {inputData.targetWeight.length > 0 && (
                 <HelperText>
-                  {`현재 체중에서 ${
-                    Number(states.weight) - Number(inputData.targetWeight)
-                  }kg 감량이 목표시군요!`}
+                  {`현재 체중에서 ${Number(states.weight) - Number(inputData.targetWeight)
+                    }kg 감량이 목표시군요!`}
                 </HelperText>
               )}
             </WeightInput>
           </div>
         </div>
-        <ButtonAreaFixed nav={false}>
-          <Button variant="primary" onClick={handleNext}>
-            다음
-          </Button>
+        <ButtonAreaFixed $nav={false}>
+          <Button
+            variant='primary'
+            onClick={handleNext}
+          >다음</Button>
         </ButtonAreaFixed>
       </BaseContentWrap>
     </>
-  );
-};
+  )
+}
 
 export default page;

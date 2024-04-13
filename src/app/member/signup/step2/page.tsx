@@ -81,18 +81,17 @@ const page = () => {
                     />
                   </div>
                 </label>
-              );
-            })}
-          </RadioButton>
-        </div>
-        <ButtonAreaFixed nav={false}>
-          <Button variant="primary" onClick={handleNext}>
-            다음
-          </Button>
-        </ButtonAreaFixed>
-      </BaseContentWrap>
-    </>
-  );
-};
+              )
+            }) 
+          }
+        </RadioButton>
+      </div>
+      <ButtonAreaFixed $nav={false}>
+        <Button variant="primary" onClick={handleNext}>다음</Button>
+      </ButtonAreaFixed>
+    </BaseContentWrap>
+  </>
+  )
+}
 
 export default page;

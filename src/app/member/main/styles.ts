@@ -19,9 +19,11 @@ export const MyGoal = styled.section`
     justify-content: space-between;
     white-space: nowrap;
     align-items: center;
-    background-color: var(--white);
+    gap: 1rem;
     border-radius: 0.5rem;
     padding: 0 1.25rem;
+    background-color: var(--white);
+
     > div:first-child {
       font-size: var(--font-s);
       font-weight: var(--font-semibold);
@@ -31,20 +33,27 @@ export const MyGoal = styled.section`
 
 export const GoalContents = styled.div`
   display: flex;
-  /* white-space: nowrap; */
-
+  width: 70%;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  
   > div {
-    /* display: in; */
-    /* gap: 0.25rem; */
-    align-items: center;
-    
-    div {
+    width: 50%;
+    span { width: 20% } 
+    div { 
+      width: 80%;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    > div:last-child {
       font-weight: var(--font-semibold);
     }
 
     &:first-child {
       display: flex;
-      /* white-space: nowrap; */
+      align-items: center;
 
       span {
         display: block;
@@ -68,7 +77,6 @@ export const GoalContents = styled.div`
     
     &:last-child {
       display: flex;
-      /* white-space: nowrap; */
       span {
         display: block;
         width: 1.625rem;
@@ -102,42 +110,55 @@ export const TodayTab = styled.section`
 `
 
 export const TodayMeal = styled.div`
-  >div {
+  > div {
     display: flex;
     justify-content: space-between;
+    > div {
+      width: 50%;
+    }
   } 
-  .title {
+`
+
+export const TodayMealContents = styled.div`
+  .title { 
     font-size: var(--font-s);
     color: var(--font-gray700);
   }
   span {
     font-weight: var(--font-semibold);
+    font-size: var(--font-l);
   }
-  ul {
-    margin-top: 0.625rem;
-    margin-bottom: 1.5rem;
-    li {
-      display: flex;
-      align-items: center;
-      font-size: var(--font-s);
-      line-height: var(--font-xxxl);
-      &::before {
-        content: '';
-        display: block;
-        width: 9px;
-        height: 9px;
-        border-radius: 50%;
-        margin-right: 0.5rem;
-      }
-      &:nth-child(1)::before{
-        background-color: var(--yellow);
-      } 
-      &:nth-child(2)::before {
-        background-color: var(--coral);
-      }
-      &:nth-child(3)::before {
-        background-color: var(--mint);
-      }
+`
+
+export const TodayMealList = styled.ul`
+  margin-top: 0.625rem;
+  margin-bottom: 0.5rem;
+  li {
+    display: flex;
+    align-items: center;
+    font-size: var(--font-s);
+    line-height: var(--font-xxxl);
+
+    &::before {
+      content: '';
+      display: block;
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      margin-right: 0.5rem;
+    }
+    &:nth-child(1)::before{
+      background-color: var(--carbohydrate);
+    } 
+    &:nth-child(2)::before {
+      background-color: var(--protein);
+    }
+    &:nth-child(3)::before {
+      background-color: var(--fat);
+    }
+
+    strong {
+      margin-left: 0.25rem;
     }
   }
 `

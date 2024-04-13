@@ -1,6 +1,7 @@
 'use client';
 
 import PageTitle from '@/components/PageTitle';
+import { BodyPhotoModal } from '@/components/member/record/BodyPhotoModal';
 import { Checkbox } from '@/styles/Input';
 import { BaseContentWrap } from '@/styles/Layout';
 import { LabelTitle } from '@/styles/Text';
@@ -18,6 +19,15 @@ const PhotoGrid = styled.ul`
     height: 130px;
     cursor: pointer;
     position: relative;
+    div {
+      width: 100%;
+      height: 100%;
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+    }
   }
 `
 
@@ -31,21 +41,97 @@ const DozenIcon = styled.span`
   top: 0.5rem;
 `
 
+const PhotoCheckbox = styled.div`
+  position: absolute;
+  top: 0.5rem;
+  left: 0.5rem;
+  input[type="checkbox"] {
+    appearance: none;
+    width: 1.25rem;
+    height: 1.25rem;
+    border: 1px solid var(--font-gray500);
+    border-radius: 6px;
+    background-color: rgba(255,255,255,0.5);
+  }
+
+  input[type="checkbox"]:checked {
+    border: none;
+    background: url(/svgs/icon_checked.svg) no-repeat;
+    background-color: var(--primary);
+    background-position: center;
+  }
+`
+
+interface BodyPhoto {
+  uploadDate: string,
+  url: string[]
+}
+
+
 const page = () => {
   const title = '눈바디 히스토리'
-  const [bodyphoto, setBodyPhoto] = useState([['1', '1'], '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1'])
+  const [bodyphoto, setBodyPhoto] = useState([
+    {
+      uploadDate: "2024-03-08",
+      url: [
+        "https://flexible.img.hani.co.kr/flexible/normal/970/580/imgdb/child/2024/0129/17064911312214_20240123502746.jpg",
+        "https://flexible.img.hani.co.kr/flexible/normal/970/580/imgdb/child/2024/0129/17064911312214_20240123502746.jpg",
+        "https://flexible.img.hani.co.kr/flexible/normal/970/580/imgdb/child/2024/0129/17064911312214_20240123502746.jpg"
+      ]
+    },
+    {
+      uploadDate: "2024-03-08",
+      url: [
+        "https://flexible.img.hani.co.kr/flexible/normal/970/580/imgdb/child/2024/0129/17064911312214_20240123502746.jpg"
+      ]
+    },
+    {
+      uploadDate: "2024-03-08",
+      url: [
+        "https://flexible.img.hani.co.kr/flexible/normal/970/580/imgdb/child/2024/0129/17064911312214_20240123502746.jpg"
+      ]
+    },
+    {
+      uploadDate: "2024-03-08",
+      url: [
+        "https://flexible.img.hani.co.kr/flexible/normal/970/580/imgdb/child/2024/0129/17064911312214_20240123502746.jpg"
+      ]
+    },
+    {
+      uploadDate: "2024-03-08",
+      url: [
+        "https://flexible.img.hani.co.kr/flexible/normal/970/580/imgdb/child/2024/0129/17064911312214_20240123502746.jpg"
+      ]
+    },
+  ])
+  const [displayModal, setDisplayModal] = useState(false)
+  const [photo, setPhoto] = useState<null | string[]>(null)
+  
+  
+  const handlePopupShow = (url: string[]) => {
+    setDisplayModal(true)
+    setPhoto(url)
+  }
   
   return (
     <>
+    {displayModal && 
+    <BodyPhotoModal 
+      photo={photo}
+      setDisplayModal={setDisplayModal}
+    />}
       <PageTitle title={title}/>
       <BaseContentWrap>
         <PhotoGrid>
           {bodyphoto?.map((photo, index) => {
             return (
-              <li key={index}>
+              <li key={index} onClick={() => handlePopupShow(photo.url)}>
                 <div>
-                  <img src="" alt="" />
-                  { photo?.length > 1 && <DozenIcon/> }
+                  <PhotoCheckbox>
+                    <input type="checkbox" />
+                  </PhotoCheckbox>
+                  <img src={photo.url[0]} alt="" />
+                  { photo?.url.length > 1 && <DozenIcon/> }
                 </div>
               </li>
             )

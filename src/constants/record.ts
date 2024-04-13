@@ -1,3 +1,5 @@
+import { format } from "date-fns"
+
 /* 운동 기록 */
 export const exerciseType = [{
   text: '유산소',
@@ -42,3 +44,5 @@ export const bodyPart = [{
   value: 'CORE',
 }]
 
+const timezone = 1000 * 60 * 60 * 9
+export const todayDate = format(Date.now() + timezone, 'yyyy-MM-dd')

@@ -14,7 +14,7 @@ const BookmarkList = styled.div`
   ul {
     li {
       padding: 1rem 0;
-      border-top: 1px solid var(--border-gray);
+      border-top: 1px solid var(--border-gray300);
       display: flex;
       align-items: center;
       > div:first-child {
@@ -148,15 +148,8 @@ const page = () => {
           </EmptyBookmark>
         )}
       </BaseContentWrap>
-      <ButtonAreaFixed nav={true}>
-        <Button
-          variant="primary"
-          onClick={() =>
-            router.push("/member/record/workout/bookmark/register")
-          }
-        >
-          북마크 등록하기
-        </Button>
+      <ButtonAreaFixed $nav>
+        <Button variant='primary' onClick={() => router.push('/member/record/workout/bookmark/register')}>북마크 등록하기</Button>
       </ButtonAreaFixed>
     </>
   );

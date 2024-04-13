@@ -1,24 +1,22 @@
 "use client";
 
-import { MonthlyModal } from "@/components/MonthlyModal";
-import PageTitle from "@/components/PageTitle";
-import { useAppSelector } from "@/redux/hooks";
-import {
-  WorkoutPayload,
-  workoutRecordActions,
-} from "@/redux/reducers/workoutRecordSlice";
-import { AddImgButton } from "@/styles/AddButton";
-import { Button } from "@/styles/Button";
-import { BaseContentWrap, ContentSection, RoundBox } from "@/styles/Layout";
-import { LabelTitle } from "@/styles/Text";
-import { WorkoutList } from "@/styles/WorkoutList";
-import { api } from "@/utils/axios";
-import { format } from "date-fns";
-import { ko } from "date-fns/locale";
-import { useRouter } from "next/navigation";
-import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
-import { styled } from "styled-components";
+import { MonthlyModal } from '@/components/MonthlyModal';
+import PageTitle from '@/components/PageTitle';
+import WorkoutList from '@/components/member/WorkoutList';
+import { useAppSelector } from '@/redux/hooks';
+import { WorkoutPayload, workoutRecordActions } from '@/redux/reducers/workoutRecordSlice';
+import { AddImgButton } from '@/styles/AddButton';
+import { Button } from '@/styles/Button';
+import { FileInput } from '@/styles/Input';
+import { BaseContentWrap, ContentSection, RoundBox } from '@/styles/Layout';
+import { LabelTitle } from '@/styles/Text';
+import { api } from '@/utils/axios';
+import { format } from 'date-fns';
+import { ko } from 'date-fns/locale';
+import { useRouter } from 'next/navigation';
+import React, { ChangeEvent, useEffect, useRef, useState } from 'react'
+import { useDispatch } from 'react-redux';
+import { styled } from 'styled-components'
 
 const DateText = styled(LabelTitle)`
   display: flex;
@@ -81,12 +79,13 @@ const page = () => {
   const [displayModal, setDisplayModal] = useState(false);
   const [slideUpModal, setSlideUpModal] = useState(false);
   const [activeDate, setActiveDate] = useState<Value>(new Date());
-  const [recordDate, setRecordDate] = useState(
-    format(new Date(Date.now()), "yyyy-MM-dd").toString(),
-  );
+  const [recordDate, setRecordDate] = useState(format(new Date(Date.now()), 'yyyy-MM-dd').toString())
+  const [files, setFiles] = useState<File[]>([])
+
   const router = useRouter();
-  const states = useAppSelector(state => state.workoutRecord);
+  const states = useAppSelector((state) => state.workoutRecord)
   const dispatch = useDispatch();
+  const fileRef = useRef<null | HTMLInputElement>(null);
 
   const handleGetWorkoutRecord = async () => {
     // try {
@@ -101,9 +100,9 @@ const page = () => {
   };
 
   const dateText = (date: String) => {
-    if (typeof date === "string") {
-      const d = new Date(date);
-      const convertDate = format(d, "yyyy년 MM월 dd일 (EEE)", { locale: ko });
+    if (typeof date === 'string') {
+      const d = new Date(date)
+      const convertDate = format(d, 'yyyy년 MM월 dd일 (EEE)', { locale: ko });
       return convertDate;
     }
   };
@@ -111,8 +110,8 @@ const page = () => {
   const dateType = () => {
     const stringDate = activeDate?.toString();
     if (stringDate) {
-      const currentDate = new Date(stringDate);
-      setRecordDate(format(currentDate, "yyyy-MM-dd"));
+      const currentDate = new Date(stringDate)
+      setRecordDate(format(currentDate, 'yyyy-MM-dd'))
       // console.log(recordDate)
     }
   };
@@ -121,13 +120,39 @@ const page = () => {
     router.push(`/member/record/workout/register/add?date=${recordDate}`);
   };
 
-  useEffect(() => {
-    dateType();
-  }, [activeDate]);
+  const handleChangeFile = (e: React.ChangeEvent<HTMLInputElement>) => {
+    // console.log('e: ', e.target.files);
+    if (e.target.files) {
+      const fileArray = Array.from(e.target.files)
+      setFiles([...files, ...fileArray])
+    }
+  }
+
+  const handleSubmit = async () => {
+    const formData = new FormData();
+    const blobData = new Blob([JSON.stringify(files)], {type: 'application/json'})
+    
+    formData.append('dto', JSON.stringify(todayWorkout))
+    // files.forEach((file, index) => {
+    //   formData.append(`file${index+1}`, file)
+    // })
+    formData.append('files', JSON.stringify(files))
+    console.log('formData: ', formData);
+    if (states) {
+      const response = await api.post('/api/v1/members/exercise', formData)
+      console.log('response: ', response);
+    } else {
+      alert('등록된 기록이 없습니다.')
+      return
+    }
+  }
 
   useEffect(() => {
-    handleGetWorkoutRecord();
-    console.log("states: ", states);
+    dateType()
+  }, [activeDate])
+
+  useEffect(() => {
+    handleGetWorkoutRecord()
     if (states) {
       setTodayWorkout([...todayWorkout, ...states]);
     }
@@ -152,53 +177,40 @@ const page = () => {
       <BaseContentWrap>
         <DateText onClick={handleDateChange}>{dateText(recordDate)}</DateText>
         <ContentSection>
-          <LabelTitle>오늘 한 운동 3</LabelTitle>
-          {todayWorkout.length <= 0 ? (
-            <AddRecordButton onClick={handleAddWorkout}>
+          <LabelTitle>오늘 한 운동 {todayWorkout.length}</LabelTitle>
+          {todayWorkout.length <= 0
+            ? <AddRecordButton onClick={handleAddWorkout}>
               {/* <div>!</div>
               <p>아직 등록된 운동이 없어요</p> */}
             </AddRecordButton>
-          ) : (
-            <WorkoutList>
-              <div>
-                <ul>
-                  {todayWorkout?.map((workout, index) => {
-                    return (
-                      <li key={index}>
-                        <div>이미지</div>
-                        <div>
-                          <div>{workout.title}</div>
-                          <div className="workout-contents">{workout.set}</div>
-                        </div>
-                      </li>
-                    );
-                  })}
-                </ul>
-                <AddRecordButton
-                  onClick={handleAddWorkout}
-                  style={{
-                    height: "48px",
-                  }}
-                />
-              </div>
-            </WorkoutList>
-          )}
+            : <>
+              <WorkoutList workout={todayWorkout}/>
+              <AddRecordButton
+                onClick={handleAddWorkout}
+                style={{
+                  height: "48px",
+                }}
+              />
+            </>
+          }
         </ContentSection>
         <ContentSection>
           <LabelTitle>운동 사진</LabelTitle>
-          {todayWorkout.length <= 0 ? (
-            <AddImgButton></AddImgButton>
-          ) : (
-            <WorkoutImgList>
+          {files.length > 0
+            ? <WorkoutImgList>
               <li>
                 <img src="" alt="" />
                 <button>X</button>
               </li>
             </WorkoutImgList>
-          )}
+            : <>
+            <AddImgButton onClick={() => fileRef.current?.click()}></AddImgButton>
+            <FileInput type="file" ref={fileRef} onChange={handleChangeFile} multiple/>
+            </>
+          }
         </ContentSection>
         <ButtonWrap>
-          <Button variant="primary">기록완료</Button>
+          <Button variant='primary' onClick={handleSubmit}>기록완료</Button>
         </ButtonWrap>
       </BaseContentWrap>
     </>

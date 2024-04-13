@@ -31,7 +31,7 @@ const InfoWrap = styled(RoundBox)`
   }
    
   .more-view {
-    border-top: 1px solid var(--border-gray);
+    border-top: 1px solid var(--border-gray300);
     font-size: var(--font-s);
     font-weight: var(--font-semibold);
     text-align: center;

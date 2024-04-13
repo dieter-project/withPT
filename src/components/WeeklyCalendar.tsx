@@ -6,7 +6,7 @@ import { Swiper, SwiperSlide, useSwiper } from 'swiper/react'
 
 const CalendarWrap = styled.section`
   margin-bottom: 1.5rem;
-  border-bottom: 1px solid var(--border-gray);
+  border-bottom: 1px solid var(--border-gray300);
   width: 100%;
   height: 55px;
   overflow: hidden;
@@ -18,8 +18,8 @@ const CalendarWrap = styled.section`
     display: flex;
     width: 100%;
     > div {
-    width: 100%;
-  }
+      width: 100%;
+    }
   }
   ul, .swiper-slide {
     display: flex;
@@ -67,18 +67,18 @@ const DotWrap = styled.div`
     width: 4px;
     height: 4px;
     border-radius: 50%;
-    background-color: var(--border-gray);
+    background-color: var(--border-gray300);
   }
 `
 
 
 export const WeeklyCalendar = () => {
   const [recordDate, setRecordDate] = useState()
-  const [aWeek, setAWeek] = useState<Date[][]>([])  
+  const [aWeek, setAWeek] = useState<Date[][]>([])
   const [activeIndex, setActiveIndex] = useState<number>(0)
   const swiperRef = useRef(null);
 
-  const makeWeek = (count: number): Date[][] => {
+  const makeWeek = (count: number, boundary: number = 7): Date[][] => {
 
     const today = Date.now()
     const sevenDays = 1000 * 60 * 60 * 24 * (7 * count)
@@ -86,22 +86,21 @@ export const WeeklyCalendar = () => {
 
     const weeks = eachWeekOfInterval(
       {
-        start: subDays(new Date(standard), 7),
-        end: addDays(new Date(standard), 7)
+        start: subDays(new Date(standard), boundary),
+        end: addDays(new Date(standard), boundary)
       }, {
-        weekStartsOn: 0,
-      },
-      ).reduce((acc: Date[][], cur) => {
-        const allDays = eachDayOfInterval({
-          start: cur,
-          end: addDays(cur, 6)
-        })
-        
-        acc.push(allDays)
+      weekStartsOn: 0,
+    },
+    ).reduce((acc: Date[][], cur) => {
+      const allDays = eachDayOfInterval({
+        start: cur,
+        end: addDays(cur, 6)
+      })
+
+      acc.push(allDays)
       return acc;
     }, [])
-    
-    // console.log('weeks: ', weeks);
+
     return weeks;
   }
 
@@ -111,16 +110,22 @@ export const WeeklyCalendar = () => {
   }, [])
 
   const handleSlidePrev = (swiper: any) => {
-    const prevWeek = makeWeek(-1)
-    setAWeek((prev) => [...prevWeek, ...prev])
+    const prevWeek = makeWeek(-1, 1)
+    console.log('prevWeek: ', prevWeek);
+    // setAWeek((prev) => [...prevWeek, ...prev])
+    // swiper.appendSlide(prevWeek)
+    const addPrev = prevWeek.map(() => {
+      
+    })
+    swiper.prependSlide(addPrev)
     swiper.update();
   }
 
   const swiperItem = aWeek?.map((week, i) => {
     return (
       <SwiperSlide key={i}>
-        { week?.map((day, i)=> {
-          const txt = format(day, 'EEEEE', {locale: ko})
+        {week?.map((day, i) => {
+          const txt = format(day, 'EEEEE', { locale: ko })
           return (
             <CalendarItem key={i}>
               <DayText>{txt}</DayText>
@@ -137,17 +142,24 @@ export const WeeklyCalendar = () => {
     )
   })
 
+  // const option = {
+  //   spaceBetween: 0,
+  //   slidesPerView: 1,
+  //   ref: swiperRef,
+  //   initialSlide: 1,
+  // }
+
   return (
     <CalendarWrap>
-      <Swiper 
+      <Swiper
         ref={swiperRef}
         initialSlide={1}
         // onSlideChange={(swiper) => {handleSlideChange(swiper)}}
         observer={true}
-        onSlidePrevTransitionEnd={(swiper) => {handleSlidePrev(swiper)}}
+        onSlidePrevTransitionEnd={(swiper) => { handleSlidePrev(swiper) }}
       >
         {swiperItem}
-      {/* {aWeek?.map((week, i) => {
+        {/* {aWeek?.map((week, i) => {
         return (
           <SwiperSlide key={i}>
             { week?.map((day, i)=> {

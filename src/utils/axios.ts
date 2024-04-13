@@ -7,6 +7,7 @@ export const api = axios.create({
   headers: {
     // "Authorization": ``,
     "Cache-Control": "no-cache",
+    // "Content-Type": "multipart/form-data",
     "Content-Type": "application/json",
     "Access-Control-Allow-Origin": "*",
     withCredentials: true,
@@ -42,18 +43,19 @@ api.interceptors.response.use(
   },
   async (error) => {
     console.log('error: ', error);
-    if (error.response.data.message === "Access Token이 만료되었습니다.") {
+    if (error.response.status === 401) {
       error.config._retry = true;
 
       const token = getCookie('access');
       const refreshToken = getCookie('refreshToken');
       
-      console.log('refreshToken: ', refreshToken);
+      // console.log('refreshToken: ', refreshToken);
       const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/oauth/reissue`, {
         refresh: refreshToken
       }, {
         headers: { Authorization: `Bearer ${token}` }
       }).then(async (response) => {
+        console.log('response: ', response);
         if (response.status === 200 && response.data.accessToken) {
           setCookie("access", response.data.accessToken)
           const accesstoken = getCookie("access")
@@ -65,6 +67,7 @@ api.interceptors.response.use(
 
       error.config.header = {
         'Content-Type': 'application/json',
+        // "Content-Type": "multipart/form-data",
         Authorization: `Bearer ${token}`
       }
 

@@ -4,46 +4,124 @@ import Header from '@/components/Header';
 import { api } from '@/utils/axios';
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react'
-import ReactApexChart from 'react-apexcharts';
 import { LabelTitle } from '@/styles/Text';
-import { WorkoutList } from '@/styles/WorkoutList';
 import { ContentSection } from '@/styles/Layout';
 import MemberBottomNav from '@/components/MemberBottomNav';
-import { MemberIndividualTrainerSwipe } from '@/components/MemberIndividualTrainerSwipe';
-import { 
-  GoalContents, 
-  MainWrap, 
-  MoveButton, 
-  MyGoal, 
-  TodayMeal, 
-  TodayTab 
+import { TrainerSwipe } from '@/components/TrainerSwipe';
+import {
+  GoalContents,
+  MainWrap,
+  MoveButton,
+  MyGoal,
+  TodayMeal,
+  TodayMealContents,
+  TodayMealList,
+  TodayTab
 } from './styles';
+import DonutChart from '@/components/member/main/DonutChart';
+import WorkoutList from '@/components/member/WorkoutList';
+import MonthlyCalendar from '@/components/member/MonthlyCalendar';
+import { format } from 'date-fns';
+import { ko } from 'date-fns/locale';
+import { getExercise } from '@/services/member/exercise';
 
-
+export type WorkoutType = {
+  id: number,
+  title: string,
+  weight: number,
+  set: number,
+  times: number,
+  hour: number,
+  bodyPart: string,
+  exerciseType: string
+}
 
 const page = () => {
   const router = useRouter();
   const [tabClick, setTabClick] = useState('1')
-  const data = {
+  const today = new Date();
 
-  }
+  const [data, setData] = useState({
+    goalMeal: "",
+    goalWorkout: "",
+    todayMeal: "",
+    todayWorkout: [
+      {
+        id: 0,
+        title: "string",
+        weight: 0,
+        set: 0,
+        times: 0,
+        hour: 0,
+        bodyPart: "WHOLE_BODY",
+        exerciseType: "AEROBIC"
+      }
+    ],
+  });
+  const [recordDate, setRecordDate] = useState([])
+  const [trainers, setTrainers] = useState([]);
 
-  useEffect(()=>{
-    handleGetExercise()
-  }, [])
 
-  const handleGetExercise = async () => {
+  const handleGetGoalMeal = async () => {
     try {
-      const response = await api.get(`/api/v1/members/exercise?dateTime=2023-11-24`)
-      console.log('response: ', response);
+
     } catch (error) {
       console.log('error: ', error);
     }
   }
-  
+  const handleGetGoalWorkout = async () => {
+    try {
+
+    } catch (error) {
+      console.log('error: ', error);
+    }
+  }
+  const handleGetTodayMeal = async () => {
+    try {
+
+    } catch (error) {
+      console.log('error: ', error);
+    }
+  }
+
+  const handleGetTodayWorkout = async () => {
+    try {
+      const response = await getExercise(format(today, 'yyyy-MM-dd'))
+      setData(prev => ({
+        ...prev,
+        todayWorkout: response.data.data
+      }))
+    } catch (error) {
+      console.log('error: ', error);
+    }
+  }
+
+  const handleGetRecordDate = async () => {
+    try {
+
+    } catch (error) {
+      console.log('error: ', error);
+    }
+  }
+  const handleGetTrainers = async () => {
+    try {
+      const response = await api.get(`/api/v1/gyms/personal-trainings/members/5/trainers`)
+      const { data: { data } } = response
+
+      setTrainers(data)
+    } catch (error) {
+      console.log('error: ', error);
+    }
+  }
+
+  useEffect(() => {
+    handleGetTodayWorkout();
+    handleGetTrainers();
+  }, [])
+
   return (
     <>
-      <Header page='home'/>
+      <Header page='home' />
       <MainWrap>
         <ContentSection>
           <MyGoal>
@@ -61,10 +139,10 @@ const page = () => {
           </MyGoal>
         </ContentSection>
         <ContentSection>
-          <LabelTitle>11.04 목요일</LabelTitle>
+          <LabelTitle>{format(new Date(), 'MM.dd EEEE', { locale: ko })}</LabelTitle>
           <div className='section-contents'>
             <TodayTab>
-              <div 
+              <div
                 className={tabClick === '1' ? 'active' : ''}
                 onClick={() => setTabClick('1')}
               >오늘의 식단</div>
@@ -74,86 +152,39 @@ const page = () => {
               >오늘의 운동</div>
             </TodayTab>
             <div>
-            {tabClick === '1'
-              ? <TodayMeal>
-                  <div>
+              {tabClick === '1'
+                ? <TodayMeal>
+                  <TodayMealContents>
                     <div>
                       <div className='title'>섭취칼로리</div>
                       <div><span>1018Kcal</span> / 1550 Kcal</div>
-                      <ul>
-                        <li>탄수화물</li>
-                        <li>단백질</li>
-                        <li>지방</li>
-                      </ul>
+                      <TodayMealList>
+                        <li>탄수화물 <strong>50%</strong></li>
+                        <li>단백질 <strong>50%</strong></li>
+                        <li>지방 <strong>50%</strong></li>
+                      </TodayMealList>
                     </div>
                     <div>
-                      <ReactApexChart
-                        type="donut"
-                        series={[44, 55, 41]}
-                        options={{
-                          chart: {
-                            type: 'donut',
-                          },
-                          colors: ['#FFE926', '#FF5E5E', '#33DFD5'],
-                          dataLabels: {
-                            enabled: false,
-                            dropShadow: {
-                              enabled: false,
-                            }
-                          },
-                          legend: {
-                            show: false,
-                          }
-                        }}
-                      />
-
+                      <DonutChart />
                     </div>
-                  </div>
-                  <MoveButton onClick={() => router.push('/')}>오늘의 식단 확인하기</MoveButton>
+                  </TodayMealContents>
                 </TodayMeal>
-              : <WorkoutList>
-                  <div>
-                    <ul>
-                      <li>
-                        <div>이미지</div>
-                        <div>
-                          <div>힙 어브덕션</div>
-                          <div className='workout-contents'>횟수</div>
-                        </div>
-                      </li>
-                      <li>
-                        <div>이미지</div>
-                        <div>
-                          <div>힙 어브덕션</div>
-                          <div className='workout-contents'>횟수</div>
-                        </div>
-                      </li>
-                      <li>
-                        <div>이미지</div>
-                        <div>
-                          <div>힙 어브덕션</div>
-                          <div className='workout-contents'>횟수</div>
-                        </div>
-                      </li>
-                    </ul>
-                    <MoveButton onClick={() => router.push('/')}>오늘의 운동 확인하기</MoveButton>
-                  </div>
-                </WorkoutList>
-            }
+                : <WorkoutList workout={data.todayWorkout} />
+              }
             </div>
           </div>
         </ContentSection>
         <ContentSection>
           <LabelTitle>수업일정</LabelTitle>
           <div className='section-contents'>
-            달력
-            <MoveButton onClick={() => router.push('/member/schedule')}>수업 일정 확인하기</MoveButton>
+            <MonthlyCalendar />
           </div>
         </ContentSection>
-        <ContentSection>
-          <LabelTitle>담당 트레이너</LabelTitle>
-          <MemberIndividualTrainerSwipe/>
-        </ContentSection>
+        {trainers.length > 0 &&
+          <ContentSection>
+            <LabelTitle>담당 트레이너</LabelTitle>
+            <TrainerSwipe data={trainers} />
+          </ContentSection>}
         <MemberBottomNav />
       </MainWrap>
     </>

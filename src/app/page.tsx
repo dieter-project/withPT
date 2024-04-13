@@ -7,6 +7,7 @@ import { BaseContentWrap, ButtonAreaFixed, RoundBox } from "@/styles/Layout";
 import { styled } from "styled-components";
 import { Button } from "@/styles/TrainerButton";
 import { useRouter } from "next/navigation";
+import { getMessaging, onMessage } from "@firebase/messaging";
 
 const TextWrap = styled.div`
   text-align: center;
@@ -79,21 +80,21 @@ export default function Home() {
   //   });
   // }
 
-  // useEffect(() => {
-  //   // requestNotificationPermission()
-  //   if (typeof window !== "undefined" && "serviceWorker" in navigator) {
-  //     const messaging = getMessaging(firebaseApp);
-  //     const unsubscribe = onMessage(messaging, payload => {
-  //       console.log("Foreground push notification received:", payload);
-  //       // Handle the received push notification while the app is in the foreground
-  //       // You can display a notification or update the UI based on the payload
-  //     });
-
-  //     return () => {
-  //       unsubscribe(); // Unsubscribe from the onMessage event
-  //     };
-  //   }
-  // }, []);
+  useEffect(() => {
+    // requestNotificationPermission()
+    if (typeof window !== 'undefined' && 'serviceWorker' in navigator) {
+      const messaging = getMessaging(firebaseApp);
+      const unsubscribe = onMessage(messaging, (payload) => {
+        // console.log('Foreground push notification received:', payload);
+        // Handle the received push notification while the app is in the foreground
+        // You can display a notification or update the UI based on the payload
+      });
+      
+      return () => {
+        unsubscribe(); // Unsubscribe from the onMessage event
+      };
+    }
+  }, [])
 
   const handleOnChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.value === "member") {
@@ -142,7 +143,7 @@ export default function Home() {
           />
           <div className="role">
             <ImgWrap>
-              <img src="" alt="" />
+              <img src="/images/member_profile.png" alt="member image" />
             </ImgWrap>
             <div
               className="role-type"
@@ -165,7 +166,7 @@ export default function Home() {
           />
           <div className="role">
             <ImgWrap>
-              <img src="" alt="" />
+              <img src="/images/trainer_profile.png" alt="trainer image" />
             </ImgWrap>
             <div
               className="role-type"
@@ -180,13 +181,15 @@ export default function Home() {
           </div>
         </RoleChoiceButton>
       </RoleChoiceButtonWrap>
-      {isActive.member === true || isActive.trainer === true ? (
-        <ButtonAreaFixed nav={true}>
-          <Button variant="primary" onClick={handleOnNext}>
-            다음
-          </Button>
-        </ButtonAreaFixed>
-      ) : null}
+      { isActive.member === true || isActive.trainer === true 
+        ? <ButtonAreaFixed $nav>
+            <Button
+              variant='primary' 
+              onClick={handleOnNext}
+            >다음</Button>
+          </ButtonAreaFixed>
+        : null
+      }
     </BaseContentWrap>
   );
 }

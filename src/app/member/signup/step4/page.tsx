@@ -60,17 +60,23 @@ const page = () => {
     }
 
     try {
-      const response = await api.post("/api/v1/members/sign-up", states);
-      console.log("data: ", response);
+      const response = await api.post('/api/v1/members/sign-up', states)
 
-      if (response.data) {
+      if(response.data.data.accessToken) {
         // dispatch(memberActions.getToken(response.data.data.accessToken))
-
+        dispatch(memberActions.isLogin({
+          name: response.data.data.name,
+          email: response.data.data.email,
+          id: response.data.data.id,
+          accessToken: response.data.data.accessToken
+        }))
         // const now = Date.now()
-        setCookie("access", response.data.data.accessToken);
-        setCookie("refreshToken", response.data.data.refreshToken);
-
-        // router.replace('/member/signup/finished')
+        setCookie('access', response.data.data.accessToken)
+        setCookie('refreshToken', response.data.data.refreshToken)
+        
+        router.replace('/member/signup/finished') 
+      } else {
+        //alert
       }
     } catch (error) {
       console.log("error: ", error);
@@ -97,29 +103,30 @@ const page = () => {
           <RadioButton>
             {exerciseFrequency?.map((time, index) => {
               return (
-                <label>
-                  <input
-                    key={index}
-                    type="radio"
-                    name="workout"
-                    value={time.value}
+                <label key={index}>
+                  <input 
+                    type="radio" 
+                    name="workout" 
+                    value={time.value} 
                     onChange={handleOnChange}
                   />
                   <span>{time.title}</span>
                   {index === 2 && <RecommendBadge>추천 목표</RecommendBadge>}
                 </label>
-              );
-            })}
-          </RadioButton>
-        </div>
-        <ButtonAreaFixed nav={false}>
-          <Button variant="primary" onClick={handleSubmit}>
-            저장하기
-          </Button>
-        </ButtonAreaFixed>
-      </BaseContentWrap>
-    </>
-  );
-};
+              )
+            })
+          }
+        </RadioButton>
+      </div>
+      <ButtonAreaFixed $nav={false}>
+        <Button 
+          variant='primary' 
+          onClick={handleSubmit}
+        >저장하기</Button>
+      </ButtonAreaFixed>
+    </BaseContentWrap>
+  </>
+  )
+}
 
 export default page;

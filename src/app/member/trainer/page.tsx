@@ -4,69 +4,9 @@ import PageTitle from '@/components/PageTitle';
 import { api } from '@/utils/axios';
 import React, { useEffect, useState } from 'react'
 import { styled } from 'styled-components'
-import Timeline from '../../../../public/svgs/icon_timeline.svg'
 import { LabelTitle } from '@/styles/Text';
 import { BaseContentWrap, ContentSection, RoundBox } from '@/styles/Layout';
-
-const TrainerList = styled.ul`
-  display: flex;
-  overflow-x: scroll;
-  li {
-    padding: 1.25rem;
-    min-width: 90%;
-    display: flex;
-    justify-content: space-between;
-    background-color: var(--purple50);
-    border-radius: 0.5rem;
-    &:not(:last-child) {
-      margin-right: 1.25rem;
-    }
-    > div {
-      &:first-child {
-        display: flex;
-        .profile {
-          width: 50px;
-          height: 50px;
-          border-radius: 50%;
-          background-color: #eee;
-          margin-right: 0.5rem;
-        }
-        .name {
-          font-weight: var(--font-semibold);
-          margin-bottom: 4px;
-        }
-        .gym {
-          font-size: var(--font-s);
-          color: var(--font-gray700);
-          margin-bottom: 4px;
-        }
-        .time {
-          display: flex;
-          font-size: var(--font-xs);
-          color: var(--font-gray500);
-          margin-bottom: 4px;
-          span {
-            display: block;
-            width: 1.125rem;
-            height: 1.125rem;
-          }
-        }
-        .reminder {
-
-        }
-      }
-      &:last-child {
-        width: 0.5rem;
-        height: 0.5rem;
-        border-right: 1px solid var(--black);
-        border-bottom: 1px solid var(--black);
-        transform: rotate(-45deg);
-        overflow: hidden;
-        text-indent: -999px;
-      }
-    }
-  }
-`
+import { TrainerSwipe } from '@/components/TrainerSwipe';
 
 const TrainerInfoWrap = styled(RoundBox)`
   width: 100%;
@@ -103,7 +43,7 @@ const TrainerScheduleWrap = styled.ul`
   gap: 0.75rem;
   li {
     width: 50%;
-    border: 1px solid var(--border-gray);
+    border: 1px solid var(--border-gray300);
     border-radius: 0.625rem;
     padding: 1.25rem;
     div {
@@ -144,35 +84,7 @@ const page = ({ params }: { params: { id: number } }) => {
       <BaseContentWrap>
         <ContentSection>
           <LabelTitle>담당 트레이너</LabelTitle>
-          <TrainerList>
-            <li className='section-contents'>
-              <div>
-                <div className='profile'>이미지</div>
-                <div>
-                  <div className='name'>김땡땡 트레이너</div>
-                  <div className='gym'>아자아자 피트니스 센터</div>
-                  <div className='time'>
-                    <span><Timeline /></span>
-                    <div>10:00 ~ 22:00</div>
-                  </div>
-                <div className='remainder'>잔여: 16회 / 36회</div>
-                </div>
-              </div>
-              <div>바로가기</div>
-            </li>
-            <li className='section-contents'>
-              <div>
-                <div className='profile'>이미지</div>
-                <div>
-                  <div className='name'>김땡땡 트레이너</div>
-                  <div className='gym'>아자아자 피트니스 센터</div>
-                  <div className='time'>10:00 ~ 22:00</div>
-                  <div className='remainder'>잔여: 16회 / 36회</div>
-                </div>
-              </div>
-              <div>바로가기</div>
-            </li>
-          </TrainerList>
+          <TrainerSwipe/>
         </ContentSection>
         <ContentSection>
           <LabelTitle>트레이너 정보</LabelTitle>

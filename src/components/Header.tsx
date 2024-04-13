@@ -1,5 +1,4 @@
 import { BaseHeader } from '@/styles/Layout';
-import { NextPage } from 'next';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import React, { SetStateAction } from 'react'
@@ -75,7 +74,7 @@ const Header = ({
   if (page === 'home') {
     return (
       <HomeHeader>
-        <h1>logo</h1>
+        <h1><Image src={'/svgs/logo.svg'} width={64} height={21} alt='Logo'/></h1>
         <BellIcon>알림</BellIcon>
       </HomeHeader>
     )

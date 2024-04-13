@@ -1,18 +1,19 @@
 "use client";
 
-import PageTitle from "@/components/PageTitle";
-import { workoutRecordActions } from "@/redux/reducers/workoutRecordSlice";
-import { Button } from "@/styles/Button";
-import { CategoryPartList } from "@/styles/CategoryPartList";
-import { Input, InputRowWrap, InputWrap } from "@/styles/Input";
-import { BaseContentWrap, ButtonAreaFixed, FormWrap } from "@/styles/Layout";
-import { LabelTitle } from "@/styles/Text";
-import { ToggleButton } from "@/styles/TogglButton";
-import { signIn, useSession } from "next-auth/react";
-import { useRouter, useSearchParams } from "next/navigation";
-import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
-import { styled } from "styled-components";
+import PageTitle from '@/components/PageTitle';
+import { bodyPart, exerciseType } from '@/constants/record';
+import { workoutRecordActions } from '@/redux/reducers/workoutRecordSlice';
+import { Button } from '@/styles/Button';
+import { CategoryPartList } from '@/styles/CategoryPartList';
+import { Input, InputRowWrap, InputWrap } from '@/styles/Input';
+import { BaseContentWrap, ButtonAreaFixed, FormWrap } from '@/styles/Layout';
+import { LabelTitle } from '@/styles/Text';
+import { ToggleButton } from '@/styles/TogglButton';
+import { signIn, useSession } from 'next-auth/react';
+import { useRouter, useSearchParams } from 'next/navigation';
+import React, { useEffect, useState } from 'react'
+import { useDispatch } from 'react-redux';
+import { styled } from 'styled-components'
 
 const BookmarkButton = styled(Button)`
   margin-bottom: 1.5rem;
@@ -33,71 +34,13 @@ const page = () => {
     set: 0,
     times: 0,
     hour: 0,
-    bookmarkYn: "string",
+    bookmarkYn: "N",
     bodyPart: "WHOLE_BODY",
     exerciseType: "AEROBIC",
   });
   const dispatch = useDispatch();
   const searchParams = useSearchParams();
   const router = useRouter();
-
-  const exerciseType = [
-    {
-      text: "유산소",
-      value: "AEROBIC",
-    },
-    {
-      text: "무산소",
-      value: "ANAEROBIC",
-    },
-    {
-      text: "스트레칭",
-      value: "STRETCHING",
-    },
-  ];
-
-  const bodyPart = [
-    {
-      text: "전신",
-      value: "WHOLE_BODY",
-    },
-    {
-      text: "팔",
-      value: "ARM",
-    },
-    {
-      text: "복근",
-      value: "ABS",
-    },
-    {
-      text: "하체",
-      value: "LOWER_BODY",
-    },
-    {
-      text: "등",
-      value: "BACK",
-    },
-    {
-      text: "어깨",
-      value: "SHOULDER",
-    },
-    {
-      text: "가슴",
-      value: "CHEST",
-    },
-    {
-      text: "허리",
-      value: "WAIST",
-    },
-    {
-      text: "엉덩이",
-      value: "HIP",
-    },
-    {
-      text: "코어",
-      value: "CORE",
-    },
-  ];
 
   const handleChoiceExerciseType = (exerciseType: string) => {
     setInputData({
@@ -127,11 +70,19 @@ const page = () => {
   };
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setInputData({
-      ...inputData,
-      [event.target.name]: event.target.value,
-    });
-  };
+    const numberValue = event.target.name === 'weight' || event.target.name === 'set' || event.target.name === 'times' || event.target.name === 'hour'
+    if (numberValue ) {
+      setInputData({
+        ...inputData,
+        [event.target.name]: Number(event.target.value)
+      }) 
+    } else {
+      setInputData({
+        ...inputData,
+        [event.target.name]: event.target.value
+      })
+    }
+  }
 
   useEffect(() => {
     console.log("inputData: ", inputData);
@@ -168,9 +119,10 @@ const page = () => {
         <FormWrap>
           <LabelTitle>분류</LabelTitle>
           <CategoryPartList>
-            {exerciseType?.map(type => {
+            {exerciseType?.map((type, index) => {
               return (
                 <li
+                  key={index}
                   onClick={() => handleChoiceExerciseType(type.value)}
                   className={
                     inputData.exerciseType === type.value ? "active" : ""
@@ -185,9 +137,10 @@ const page = () => {
         <FormWrap>
           <LabelTitle>부위</LabelTitle>
           <CategoryPartList>
-            {bodyPart?.map(part => {
+            {bodyPart?.map((part, index) => {
               return (
                 <li
+                  key={index}
                   onClick={() => handleChoiceBodyPart(part.value)}
                   className={inputData.bodyPart === part.value ? "active" : ""}
                 >
@@ -265,10 +218,8 @@ const page = () => {
             />
           </ToggleButton>
         </BookmarkSaveToggle>
-        <ButtonAreaFixed nav={true}>
-          <Button variant="primary" onClick={handleAddRecord}>
-            추가하기
-          </Button>
+        <ButtonAreaFixed $nav>
+          <Button variant='primary' onClick={handleAddRecord}>추가하기</Button>
         </ButtonAreaFixed>
       </BaseContentWrap>
     </>

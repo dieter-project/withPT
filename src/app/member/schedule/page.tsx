@@ -10,7 +10,7 @@ import React, { useEffect } from "react";
 import { styled } from "styled-components";
 
 const ScheduleDate = styled.div`
-  border-bottom: 1px solid var(--border-gray);
+  border-bottom: 1px solid var(--border-gray300);
   padding: 0 0.625rem;
 `;
 

@@ -1,35 +1,30 @@
 "use client";
 
-import { MealSearchModal } from "@/components/MealSearchModal";
-import PageTitle from "@/components/PageTitle";
-import { Button } from "@/styles/Button";
-import { Input, InputRowWrap, InputWrap } from "@/styles/Input";
-import { BaseContentWrap } from "@/styles/Layout";
-import { LabelTitle } from "@/styles/Text";
-import { signIn, useSession } from "next-auth/react";
-import React, { useEffect } from "react";
-import { styled } from "styled-components";
+import { MealSearchModal } from '@/components/MealSearchModal';
+import PageTitle from '@/components/PageTitle';
+import { Button } from '@/styles/Button';
+import { Input, InputRowWrap, InputWrap } from '@/styles/Input';
+import { BaseContentWrap } from '@/styles/Layout';
+import { LabelTitle } from '@/styles/Text';
+import { signIn, useSession } from 'next-auth/react';
+import React, { useEffect, useState } from 'react'
+import { ContentsWrap, MealTypeInput } from './style';
 
-const ContentsWrap = styled(BaseContentWrap)`
-  width: 100%;
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-`;
+
 const page = () => {
-  const title = "추가하기";
-
+  const title = '추가하기'
+  const [searchOpen, setSearchOpen] = useState(false)
+  
   return (
     <>
-      {/* <MealSearchModal/> */}
-      <PageTitle title={title} />
+      {searchOpen && <MealSearchModal setSearchOpen={setSearchOpen}/> }
+      <PageTitle title={title}/>
       <ContentsWrap>
         <div>
-          <div>
+          <MealTypeInput>
             <LabelTitle>종류입력</LabelTitle>
-            <Input type="text" placeholder="종류를 검색해보세요" />
-          </div>
+            <Input type="text" placeholder='종류를 검색해보세요' onFocus={() => {setSearchOpen(true)}}/>
+          </MealTypeInput>
           <InputRowWrap>
             <LabelTitle>그람 수</LabelTitle>
             <InputWrap>
