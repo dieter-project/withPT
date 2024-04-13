@@ -11,5 +11,5 @@ export const Container = styled.div`
 `;
 
 export const ContentBody = styled.div`
-  padding: 5rem 0.5rem 3.2rem 0.5rem;
+  padding: 5rem 1.3rem 3.2rem 1.3rem;
 `;

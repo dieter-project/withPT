@@ -1,5 +1,4 @@
 "use client";
-
 import { useRouter } from "next/navigation";
 import React, { useEffect, useRef, useState } from "react";
 import Image from "next/image";
@@ -10,7 +9,6 @@ import { Button } from "@/styles/TrainerButton";
 import { NoIconInput } from "@/styles/TrainerInput";
 import { useDispatch } from "react-redux";
 import { useAppSelector } from "@/redux/hooks";
-import JoinStep from "@/components/Trainer/TrSignUpStep";
 import ContentHeader from "@/components/TrainerPageTitle";
 import profileNoImg from "../../../../../../public/Trainer/Mypage/profile-no-image.png";
 
@@ -336,7 +334,7 @@ export default function myinfo() {
           <SignupFormInnerWrap>
             <FormTitle>생년월일</FormTitle>
             <TrRegisItemWrap>
-              <Input2
+              <NoIconInput
                 type="text"
                 name="year"
                 value={
@@ -349,9 +347,9 @@ export default function myinfo() {
                 ref={element => (inputRef.current[1] = element)}
                 style={{ textAlign: "center" }}
                 required
-              ></Input2>
+              ></NoIconInput>
               <Slash>/</Slash>
-              <Input2
+              <NoIconInput
                 type="text"
                 name="month"
                 maxLength={2}
@@ -365,7 +363,7 @@ export default function myinfo() {
                 inputMode="decimal"
                 style={{ textAlign: "center" }}
                 required
-              ></Input2>
+              ></NoIconInput>
             </TrRegisItemWrap>
           </SignupFormInnerWrap>
         </SignupFormWrap>

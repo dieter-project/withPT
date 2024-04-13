@@ -7,7 +7,6 @@ import { Container, ContentBody } from "@/styles/TrainerLayout";
 import { Button, IconButton } from "@/styles/TrainerButton";
 import ContentHeader from "@/components/TrainerPageTitle";
 import Footer from "@/components/TrainerFooter";
-import { startOfWeek, addDays, format } from "date-fns";
 import "react-calendar/dist/Calendar.css";
 import arrowCircleUnderGray from "../../../../public/Trainer/icons/arrowCircleUnderGray.png";
 import purplePlusIcon from "../../../../public/Trainer/icons/plusIconWhite.png";
@@ -99,31 +98,34 @@ const ModalContent = styled.div`
 `;
 
 const CenterList = styled.li`
+  position: relative;
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  width: 100%;
   background-color: white;
   color: var(--black);
   font-size: var(--font-l);
   border: none;
   border-radius: 0.5rem;
   text-align: left;
-  padding: 0 0.8rem;
+  padding: 0.5rem 0.2rem;
   margin-bottom: 0.75rem;
 `;
 
 const CourseTime = styled.div`
-  display: inline-block;
-  width: 4rem;
+  width: 25%;
+  line-height: 2.4rem;
   text-align: center;
   border-right: 1px solid var(--border-gray);
 `;
 
 const CourseMember = styled.div`
-  width: 10rem;
-  display: inline-block;
-  text-align: center;
+  padding: 0 1rem;
+  text-align: left;
+`;
+
+const CenterName = styled.div`
+  font-size: var(--font-s);
+  color: var(--font-gray400);
 `;
 
 const CourseMemberTopTxt = styled.div``;
@@ -131,7 +133,6 @@ const CourseMemberTopTxt = styled.div``;
 const CourseMemberBottomTxt = styled.div``;
 
 const CourseConfirmed = styled.div`
-  width: 5rem;
   display: flex;
   align-items: center;
   text-align: center;
@@ -187,6 +188,17 @@ const CourseListRightWrap = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  width: 75%;
+  padding: 0 0.5rem;
+`;
+
+const NewCourseCircle = styled.div`
+  position: absolute;
+  left: 3%;
+  width: 1vh;
+  height: 1vh;
+  background-color: var(--primary);
+  border-radius: 0.5rem;
 `;
 
 const dayList = [
@@ -196,6 +208,32 @@ const dayList = [
   "2023-11-24",
   "2023-04-27",
 ];
+
+const sampledata = {
+  data: {
+    lessonInfos: [
+      {
+        lessonId: 0,
+        date: "2024-04-13",
+        startTime: {
+          hour: 0,
+          minute: 0,
+          second: 0,
+          nano: 0,
+        },
+        status: "RESERVED",
+        member: {
+          id: 0,
+          name: "string",
+        },
+        gym: {
+          id: 0,
+          name: "string",
+        },
+      },
+    ],
+  },
+};
 
 export default function ManageMain() {
   const title = "수업관리";
@@ -248,7 +286,7 @@ export default function ManageMain() {
               style={{ marginRight: "1rem" }}
             >
               <ButtonInnerRegion>
-                <Link href="/trainer/membermanagement/member/regist">
+                <Link href="/trainer/coursemanagement/courseregister">
                   <ButtonIcon src={purplePlusIcon} alt="플러스 아이콘" />
                   <span>신규수업 등록</span>
                 </Link>
@@ -280,13 +318,14 @@ export default function ManageMain() {
             </div>
           </ManageTitleWrap>
           <ul>
-            <Link href="/trainer/membermanagement/member">
+            <Link href="/trainer/coursemanagement/">
               <CenterList>
+                <NewCourseCircle></NewCourseCircle>
                 <CourseTime>10:00</CourseTime>
                 <CourseListRightWrap>
                   <CourseMember>
-                    <div>000 고객</div>
-                    <div>000 지점</div>
+                    <div>원세영 회원님</div>
+                    <CenterName>아자아자 피트니스 센터</CenterName>
                   </CourseMember>
                   <CourseConfirmed>
                     <ConfirmedCheckIcon
@@ -300,11 +339,31 @@ export default function ManageMain() {
             </Link>
             <Link href="/trainer/membermanagement/member">
               <CenterList>
+                <NewCourseCircle></NewCourseCircle>
                 <CourseTime>10:00</CourseTime>
                 <CourseListRightWrap>
                   <CourseMember>
-                    <div>000 고객</div>
-                    <div>000 지점</div>
+                    <div>원세영 회원님</div>
+                    <CenterName>아자아자 피트니스 센터</CenterName>
+                  </CourseMember>
+                  <CourseConfirmed>
+                    <ConfirmedCheckIcon
+                      src={purpleCheckIcon}
+                      alt="확정 아이콘"
+                    ></ConfirmedCheckIcon>
+                    <span>확정</span>
+                  </CourseConfirmed>
+                </CourseListRightWrap>
+              </CenterList>
+            </Link>
+            <Link href="/trainer/membermanagement/member">
+              <CenterList>
+                <NewCourseCircle></NewCourseCircle>
+                <CourseTime>10:00</CourseTime>
+                <CourseListRightWrap>
+                  <CourseMember>
+                    <div>원세영 회원님</div>
+                    <CenterName>아자아자 피트니스 센터</CenterName>
                   </CourseMember>
                   <CourseConfirmed>
                     <ConfirmedCheckIcon
@@ -314,22 +373,6 @@ export default function ManageMain() {
                     <span>취소</span>
                   </CourseConfirmed>
                 </CourseListRightWrap>
-              </CenterList>
-            </Link>
-            <Link href="/trainer/membermanagement/member">
-              <CenterList>
-                <CourseTime>10:00</CourseTime>
-                <CourseMember>
-                  <CourseMemberTopTxt>000 고객</CourseMemberTopTxt>
-                  <CourseMemberBottomTxt>000 지점</CourseMemberBottomTxt>
-                </CourseMember>
-                <CourseConfirmed>
-                  <ConfirmedCheckIcon
-                    src={purpleCheckIcon}
-                    alt="확정 아이콘"
-                  ></ConfirmedCheckIcon>
-                  <span>확정</span>
-                </CourseConfirmed>
               </CenterList>
             </Link>
           </ul>

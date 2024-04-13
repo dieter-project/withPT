@@ -6,14 +6,22 @@ import Image from "next/image";
 import moment from "moment";
 import { Button, IconButton } from "@/styles/TrainerButton";
 import { ListButton } from "@/styles/TrainerButton";
+import {
+  SearchBarWrap,
+  SearchIcon,
+  SearchBarInput,
+} from "@/styles/TrainerSearchBar";
 import Footer from "@/components/TrainerFooter";
 import { startOfWeek, addDays, format } from "date-fns";
 import "react-calendar/dist/Calendar.css";
+import searchIcon from "../../../../../public/Trainer/icons/searchLightGray.png";
 import ContentHeader from "@/components/TrainerPageTitle";
 import purplePlusIcon from "../../../../../public/Trainer/icons/plusIconWhite.png";
 import purpleCheckIcon from "../../../../../public/Trainer/icons/checkIconPurple.png";
 import purpleExcalmiIcon from "../../../../../public/Trainer/icons/exclamationPurple.png";
 import redMinusIcon from "../../../../../public/Trainer/icons/minusIconRed.png";
+import "react-calendar/dist/Calendar.css";
+import arrowCircleUnderGray from "../../../../../public/Trainer/icons/arrowCircleUnderGray.png";
 import modalCloseXButtonImg from "../../../../../public/Trainer/Modal/close-line.png";
 import toggleOnButtonImg from "../../../../../public/Trainer/icons/toggleOffButton.png";
 import toggleOffButtonImg from "../../../../../public/Trainer/icons/toggleOnButton.png";
@@ -150,6 +158,23 @@ const SearchItemNeedInfo = styled.div`
   color: var(--primary);
 `;
 
+const PickedCenterButton = styled.button`
+  font-size: var(--font-l);
+  font-weight: bold;
+  margin-bottom: 0.6rem;
+`;
+
+const ArrowCircleUnderGray = styled(Image)`
+  display: inline-block;
+  width: 2rem;
+  line-height: 2rem;
+  margin-left: 0.5rem;
+`;
+
+const ContentTitle = styled.h4`
+  font-weight: 500;
+`;
+
 const dayList = [
   "2023-03-10",
   "2023-03-21",
@@ -163,7 +188,17 @@ export default function ManageMain() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [showModalContent, setShowModalContent] = useState(false);
   const [value, onChange] = useState(new Date());
-  const [pickedCenter, setPickedCenter] = useState(null);
+
+  const centerList = [
+    "전체 센터 수업",
+    "으라라차차 피트니스 센터",
+    "득근득근 피트니스 센터",
+    "해피닥터 피트니스 24시 연중무휴",
+  ];
+
+  const [pickedCenter, setPickedCenter] = useState(
+    centerList ? centerList[0] : null,
+  );
   const [isDateTapOpen, setIsDateTapOpen] = useState(false);
   const [isTimeTapOpen, setIsTimeTapOpen] = useState(false);
 
@@ -190,19 +225,40 @@ export default function ManageMain() {
   }, [isModalOpen]);
 
   //모달 닫기 버튼
-  const modalClose = () => {
+  const modalClose = (centerName: string) => {
     setIsModalOpen(false);
+    setPickedCenter(centerName);
   };
 
   const title = "신규 지점 등록";
+
+  const [searchText, setSearchText] = useState(null);
 
   return (
     <MainContainer>
       <ContentHeader title={title}></ContentHeader>
       <MainContentWrap>
-        <button onClick={toggleModal}>전체 지점 일정</button>
-        <div>회원 검색</div>
-        <input type="text" placeholder="검색"></input>
+        <PickedCenterButton onClick={toggleModal}>
+          <span>{pickedCenter}</span>
+          <ArrowCircleUnderGray
+            src={arrowCircleUnderGray}
+            alt="리스트 선택하는 아래 화살표 아이콘"
+          />
+        </PickedCenterButton>
+        <ContentTitle>회원검색</ContentTitle>
+        <SearchBarWrap>
+          <SearchIcon
+            src={searchIcon}
+            alt="검색 회색 돋보기 아이콘"
+          ></SearchIcon>
+
+          <SearchBarInput
+            type="text"
+            name="센터 검색바"
+            placeholder="검색"
+            onChange={e => setSearchText(e.target.value)}
+          ></SearchBarInput>
+        </SearchBarWrap>
         <SearchListWrap>
           <SearchItemWrap>
             <div>
@@ -275,36 +331,19 @@ export default function ManageMain() {
             />
             <ModalBody>
               <ModalContent>
-                <CenterChooseButton>
-                  <CenterChooseContent>
-                    <span>청담 지점</span>
-                    <Image src={purpleCheckIcon} alt="보라색 체크 아이콘" />
-                  </CenterChooseContent>
-                </CenterChooseButton>
-                <CenterChooseButton>
-                  <CenterChooseContent>
-                    <span>청담 지점</span>
-                    <Image src={purpleCheckIcon} alt="보라색 체크 아이콘" />
-                  </CenterChooseContent>
-                </CenterChooseButton>
-                <CenterChooseButton>
-                  <CenterChooseContent>
-                    <span>청담 지점</span>
-                    <Image src={purpleCheckIcon} alt="보라색 체크 아이콘" />
-                  </CenterChooseContent>
-                </CenterChooseButton>
-                <CenterChooseButton>
-                  <CenterChooseContent>
-                    <span>청담 지점</span>
-                    <Image src={purpleCheckIcon} alt="보라색 체크 아이콘" />
-                  </CenterChooseContent>
-                </CenterChooseButton>
-                <CenterChooseButton>
-                  <CenterChooseContent>
-                    <span>청담 지점</span>
-                    <Image src={purpleCheckIcon} alt="보라색 체크 아이콘" />
-                  </CenterChooseContent>
-                </CenterChooseButton>
+                {centerList.map((center, i) => {
+                  return (
+                    <CenterChooseButton
+                      key={i}
+                      onClick={() => modalClose(center)}
+                    >
+                      <CenterChooseContent>
+                        <span>{center}</span>
+                        <Image src={purpleCheckIcon} alt="보라색 체크 아이콘" />
+                      </CenterChooseContent>
+                    </CenterChooseButton>
+                  );
+                })}
               </ModalContent>
             </ModalBody>
           </ModalWrap>

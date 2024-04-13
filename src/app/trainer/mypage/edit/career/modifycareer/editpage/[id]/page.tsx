@@ -10,6 +10,7 @@ import { Container, ContentBody } from "@/styles/TrainerLayout";
 import { NoIconInput } from "@/styles/TrainerInput";
 import { Button } from "@/styles/TrainerButton";
 import Footer from "@/components/TrainerFooter";
+import { yearsToMonths } from "date-fns";
 
 const ContentInnerBody = styled.div``;
 
@@ -156,10 +157,33 @@ const RegisterContentTitle = styled.div`
   width: 15%;
 `;
 
-export default function ModifyCareer() {
+export default function EditPage() {
   const title = "경력";
 
-  const [centerName, setCenterName] = useState(null);
+  const [centerName, setCenterName] = useState<string | null>(null);
+
+  const currentYear = new Date().getFullYear();
+  const currentMonth = new Date().getMonth();
+  const [selectedYear, setSelectedYear] = useState(currentYear);
+  const [selectedMonth, setSelectedMonth] = useState(currentMonth);
+  const years: number[] = [];
+  const months: number[] = [];
+
+  for (let year = currentYear - 50; year <= currentYear; year++) {
+    years.push(year);
+  }
+
+  for (let month = 1; month <= 12; month++) {
+    months.push(month);
+  }
+
+  const handleYearChange = e => {
+    setSelectedYear(parseInt(e.target.value));
+  };
+
+  const handleMonthChange = e => {
+    setSelectedMonth(parseInt(e.target.value));
+  };
 
   return (
     <Container>
@@ -198,13 +222,31 @@ export default function ModifyCareer() {
             </RegisterItemWrap>
             <RegisterItemWrap>
               <RegisterContentTitle>기간</RegisterContentTitle>
-              <NoIconInput
-                name="name"
-                type="text"
-                required
-                // value={inputData.name}
-                // onChange={handleInputChange}
-              ></NoIconInput>
+              {/* <label> 
+        
+         </label> */}
+              <select
+                id="year"
+                value={selectedYear}
+                onChange={handleYearChange}
+              >
+                {years.map(year => (
+                  <option key={year} value={year}>
+                    {year}
+                  </option>
+                ))}
+              </select>
+              <select
+                id="month"
+                value={selectedMonth}
+                onChange={handleMonthChange}
+              >
+                {months.map(month => (
+                  <option key={month} value={month}>
+                    {month}
+                  </option>
+                ))}
+              </select>
             </RegisterItemWrap>
 
             <Button variant="outlinegray">수정하기</Button>

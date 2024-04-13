@@ -119,9 +119,9 @@ const SearchIcon = styled(Image)`
 `;
 
 const TrainerResume = styled.div`
-  padding: 0.64rem 0.94rem;
+  padding: 0rem 0.94rem 0.64rem 0.94rem;
   background-color: var(--purple50);
-  border-radius: 0.5rem;
+  /* border-radius: 0.5rem; */
 `;
 
 const TrainerResumeAward = styled.div`
@@ -478,7 +478,7 @@ export default function myinfo() {
               <RegisterTitle>경력</RegisterTitle>
               {careerMockData.data.content[0] && (
                 <RegisterModify
-                  href="/trainer/mypage/edit/career/careermodify"
+                  href="/trainer/mypage/edit/career/modifycareer"
                   passHref
                 >
                   수정
@@ -554,7 +554,7 @@ export default function myinfo() {
               <RegisterTitle>자격증/수상/교육</RegisterTitle>
               {awardsMockData.data.content[0] && (
                 <RegisterModify
-                  href="/trainer/mypage/edit/career/careermodify"
+                  href="/trainer/mypage/edit/career/modifycareer"
                   passHref
                 >
                   수정

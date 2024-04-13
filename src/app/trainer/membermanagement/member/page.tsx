@@ -82,8 +82,6 @@ const SettingTextWrap = styled.div`
     right: 0;
     width: 1rem;
     height: 1rem;
-    /* background: red; */
-    /* background-image: url("../../../../../public/Trainer/Header/settingTabBeforeRegion.png") */
     background-image: url(${settingTabBeforeImg.src});
     background-size: cover; /* 배경 이미지를 가득 채우도록 설정 *
       /* no-repeat center; */
@@ -218,6 +216,7 @@ export default function ManageMember() {
   ]);
   const [selectedMembers, setSelectedMembers] = useState([]);
   const [isSelectionEnabled, setIsSelectionEnabled] = useState(false);
+  const [searchText, setSearchText] = useState(null);
 
   // 회원 선택 토글 함수
   const toggleSelection = memberId => {
@@ -306,10 +305,12 @@ export default function ManageMember() {
                     src={searchIcon}
                     alt="검색 회색 돋보기 아이콘"
                   ></SearchIcon>
+
                   <SearchBarInput
                     type="text"
                     name="센터 검색바"
                     placeholder="검색"
+                    onChange={e => setSearchText(e.target.value)}
                   ></SearchBarInput>
                 </SearchBarWrap>
               </div>

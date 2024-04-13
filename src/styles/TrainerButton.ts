@@ -36,7 +36,7 @@ export const Button = styled.button<ButtonProps>`
   ${props =>
     props.variant === "outlinegray" &&
     css`
-      border: 1px solid var(--border-gray);
+      border: 1px solid var(--font-gray400);
     `}
 
     ${props =>
