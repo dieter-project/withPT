@@ -1,8 +1,12 @@
 "use client";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import Link from "next/link";
+import { BaseContentWrap } from "@/styles/Layout";
 import { useSession, signIn, signOut } from "next-auth/react";
-import React, { useEffect } from "react";
+import Image from "next/image";
+import WePTLogo from "../../../../public/icons/weptLogo.png";
+import store from "../../../redux/store";
 
 const LoginWrap = styled.div`
   background-color: beige;
@@ -32,17 +36,21 @@ const KaKaoLoginButton = styled.button`
   font-weight: bold;
 `;
 
-const GoogleLoginButton = styled.button`
-  display: block;
-  padding: 1.3rem 0;
-  width: 100%;
-  border: none;
-  border-radius: 0.5rem;
-  background-color: white;
-  color: black;
-  font-size: 1.1rem;
-  font-weight: bold;
+const WePTLogoImg = styled(Image)`
+  margin: 0 auto;
 `;
+
+// const GoogleLoginButton = styled.button`
+//   display: block;
+//   padding: 1.3rem 0;
+//   width: 100%;
+//   border: none;
+//   border-radius: 0.5rem;
+//   background-color: white;
+//   color: black;
+//   font-size: 1.1rem;
+//   font-weight: bold;
+// `;
 
 const AskIfMember = styled.div`
   color: #acacac;
@@ -55,29 +63,97 @@ const LinkToMember = styled(Link)`
   font-size: 0.9rem;
 `;
 
+const LogninButton = styled.button`
+  width: 100%;
+  height: 56px;
+  text-align: center;
+  border-radius: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.625rem;
+`;
+
+const GoogleLoginButton = styled(LogninButton)`
+  border: 1px solid var(--border-gray);
+  &::before {
+    display: block;
+    content: "";
+    width: 1.375rem;
+    height: 1.375rem;
+    background: url(/svgs/icon_google.svg) no-repeat;
+    background-position: center;
+    background-size: contain;
+  }
+`;
+
 export default function Login() {
-  const { data, status } = useSession();
-
-  // if (status === "loading") return <h1> loading... please wait</h1>;
-  // if (status === "authenticated") {
-  //   return (
-  //     <div>
-  //       <h1> hi {data.user.name}</h1>
-  //       <img src={data.user.image} alt={data.user.name + " photo"} />
-  //       <button onClick={() => signOut()}>sign out</button>
-  //     </div>
-  //   );
-  // }
-
-  const handleLogin = () => {
-    // 구글 로그인 화면으로 이동시키기
-    window.location.href = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${process.env.GOOGLE_CLIENT_ID}&response_type=token&redirect_uri=${process.env.GOOGLE_CLIENT_SECRET}&scope=https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile`;
+  const onGoogleSocialLogin = (): any => {
+    const redirectUri = "http://localhost:3000/api/callback/google";
+    const restApiKey = process.env.GOOGLE_CLIENT_ID;
+    const googleURL = `https://accounts.google.com/o/oauth2/v2/auth?client_id=393755297276-okv1n31pe5lm29819tolnkrq5annv4lk.apps.googleusercontent.com&redirect_uri=${redirectUri}&response_type=code&scope=https://www.googleapis.com/auth/userinfo.email`;
+    window.location.href = googleURL;
   };
 
+  const switchToTrainer = () => {
+    // 트레이너로 전환될 때 whitelist에 trainer, trainersignup 추가
+    persistor.persist().then(() => {
+      persistor.updateRehydratedNames(["trainer", "trainersignup"]);
+    });
+    // 추가적으로 필요한 작업 수행
+  };
+
+  const LogoWrap = styled.div`
+    text-align: center;
+    margin: 130px 0 100px;
+  `;
+
+  const LoginButtonWrap = styled.div`
+    width: 100%;
+    text-align: center;
+    display: flex;
+    gap: 0.5rem;
+    flex-direction: column;
+  `;
+
+  const KakaoLoginButton = styled(LogninButton)`
+    background-color: #fee500;
+    &::before {
+      display: block;
+      content: "";
+      width: 1.5rem;
+      height: 1.5rem;
+      background: url(/svgs/icon_kakao.svg) no-repeat;
+      background-position: center;
+      background-size: contain;
+    }
+  `;
+
   return (
-    <div>
-      <button onClick={handleLogin}> 로그인 </button>
-      {/* <button onClick={() => signIn("google")}>sign in with gooogle</button> */}
-    </div>
+    <>
+      <BaseContentWrap>
+        <LogoWrap>
+          <WePTLogoImg
+            src={WePTLogo}
+            alt="식단 피드백 요청 이미지"
+            width="100"
+            height="100"
+          />
+        </LogoWrap>
+        <LoginButtonWrap>
+          <KakaoLoginButton
+          // onClick={onKakaoSocialLogin}
+          >
+            카카오톡으로 시작하기
+          </KakaoLoginButton>
+          <GoogleLoginButton onClick={onGoogleSocialLogin}>
+            Google로 시작하기
+          </GoogleLoginButton>
+          <div className="login">
+            <Link href="/">문의하기</Link>
+          </div>
+        </LoginButtonWrap>
+      </BaseContentWrap>
+    </>
   );
 }

@@ -2,7 +2,31 @@
 import styled from "styled-components";
 import Link from "next/link";
 import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import Image from "next/image";
+import {
+  SearchBarWrap,
+  SearchIcon,
+  SearchBarInput,
+} from "@/styles/TrainerSearchBar";
+import searchIcon from "../../../../../public/Trainer/icons/searchLightGray.png";
+import beforePage from "../../../../../public/icons/beforePage.png";
+import settingTabBeforeImg from "../../../../../public/Trainer/Header/settingTabBeforeRegion.png";
+import settingTabImg from "../../../../../public/Trainer/Header/settingTabTwoRegion.png";
+import setting from "../../../../../public/Trainer/setting.jpg";
+
+const MemberItem = ({ member, isSelected, toggleSelection }) => {
+  return (
+    <li>
+      <input
+        type="checkbox"
+        checked={isSelected}
+        onChange={() => toggleSelection(member.id)}
+      />
+      {member.name}
+    </li>
+  );
+};
 
 const MainContainer = styled.div`
   background-color: #ffffff;
@@ -27,36 +51,53 @@ const MainTitle = styled.h4`
   margin: 0 auto;
 `;
 
-const SettingImg = styled.img`
+const SettingImg = styled(Image)`
   display: inline-block;
+  width: 1.5rem;
+  height: 1.5rem;
 `;
 
-const SettingTabImg = styled.img`
+const SettingTabImg = styled(Image)`
+  width: 140px;
+  height: 90px;
   display: inline-block;
   position: absolute;
-  top: 2rem;
+  top: 0;
   right: 0;
 `;
 
-const SettingTopTxt = styled.div`
+const SettingTextWrap = styled.div`
   position: absolute;
   top: 4rem;
-  right: 2rem;
-  font-weight: normal;
-  padding: 0.1rem 0;
+  right: 1rem;
+  width: 9rem;
+  background-color: white;
+  border-radius: 0.5rem;
+  box-shadow: 2px 4px 8px rgba(0, 0, 0, 0.2);
+  &::after {
+    content: "";
+    display: block;
+    position: absolute;
+    top: -1rem;
+    right: 0;
+    width: 1rem;
+    height: 1rem;
+    background-image: url(${settingTabBeforeImg.src});
+    background-size: cover; /* 배경 이미지를 가득 채우도록 설정 *
+      /* no-repeat center; */
+    background-size: 100% 100%;
+  }
+`;
+
+const SettingButton = styled.button`
+  width: 100%;
+  text-align: center;
+  padding: 0.5rem 0;
   border-bottom: 1px solid var(--border-gray);
 `;
 
-const SettingUnderTxt = styled.div`
-  position: absolute;
-  top: 6rem;
-  right: 2rem;
-  font-weight: normal;
-  padding: 0.1rem 0;
-`;
-
-const ManageContentWrap = styled.div`
-  padding: 4rem 1.2rem 5rem;
+const MainContentWrap = styled.div`
+  padding: 5rem 1.2rem 5rem;
 `;
 
 const CenterNameItem = styled.div`
@@ -81,16 +122,16 @@ const CenterMember = styled.div`
 `;
 
 const MemberName = styled.span`
-  font-size: var(--middle);
+  font-size: var(--font-l);
   font-weight: 600;
 `;
 
 const NeedMoreInfo = styled.span`
   font-size: var(--font-s);
-  border: 1px solid var(--coral);
+  border: 1px solid var(--primary);
   border-radius: 0.5rem;
   padding: 0.3rem;
-  color: var(--coral);
+  color: var(--primary);
 `;
 
 const AwaitReqMember = styled.div`
@@ -104,123 +145,210 @@ const AwaitReqMember = styled.div`
 
 const AlertResend = styled.span`
   font-size: var(--font-s);
-  border: 1px solid var(--font-gray500);
+  border: 1px solid var(--primary);
   border-radius: 0.5rem;
   padding: 0.3rem 0.5rem;
-  color: var(--font-gray500);
+  color: var(--primary);
 `;
 
-const MainFooter = styled.footer`
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 3rem;
-  padding: 2rem 2rem 3rem 2rem;
-  align-items: center;
-  background-color: #ffffff;
-  justify-content: space-between;
-  z-index: 100;
-`;
-
-const FooterCtgWrap = styled.div`
+const TabContainer = styled.div`
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  justify-content: space-around;
+  margin-bottom: 1rem;
 `;
 
-const FooterCtgItem = styled.button`
-  all: unset;
-  align-items: center;
+const TabItem = styled.button`
+  font-size: var(--font-l);
+  cursor: pointer;
+  width: 100%;
+  padding-bottom: 0.59rem;
 `;
 
-const FooterItemImg = styled.img`
-  display: block;
+const MemberSearchInput = styled.input`
+  width: 100%;
+  margin-top: 1.12rem;
+  padding: 0.62rem 0.88rem;
+  background-color: var(--purple50);
+  font-size: 1rem;
+  font-weight: 400;
+  border: none;
+`;
+
+const TotalClassCount = styled.span`
+  color: var(--font-gray600);
+`;
+
+const RemainClassCount = styled.div`
+  font-size: var(--font-m);
 `;
 
 export default function ManageMember() {
+  const router = useRouter();
+  const [activeTab, setActiveTab] = useState("members");
   const [isTapOpen, setIsTapOpen] = useState(false);
-
   const [isSettingOpen, setIsSettingOpen] = useState(false);
+  const [showCheckboxes, setShowCheckboxes] = useState(false);
 
-  const [selectedNames, setSelectedNames] = useState([]);
+  const [members, setMembers] = useState([
+    {
+      id: 1,
+      name: "맥도날드 회원님",
+      checked: false,
+      remaining: 10,
+      total: 20,
+    },
+    { id: 2, name: "버거킹 회원님", checked: false, remaining: 5, total: 15 },
+    // ... 다른 회원 데이터들
+  ]);
 
-  // const toggleNameSelection = name => {
-  //   if (selectedNames.includes(name)) {
-  //     setSelectedNames(selectedNames.filter(n => n !== name));
-  //   } else {
-  //     setSelectedNames([...selectedNames, name]);
-  //   }
-  // };
-
-  const toggleTap = () => {
-    setIsTapOpen(!isTapOpen);
+  const handleTabChange = tab => {
+    setActiveTab(tab);
   };
 
   const toggleSetting = () => {
     setIsSettingOpen(!isSettingOpen);
   };
 
+  const [members2, setMembers2] = useState([
+    { id: 1, name: "John" },
+    { id: 2, name: "Jane" },
+    { id: 3, name: "Doe" },
+  ]);
+  const [selectedMembers, setSelectedMembers] = useState([]);
+  const [isSelectionEnabled, setIsSelectionEnabled] = useState(false);
+  const [searchText, setSearchText] = useState(null);
+
+  // 회원 선택 토글 함수
+  const toggleSelection = memberId => {
+    const isSelected = selectedMembers.includes(memberId);
+    if (isSelected) {
+      setSelectedMembers(selectedMembers.filter(id => id !== memberId));
+    } else {
+      setSelectedMembers([...selectedMembers, memberId]);
+    }
+  };
+
+  // 해제하기 버튼 클릭 핸들러
+  const handleRelease = () => {
+    setIsSelectionEnabled(!isSelectionEnabled);
+  };
+
   return (
     <MainContainer>
       <MainHeader>
-        <Image
-          style={{ display: "inline-block" }}
-          src="/beforePage.jpg"
-          alt="이전 페이지 이미지"
-          width="25"
-          height="25"
-        />
-        <MainTitle>회원관리</MainTitle>
-        <div style={{ position: "relative" }}>
-          <SettingImg
-            src="/setting.jpg"
-            alt="설정 이미지"
-            width="20"
+        <button onClick={() => router.back()}>
+          <Image
+            style={{ display: "inline-block" }}
+            src={beforePage}
+            alt="이전 페이지 이미지"
+            width="25"
             height="25"
-            onClick={toggleSetting}
           />
+        </button>
+
+        <MainTitle>아자아자 피트니스 센터</MainTitle>
+        <div style={{ position: "relative" }}>
+          <SettingImg src={setting} alt="설정 이미지" onClick={toggleSetting} />
         </div>
         {isSettingOpen && (
           <>
-            <SettingTabImg
-              src="/settingTab.png"
-              alt="설정 하단 탭 이미지"
-              width="150"
-              height="150"
-            />
-            <SettingTopTxt>회원 정보 추가</SettingTopTxt>
-            <SettingUnderTxt>회원 해제하기</SettingUnderTxt>
+            <SettingTextWrap>
+              <SettingButton>회원 정보 수정</SettingButton>
+              <SettingButton onClick={handleRelease}>
+                회원 해제하기
+              </SettingButton>
+            </SettingTextWrap>
           </>
         )}
       </MainHeader>
-
-      <ManageContentWrap>
-        <CenterNameItem>
-          <CenterName>아자 아자 피트니스 센터</CenterName>
-          <span>5명</span>
-        </CenterNameItem>
+      <MainContentWrap>
+        <TabContainer>
+          <TabItem
+            onClick={() => handleTabChange("members")}
+            style={{
+              borderBottom:
+                activeTab === "members" ? "1px solid black" : "none",
+            }}
+          >
+            회원 목록{" "}
+            <span
+              style={{
+                color: activeTab === "members" ? "blue" : "black",
+              }}
+            >
+              12
+            </span>
+          </TabItem>
+          <TabItem
+            onClick={() => handleTabChange("waiting")}
+            style={{
+              borderBottom:
+                activeTab === "waiting" ? "1px solid black" : "none",
+            }}
+          >
+            대기 회원{" "}
+            <span
+              style={{
+                color: activeTab === "waiting" ? "blue" : "black",
+              }}
+            >
+              5
+            </span>
+          </TabItem>
+        </TabContainer>
         <div>
-          <CenterMember>
-            <MemberName>맥도날드 회원님</MemberName>
-            <NeedMoreInfo>상세정보 입력 필요</NeedMoreInfo>
-          </CenterMember>
-          <CenterMember>
-            <MemberName>버거킹 회원님</MemberName>
-            <span>잔여:16회 / 36회</span>
-          </CenterMember>
-          <CenterMember>
-            <MemberName>신형만 회원님</MemberName>
-            <span>잔여: 11회 / 24회</span>
-          </CenterMember>
-          <CenterMember>
-            <MemberName>김땡땡 회원님</MemberName>
-            <span>잔여: 5회 / 36회</span>
-          </CenterMember>
-          <CenterMember>
-            <MemberName>아자아자 회원님</MemberName>
-            <span>잔여: 0회 / 50회</span>
-          </CenterMember>
+          {activeTab === "members" && (
+            <>
+              <div>
+                <SearchBarWrap>
+                  <SearchIcon
+                    src={searchIcon}
+                    alt="검색 회색 돋보기 아이콘"
+                  ></SearchIcon>
+
+                  <SearchBarInput
+                    type="text"
+                    name="센터 검색바"
+                    placeholder="검색"
+                    onChange={e => setSearchText(e.target.value)}
+                  ></SearchBarInput>
+                </SearchBarWrap>
+              </div>
+
+              <CenterMember>
+                <MemberName>맥도날드 회원님</MemberName>
+                <NeedMoreInfo>상세정보 입력 필요</NeedMoreInfo>
+              </CenterMember>
+              <CenterMember>
+                <MemberName>버거킹 회원님</MemberName>
+                <RemainClassCount>
+                  <span>잔여 : 16회</span>
+                  <TotalClassCount> / 36회</TotalClassCount>
+                </RemainClassCount>
+              </CenterMember>
+              <CenterMember>
+                <MemberName>신형만 회원님</MemberName>
+                <RemainClassCount>
+                  <span>잔여 : 16회</span>
+                  <TotalClassCount> / 36회</TotalClassCount>
+                </RemainClassCount>
+              </CenterMember>
+              <CenterMember>
+                <MemberName>김땡땡 회원님</MemberName>
+                <RemainClassCount>
+                  <span>잔여 : 16회</span>
+                  <TotalClassCount> / 36회</TotalClassCount>
+                </RemainClassCount>
+              </CenterMember>
+              <CenterMember>
+                <MemberName>아자아자 회원님</MemberName>
+                <RemainClassCount>
+                  <span>잔여 : 16회</span>
+                  <TotalClassCount> / 36회</TotalClassCount>
+                </RemainClassCount>
+              </CenterMember>
+            </>
+          )}
         </div>
         {/* 이름 데이터 들어가면 수정 */}
         {/* <div>
@@ -237,70 +365,82 @@ export default function ManageMember() {
         </ㅣ>
       ))}
     </div> */}
-        <AwaitReqMember onClick={toggleTap}>
-          <div>
-            회원 등록 요청 대기중 <span>2</span>
-          </div>
-          {!isTapOpen && (
-            <Image
-              style={{ display: "inline-block" }}
-              src="/toggleClose.jpg"
-              alt="토글 닫힘"
-              width="5"
-              height="2"
-            />
-          )}
-          {isTapOpen && (
-            <Image
-              style={{ display: "inline-block" }}
-              src="/toggleOpen.jpg"
-              alt="토글 열림"
-              width="5"
-              height="2"
-            />
-          )}
-        </AwaitReqMember>
-        {isTapOpen && (
-          <div>
-            <CenterMember>
-              <MemberName>맥도날드 회원님</MemberName>
-              <AlertResend>알림 재전송</AlertResend>
-            </CenterMember>
-            <CenterMember>
-              <MemberName>나득근 회원님</MemberName>
-              <AlertResend>알림 재전송</AlertResend>
-            </CenterMember>
-          </div>
+
+        {isSelectionEnabled && (
+          <ul>
+            {members.map(member => (
+              <MemberItem
+                key={member.id}
+                member={member}
+                isSelected={selectedMembers.includes(member.id)}
+                toggleSelection={toggleSelection}
+              />
+            ))}
+          </ul>
         )}
-      </ManageContentWrap>
-      <MainFooter>
-        <FooterCtgWrap>
-          <li>
-            <FooterCtgItem>
-              <FooterItemImg src="#!"></FooterItemImg>
-              <span>홈</span>
-            </FooterCtgItem>
-          </li>
-          <li>
-            <FooterCtgItem>
-              <FooterItemImg src="#!"></FooterItemImg>
-              <span>수업관리</span>
-            </FooterCtgItem>
-          </li>
-          <li>
-            <FooterCtgItem>
-              <FooterItemImg src="#!"></FooterItemImg>
-              <span>채팅</span>
-            </FooterCtgItem>
-          </li>
-          <li>
-            <FooterCtgItem>
-              <img src="#!"></img>
-              <span>마이페이지</span>
-            </FooterCtgItem>
-          </li>
-        </FooterCtgWrap>
-      </MainFooter>
+
+        {!isSelectionEnabled && (
+          <ul>
+            {members2.map((member, i) => (
+              <>
+                <li key={i}> member </li>
+              </>
+            ))}
+          </ul>
+        )}
+        {activeTab === "waiting" && (
+          <>
+            <div>
+              <CenterMember>
+                <MemberName>맥도날드 회원님</MemberName>
+                <AlertResend>알림 재전송</AlertResend>
+              </CenterMember>
+              <CenterMember>
+                <MemberName>나득근 회원님</MemberName>
+                <AlertResend>알림 재전송</AlertResend>
+              </CenterMember>
+            </div>
+          </>
+        )}
+      </MainContentWrap>
     </MainContainer>
   );
 }
+
+// {activeTab === "members" && (
+//   <>
+//     <div>
+//       <MemberSearchInput type="text" placeholder="검색" />
+//     </div>
+
+//     {showCheckboxes && (
+//       <div>
+//         {members.map((member) => (
+//           <CenterMember key={member.id}>
+//             <label>
+//               <input
+//                 type="checkbox"
+//                 checked={member.checked}
+//                 onChange={() => handleCheckboxChange(member.id)}
+//               />
+//               <MemberName>{member.name}</MemberName>
+//               <span>잔여: {member.remaining}회 / {member.total}회</span>
+//             </label>
+//           </CenterMember>
+//         ))}
+//       </div>
+//     )}
+
+//     <div>
+//       <SettingUnderTxt onClick={toggleCheckboxes}>
+//         회원해제
+//       </SettingUnderTxt>
+//     </div>
+
+//     {showCheckboxes && (
+//       <div>
+//         <button onClick={handleRemoveMembers}>회원해제</button>
+//       </div>
+//     )}
+//   </>
+// )}

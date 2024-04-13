@@ -1,8 +1,14 @@
-import { Action, ThunkAction, combineReducers, configureStore } from "@reduxjs/toolkit";
+import {
+  Action,
+  ThunkAction,
+  combineReducers,
+  configureStore,
+} from "@reduxjs/toolkit";
 import member from "./reducers/memberSlice";
+import trainerSignup from "./reducers/trainerSignupSlice";
 import signup from "./reducers/signupSlice";
 import workoutRecord from "./reducers/workoutRecordSlice";
-import storage from 'redux-persist/lib/storage/session'
+import storage from "redux-persist/lib/storage/session";
 import { persistReducer, persistStore } from "redux-persist";
 import createWebStorage from "redux-persist/es/storage/createWebStorage";
 
@@ -26,35 +32,37 @@ import createWebStorage from "redux-persist/es/storage/createWebStorage";
 //     : createWebStorage('local');
 
 const persistConfig = {
-  key: 'root',
+  key: "root",
   storage,
-  whitelist: ['signup', 'workoutRecord'], //적용할 리듀서
-  timeout: 1000
-}
+  whitelist: ["signup", "workoutRecord", "trainersignup"], //적용할 리듀서
+  timeout: 1000,
+};
 
 const rootReducer = combineReducers({
   member,
   signup,
-  workoutRecord
-})
+  workoutRecord,
+  trainerSignup,
+});
 
-const persistedReducer = persistReducer(persistConfig, rootReducer)
+const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 const store = configureStore({
   reducer: persistedReducer,
-  middleware: getDefaultMiddleware => getDefaultMiddleware({ 
-    serializableCheck: false 
-  }),
+  middleware: getDefaultMiddleware =>
+    getDefaultMiddleware({
+      serializableCheck: false,
+    }),
   // devTools: process.env.NODE_ENV !== "production",
-})
+});
 
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
 export type AppThunk<ReturnType = void> = ThunkAction<
-  ReturnType, 
-  RootState, 
-  unknown, 
+  ReturnType,
+  RootState,
+  unknown,
   Action<string>
->
+>;
 export default store;
 // export const persistor = persistStore(store);

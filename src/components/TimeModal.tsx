@@ -1,12 +1,12 @@
-import { Button } from '@/styles/Button'
-import { Input } from '@/styles/Input'
-import React, { Dispatch, SetStateAction, useEffect } from 'react'
-import { styled } from 'styled-components'
+import { Button } from "@/styles/TrainerButton";
+import { Input } from "@/styles/Input";
+import React, { Dispatch, SetStateAction, useEffect } from "react";
+import { styled } from "styled-components";
 
 type setStateProps = {
-  modalOpen: boolean,
-  setModalOpen: Dispatch<SetStateAction<boolean>>
-}
+  modalOpen: boolean;
+  setModalOpen: Dispatch<SetStateAction<boolean>>;
+};
 
 const TimeModalContainer = styled.div`
   position: fixed;
@@ -45,12 +45,12 @@ const TimeModalContainer = styled.div`
     border-radius: 0.5rem 0.5rem 0 0;
     z-index: 10;
   }
-  
+
   .modal.show {
     bottom: 0;
     transition: bottom 0.3s ease-out;
   }
-`
+`;
 
 const InputWrap = styled.div`
   display: flex;
@@ -67,16 +67,16 @@ const InputWrap = styled.div`
     padding: 0.5rem;
     font-size: 2rem;
   }
-  
+
   input[type="time"]::-webkit-calendar-picker-indicator {
     display: none;
   }
-  
+
   input[type="time"]::-webkit-datetime-edit-hour-field {
     border-bottom: 1px solid var(--primary);
     padding: 0.3rem 1.12rem;
   }
-  
+
   input[type="time"]::-webkit-datetime-edit-minute-field {
     border-bottom: 1px solid var(--primary);
     padding: 0.3rem 1.12rem;
@@ -101,7 +101,7 @@ const InputWrap = styled.div`
     font-size: var(--font-s);
     color: var(--font-secondary);
   }
-`
+`;
 
 const TimeModalWrap = styled.div`
   width: 100%;
@@ -119,7 +119,7 @@ const TimeModalWrap = styled.div`
     bottom: 2.5rem;
     width: 100%;
   }
-`
+`;
 
 interface ModalProps {
   displayModal: boolean;
@@ -134,7 +134,6 @@ export const TimeModal = ({
   slideUpModal,
   setSlideUpModal,
 }: ModalProps) => {
-
   useEffect(() => {
     if (displayModal) {
       setTimeout(() => {
@@ -146,29 +145,26 @@ export const TimeModal = ({
   }, [displayModal]);
 
   const handleOnClose = () => {
-    setDisplayModal(false)
-    setSlideUpModal(false)
-  }
+    setDisplayModal(false);
+    setSlideUpModal(false);
+  };
 
   return (
     <TimeModalContainer>
-      <div
-        className='modal'
-        style={{ bottom: slideUpModal ? "0" : "-100%" }}
-      >
+      <div className="modal" style={{ bottom: slideUpModal ? "0" : "-100%" }}>
         <TimeModalWrap>
           <div>시간 입력</div>
           <div>
             <InputWrap>
               <input type="time" />
-              <div className='time-text'>
+              <div className="time-text">
                 <div>시간</div>
                 <div>분</div>
               </div>
             </InputWrap>
           </div>
-          <div className='button-area'>
-            <Button variant='primary'>저장하기</Button>
+          <div className="button-area">
+            <Button variant="primary">저장하기</Button>
           </div>
         </TimeModalWrap>
       </div>
@@ -177,5 +173,5 @@ export const TimeModal = ({
         onClick={handleOnClose}
       ></div>
     </TimeModalContainer>
-  )
-}
+  );
+};

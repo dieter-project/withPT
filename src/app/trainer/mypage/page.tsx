@@ -1,10 +1,9 @@
 "use client";
 import styled from "styled-components";
 import Link from "next/link";
-import tabBar from "../../../../assets/icons/tabBar.png";
-import { format } from "date-fns";
-import ko from "date-fns/locale/ko";
-import { useState, useEffect } from "react";
+import Image from "next/image";
+import Footer from "@/components/TrainerFooter";
+import stepLigntIcon from "../../../../public/Trainer/Mypage/check-step-light.png";
 
 const MainContainer = styled.div``;
 
@@ -12,27 +11,34 @@ const MainHeader = styled.header`
   position: fixed;
   left: 0;
   top: 0;
-  height: 3rem;
-  width: 100%;
-  padding: 1rem 0;
-  text-align: center;
-  font-weight: bold;
-  background-color: #ffffff;
   z-index: 100;
+  width: 100%;
+  height: 3rem;
+  padding: 1.12rem 0;
+  background-color: #ffffff;
+  font-weight: 600;
+  font-size: var(--font-xl);
+  text-align: center;
 `;
 
 const TrainerProfile = styled.div`
-  padding: 1rem 0;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-top: 2rem;
+`;
+
+const ModifyMyInfoButton = styled(Link)`
+  color: var(--border-gray2);
+  font-weight: 500;
+  font-size: var(--font-s);
 `;
 
 const TrainerName = styled.div`
-  font-size: 1.3rem;
-  font-weight: bold;
-  line-height: 2rem;
   width: 70%;
+  line-height: 1.8125rem;
+  font-size: 1.375rem;
+  font-weight: 600;
 `;
 
 const TrainerPic = styled.img`
@@ -42,21 +48,22 @@ const TrainerPic = styled.img`
 
 const MainContentWrap = styled.div`
   height: 100vh;
-
   padding: 3.5rem 1.2rem 5rem;
   overflow: auto;
 `;
 
-const MainTitle = styled.h4`
+const MainTitle = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   font-weight: bold;
+  font-size: var(--font-l);
+  margin-bottom: 0.75rem;
 `;
 
-const ResumeModifBtn = styled.button`
-  all: unset;
-  color: gray;
+const TrainerMainWrap = styled.div`
+  margin-top: 2.19rem;
 `;
-
-const TrainerMainWrap = styled.div``;
 
 const TrainerResumeTap = styled.div`
   display: flex;
@@ -64,24 +71,8 @@ const TrainerResumeTap = styled.div`
 `;
 
 const TrainerResume = styled.div`
-  padding: 1rem;
-  background-color: #f4f4f4;
-`;
-
-const TrainerTag = styled.button`
-  background-color: #d9d9d9;
-  color: #919191;
-  font-weight: bold;
-  padding: 0.3rem;
-  margin-left: 0.3rem;
-  border-radius: 0.8rem;
-  border: none;
-`;
-
-const TrainerResumeName = styled.div`
-  align-items: center;
-  border-bottom: 1px solid #919191;
-  padding-bottom: 0.8rem;
+  padding: 0.64rem 0.94rem;
+  background-color: var(--purple50);
 `;
 
 const TrainerResumeAward = styled.div`
@@ -90,23 +81,34 @@ const TrainerResumeAward = styled.div`
   padding: 0.3rem;
 `;
 
-const ResumeName = styled.span`
-  font-weight: bold;
+const NoCareerWrap = styled(Link)`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: var(--purple50);
+  padding: 1.06rem 0.88rem 1.13rem;
 `;
 
-const ShowMoreBtn = styled.button`
-  all: unset;
-  width: 100%;
-  text-align: center;
-  border-top: 1px solid #919191;
+const NoInputCareerMessage = styled.div`
+  font-size: var(--font-s);
+`;
+
+const InputCareerMessage = styled.div`
+  font-size: var(--font-l);
+  font-weight: 600;
+`;
+
+const CenterContentWrap = styled.div`
+  margin-top: 2.88rem;
 `;
 
 const CenterList = styled.div`
   width: 30%;
-  margin-right: 0.5rem;
-  background-color: #f4f4f4;
+  background-color: var(--purple50);
   text-align: center;
-  padding: 1.3rem 0.4rem;
+  padding: 1.3rem 0rem;
+  border-radius: 0.5rem;
+  font-family: 600;
 `;
 
 const CenterListWrap = styled.div`
@@ -115,43 +117,27 @@ const CenterListWrap = styled.div`
   align-items: center;
 `;
 
-const MypageCtg = styled.div`
+const MypageCtg = styled.button`
+  width: 100%;
   display: flex;
   justify-content: space-between;
   font-weight: bold;
-  padding: 0.8rem 0;
-  border-bottom: 1px solid #919191;
+  padding: 0.8rem 0 0.8rem 1.06rem;
 `;
 
-const MainFooter = styled.footer`
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 3rem;
-  padding: 2rem 2rem 3rem 2rem;
-  align-items: center;
-  background-color: #ffffff;
-  justify-content: space-between;
-  z-index: 100;
+const CenterModifyButton = styled.button`
+  font-size: var(--font-s);
+  color: var(--font-gray700);
 `;
 
-const FooterCtgWrap = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-`;
-
-const FooterCtgItem = styled.button`
-  all: unset;
-  align-items: center;
-`;
-
-const FooterItemImg = styled.img`
-  display: block;
-`;
+let datanum = 1;
 
 export default function Mypage() {
+  const contentList = [
+    { title: "공지사항", link: "/trainer/main" },
+    { title: "로그아웃", link: "/trainer/main" },
+    { title: "계정관리", link: "/trainer/main" },
+  ];
   return (
     <MainContainer>
       <MainHeader>마이페이지</MainHeader>
@@ -162,95 +148,78 @@ export default function Mypage() {
           </TrainerName>
           <TrainerPic src="#!" alt="프로필 사진"></TrainerPic>
         </TrainerProfile>
+        <ModifyMyInfoButton href="/trainer/mypage/edit/myinfo" passHref>
+          내 정보 수정
+        </ModifyMyInfoButton>
         <TrainerMainWrap>
           <TrainerResumeTap>
-            <MainTitle>내 이력관리</MainTitle>
-            <ResumeModifBtn>수정</ResumeModifBtn>
+            <MainTitle>이력 관리</MainTitle>
           </TrainerResumeTap>
-          <TrainerResume>
-            <TrainerResumeName>
-              <ResumeName>김땡땡 트레이너</ResumeName>
-              <TrainerTag>재활치료</TrainerTag>
-              <TrainerTag>보디빌딩</TrainerTag>
-            </TrainerResumeName>
-            <TrainerResumeAward>
-              <span>2023 .03</span>
-              <span>보디빌더 대회 최우수상</span>
-            </TrainerResumeAward>
-            <TrainerResumeAward>
-              <span>2022 .03</span>
-              <span>보디빌더 대회 우수상</span>
-            </TrainerResumeAward>
-            <TrainerResumeAward>
-              <span>2010 .03 ~ 2016 . 02</span>
-              <span>보디빌더 대회 최우수상</span>
-            </TrainerResumeAward>
-            <ShowMoreBtn> 더보기 </ShowMoreBtn>
-          </TrainerResume>
+          <Link href="/trainer/mypage/edit/career" passHref>
+            {datanum === 0 && (
+              <TrainerResume>
+                <TrainerResumeAward>
+                  <span>2023 .03</span>
+                  <span>보디빌더 대회 최우수상</span>
+                </TrainerResumeAward>
+                <TrainerResumeAward>
+                  <span>2022 .03</span>
+                  <span>보디빌더 대회 우수상</span>
+                </TrainerResumeAward>
+                <TrainerResumeAward>
+                  <span>2010 .03 ~ 2016 . 02</span>
+                  <span>보디빌더 대회 최우수상</span>
+                </TrainerResumeAward>
+              </TrainerResume>
+            )}
+            {datanum === 1 && (
+              <NoCareerWrap href="/trainer/mypage/edit/career" passHref>
+                <div>
+                  <NoInputCareerMessage>
+                    현재 작성된 이력이 없으세요.
+                  </NoInputCareerMessage>
+                  <InputCareerMessage>이력 입력하기</InputCareerMessage>
+                </div>
+                <Image src={stepLigntIcon} alt="체크" />
+              </NoCareerWrap>
+            )}
+          </Link>
         </TrainerMainWrap>
-
-        <div>
-          <MainTitle>내 센터관리</MainTitle>
-          <CenterListWrap>
-            <CenterList>
-              아자아자
-              <br />
-              피트니스 센터
-            </CenterList>
-            <CenterList>
-              으라차차
-              <br />
-              피트니스 센터
-            </CenterList>
-            <CenterList>
-              득근득근
-              <br />
-              피트니스 센터
-            </CenterList>
-          </CenterListWrap>
-        </div>
-
-        <MypageCtg>
-          <span>공지사항</span>
-          <span> ㅅ </span>
-        </MypageCtg>
-        <MypageCtg>
-          <Link href="trainer/login">로그아웃</Link>
-          <span> ㅅ </span>
-        </MypageCtg>
-        <MypageCtg>
-          <span>계정관리</span>
-          <span> ㅅ </span>
-        </MypageCtg>
+        {datanum === 0 && (
+          <CenterContentWrap>
+            <MainTitle>
+              센터정보
+              <CenterModifyButton>수정</CenterModifyButton>
+            </MainTitle>
+            <CenterListWrap>
+              <CenterList>
+                아자아자
+                <br />
+                피트니스 센터
+              </CenterList>
+              <CenterList>
+                으라차차
+                <br />
+                피트니스 센터
+              </CenterList>
+              <CenterList>
+                득근득근
+                <br />
+                피트니스 센터
+              </CenterList>
+            </CenterListWrap>
+          </CenterContentWrap>
+        )}
+        {contentList.map((content, i) => (
+          <Link href={content.link} passHref key={i}>
+            <MypageCtg>
+              <span>{content.title}</span>
+              <Image src={stepLigntIcon} alt="다음 스텝으로 넘어가는 화살표" />
+            </MypageCtg>
+          </Link>
+        ))}
       </MainContentWrap>
-      <MainFooter>
-        <FooterCtgWrap>
-          <li>
-            <FooterCtgItem>
-              <FooterItemImg src="#!"></FooterItemImg>
-              <span>홈</span>
-            </FooterCtgItem>
-          </li>
-          <li>
-            <FooterCtgItem>
-              <FooterItemImg src="#!"></FooterItemImg>
-              <span>수업관리</span>
-            </FooterCtgItem>
-          </li>
-          <li>
-            <FooterCtgItem>
-              <FooterItemImg src="#!"></FooterItemImg>
-              <span>채팅</span>
-            </FooterCtgItem>
-          </li>
-          <li>
-            <FooterCtgItem>
-              <img src="#!"></img>
-              <span>마이페이지</span>
-            </FooterCtgItem>
-          </li>
-        </FooterCtgWrap>
-      </MainFooter>
+      <Footer />
     </MainContainer>
   );
 }

@@ -17,11 +17,6 @@ let initialState: TrainerState = {
 export type TokenPayload = {
   accessToken: string | null;
 };
-// function userReducer() {
-
-// }
-
-// export default userReducer;
 
 const trainerSlice = createSlice({
   name: "trainer",

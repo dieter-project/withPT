@@ -1,8 +1,9 @@
 "use client";
-
+import ContentHeader from "@/components/TrainerPageTitle";
 import styled from "styled-components";
 import Link from "next/link";
 import Image from "next/image";
+import CheckIconPurple from "../../../../../public/Trainer/icons/checkIconPurple.png";
 
 const Wrap = styled.div`
   background-color: white;
@@ -13,30 +14,6 @@ const Wrap = styled.div`
   height: auto;
 `;
 
-const ContentHeader = styled.div`
-  background-color: white;
-  position: fixed;
-  width: 100%;
-  height: 4.4rem;
-  align-items: center;
-  z-index: 100;
-  display: flex;
-`;
-
-const ButtonHistoryBack = styled.button`
-  width: 2.4rem;
-  height: 2.4rem;
-  background-color: green;
-`;
-
-const RegisterTitle = styled.h2`
-  line-height: 3rem;
-  color: #222;
-  font-size: 1.5rem;
-  font-weight: 700;
-  letter-spacing: -0;
-`;
-
 const ContentBody = styled.div`
   padding: 6.8rem 1.6rem 3.2rem 1.6rem;
 `;
@@ -44,16 +21,25 @@ const ContentBody = styled.div`
 const ContentInnerBody = styled.div``;
 
 const SignupFinWrap = styled.div`
-  margin-bottom: 1rem;
-  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding-top: 14.12rem;
 `;
 
 const RegisterStepInfo = styled.p`
   color: #222;
   font-size: 1.6rem;
-  font-weight: 700;
+  font-weight: 600;
   letter-spacing: -0.04rem;
   white-space: nowrap;
+`;
+
+const SignupFinishImg = styled(Image)`
+  width: 2.375rem;
+  height: 2.375rem;
+  margin-bottom: 1rem;
 `;
 
 const ButtonAreaFixed = styled.div`
@@ -72,7 +58,7 @@ const NextStep = styled(Link)`
   display: block;
   border: none;
   border-radius: 0.6rem;
-  line-height: 3rem;
+  line-height: 3.5rem;
   width: 100%;
   background-color: var(--primary);
   color: white;
@@ -81,22 +67,16 @@ const NextStep = styled(Link)`
 `;
 
 export default function finished() {
+  const title = "이력 등록";
   return (
     <Wrap>
-      <ContentHeader>
-        <ButtonHistoryBack type="button">뒤</ButtonHistoryBack>
-
-        <RegisterTitle>가입완료</RegisterTitle>
-      </ContentHeader>
+      <ContentHeader title={title}></ContentHeader>
       <ContentBody>
         <ContentInnerBody>
           <SignupFinWrap>
-            <Image
-              style={{ display: "inline-block" }}
-              src="/lastStep.jpg"
-              alt="회원가입 완료 사진"
-              width="50"
-              height="50"
+            <SignupFinishImg
+              src={CheckIconPurple}
+              alt="회원가입 완료 체크 버튼"
             />
             <RegisterStepInfo>회원가입이 완료 되었어요!</RegisterStepInfo>
             <RegisterStepInfo
@@ -106,16 +86,10 @@ export default function finished() {
                 fontWeight: "normal",
               }}
             >
-              함께 목표를 향해 열심히 노력해보아요 :)
+              위피티로 편리하게 수업관리를 시작해 보세요
             </RegisterStepInfo>
           </SignupFinWrap>
-          <div
-            style={{
-              padding: "1rem 2rem",
-              backgroundColor: "gray",
-              height: "20rem",
-            }}
-          ></div>
+
           <ButtonAreaFixed>
             <NextStep href="/trainer/signup/finished">위피티 시작하기</NextStep>
           </ButtonAreaFixed>

@@ -1,179 +1,129 @@
 /*global kakao*/
 "use client";
-import React, { useEffect, useState, useRef, useCallback } from "react";
-import Head from "next/head";
-import Script from "next/script";
-import styled from "styled-components";
+import React, { useEffect, useState } from "react";
 
-//아이콘
-// import { Spinner } from '../../shared/index';
-// import Minus from '../../../../public/assets/minus.svg';
-// import Plus from '../../../../public/assets/plus.svg';
-// import Location from '../../../../public/assets/location.svg';
+const KakaoMap = () => {
+  const [map, setMap] = useState(null); // map을 state로 변경
+  const [searchResults, setSearchResults] = useState([]); // 헬스장 검색 결과를 담을 state
+  const [searchKeyword, setSearchKeyword] = useState(""); // 사용자가 입력한 검색어를 담을 state
 
-declare global {
-  interface Window {
-    kakao: any;
-  }
-}
-const NEXT_PUBLIC_KAKAO_KEY = process.env.NEXT_PUBLIC_KAKAO_KEY;
-
-const MainMap = (): React.ReactElement | null => {
-  const [level, setLevel] = useState(8); //지도레벨
-  const [pos, setPos] = useState(); //경도 위도
-  const containerRef = useRef<HTMLDivElement>(null); // 지도 ref
-  //map불러오기
-  const initMap = useCallback(() => {
-    if (containerRef.current) {
-      const map = new kakao.maps.Map(containerRef.current, {
-        center: new kakao.maps.LatLng(37.5173319258532, 127.047377408384),
-        level: level,
+  useEffect(() => {
+    if (window.kakao) {
+      window.kakao.maps.load(() => {
+        // id가 'map'인 요소에 지도를 생성
+        const mapContainer = document.getElementById("map");
+        const mapOption = {
+          // 해당 좌표는 서울 시청을 중심으로 함
+          center: new window.kakao.maps.LatLng(37.566826, 126.9786567),
+          // 줌 레벨 3으로 설정
+          level: 3,
+        };
+        const newMap = new window.kakao.maps.Map(mapContainer, mapOption);
+        setMap(newMap); // map을 state에 저장
       });
     }
   }, []);
-  useEffect(() => {
-    if (window?.kakao) {
-      initMap();
-    }
-  }, [initMap]);
 
-  //나의 위치로 가게 해주는 함수
-  const setLocation = () => {
-    let container: any = document.getElementById("map");
+  // 2) 검색된 주소 위치 표시
+  const onClickAddr = () => {
+    // 3) 주소 검색
+    new window.daum.Postcode({
+      // 4) 검색된 주소 클릭 시 콜백 함수
+      oncomplete: function (addrData) {
+        var geocoder = new window.kakao.maps.services.Geocoder();
+        geocoder.addressSearch(addrData.address, function (result, status) {
+          if (status === window.kakao.maps.services.Status.OK) {
+            var currentPos = new window.kakao.maps.LatLng(
+              result[0].y,
+              result[0].x,
+            );
+            (document.getElementById("addr") as HTMLInputElement).value =
+              addrData.address;
+            if (map) {
+              map.panTo(currentPos); // map이 null이 아닌 경우에만 panTo 호출
+              // 결과값으로 받은 위치를 마커로 표시합니다
+              const marker = new window.kakao.maps.Marker({
+                position: currentPos,
+                map: map,
+              });
+            }
+          }
+        });
+      },
+    }).open();
+  };
 
-    let options = {
-      center: new kakao.maps.LatLng(37.5173319258532, 127.047377408384),
-      level: level,
-    };
-    let map = new kakao.maps.Map(container, options);
-
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(function (position) {
-        let lat = position.coords.latitude, // 위도
-          lon = position.coords.longitude; // 경도
-
-        let locPosition = new kakao.maps.LatLng(lat, lon);
-        map.setCenter(locPosition);
+  // 4) 헬스장 검색 및 표시
+  const searchGym = () => {
+    if (map && searchKeyword.trim() !== "") {
+      var ps = new window.kakao.maps.services.Places();
+      ps.keywordSearch(searchKeyword, function (data, status, pagination) {
+        if (status === window.kakao.maps.services.Status.OK) {
+          setSearchResults(data); // 검색 결과를 state에 저장
+        }
       });
     }
   };
-  //줌인
-  const zoomIn = () => {
-    if (level > 5) {
-      setLevel(level - 1);
-    }
 
-    let container: any = document.getElementById("map");
+  // 5) 헬스장 마커 표시 함수
+  const displayMarker = place => {
+    var marker = new window.kakao.maps.Marker({
+      map: map,
+      position: new window.kakao.maps.LatLng(place.y, place.x),
+    });
 
-    let options = {
-      center: new kakao.maps.LatLng(37.5173319258532, 127.047377408384),
-      level: level,
-    };
-    let map = new kakao.maps.Map(container, options);
+    // 마커에 클릭 이벤트를 등록
+    window.kakao.maps.event.addListener(marker, "click", function () {
+      // 마커를 클릭하면 장소명이 인포윈도우에 표출
+      var infowindow = new window.kakao.maps.InfoWindow({
+        content: place.place_name,
+      });
+      infowindow.open(map, marker);
+    });
   };
-  //줌아웃
-  const zoomOut = () => {
-    if (level < 10) {
-      setLevel(level + 1);
+
+  // 6) 선택한 헬스장 위치로 이동
+  const moveToSelectedGym = index => {
+    if (map && searchResults[index]) {
+      const selectedGym = searchResults[index];
+      const selectedPos = new window.kakao.maps.LatLng(
+        selectedGym.y,
+        selectedGym.x,
+      );
+      map.panTo(selectedPos); // 선택한 헬스장 위치로 이동
+      // 선택한 헬스장 위치에 마커 표시
+      const marker = new window.kakao.maps.Marker({
+        position: selectedPos,
+        map: map,
+      });
     }
-
-    let container: any = document.getElementById("map");
-
-    let options = {
-      center: new kakao.maps.LatLng(37.5173319258532, 127.047377408384),
-      level: level,
-    };
-    let map = new kakao.maps.Map(container, options);
   };
 
   return (
-    <React.Fragment>
-      <Script
-        src={`https://dapi.kakao.com/v2/maps/sdk.js?appkey=11d459617712987784be79ee1fe519de&autoload=false`}
-        onLoad={() => kakao.maps.load(initMap)}
-      />
-      <Head>
-        <link rel="preconnect" href="https://dapi.kakao.com" />
-        <link rel="dns-prefetch" href="https://dapi.kakao.com" />
-      </Head>
-      <MapWrap id="map" ref={containerRef}></MapWrap>
-      <MainContent>
-        {/* {is_loaded ? null : <span>열기</span>} */}
-        <Lev>
-          <Btn onClick={setLocation}>버튼</Btn>
-          <PlusBtn>
-            <button onClick={zoomIn}>버튼</button>
-            <button onClick={zoomOut}>버튼</button>
-          </PlusBtn>
-        </Lev>
-      </MainContent>
-    </React.Fragment>
+    <div>
+      <div onClick={onClickAddr}>
+        <input id="addr" readOnly />
+      </div>
+      <div>
+        <input
+          type="text"
+          placeholder="헬스장 이름을 입력하세요."
+          value={searchKeyword}
+          onChange={e => setSearchKeyword(e.target.value)}
+        />
+        <button onClick={searchGym}>헬스장 검색</button>
+      </div>
+      {/* 헬스장 검색 결과 리스트 표시 */}
+      <ul>
+        {searchResults.map((result, index) => (
+          <li key={index} onClick={() => moveToSelectedGym(index)}>
+            {result.place_name}
+          </li>
+        ))}
+      </ul>
+      <div id="map" style={{ width: "100%", height: "100vh" }}></div>
+    </div>
   );
 };
-const MapWrap = styled.div`
-  width: 100%;
-  height: 100vh;
-`;
-const MainContent = styled.div`
-  position: absolute;
-  width: 100%;
-  height: 90%;
-  top: 0;
-  left: 0;
-`;
 
-const Lev = styled.div`
-  width: 40px;
-  height: 125px;
-  position: absolute;
-  bottom: 5%;
-  left: 16px;
-  z-index: 2;
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-`;
-const Btn = styled.button`
-  width: 40px;
-  height: 40px;
-  background: #fff;
-  border: none;
-  border-radius: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.1);
-`;
-const PlusBtn = styled.div`
-  width: 40px;
-  height: 72px;
-  background: #fff;
-  border-radius: 8px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.1);
-  position: relative;
-  &::before {
-    content: "";
-    display: block;
-    width: 24px;
-    height: 1px;
-    background-color: gray;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 3;
-  }
-  & button {
-    background: none;
-    border-radius: 0px;
-    width: 30px;
-    height: 36px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-`;
-export default MainMap;
+export default KakaoMap;

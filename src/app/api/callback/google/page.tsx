@@ -1,60 +1,20 @@
 "use client";
-import styled from "styled-components";
-import Link from "next/link";
-import { useSession, signIn, signOut } from "next-auth/react";
 import React, { useEffect } from "react";
+import { useRouter, usePathname, useSearchParams } from "next/navigation";
+import Link from "next/link";
 import Script from "next/script";
 import { useDispatch } from "react-redux";
-import { useSearchParams } from "next/navigation";
 import { api } from "@/utils/axios";
+import { signupActions } from "@/redux/reducers/trainerSignupSlice";
+import { setCookie } from "@/utils/cookie";
 
-const ContentBody = styled.div`
-  height: 80rem;
-  padding: 15rem 1.6rem 3.2rem 1.6rem;
-  text-align: center;
-  margin: 0 auto;
-`;
-
-const KaKaoLoginButton = styled.button`
-  display: block;
-  width: 100%;
-  padding: 1.3rem 0;
-  margin-bottom: 0.6rem;
-  border-radius: 0.5rem;
-  border: none;
-  background-color: #fee500;
-  font-size: 1.1rem;
-  font-weight: bold;
-`;
-
-const GoogleLoginButton = styled.button`
-  display: block;
-  padding: 1.3rem 0;
-  width: 100%;
-  border: none;
-  border-radius: 0.5rem;
-  background-color: white;
-  color: black;
-  font-size: 1.1rem;
-  font-weight: bold;
-`;
-
-const AskIfMember = styled.div`
-  color: #acacac;
-  font-size: 0.8rem;
-`;
-
-const LinkToMember = styled(Link)`
-  color: #444444;
-  font-weight: bold;
-  font-size: 0.9rem;
-`;
-
-export default function Login() {
+export default function page() {
   const searchParams = useSearchParams();
-  const code = searchParams.get("code");
   const dispatch = useDispatch();
-  console.log("코드부분", code);
+  const router = useRouter();
+
+  const code = searchParams.get("code");
+  const role = window.sessionStorage.getItem("role");
 
   const handleGetAuthCode = async () => {
     try {
@@ -65,6 +25,21 @@ export default function Login() {
           role: "TRAINER",
         },
       );
+
+      if (response.data.accessToken) {
+        setCookie("access", response.data.accessToken);
+        router.replace("/trainer/main");
+      } else {
+        dispatch(
+          signupActions.saveSignupState({
+            email: response.data.email,
+            oauthProvider: response.data.oauthProvider,
+            role: response.data.role,
+          }),
+        );
+        router.replace("/trainer/signup/step1");
+      }
+
       console.log("response: ", response);
     } catch (error) {
       console.log("error: ", error);
@@ -75,5 +50,5 @@ export default function Login() {
     handleGetAuthCode();
   }, []);
 
-  return <div>구글보내주는 페이지</div>;
+  return <div>구글 보내주는 페이지</div>;
 }

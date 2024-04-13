@@ -2,8 +2,8 @@
 import { useState } from "react";
 import styled from "styled-components";
 import Link from "next/link";
-import { Button } from "@/styles/Button";
-import { ListButton } from "@/styles/Button";
+import { Button } from "@/styles/TrainerButton";
+import { ListButton } from "@/styles/TrainerButton";
 import Footer from "@/components/TrainerFooter";
 import { startOfWeek, addDays, format } from "date-fns";
 
@@ -59,7 +59,7 @@ const ManageTitle = styled.h4`
 `;
 
 const ManageTitlesubTxt = styled.span`
-  font-size: var(--font-m);
+  font-size: var(--font-s);
   color: var(--font-secondary);
 `;
 
@@ -114,7 +114,7 @@ export default function ManageMain() {
     <MainContainer>
       <MainHeader>회원 관리</MainHeader>
       <MainContentWrap>
-        <Link href="/trainer/management/member/regist">
+        <Link href="/trainer/membermanagement/member/regist">
           {" "}
           <Button variant="primary" height="3.5rem">
             신규 회원 등록하기
@@ -129,7 +129,7 @@ export default function ManageMain() {
             <ManageTitleDate>2023.11월</ManageTitleDate>
           </ManageTitleWrap>
 
-          <Link href="#!">
+          <Link href="/trainer/membermanagement/member">
             <ListButton>
               <CenterName>아자 아자 피트니스 센터</CenterName>
               <MemberNum>5명</MemberNum>

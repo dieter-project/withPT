@@ -11,6 +11,7 @@ import manageMember from "./../../public/Trainer/Footer/manageMember.png";
 import manageMemberLight from "./../../public/Trainer/Footer/manageMemberLight.png";
 import chatLight from "./../../public/Trainer/Footer/chatLight.png";
 import myPageLight from "./../../public/Trainer/Footer/myPageLight.png";
+import myPage from "./../../public/Trainer/Footer/myPage.png";
 
 const MainFooter = styled.footer`
   position: fixed;
@@ -58,18 +59,22 @@ const TrainerFooter = () => {
         <FooterImgSpan>홈</FooterImgSpan>
       </FooterCtgItem>
 
-      <FooterCtgItem href="/trainer/management/schedule">
+      <FooterCtgItem href="/trainer/coursemanagement">
         <Image
-          src={pathname === "/trainer/main" ? manageCourse : manageCourseLight}
+          src={
+            pathname === "/trainer/coursemanagement"
+              ? manageCourse
+              : manageCourseLight
+          }
           alt="수업관리 아이콘"
           style={{ display: "inline-block" }}
         />
         <FooterImgSpan>수업관리</FooterImgSpan>
       </FooterCtgItem>
-      <FooterCtgItem href="/trainer/management">
+      <FooterCtgItem href="/trainer/membermanagement">
         <Image
           src={
-            pathname === "/trainer/membermanagement"
+            pathname.includes("/trainer/membermanagement")
               ? manageMember
               : manageMemberLight
           }
@@ -90,7 +95,7 @@ const TrainerFooter = () => {
 
       <FooterCtgItem href="/trainer/mypage">
         <Image
-          src={myPageLight}
+          src={pathname === "/trainer/mypage" ? myPage : myPageLight}
           alt="마이페이지 아이콘"
           style={{ display: "inline-block" }}
         />

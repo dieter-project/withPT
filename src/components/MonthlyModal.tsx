@@ -1,10 +1,10 @@
-'use client'
+"use client";
 
-import React, { SetStateAction, useEffect, useState } from 'react'
-import Calendar from 'react-calendar'
-import { styled } from 'styled-components';
-import 'react-calendar/dist/Calendar.css';
-import { format } from 'date-fns';
+import React, { SetStateAction, useEffect, useState } from "react";
+import Calendar from "react-calendar";
+import { styled } from "styled-components";
+import "react-calendar/dist/Calendar.css";
+import { format } from "date-fns";
 
 type ValuePiece = Date | null;
 type Value = ValuePiece | [ValuePiece, ValuePiece];
@@ -18,7 +18,7 @@ const ModalContainer = styled.div`
   padding: 0 12px 12px;
   transition: bottom 0.3s ease-out;
   z-index: 150;
-  
+
   .overlay {
     background-color: rgba(0, 0, 0, 0.55);
     top: 0;
@@ -46,7 +46,7 @@ const ModalContainer = styled.div`
     border-radius: 0.5rem 0.5rem 0 0;
     z-index: 10;
   }
-  
+
   .modal.show {
     bottom: 0;
     transition: bottom 0.3s ease-out;
@@ -83,8 +83,7 @@ const ModalContainer = styled.div`
       padding: 0.25rem;
     }
   }
-`
-
+`;
 
 interface ModalProps {
   displayModal: boolean;
@@ -94,24 +93,24 @@ interface ModalProps {
   setActiveDate: React.Dispatch<React.SetStateAction<Value>>;
 }
 
-export const MonthlyModal = ({ 
-  displayModal, 
-  setDisplayModal, 
-  slideUpModal, 
+export const MonthlyModal = ({
+  displayModal,
+  setDisplayModal,
+  slideUpModal,
   setSlideUpModal,
-  setActiveDate
+  setActiveDate,
 }: ModalProps) => {
   const [value, onChange] = useState<Value>(new Date());
-  
+
   useEffect(() => {
     // console.log('value: ', value?.toString());
-    setActiveDate(value)
-  }, [value])
+    setActiveDate(value);
+  }, [value]);
 
   const handleOnClose = () => {
-    setDisplayModal(false)
-    setSlideUpModal(false)
-  }
+    setDisplayModal(false);
+    setSlideUpModal(false);
+  };
 
   useEffect(() => {
     if (displayModal) {
@@ -125,12 +124,10 @@ export const MonthlyModal = ({
 
   return (
     <ModalContainer>
-      <div 
-        className={`modal`} 
-        style={{ bottom: slideUpModal ? "0" : "-100%" }}>
-        <Calendar 
-          calendarType="gregory" 
-          formatDay={(locale, date) => format(date, 'd')}
+      <div className={`modal`} style={{ bottom: slideUpModal ? "0" : "-100%" }}>
+        <Calendar
+          calendarType="gregory"
+          formatDay={(locale, date) => format(date, "d")}
           next2Label={null}
           prev2Label={null}
           showNeighboringMonth={false}
@@ -143,5 +140,5 @@ export const MonthlyModal = ({
         onClick={handleOnClose}
       ></div>
     </ModalContainer>
-  )
-}
+  );
+};

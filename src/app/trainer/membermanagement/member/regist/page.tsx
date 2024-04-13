@@ -3,6 +3,11 @@ import { useState } from "react";
 import styled from "styled-components";
 import Link from "next/link";
 import { startOfWeek, addDays, format } from "date-fns";
+import Image from "next/image";
+import arrowRightIcon from "../../../../../../public/Trainer/icons/arrowRightGray.png";
+import ContentHeader from "@/components/TrainerPageTitle";
+import { ListButton } from "@/styles/TrainerButton";
+import Footer from "@/components/TrainerFooter";
 
 const MainContainer = styled.div`
   background-color: #ffffff;
@@ -53,6 +58,18 @@ const CenterName = styled.span`
   font-weight: 600;
 `;
 
+const MemberNum = styled.span`
+  font-weight: 400;
+  position: absolute;
+  right: 3%;
+`;
+
+const ArrowRightIcon = styled(Image)`
+  position: absolute;
+  top: 26%;
+  right: 2%;
+`;
+
 const MainFooter = styled.footer`
   position: fixed;
   display: flex;
@@ -80,62 +97,46 @@ const FooterImgSpan = styled.span`
 `;
 
 export default function MemberRegist() {
+  const title = "신규회원 등록";
   return (
     <MainContainer>
-      <MainHeader>
-        <div style={{ display: "flex", justifyContent: "space-between" }}>
-          <img
-            style={{ display: "inline-block" }}
-            src="/beforePage.jpg"
-            alt="이전 페이지 이미지"
-            width="25"
-            height="25"
-          />
-          <ManageTitle>신규회원 등록</ManageTitle>
-          <div></div>
-        </div>
-      </MainHeader>
+      <ContentHeader title={title}></ContentHeader>
       <ManageContentWrap>
         <ManageMemberWrap>
           <ManageTitleWrap>
             <ManageTitle>센터 목록</ManageTitle>
           </ManageTitleWrap>
 
-          <CenterNameItem href="#!">
-            <CenterName>아자 아자 피트니스 센터</CenterName>
-            <span>이</span>
-          </CenterNameItem>
-          <CenterNameItem href="#!">
-            <CenterName>으라차차 피트니스 센터</CenterName>
-            <span>미</span>
-          </CenterNameItem>
-          <CenterNameItem href="#!">
-            <CenterName>득근득근 피트니스 센터</CenterName>
-            <span>지</span>
-          </CenterNameItem>
+          <Link href="/trainer/membermanagement/member/regist/search">
+            <ListButton>
+              <CenterName>아자 아자 피트니스 센터</CenterName>
+              <ArrowRightIcon
+                src={arrowRightIcon}
+                alt="회원 등록 페이지 아이콘"
+              />
+            </ListButton>
+          </Link>
+          <Link href="/trainer/membermanagement/member">
+            <ListButton>
+              <CenterName>아자 아자 피트니스 센터</CenterName>
+              <ArrowRightIcon
+                src={arrowRightIcon}
+                alt="회원 등록 페이지 아이콘"
+              />
+            </ListButton>
+          </Link>
+          <Link href="/trainer/membermanagement/member">
+            <ListButton>
+              <CenterName>아자 아자 피트니스 센터</CenterName>
+              <ArrowRightIcon
+                src={arrowRightIcon}
+                alt="회원 등록 페이지 아이콘"
+              />
+            </ListButton>
+          </Link>
         </ManageMemberWrap>
       </ManageContentWrap>
-      <MainFooter>
-        <FooterCtgItem>
-          <FooterItemImg src="#!"></FooterItemImg>
-          <FooterImgSpan>홈</FooterImgSpan>
-        </FooterCtgItem>
-
-        <FooterCtgItem>
-          <FooterItemImg src="#!"></FooterItemImg>
-          <FooterImgSpan>수업관리</FooterImgSpan>
-        </FooterCtgItem>
-
-        <FooterCtgItem>
-          <FooterItemImg src="#!"></FooterItemImg>
-          <FooterImgSpan>채팅</FooterImgSpan>
-        </FooterCtgItem>
-
-        <FooterCtgItem>
-          <FooterItemImg src="#!"></FooterItemImg>
-          <FooterImgSpan>마이페이지</FooterImgSpan>
-        </FooterCtgItem>
-      </MainFooter>
+      <Footer />
     </MainContainer>
   );
 }
