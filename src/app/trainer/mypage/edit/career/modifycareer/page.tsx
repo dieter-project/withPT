@@ -146,6 +146,7 @@ const SignupFormWrap = styled.div`
 `;
 
 const RegisterItemWrap = styled.div`
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -170,6 +171,7 @@ export default function ModifyCareer() {
           <RegisterAllWrap>
             <RegisterItemWrap>
               <RegisterContentTitle>센터</RegisterContentTitle>
+
               <NoIconInput
                 name="name"
                 type="text"

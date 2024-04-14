@@ -52,7 +52,7 @@ const TrainerFooter = () => {
         onClick={() => setActivePage("/trainer/main")}
       >
         <Image
-          src={pathname === "/trainer/main" ? home : homeLight}
+          src={pathname.includes("/trainer/main") ? home : homeLight}
           alt="홈 아이콘"
           style={{ display: "inline-block" }}
         />
@@ -62,7 +62,7 @@ const TrainerFooter = () => {
       <FooterCtgItem href="/trainer/coursemanagement">
         <Image
           src={
-            pathname === "/trainer/coursemanagement"
+            pathname.includes("/trainer/coursemanagement")
               ? manageCourse
               : manageCourseLight
           }
@@ -95,7 +95,7 @@ const TrainerFooter = () => {
 
       <FooterCtgItem href="/trainer/mypage">
         <Image
-          src={pathname === "/trainer/mypage" ? myPage : myPageLight}
+          src={pathname.includes("/trainer/mypage") ? myPage : myPageLight}
           alt="마이페이지 아이콘"
           style={{ display: "inline-block" }}
         />

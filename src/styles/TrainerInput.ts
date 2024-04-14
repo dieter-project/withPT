@@ -1,7 +1,6 @@
 import { styled } from "styled-components";
 
 export const NoIconInput = styled.input`
-  position: relative;
   width: 100%;
   height: 3rem;
   border: none;
@@ -12,7 +11,8 @@ export const NoIconInput = styled.input`
 
 export const DeleteInputXbutton = styled.button`
   position: absolute;
-  right: 2rem;
+  top: 0.7rem;
+  right: 0.8rem;
   width: 1.5rem;
   height: 1.5rem;
   background: url(/Trainer/icons/deleteIconGrayBg.png) no-repeat center;
