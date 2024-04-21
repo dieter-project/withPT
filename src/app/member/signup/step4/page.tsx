@@ -15,14 +15,13 @@ import { api } from "@/utils/axios";
 import { memberActions } from "@/redux/reducers/memberSlice";
 import { RadioButton, RecommendBadge } from "./styles";
 import { exerciseFrequency } from "@/constants/signup";
-import { useCookies } from "react-cookie";
+import { setCookie } from "@/utils/cookie";
 
 const page = () => {
   const title = "목표 설정";
   const router = useRouter();
   const dispatch = useDispatch();
   const states = useAppSelector(state => state.signup);
-  const [coockies, setCookie] = useCookies(["access", "refreshToken"])
 
   const [inputData, setInputData] = useState({
     exerciseFrequency: "",
@@ -72,8 +71,8 @@ const page = () => {
           accessToken: response.data.data.accessToken
         }))
         // const now = Date.now()
-        setCookie("access", response.data.data.accessToken)
-        setCookie("refreshToken", response.data.data.refreshToken)
+        setCookie("access", response.data.data.accessToken, { path: "/" })
+        setCookie("refreshToken", response.data.data.refreshToken, { path: "/" })
 
         router.replace('/member/signup/finished')
       } else {

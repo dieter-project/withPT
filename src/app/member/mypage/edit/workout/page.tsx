@@ -13,14 +13,13 @@ import { useDispatch } from 'react-redux'
 import { api } from '@/utils/axios'
 import { exerciseFrequency } from '@/constants/signup'
 import { RadioButton, RecommendBadge } from '@/app/member/signup/step4/styles'
-import { useCookies } from 'react-cookie'
+import { setCookie } from '@/utils/cookie'
 
 const page = () => {
   const title = '목표 설정'
   const router = useRouter()
   const dispatch = useDispatch()
   const states = useAppSelector((state) => state.signup)
-  const [coockies, setCookie] = useCookies(["access", "refreshToken"])
 
   const [inputData, setInputData] = useState({
     exerciseFrequency: ""
@@ -62,8 +61,8 @@ const page = () => {
         // dispatch(memberActions.getToken(response.data.data.accessToken))
 
         // const now = Date.now()
-        setCookie("access", response.data.data.accessToken)
-        setCookie("refreshToken", response.data.data.refreshToken)
+        setCookie("access", response.data.data.accessToken, { path: "/" })
+        setCookie("refreshToken", response.data.data.refreshToken, { path: "/" })
 
         router.replace('/member/signup/finished')
       }

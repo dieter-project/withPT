@@ -4,14 +4,12 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useDispatch } from 'react-redux';
 import { api } from '@/utils/axios';
 import { signupActions } from '@/redux/reducers/signupSlice';
-import { useCookies } from 'react-cookie';
+import { setCookie } from '@/utils/cookie';
 
 export default function page () {
   const searchParams = useSearchParams();
   const dispatch = useDispatch();
   const router = useRouter();
-  const [coockies, setCookie] = useCookies(["access"])
-
   const code = searchParams.get('code');
   const sessionRole = window.sessionStorage.getItem('role');
   const localRole = window.localStorage.getItem('role');
@@ -26,7 +24,7 @@ export default function page () {
       // console.log('response: ', data);
       
       if (data.accessToken) {
-        setCookie('access', data.accessToken)
+        setCookie('access', data.accessToken, { path: "/" })
         router.replace('/member/main')
       } else {
         dispatch(signupActions.saveSignupState({
