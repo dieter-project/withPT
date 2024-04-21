@@ -2,7 +2,6 @@
 
 import React, { useEffect, useState } from 'react'
 import PageTitle from '@/components/PageTitle'
-import JoinStep from '@/components/SignUpStep'
 import { useAppSelector } from '@/redux/hooks'
 import { signupActions } from '@/redux/reducers/signupSlice'
 import { Button } from '@/styles/Button'
@@ -13,26 +12,28 @@ import { useRouter } from 'next/navigation'
 import { useDispatch } from 'react-redux'
 import { api } from '@/utils/axios'
 import { exerciseFrequency } from '@/constants/signup'
-import { setCookie } from '@/utils/cookie'
 import { RadioButton, RecommendBadge } from '@/app/member/signup/step4/styles'
+import { cookies } from 'next/headers'
+import { useCookies } from 'react-cookie'
 
 const page = () => {
   const title = '목표 설정'
   const router = useRouter()
   const dispatch = useDispatch()
   const states = useAppSelector((state) => state.signup)
+  const [coockies, setCookie] = useCookies(["access", "refreshToken"])
 
   const [inputData, setInputData] = useState({
     exerciseFrequency: ""
   })
-  
+
   const handleOnChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setInputData({
-      ...inputData, 
+      ...inputData,
       exerciseFrequency: event.target.value
     })
   }
-  
+
   useEffect(() => {
     dispatch(signupActions.saveSignupState({
       exerciseFrequency: inputData.exerciseFrequency,
@@ -42,14 +43,14 @@ const page = () => {
     }))
     console.log('states: ', states);
   }, [inputData.exerciseFrequency])
-  
+
   const handleSubmit = async () => {
     console.log('states: ', states);
     dispatch(signupActions.saveSignupState({
       exerciseFrequency: inputData.exerciseFrequency,
     }))
 
-    if (inputData.exerciseFrequency.length <= 0 ) {
+    if (inputData.exerciseFrequency.length <= 0) {
       alert('체크 plz')
       return false;
     }
@@ -58,14 +59,14 @@ const page = () => {
       const response = await api.post('/api/v1/members/sign-up', states)
       console.log('data: ', response.data);
 
-      if(response.data) {
+      if (response.data) {
         // dispatch(memberActions.getToken(response.data.data.accessToken))
-        
+
         // const now = Date.now()
-        setCookie('access', response.data.data.accessToken)
-        setCookie('refreshToken', response.data.data.refreshToken)
-        
-        router.replace('/member/signup/finished') 
+        setCookie("access", response.data.data.accessToken)
+        setCookie("refreshToken", response.data.data.refreshToken)
+
+        router.replace('/member/signup/finished')
       }
 
     } catch (error) {
@@ -82,42 +83,42 @@ const page = () => {
   }, [])
 
   return (
-  <>
-    <PageTitle title={title}/>
-    <BaseContentWrap>
-      <div>
-        <SignUpTitleWrap>
-          <SignUpTitleText>운동 목표를 수정해주세요.</SignUpTitleText>
-          <SignUpSubtext>운동을 주 몇 회를 생각하시나요?</SignUpSubtext>
-        </SignUpTitleWrap>
-        <RadioButton>
-          {
-            exerciseFrequency?.map((time, index) => {
-              return (
-                <label>
-                  <input 
-                    key={index}
-                    type="radio" 
-                    name="workout" 
-                    value={time.value} 
-                    onChange={handleOnChange}
-                  />
-                  <span>{time.title}</span>
-                  {index === 2 && <RecommendBadge>추천 목표</RecommendBadge>}
-                </label>
-              )
-            })
-          }
-        </RadioButton>
-      </div>
-      <ButtonAreaFixed $nav={false}>
-        <Button 
-          variant='primary' 
-          onClick={handleSubmit}
-        >저장하기</Button>
-      </ButtonAreaFixed>
-    </BaseContentWrap>
-  </>
+    <>
+      <PageTitle title={title} />
+      <BaseContentWrap>
+        <div>
+          <SignUpTitleWrap>
+            <SignUpTitleText>운동 목표를 수정해주세요.</SignUpTitleText>
+            <SignUpSubtext>운동을 주 몇 회를 생각하시나요?</SignUpSubtext>
+          </SignUpTitleWrap>
+          <RadioButton>
+            {
+              exerciseFrequency?.map((time, index) => {
+                return (
+                  <label>
+                    <input
+                      key={index}
+                      type="radio"
+                      name="workout"
+                      value={time.value}
+                      onChange={handleOnChange}
+                    />
+                    <span>{time.title}</span>
+                    {index === 2 && <RecommendBadge>추천 목표</RecommendBadge>}
+                  </label>
+                )
+              })
+            }
+          </RadioButton>
+        </div>
+        <ButtonAreaFixed $nav={false}>
+          <Button
+            variant='primary'
+            onClick={handleSubmit}
+          >저장하기</Button>
+        </ButtonAreaFixed>
+      </BaseContentWrap>
+    </>
   )
 }
 

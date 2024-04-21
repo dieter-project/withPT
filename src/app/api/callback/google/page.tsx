@@ -1,17 +1,16 @@
 "use client";
 import React, { useEffect } from "react";
-import { useRouter, usePathname, useSearchParams } from "next/navigation";
-import Link from "next/link";
-import Script from "next/script";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useDispatch } from "react-redux";
 import { api } from "@/utils/axios";
 import { signupActions } from "@/redux/reducers/trainerSignupSlice";
-import { setCookie } from "@/utils/cookie";
+import { useCookies } from "react-cookie";
 
 export default function page() {
   const searchParams = useSearchParams();
   const dispatch = useDispatch();
   const router = useRouter();
+  const [coockies, setCookie] = useCookies(["access"])
 
   const code = searchParams.get("code");
   const role = window.sessionStorage.getItem("role");

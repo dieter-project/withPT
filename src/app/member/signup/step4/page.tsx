@@ -15,13 +15,14 @@ import { api } from "@/utils/axios";
 import { memberActions } from "@/redux/reducers/memberSlice";
 import { RadioButton, RecommendBadge } from "./styles";
 import { exerciseFrequency } from "@/constants/signup";
-import { setCookie } from "@/utils/cookie";
+import { useCookies } from "react-cookie";
 
 const page = () => {
   const title = "목표 설정";
   const router = useRouter();
   const dispatch = useDispatch();
   const states = useAppSelector(state => state.signup);
+  const [coockies, setCookie] = useCookies(["access", "refreshToken"])
 
   const [inputData, setInputData] = useState({
     exerciseFrequency: "",
@@ -62,7 +63,7 @@ const page = () => {
     try {
       const response = await api.post('/api/v1/members/sign-up', states)
 
-      if(response.data.data.accessToken) {
+      if (response.data.data.accessToken) {
         // dispatch(memberActions.getToken(response.data.data.accessToken))
         dispatch(memberActions.isLogin({
           name: response.data.data.name,
@@ -71,10 +72,10 @@ const page = () => {
           accessToken: response.data.data.accessToken
         }))
         // const now = Date.now()
-        setCookie('access', response.data.data.accessToken)
-        setCookie('refreshToken', response.data.data.refreshToken)
-        
-        router.replace('/member/signup/finished') 
+        setCookie("access", response.data.data.accessToken)
+        setCookie("refreshToken", response.data.data.refreshToken)
+
+        router.replace('/member/signup/finished')
       } else {
         //alert
       }
@@ -104,10 +105,10 @@ const page = () => {
             {exerciseFrequency?.map((time, index) => {
               return (
                 <label key={index}>
-                  <input 
-                    type="radio" 
-                    name="workout" 
-                    value={time.value} 
+                  <input
+                    type="radio"
+                    name="workout"
+                    value={time.value}
                     onChange={handleOnChange}
                   />
                   <span>{time.title}</span>
@@ -115,17 +116,17 @@ const page = () => {
                 </label>
               )
             })
-          }
-        </RadioButton>
-      </div>
-      <ButtonAreaFixed $nav={false}>
-        <Button 
-          variant='primary' 
-          onClick={handleSubmit}
-        >저장하기</Button>
-      </ButtonAreaFixed>
-    </BaseContentWrap>
-  </>
+            }
+          </RadioButton>
+        </div>
+        <ButtonAreaFixed $nav={false}>
+          <Button
+            variant='primary'
+            onClick={handleSubmit}
+          >저장하기</Button>
+        </ButtonAreaFixed>
+      </BaseContentWrap>
+    </>
   )
 }
 
