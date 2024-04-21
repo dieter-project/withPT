@@ -177,7 +177,7 @@ const page = () => {
           </InputRowWrap>
         </FormWrap>
         <ButtonAreaFixed $nav>
-          <Button variant='primary' onClick={handleAddRecord}>추가하기</Button>
+          <Button $variant='primary' onClick={handleAddRecord}>추가하기</Button>
         </ButtonAreaFixed>
       </BaseContentWrap>
     </>

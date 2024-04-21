@@ -85,7 +85,7 @@ export const TrainerRequestModal = ({
             </div>
           </RequestPopupBody>
           <RequestPopupBottom>
-            <Button variant='primary'>변경 수락하기</Button>
+            <Button $variant='primary'>변경 수락하기</Button>
             <div>요청 철회하기</div>
           </RequestPopupBottom>
         </ModalContentWrap>

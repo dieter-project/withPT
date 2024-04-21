@@ -105,7 +105,7 @@ const page = () => {
     <>
       <PageTitle title={title} />
       <BaseContentWrap>
-        <BookmarkButton variant="outline">북마크에서 가져오기</BookmarkButton>
+        <BookmarkButton $variant="outline">북마크에서 가져오기</BookmarkButton>
         <FormWrap>
           <LabelTitle>운동명</LabelTitle>
           <Input
@@ -219,7 +219,7 @@ const page = () => {
           </ToggleButton>
         </BookmarkSaveToggle>
         <ButtonAreaFixed $nav>
-          <Button variant='primary' onClick={handleAddRecord}>추가하기</Button>
+          <Button $variant='primary' onClick={handleAddRecord}>추가하기</Button>
         </ButtonAreaFixed>
       </BaseContentWrap>
     </>

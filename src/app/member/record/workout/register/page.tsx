@@ -210,7 +210,7 @@ const page = () => {
           }
         </ContentSection>
         <ButtonWrap>
-          <Button variant='primary' onClick={handleSubmit}>기록완료</Button>
+          <Button $variant='primary' onClick={handleSubmit}>기록완료</Button>
         </ButtonWrap>
       </BaseContentWrap>
     </>

@@ -91,7 +91,7 @@ const page = () => {
           <SignUpSubtext>함께 목표를 향해 열심히 노력해보아요 :)</SignUpSubtext>
         </div>
         <ButtonAreaFixed $nav>
-          <Button variant='primary' onClick={handleStart}>위피티 시작하기</Button>
+          <Button $variant='primary' onClick={handleStart}>위피티 시작하기</Button>
         </ButtonAreaFixed>
       </FinishedPageWrap>
     </>

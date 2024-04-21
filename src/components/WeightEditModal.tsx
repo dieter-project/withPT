@@ -212,7 +212,7 @@ export const WeightEditModal = ({
                 </Select>
               </DateWrap>
             </InputRowWrap>
-            <Button variant='primary' onClick={handleSubmit}>저장하기</Button>
+            <Button $variant='primary' onClick={handleSubmit}>저장하기</Button>
           </WeightForm>
         </div>
       </div>

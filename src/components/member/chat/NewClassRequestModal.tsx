@@ -89,7 +89,7 @@ export const NewClassRequestModal = ({
                 </div>
               </div>
             </div>
-            <Button variant='primary'>수업 요청하기</Button>
+            <Button $variant='primary'>수업 요청하기</Button>
           </ModalContents>
         </div>
       </div>

@@ -13,7 +13,6 @@ import { useDispatch } from 'react-redux'
 import { api } from '@/utils/axios'
 import { exerciseFrequency } from '@/constants/signup'
 import { RadioButton, RecommendBadge } from '@/app/member/signup/step4/styles'
-import { cookies } from 'next/headers'
 import { useCookies } from 'react-cookie'
 
 const page = () => {
@@ -113,7 +112,7 @@ const page = () => {
         </div>
         <ButtonAreaFixed $nav={false}>
           <Button
-            variant='primary'
+            $variant='primary'
             onClick={handleSubmit}
           >저장하기</Button>
         </ButtonAreaFixed>

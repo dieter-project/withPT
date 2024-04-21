@@ -184,7 +184,7 @@ export default function Home() {
       { isActive.member === true || isActive.trainer === true 
         ? <ButtonAreaFixed $nav>
             <Button
-              variant='primary' 
+              $variant='primary' 
               onClick={handleOnNext}
             >다음</Button>
           </ButtonAreaFixed>
