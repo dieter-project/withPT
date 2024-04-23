@@ -2,66 +2,17 @@
 
 import PageTitle from '@/components/PageTitle'
 import { Button } from '@/styles/Button'
-import { BaseContentWrap, ButtonAreaFixed } from '@/styles/Layout'
+import { ButtonAreaFixed } from '@/styles/Layout'
 import { SignUpSubtext, SignUpTitleText } from '@/styles/Text'
 import { useRouter } from 'next/navigation'
 import React from 'react'
-import { keyframes, styled } from 'styled-components'
-
-const FinishedPageWrap = styled(BaseContentWrap)`
-  width: 100%;
-  height: calc(100vh - 11.25rem);
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-`;
-
-const draw = keyframes`
-  to {
-    stroke-dashoffset: 0
-  }
-`
-
-const CheckAnimation = styled.div`
-  height: 2rem;
-  width: 2rem;
-  border-radius: 50%;
-  background-color: var(--primary);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  svg {
-    height: 1.25rem;
-    width: 1.25rem;
-
-    path {
-      fill: none;
-      stroke: var(--white);
-      stroke-width: 4;
-      stroke-dasharray: 23;
-      stroke-dashoffset: 23;
-      animation: ${draw} 0.5s linear forwards;
-      stroke-linecap: round;
-      stroke-linejoin: round
-    }
-  }
-`
-
-const CheckWrap = styled.div`
-  width: 100%;
-  margin: 3rem auto 1rem;
-  display: flex;
-  justify-content: center;
-`
-
+import { CheckAnimation, CheckWrap, FinishedPageWrap } from './styles';
 
 const page = () => {
   const title = '가입 완료'
   const router = useRouter()
   const role = window.sessionStorage.getItem('role')
-  console.log('role: ', role);
-
+  
   const handleStart = () => {
     if (role === 'MEMBER') {
       window.localStorage.setItem('role', 'MEMBER')
