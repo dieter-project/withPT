@@ -34,7 +34,7 @@ import createWebStorage from "redux-persist/es/storage/createWebStorage";
 const persistConfig = {
   key: "root",
   storage,
-  whitelist: ["signup", "workoutRecord", "trainersignup"], //적용할 리듀서
+  whitelist: ["signup", "workoutRecord"], //적용할 리듀서
   timeout: 1000,
 };
 

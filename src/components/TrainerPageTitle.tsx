@@ -2,12 +2,8 @@ import { useRouter } from "next/navigation";
 import React from "react";
 import { styled } from "styled-components";
 import beforePage from "../../public/icons/beforePage.png";
+import plusGray from "../../public/Trainer/icons/plusGray.png";
 import Image from "next/image";
-
-interface Props {
-  title: string;
-  variant?: "iconBack" | "center";
-}
 
 const ContentHeader = styled.div<{ variant?: Props["variant"] }>`
   background-color: white;
@@ -39,20 +35,36 @@ const Transparent = styled.div`
   color: transparent;
 `;
 
+const PlusButton = styled.button`
+  font-size: var(--font-xl);
+`;
+
+interface Props {
+  title: string;
+  variant?: "iconBack" | "center" | "plus";
+  onPlusClick?: () => void; // plus 버튼 클릭 시 실행될 함수 추가
+}
+
 const PageTitle: React.FC<Props> = ({
   title,
-  variant = "iconBack" || "center",
+  variant = "iconBack" || "center" || "plus",
+  onPlusClick,
 }) => {
   const router = useRouter();
   return (
     <ContentHeader variant={variant}>
-      {variant === "iconBack" && (
+      {(variant === "iconBack" || variant === "plus") && (
         <ButtonHistoryBack onClick={() => router.back()}>
           <Image src={beforePage} alt="이전 페이지 이미지" />
         </ButtonHistoryBack>
       )}
       <SignupTitle>{title}</SignupTitle>
       {variant === "iconBack" && <Transparent>투명</Transparent>}
+      {variant === "plus" && (
+        <PlusButton onClick={onPlusClick}>
+          <Image src={plusGray} alt="추가하는 뜻의 +버튼" />
+        </PlusButton>
+      )}
     </ContentHeader>
   );
 };

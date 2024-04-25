@@ -8,7 +8,7 @@ import Link from "next/link";
 import { Container } from "@/styles/TrainerLayout";
 import ContentHeader from "@/components/TrainerPageTitle";
 import { Button } from "@/styles/TrainerButton";
-import { Input2 } from "@/styles/TrainerInput";
+import { NoIconInput } from "@/styles/TrainerInput";
 import { useDispatch } from "react-redux";
 import { signupActions } from "@/redux/reducers/trainerSignupSlice";
 import { useAppSelector } from "@/redux/hooks";
@@ -246,19 +246,19 @@ export default function step1() {
             <SignupFormWrap>
               <FormTitle>이름</FormTitle>
               <TrRegisItemWrap>
-                <Input2
+                <NoIconInput
                   name="name"
                   type="text"
                   required
                   value={inputData.name}
                   onChange={handleInputChange}
-                ></Input2>
+                ></NoIconInput>
               </TrRegisItemWrap>
             </SignupFormWrap>
             <SignupFormWrap>
               <FormTitle>생년월일</FormTitle>
               <TrRegisItemWrap>
-                <Input2
+                <NoIconInput
                   type="text"
                   name="year"
                   value={
@@ -271,9 +271,9 @@ export default function step1() {
                   ref={element => (inputRef.current[1] = element)}
                   style={{ textAlign: "center" }}
                   required
-                ></Input2>
+                ></NoIconInput>
                 <Slash>/</Slash>
-                <Input2
+                <NoIconInput
                   type="text"
                   name="month"
                   maxLength={2}
@@ -287,9 +287,9 @@ export default function step1() {
                   inputMode="decimal"
                   style={{ textAlign: "center" }}
                   required
-                ></Input2>
+                ></NoIconInput>
                 <Slash>/</Slash>
-                <Input2
+                <NoIconInput
                   type="text"
                   name="date"
                   maxLength={2}
@@ -303,7 +303,7 @@ export default function step1() {
                   inputMode="decimal"
                   style={{ textAlign: "center" }}
                   required
-                ></Input2>
+                ></NoIconInput>
               </TrRegisItemWrap>
             </SignupFormWrap>
             <SignupFormWrap>

@@ -1,5 +1,6 @@
 "use client";
 import styled from "styled-components";
+import Footer from "@/components/TrainerFooter";
 
 const MainContainer = styled.div`
   background-color: #efefef;
@@ -31,50 +32,6 @@ const TrainerMainWrap = styled.div`
   background-color: #ffffff;
   padding: 1rem;
   margin-top: 0.3rem;
-`;
-
-const TrainerScheduleContentWrap = styled.div``;
-
-const TrainerScheduleTap = styled.div`
-  display: flex;
-  justify-content: space-around;
-  font-size: 1rem;
-`;
-
-const CheckAllScheduleBtn = styled.button`
-  width: 100%;
-  background-color: var(--primary);
-  color: var(--white);
-  border: none;
-  border-radius: 0.5rem;
-  padding: 0.7rem;
-  margin-top: 1rem;
-`;
-
-const MainFooter = styled.footer`
-  position: fixed;
-  display: flex;
-  width: 100%;
-  left: 0;
-  bottom: 0;
-  height: 3rem;
-  padding: 0 1rem;
-  align-items: center;
-  background-color: #ffffff;
-  justify-content: space-between;
-  z-index: 100;
-`;
-
-const FooterCtgItem = styled.button`
-  all: unset;
-  text-align: center;
-  width: 100%;
-`;
-
-const FooterItemImg = styled.img``;
-
-const FooterImgSpan = styled.span`
-  display: block;
 `;
 
 export default function Main() {
@@ -116,27 +73,7 @@ export default function Main() {
         </TrainerMainWrap>
         <MainTitle>회원 통계</MainTitle>
       </MainContentWrap>
-      <MainFooter>
-        <FooterCtgItem>
-          <FooterItemImg src="#!"></FooterItemImg>
-          <FooterImgSpan>홈</FooterImgSpan>
-        </FooterCtgItem>
-
-        <FooterCtgItem>
-          <FooterItemImg src="#!"></FooterItemImg>
-          <FooterImgSpan>수업관리</FooterImgSpan>
-        </FooterCtgItem>
-
-        <FooterCtgItem>
-          <FooterItemImg src="#!"></FooterItemImg>
-          <FooterImgSpan>채팅</FooterImgSpan>
-        </FooterCtgItem>
-
-        <FooterCtgItem>
-          <FooterItemImg src="#!"></FooterItemImg>
-          <FooterImgSpan>마이페이지</FooterImgSpan>
-        </FooterCtgItem>
-      </MainFooter>
+      <Footer />
     </MainContainer>
   );
 }

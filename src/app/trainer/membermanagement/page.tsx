@@ -114,7 +114,7 @@ export default function ManageMain() {
     <MainContainer>
       <MainHeader>회원 관리</MainHeader>
       <MainContentWrap>
-        <Link href="/trainer/membermanagement/member/regist">
+        <Link href="/trainer/membermanagement/member/register">
           {" "}
           <Button variant="primary" height="3.5rem">
             신규 회원 등록하기
