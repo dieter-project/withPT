@@ -172,3 +172,19 @@ export const MoveButton = styled.button`
   font-size: var(--font-s);
   font-weight: var(--font-semibold);
 `
+
+export const EmptyTodayMeal = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2.5rem 0;
+
+  > div {
+    color: var(--font-secondary);
+    &:first-of-type {
+      font-weight: var(--font-semibold);
+      margin: 0.25rem;
+    }
+  }
+
+`
