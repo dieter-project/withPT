@@ -23,10 +23,10 @@ const trainerSlice = createSlice({
   initialState,
   reducers: {
     isLogin(state, action) {
-      state.id = action.payload.id;
-      state.name = action.payload.name;
-      state.email = action.payload.email;
-      console.log("login state: ", current(state));
+      return {
+        ...state,
+        ...action.payload,
+      };
     },
     getToken(state, action: PayloadAction<string>) {
       state.accessToken = action.payload;

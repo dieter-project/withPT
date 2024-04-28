@@ -5,6 +5,7 @@ import {
   configureStore,
 } from "@reduxjs/toolkit";
 import member from "./reducers/memberSlice";
+import trainer from "./reducers/trainerSlice";
 import trainerSignup from "./reducers/trainerSignupSlice";
 import signup from "./reducers/signupSlice";
 import workoutRecord from "./reducers/workoutRecordSlice";
@@ -34,14 +35,16 @@ import createWebStorage from "redux-persist/es/storage/createWebStorage";
 const persistConfig = {
   key: "root",
   storage,
-  whitelist: ["signup", "workoutRecord"], //적용할 리듀서
+  // whitelist: ["signup", "workoutRecord"],
+  whitelist: ["trainer", "trainerSignup"],
   timeout: 1000,
 };
 
 const rootReducer = combineReducers({
-  member,
-  signup,
-  workoutRecord,
+  // member,
+  // signup,
+  // workoutRecord,
+  trainer,
   trainerSignup,
 });
 
