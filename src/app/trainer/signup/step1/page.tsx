@@ -24,7 +24,6 @@ import {
   SignupInputInnerContainer,
 } from "@/styles/SignupForm";
 import { TrGenderLabel, TrGenderRadio, Slash } from "./style";
-import { styled } from "styled-components";
 
 interface Trbirth {
   year: string;
@@ -43,6 +42,7 @@ export default function step1() {
   const states = useAppSelector(state => state.trainerSignup);
   const router = useRouter();
   const title = "회원가입";
+
   const [inputData, setInputData] = useState<TrInfo>({
     name: "",
     birth: {
@@ -54,10 +54,9 @@ export default function step1() {
   });
 
   const nameRef = useRef<null | HTMLInputElement>(null);
-  const birthRef = useRef<null[] | HTMLInputElement[]>([]);
+  const birthRef = useRef<(null | HTMLInputElement)[]>([]);
   const sexRef = useRef<null | HTMLInputElement>(null);
-
-  const inputRef = useRef<null[] | HTMLInputElement[]>([]);
+  const inputRef = useRef<(null | HTMLInputElement)[]>([]);
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
     if (name === "year" || name === "month" || name === "date") {
@@ -145,8 +144,6 @@ export default function step1() {
     console.log("states: ", states);
   };
 
-  useEffect(() => {}, []);
-
   return (
     <Container>
       <ContentHeader title={title}></ContentHeader>
@@ -186,7 +183,9 @@ export default function step1() {
                 }
                 maxLength={4}
                 onChange={handleInputChange}
-                ref={element => (birthRef.current[0] = element)}
+                ref={(element: HTMLInputElement | null) =>
+                  (birthRef.current[0] = element)
+                }
                 inputMode="decimal"
               ></NoIconInput>
               <Slash>/</Slash>
@@ -200,7 +199,9 @@ export default function step1() {
                     : ""
                 }
                 onChange={handleInputChange}
-                ref={element => (birthRef.current[1] = element)}
+                ref={(element: HTMLInputElement | null) =>
+                  (birthRef.current[1] = element)
+                }
                 inputMode="decimal"
                 //  required
               ></NoIconInput>
@@ -215,7 +216,9 @@ export default function step1() {
                     : ""
                 }
                 onChange={handleInputChange}
-                ref={element => (inputRef.current[3] = element)}
+                ref={(element: HTMLInputElement | null) =>
+                  (inputRef.current[3] = element)
+                }
                 inputMode="decimal"
                 style={{ textAlign: "center" }}
                 required
@@ -225,15 +228,7 @@ export default function step1() {
           <SignUpInputContainer>
             <FormTitle>성별</FormTitle>
             <SignupInputInnerContainer>
-              <TrGenderLabel
-                style={
-                  {
-                    // border:
-                    //   sexRef === "MAN" ? "1.5px solid var(--primary)" : "none",
-                    // color: sexRef === "MAN" ? "var(--primary)" : "black",
-                  }
-                }
-              >
+              <TrGenderLabel>
                 <TrGenderRadio
                   id="sex"
                   type="radio"
@@ -244,18 +239,7 @@ export default function step1() {
                 ></TrGenderRadio>
                 남자
               </TrGenderLabel>
-              <TrGenderLabel
-                // name="sex"
-                // htmlFor="radio-box1"
-                // selected="WOMAN"
-                style={
-                  {
-                    // border:
-                    //   sexRef === "WOMAN" ? "1.5px solid var(--primary)" : "none",
-                    // color: sexRef === "WOMAN" ? "var(--primary)" : "black",
-                  }
-                }
-              >
+              <TrGenderLabel>
                 <TrGenderRadio
                   id="sex"
                   type="radio"

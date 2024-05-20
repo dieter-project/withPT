@@ -1,18 +1,18 @@
 "use client";
 
-import PageTitle from '@/components/PageTitle'
-import JoinStep from '@/components/SignUpStep'
-import { useRouter } from 'next/navigation'
-import React, { MutableRefObject, useEffect, useRef, useState } from 'react'
-import { LabelTitle, SignUpTitleText, SignUpSubtext } from '@/styles/Text'
-import { Input, InputRowWrap, InputWrap } from '@/styles/Input'
-import { Button } from '@/styles/Button'
-import { useDispatch } from 'react-redux'
-import { signupActions } from '@/redux/reducers/signupSlice'
-import { BaseContentWrap, ButtonAreaFixed } from '@/styles/Layout'
-import { SignUpInputContainer, SignUpTitleWrap } from '@/styles/SignupForm'
-import { useAppSelector } from '@/redux/hooks'
-import { RadioButton } from './styles'
+import PageTitle from "@/components/PageTitle";
+import JoinStep from "@/components/SignUpStep";
+import { useRouter } from "next/navigation";
+import React, { MutableRefObject, useEffect, useRef, useState } from "react";
+import { LabelTitle, SignUpTitleText, SignUpSubtext } from "@/styles/Text";
+import { Input, InputRowWrap, InputWrap } from "@/styles/Input";
+import { Button } from "@/styles/Button";
+import { useDispatch } from "react-redux";
+import { signupActions } from "@/redux/reducers/signupSlice";
+import { BaseContentWrap, ButtonAreaFixed } from "@/styles/Layout";
+import { SignUpInputContainer, SignUpTitleWrap } from "@/styles/SignupForm";
+import { useAppSelector } from "@/redux/hooks";
+import { RadioButton } from "./styles";
 interface Ibirth {
   year: string;
   month: string;
@@ -41,12 +41,12 @@ const page = () => {
   });
   const title = "회원가입";
 
-  const router = useRouter()
-  const nameRef = useRef<null | HTMLInputElement>(null)
-  const birthRef = useRef<null[] | HTMLInputElement[]>([])
-  const sexRef = useRef<null | HTMLInputElement>(null)
-  const heightRef = useRef<null | HTMLInputElement>(null)
-  const weightRef = useRef<null | HTMLInputElement>(null)
+  const router = useRouter();
+  const nameRef = useRef<null | HTMLInputElement>(null);
+  const birthRef = useRef<null[] | HTMLInputElement[]>([]);
+  const sexRef = useRef<null | HTMLInputElement>(null);
+  const heightRef = useRef<null | HTMLInputElement>(null);
+  const weightRef = useRef<null | HTMLInputElement>(null);
 
   const dispatch = useDispatch();
   const states = useAppSelector(state => state.signup);
@@ -85,36 +85,51 @@ const page = () => {
   };
 
   const handleNext = () => {
-    
-    const birthJoin = typeof inputData.birth !== 'string' 
-      ? `${inputData.birth.year}-${inputData.birth.month.padStart(2, '0')}-${inputData.birth.date.padStart(2, '0')}`
-      : ''
-    
-    if (inputData.name.length <= 0 && nameRef.current !== null) { 
+    const birthJoin =
+      typeof inputData.birth !== "string"
+        ? `${inputData.birth.year}-${inputData.birth.month.padStart(
+            2,
+            "0",
+          )}-${inputData.birth.date.padStart(2, "0")}`
+        : "";
+
+    if (inputData.name.length <= 0 && nameRef.current !== null) {
       nameRef.current.focus();
       return false;
     }
-    if (typeof inputData.birth !== 'string' && inputData.birth.year.length <= 0 && birthRef.current[0] !== null) { 
+    if (
+      typeof inputData.birth !== "string" &&
+      inputData.birth.year.length <= 0 &&
+      birthRef.current[0] !== null
+    ) {
       birthRef.current[0].focus();
       return false;
     }
-    if (typeof inputData.birth !== 'string' && inputData.birth.month.length <= 0 && birthRef.current[1] !== null) { 
+    if (
+      typeof inputData.birth !== "string" &&
+      inputData.birth.month.length <= 0 &&
+      birthRef.current[1] !== null
+    ) {
       birthRef.current[1].focus();
       return false;
     }
-    if (typeof inputData.birth !== 'string' && inputData.birth.date.length <= 0 && birthRef.current[2] !== null) { 
+    if (
+      typeof inputData.birth !== "string" &&
+      inputData.birth.date.length <= 0 &&
+      birthRef.current[2] !== null
+    ) {
       birthRef.current[2].focus();
       return false;
     }
-    if (inputData.sex.length <= 0 && sexRef.current !== null) { 
+    if (inputData.sex.length <= 0 && sexRef.current !== null) {
       sexRef.current.focus();
       return false;
     }
-    if (inputData.height.length <= 0 && heightRef.current !== null) { 
+    if (inputData.height.length <= 0 && heightRef.current !== null) {
       heightRef.current.focus();
       return false;
     }
-    if (inputData.weight.length <= 0 && weightRef.current !== null) { 
+    if (inputData.weight.length <= 0 && weightRef.current !== null) {
       weightRef.current.focus();
       return false;
     }
@@ -135,7 +150,7 @@ const page = () => {
 
   useEffect(() => {
     // dispatch(signupActions.signupStateReset())
-  }, [])
+  }, []);
 
   return (
     <>
@@ -171,10 +186,11 @@ const page = () => {
                   }
                   maxLength={4}
                   onChange={handleInputChange}
-                  ref={(element) => birthRef.current[0] = element}
-                  inputMode='decimal'
-                  />/
-                <Input 
+                  ref={element => (birthRef.current[0] = element)}
+                  inputMode="decimal"
+                />
+                /
+                <Input
                   type="text"
                   name="month"
                   maxLength={2}
@@ -184,11 +200,12 @@ const page = () => {
                       : ""
                   }
                   onChange={handleInputChange}
-                  ref={(element) => birthRef.current[1] = element}
-                  inputMode='decimal'
-                />/
-                <Input 
-                  type="text" 
+                  ref={element => (birthRef.current[1] = element)}
+                  inputMode="decimal"
+                />
+                /
+                <Input
+                  type="text"
                   name="date"
                   maxLength={2}
                   value={
@@ -197,8 +214,8 @@ const page = () => {
                       : ""
                   }
                   onChange={handleInputChange}
-                  ref={(element) => birthRef.current[2] = element}
-                  inputMode='decimal'
+                  ref={element => (birthRef.current[2] = element)}
+                  inputMode="decimal"
                 />
               </InputRowWrap>
             </SignUpInputContainer>
@@ -211,7 +228,7 @@ const page = () => {
                     name="sex"
                     value="MAN"
                     onChange={handleInputChange}
-                    ref={sexRef}  
+                    ref={sexRef}
                   />
                   <span>남성</span>
                 </label>
@@ -237,7 +254,7 @@ const page = () => {
                     name="height"
                     onChange={handleHeightWeightChange}
                     ref={heightRef}
-                    inputMode='decimal'
+                    inputMode="decimal"
                   />
                   <span>cm</span>
                 </InputWrap>
@@ -249,7 +266,7 @@ const page = () => {
                     name="weight"
                     onChange={handleHeightWeightChange}
                     ref={weightRef}
-                    inputMode='decimal'
+                    inputMode="decimal"
                   />
                   <span>kg</span>
                 </InputWrap>
@@ -258,10 +275,9 @@ const page = () => {
           </div>
         </div>
         <ButtonAreaFixed $nav={false}>
-          <Button 
-            variant='primary' 
-            onClick={handleNext}
-          >다음</Button>
+          <Button variant="primary" onClick={handleNext}>
+            다음
+          </Button>
         </ButtonAreaFixed>
       </BaseContentWrap>
     </>

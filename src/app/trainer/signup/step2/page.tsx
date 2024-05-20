@@ -1,10 +1,24 @@
 "use client";
-import { useRouter } from "next/navigation";
+
 import { useState, useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
 import Image from "next/image";
 import styled from "styled-components";
-import Link from "next/link";
-import { Container } from "@/styles/TrainerLayout";
+import {
+  Container,
+  ContentBody,
+  ButtonAreaFixed,
+} from "@/styles/TrainerLayout";
+import {
+  FormTitle,
+  SignUpInputContainer,
+  SignUpTitleWrap,
+  SignupStepInfo,
+  SignupStepInfoSub,
+  SignupInputInnerContainer,
+} from "@/styles/SignupForm";
 import ContentHeader from "@/components/TrainerPageTitle";
 import {
   SearchBarWrap,
@@ -20,50 +34,21 @@ import {
   ModalBody,
   ModalContent,
 } from "@/styles/TrainerModal";
-
 import JoinStep from "@/components/Trainer/TrSignUpStep";
 import searchIcon from "../../../../../public/Trainer/icons/searchLightGray.png";
 import registerIcon from "../../../../../public/Trainer/plusCircleIcon.png";
 import ModalCloseXButtonImg from "../../../../../public/Trainer/Modal/close-line.png";
 import deleteIcon from "../../../../../public/Trainer/icons/deleteIconGray.png";
 import { Button } from "@/styles/TrainerButton";
-import axios from "axios";
-import { useDispatch } from "react-redux";
 import { signupActions } from "@/redux/reducers/trainerSignupSlice";
 import { useAppSelector } from "@/redux/hooks";
+import Storelist from "./storelist/page";
 
 interface TrInfo {
   // name: string;
   // birth: Trbirth | string;
   // sex: string;
 }
-
-const ContentBody = styled.div`
-  padding: 6.8rem 1.25rem 3.2rem 1.25rem;
-`;
-
-const ContentInnerBody = styled.div``;
-
-const SignupStepInfo = styled.p`
-  font-size: var(--font-xxxl);
-  font-weight: 600;
-  color: #222;
-`;
-
-const SignupStepInfoSub = styled.p`
-  font-size: var(--font-m);
-  color: var(--black);
-`;
-
-const ButtonAreaFixed = styled.div`
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  z-index: 100;
-  width: 100%;
-  padding: 2.4rem 1.6rem 1.6rem;
-  background-color: transparent;
-`;
 
 const ModalMessage = styled.div`
   margin-top: 2rem;
@@ -191,35 +176,35 @@ export default function step2() {
     <Container>
       <ContentHeader title={title}></ContentHeader>
       <ContentBody>
-        <ContentInnerBody>
-          <JoinStep active={"2"} />
-          <div style={{ marginBottom: "1.5rem" }}>
-            <SignupStepInfo>센터 정보를 등록해주세요.</SignupStepInfo>
+        <JoinStep active={"2"} />
+        <div>
+          <SignUpTitleWrap>
+            <SignupStepInfo>안녕하세요 회원님!</SignupStepInfo>
             <SignupStepInfoSub>
-              재직 중인 센터를 등록해 주세요.
+              아래 정보가 맞는지 확인해주세요.
             </SignupStepInfoSub>
-          </div>
-          <RegisterCenterButton onClick={toggleModal}>
-            <RegisterIcon
-              src={registerIcon}
-              alt="센터 등록하기 아이콘"
-              width="30"
-              height="30"
-            />
-            <div>등록할 센터를 검색해 주세요.</div>
-          </RegisterCenterButton>
-          <ul>
-            <CenterSearchList>
-              <div>아자아자 피트니스 센터</div>
-            </CenterSearchList>
-          </ul>
-          <CenterRegisterButton onClick={toggleModal}>+</CenterRegisterButton>
-          <ButtonAreaFixed>
-            <Link href="/trainer/signup/step3">
-              <Button variant="primary">다음</Button>
-            </Link>
-          </ButtonAreaFixed>
-        </ContentInnerBody>
+          </SignUpTitleWrap>
+        </div>
+        <RegisterCenterButton onClick={toggleModal}>
+          <RegisterIcon
+            src={registerIcon}
+            alt="센터 등록하기 아이콘"
+            width="30"
+            height="30"
+          />
+          <div>등록할 센터를 검색해 주세요.</div>
+        </RegisterCenterButton>
+        <ul>
+          <CenterSearchList>
+            <div>아자아자 피트니스 센터</div>
+          </CenterSearchList>
+        </ul>
+        <CenterRegisterButton onClick={toggleModal}>+</CenterRegisterButton>
+        <ButtonAreaFixed>
+          <Link href="/trainer/signup/step3">
+            <Button variant="primary">다음</Button>
+          </Link>
+        </ButtonAreaFixed>
       </ContentBody>
       {isModalOpen && (
         <Modal>
@@ -232,6 +217,18 @@ export default function step2() {
             />
             <ModalBody>
               <ModalContent>
+                <SearchBarWrap>
+                  <SearchIcon
+                    src={searchIcon}
+                    alt="검색 회색 돋보기 아이콘"
+                  ></SearchIcon>
+                  <SearchBarInput
+                    type="text"
+                    name="센터 검색바"
+                    placeholder="검색"
+                  ></SearchBarInput>
+                </SearchBarWrap>
+                {/* <ModalContent>
                 <SearchBarWrap>
                   <SearchIcon
                     src={searchIcon}
@@ -258,9 +255,11 @@ export default function step2() {
                       ></DeleteIcon>
                     </RecentSearchList>
                   ))}
-                </ul>
+                </ul> */}
                 {/* <ModalMessage>최근 검색한 기록이 없습니다.</ModalMessage> */}
+                {/* </ModalContent> */}
               </ModalContent>
+              <Storelist />
             </ModalBody>
           </ModalWrap>
           <ModalDimmed></ModalDimmed>
