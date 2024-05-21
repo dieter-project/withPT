@@ -57,8 +57,15 @@ export default function step1() {
   const birthRef = useRef<(null | HTMLInputElement)[]>([]);
   const sexRef = useRef<null | HTMLInputElement>(null);
   const inputRef = useRef<(null | HTMLInputElement)[]>([]);
+
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
+    if (name === "name" || name === "sex") {
+      setInputData(prevState => ({
+        ...prevState,
+        [name]: value,
+      }));
+    }
     if (name === "year" || name === "month" || name === "date") {
       setInputData(prevState => ({
         ...prevState,
@@ -68,20 +75,33 @@ export default function step1() {
                 ...prevState.birth,
                 [name]: value.replace(/[^0-9.]/g, ""),
               }
-            : "",
+            : { year: "", month: "", date: "" },
       }));
-    } else if (name === "sex") {
-      setInputData({
-        ...inputData,
-        [name]: value,
-      });
-    } else {
-      setInputData({
-        ...inputData,
-        [name]: value,
-      });
     }
   };
+
+  const [isDisabled, setIsDisabled] = useState(true);
+
+  //조건에 따라 버튼 비활성화 시키기
+  useEffect(() => {
+    const isAnyFieldEmpty = () => {
+      if (
+        inputData.name.length === 0 ||
+        (typeof inputData.birth !== "string" &&
+          (inputData.birth.year.length === 0 ||
+            inputData.birth.month.length === 0 ||
+            inputData.birth.date.length === 0)) ||
+        inputData.sex.length === 0
+      ) {
+        setIsDisabled(true);
+      } else {
+        setIsDisabled(false);
+      }
+    };
+    isAnyFieldEmpty();
+  }, [inputData]);
+
+  console.log("inputData", inputData.sex.length);
 
   const handleNext = () => {
     const birthJoin =
@@ -97,6 +117,7 @@ export default function step1() {
       inputRef.current[0] !== null &&
       inputRef.current[0] !== undefined
     ) {
+      //해당 필드가 누락되었을 때 포커스 이동으로 사용자에게 정보 입력 안내하기
       inputRef.current[0].focus();
       return false;
     }
@@ -132,16 +153,14 @@ export default function step1() {
 
     dispatch(
       signupActions.saveSignupState({
-        //이름 공백 제거
         name: inputData.name.trim(),
         birth: birthJoin,
         sex: inputData.sex,
       }),
     );
-    // sessionStorage.setItem('member_login_step1', JSON.stringify(inputData))
-    console.log("inputData", inputData);
+    // console.log("inputData", inputData);
     // router.push(`/trainer/signup/step2`);
-    console.log("states: ", states);
+    // console.log("states: ", states);
   };
 
   return (
@@ -255,7 +274,11 @@ export default function step1() {
         </div>
         <ButtonAreaFixed>
           <Link href="/trainer/signup/step2">
-            <Button variant="primary" onClick={handleNext}>
+            <Button
+              variant={isDisabled ? "ghost" : "primary"}
+              onClick={handleNext}
+              disabled={isDisabled}
+            >
               다음
             </Button>
           </Link>
