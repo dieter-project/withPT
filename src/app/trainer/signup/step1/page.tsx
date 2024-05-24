@@ -160,7 +160,7 @@ export default function step1() {
     );
     // console.log("inputData", inputData);
     // router.push(`/trainer/signup/step2`);
-    // console.log("states: ", states);
+    console.log("states: ", states);
   };
 
   return (

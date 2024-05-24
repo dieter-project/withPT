@@ -14,6 +14,7 @@ import foodFeedbackImg from "../../../../public/Trainer/Main/foodFeedback.png";
 import changeClassImg from "../../../../public/Trainer/Main/changeClass.png";
 import newClassImg from "../../../../public/Trainer/Main/newClass.png";
 import wePTLogo from "../../../../public/Trainer/wePTLogo.png";
+import { api } from "@/utils/axios";
 
 const MainContainer = styled.div`
   background-color: var(--purple50);
@@ -220,6 +221,24 @@ export default function Main() {
       },
     ],
   };
+
+  const getResponseTest = async () => {
+    try {
+      const response = await api.get("/api/v1/trainers/3/educations/");
+      const responseStatus = response.data.status;
+      const responseData = response.data;
+      console.log("통신 결과", responseData);
+      if (responseStatus === "success") {
+        console.log(responseData);
+      }
+    } catch (error) {
+      console.log("error fetching", error);
+    }
+  };
+
+  useEffect(() => {
+    getResponseTest();
+  }, []);
 
   return (
     <MainContainer>

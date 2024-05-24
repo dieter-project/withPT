@@ -1,19 +1,52 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Map, MapMarker } from "react-kakao-maps-sdk";
 import { styled } from "styled-components";
 
 // window.kakao 객체를 가져옴
-const { kakao } = window;
+declare global {
+  interface Window {
+    kakao: any;
+  }
+}
 
-const KakaoMap = ({ searchKeywords, coords }) => {
+interface Coordinates {
+  lat: number;
+  lon: number;
+}
+
+interface Marker {
+  position: {
+    lat: number;
+    lng: number;
+  };
+  content: string;
+  phone: string;
+  roadAddress: string;
+}
+
+const MapSection = styled.section`
+  width: 100%;
+  height: 100vh;
+`;
+
+const KakaoMap: React.FC<{
+  searchKeywords: string | null;
+  coords: Coordinates;
+  markers: Marker[];
+  setExample: any;
+  setMarkers: React.Dispatch<React.SetStateAction<Marker[]>>;
+}> = ({ searchKeywords, coords, markers, setMarkers, setExample }) => {
   console.log("cords", coords);
-  const [info, setInfo] = useState();
-  const [markers, setMarkers] = useState([]);
-  const [map, setMap] = useState();
+  const [info, setInfo] = useState<Marker | null>(null);
+  const [map, setMap] = useState<any>();
   const [keyword, setKeyword] = useState("");
+  const [selectedHealthCenter, setSelectedHealthCenter] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [isLoading, setIsLoading] = useState(false);
+  const observerRef = useRef<HTMLDivElement | null>(null);
 
+  const itemsPerPage = 5; // 페이지당 표시할 항목 수
   console.log("searchKeywords", searchKeywords);
-
   console.log("info", info);
 
   useEffect(() => {
@@ -22,7 +55,6 @@ const KakaoMap = ({ searchKeywords, coords }) => {
 
     // 장소 검색 서비스 객체 생성
     const ps = new window.kakao.maps.services.Places();
-
     // 입력한 키워드로 검색
     // - keyword: 검색할 키워드
     // - callback: 검색 결과를 받을 콜백함수
@@ -38,9 +70,12 @@ const KakaoMap = ({ searchKeywords, coords }) => {
               lng: data[i].x,
             },
             content: data[i].place_name,
+            phone: data[i].phone,
+            roadAddress: data[i].road_address_name,
           });
           bounds.extend(new window.kakao.maps.LatLng(data[i].y, data[i].x));
           setMarkers(addMarkers);
+          // setExample(addMarkers);
 
           // 검색된 장소 위치를 기준으로 지도 범위를 재설정
           map.setBounds(bounds);
@@ -48,9 +83,12 @@ const KakaoMap = ({ searchKeywords, coords }) => {
       }
     });
   }, [map, searchKeywords]);
-  // JSX로 지도와 마커를 렌더링
 
-  console.log("markers", markers);
+  const handleMarkerClick = markerInfo => {
+    setInfo(markerInfo);
+  };
+
+  // console.log("markers", markers);
   return (
     <>
       <MapSection>
@@ -63,33 +101,34 @@ const KakaoMap = ({ searchKeywords, coords }) => {
           }}
           style={{
             width: "100%",
-            height: "94%",
+            height: "100%",
           }}
           level={3}
           onCreate={setMap}
         >
-          {markers.map(marker => (
-            <MapMarker
-              key={`marker-${marker.content}-${marker.position.lat},${marker.position.lng}`}
-              // 표시 위치
-              position={marker.position}
-              onClick={() => setInfo(marker)}
-            >
-              {info && info.content === marker.content && (
-                <div style={{ color: "#000" }}>{marker.content}</div>
-              )}
-            </MapMarker>
-          ))}
+          {markers &&
+            markers.map((marker, index) => (
+              <MapMarker
+                key={`marker-${marker.content}-${index}-${marker.position.lat},${marker.position.lng}`}
+                position={marker.position}
+                onClick={() => setInfo(marker)}
+              >
+                {info && info.content === marker.content && (
+                  <div style={{ color: "#000" }}>
+                    <div>{marker.content}</div>
+                  </div>
+                )}
+              </MapMarker>
+            ))}
         </Map>
       </MapSection>
-      <div> {markers.map(marker => marker.content)}</div>
+
+      <div
+        ref={observerRef}
+        style={{ height: "20px", backgroundColor: "transparent" }}
+      ></div>
     </>
   );
 };
 
 export default KakaoMap;
-
-const MapSection = styled.section`
-  width: 100%;
-  height: 70vh;
-`;
