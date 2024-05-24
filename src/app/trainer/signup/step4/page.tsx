@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 import Image from "next/image";
 import styled from "styled-components";
 import Link from "next/link";
+import { useAppSelector } from "@/redux/hooks";
 import ModalCloseXButtonImg from "../../../../../public/Trainer/Modal/close-line.png";
 import beforePage from "../../../../../public/icons/beforePage.png";
 import searchIconImg from "../../../../../public/searchLight.png";
@@ -315,7 +316,7 @@ const SearchIcon = styled(Image)`
 
 export default function step4() {
   const title = "이력 등록";
-
+  const saveStates = useAppSelector(state => state.trainerSignup);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [showModalContent, setShowModalContent] = useState(false);
   const [selectedDays, setSelectedDays] = useState<string[]>([]);
@@ -332,6 +333,10 @@ export default function step4() {
   const [allSchedules, setAllSchedules] = useState<
     Array<{ days: string[]; startTime: string; endTime: string }>
   >([]);
+
+  useEffect(() => {
+    console.log("saveStates", saveStates);
+  }, []);
 
   const handleAddSchedule = () => {
     // 날짜와 시간이 겹치는지 확인

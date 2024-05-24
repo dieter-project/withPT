@@ -2,18 +2,8 @@ import { PayloadAction, createSlice, current } from "@reduxjs/toolkit";
 
 interface WorkSchedules {
   day: string;
-  inTime: {
-    hour: number;
-    minute: number;
-    second: number;
-    nano: number;
-  };
-  outTime: {
-    hour: number;
-    minute: number;
-    second: number;
-    nano: number;
-  };
+  inTime: string;
+  outTime: string;
 }
 
 interface Gyms {

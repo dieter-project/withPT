@@ -158,8 +158,7 @@ export default function step1() {
         sex: inputData.sex,
       }),
     );
-    // console.log("inputData", inputData);
-    // router.push(`/trainer/signup/step2`);
+
     console.log("states: ", states);
   };
 

@@ -1,99 +1,33 @@
 "use client";
 import ContentHeader from "@/components/TrainerPageTitle";
 import { useState, useEffect } from "react";
+import { useDispatch } from "react-redux";
 import Image from "next/image";
 import styled from "styled-components";
 import Link from "next/link";
+import {
+  Container,
+  ContentBody,
+  ButtonAreaFixed,
+} from "@/styles/TrainerLayout";
 import JoinStep from "@/components/Trainer/TrSignUpStep";
-import beforePage from "../../../../../public/icons/beforePage.png";
-import searchIcon from "../../../../../public/searchLight.png";
-import deleteIcon from "../../../../../public/Trainer/delete.png";
 import checkIconPurple from "../../../../../public/Trainer/checkIconPurple.png";
 import checkIconGray from "../../../../../public/Trainer/checkIconGray.png";
 import ModalCloseXButtonImg from "../../../../../public/Trainer/Modal/close-line.png";
-import { arrayBuffer } from "stream/consumers";
-
-const Wrap = styled.div`
-  position: relative;
-  background-color: white;
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  width: 100%;
-  height: auto;
-`;
-
-const ButtonHistoryBack = styled.button`
-  width: 2.4rem;
-  height: 2.4rem;
-`;
-
-const SignupTitle = styled.h4`
-  line-height: 3rem;
-  color: #222;
-  font-size: 1.6rem;
-  font-weight: 700;
-  letter-spacing: -0;
-`;
-
-const ContentBody = styled.div`
-  padding: 6.8rem 1.25rem 3.2rem 1.25rem;
-`;
-
-const ContentInnerBody = styled.div``;
-
-const SignupStepInfo = styled.p`
-  font-size: var(--font-xl);
-  font-weight: 600;
-  color: #222;
-`;
-
-const SignupStepInfoSub = styled.p`
-  font-size: var(--font-m);
-  color: var(--font-gray700);
-`;
+import { useAppSelector } from "@/redux/hooks";
+import {
+  FormTitle,
+  SignUpInputContainer,
+  SignUpTitleWrap,
+  SignupStepInfo,
+  SignupStepInfoSub,
+  SignupInputInnerContainer,
+} from "@/styles/SignupForm";
+import { Button } from "@/styles/TrainerButton";
+import { signupActions } from "@/redux/reducers/trainerSignupSlice";
 
 const SignupFormWrap = styled.div`
   margin-bottom: 1rem;
-`;
-
-const FormTitle = styled.h4`
-  font-size: var(--font-l);
-  margin-bottom: 0.2rem;
-`;
-
-const SignupOrderWrap = styled.div`
-  font-size: var(--font-xxxs);
-  display: flex;
-  align-items: center;
-  margin-bottom: 1.5rem;
-`;
-const SignupOrderCurrent = styled.span`
-  width: 1.5rem;
-  height: 1.5rem;
-  background-color: var(--primary);
-  color: var(--white);
-  margin-bottom: 0.2rem;
-  margin-right: 0.62rem;
-  padding: 0.25rem;
-  border-radius: 0.5rem;
-  font-size: var(--font-xs);
-  font-weight: bold;
-  text-align: center;
-`;
-
-const SignupOrder = styled.span`
-  width: 1.5rem;
-  height: 1.5rem;
-  background-color: var(--purple100);
-  color: var(--purple200);
-  margin-bottom: 0.2rem;
-  margin-right: 0.62rem;
-  padding: 0.25rem;
-  border-radius: 0.5rem;
-  font-size: var(--font-xs);
-  font-weight: bold;
-  text-align: center;
 `;
 
 const TrRegisItemWrap = styled.div`
@@ -117,16 +51,6 @@ const SignupButton = styled.button`
 const RegistScheTxt = styled.span`
   width: 100%;
   color: var(--font-gray400);
-`;
-
-const ButtonAreaFixed = styled.div`
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  padding: 2.4rem 1.6rem 1.6rem;
-  width: 100%;
-  z-index: 100;
-  background-color: transparent;
 `;
 
 const NextStep = styled(Link)`
@@ -363,7 +287,8 @@ const OverLapClose = styled.button`
 
 export default function step3() {
   const title = "센터일정 등록";
-
+  const dispatch = useDispatch();
+  const saveStates = useAppSelector(state => state.trainerSignup);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [showModalContent, setShowModalContent] = useState(false);
   const [selectedDays, setSelectedDays] = useState<string[]>([]);
@@ -372,50 +297,14 @@ export default function step3() {
   const [selectedSchedules, setSelectedSchedules] = useState<
     Array<{ days: string[]; startTime: string; endTime: string }>
   >([]);
-
-  // console.log(selectedSchedules);
-
+  const [recordGyms, setRecordGyms] = useState(null);
+  const [isDisabled, setIsDisabled] = useState(true);
   //error message
   const [overlapError, setOverlapError] = useState<boolean>(false);
 
   const [allSchedules, setAllSchedules] = useState<
     Array<{ days: string[]; startTime: string; endTime: string }>
   >([]);
-
-  const handleAddSchedule = () => {
-    // 날짜와 시간이 겹치는지 확인
-    const isOverlap = selectedSchedules.some(schedule => {
-      const selectedStart = new Date(`2023-01-01 ${selectedStartTime}`);
-      const selectedEnd = new Date(`2023-01-01 ${selectedEndTime}`);
-      const existingStart = new Date(`2023-01-01 ${schedule.startTime}`);
-      const existingEnd = new Date(`2023-01-01 ${schedule.endTime}`);
-
-      const isDayOverlap = selectedDays.some(day =>
-        schedule.days.includes(day),
-      );
-
-      const isTimeOverlap =
-        (selectedStart >= existingStart && selectedStart < existingEnd) ||
-        (selectedEnd > existingStart && selectedEnd <= existingEnd) ||
-        (selectedStart <= existingStart && selectedEnd >= existingEnd);
-
-      return isDayOverlap && isTimeOverlap;
-    });
-
-    if (isOverlap) {
-      setOverlapError(true);
-    } else {
-      setOverlapError(null);
-
-      // 선택한 일정 정보를 저장
-      const schedule = {
-        days: selectedDays,
-        startTime: selectedStartTime,
-        endTime: selectedEndTime,
-      };
-      setSelectedSchedules([...selectedSchedules, schedule]);
-    }
-  };
 
   const handleConfirm = () => {
     // 최종 확인 시에는 모든 일정들과 비교하여 겹치는지 확인
@@ -508,6 +397,22 @@ export default function step3() {
     setIsModalOpen(false);
   };
 
+  //조건에 따라 버튼 비활성화 시키기
+  useEffect(() => {
+    const isAnyFieldEmpty = () => {
+      if (selectedSchedules[0]?.days?.length > 0) {
+        setIsDisabled(false);
+      } else {
+        setIsDisabled(true);
+      }
+    };
+    isAnyFieldEmpty();
+  }, [selectedSchedules]);
+
+  // && selectedSchedules[0].days?.length > 0
+
+  console.log("selectedSchedules", selectedSchedules[0]?.days?.length);
+
   useEffect(() => {
     if (!showModalContent) {
       setTimeout(() => {
@@ -524,29 +429,78 @@ export default function step3() {
     setSelectedSchedules(newSelectedSchedules);
   };
 
-  return (
-    <Wrap>
-      {/* <ContentHeader>
-        <ButtonHistoryBack type="button">
-          <Image src={beforePage} alt="이전 페이지 이미지" />
-        </ButtonHistoryBack>
-        <SignupTitle>회원가입</SignupTitle>
-      </ContentHeader> */}
-      <ContentHeader title={title}></ContentHeader>
+  useEffect(() => {
+    setRecordGyms(saveStates.gyms);
+  }, []);
 
+  const changeDayFormatEnglish = day => {
+    if (day === "월") {
+      return "MON";
+    } else if (day === "화") {
+      return "TUE";
+    } else if (day === "수") {
+      return "WED";
+    } else if (day === "목") {
+      return "THU";
+    } else if (day === "금") {
+      return "FRI";
+    } else if (day === "토") {
+      return "SAT";
+    } else if (day === "일") {
+      return "SUN";
+    }
+  };
+
+  const gyms = saveStates.gyms || [];
+
+  const updatedGyms = {
+    ...saveStates.gyms[0],
+    workSchedules: [
+      {
+        day: changeDayFormatEnglish(selectedSchedules[0]?.days[0]),
+        inTime: selectedSchedules[0]?.startTime,
+        outTime: selectedSchedules[0]?.endTime,
+      },
+    ],
+  };
+
+  const handleNext = () => {
+    dispatch(
+      signupActions.saveSignupState({
+        gyms: updatedGyms,
+      }),
+    );
+    console.log("states: ", saveStates);
+  };
+
+  // console.log("saveStates", recordGyms);
+  console.log(
+    "요일변환",
+    selectedSchedules[0]?.days[0],
+    selectedSchedules[0]?.startTime,
+    selectedSchedules
+      ? changeDayFormatEnglish(selectedSchedules[0]?.days[0])
+      : "",
+  );
+
+  return (
+    <Container>
+      <ContentHeader title={title}></ContentHeader>
       <ContentBody>
-        <ContentInnerBody>
-          <JoinStep active={"3"} />
-          <div style={{ marginBottom: "0.81rem" }}>
-            <SignupStepInfo>센터일정을 등록해주세요.</SignupStepInfo>
+        <JoinStep active={"3"} />
+        <div>
+          <SignUpTitleWrap>
+            <SignupStepInfo>센터일정을 등록해 주세요.</SignupStepInfo>
             <SignupStepInfoSub>
-              센터별로 수업이 가능한 시간을 등록해 주세요.
+              센터별로 수업이 가능한 시간을 등록해주세요.
             </SignupStepInfoSub>
-          </div>
-          <SignupFormWrap>
+          </SignUpTitleWrap>
+        </div>
+        {recordGyms?.map((gym, index) => (
+          <SignupFormWrap key={index}>
             <TrRegisItemWrap>
               <SignupButton onClick={toggleModal}>
-                <CenterName>아자아자 피트니스 센터</CenterName>
+                <CenterName>{gym.name}</CenterName>
                 {selectedSchedules[0] ? (
                   <RegisterStatus>
                     <CheckIcon src={checkIconPurple} alt="등록 완료 이미지" />
@@ -581,12 +535,18 @@ export default function step3() {
               ""
             )}
           </SignupFormWrap>
-          <ButtonAreaFixed>
-            <NextStep rel="preload" href="/trainer/register/step2">
+        ))}
+        <ButtonAreaFixed>
+          <Link href="/trainer/signup/step4">
+            <Button
+              variant={isDisabled ? "ghost" : "primary"}
+              onClick={handleNext}
+              disabled={isDisabled}
+            >
               다음
-            </NextStep>
-          </ButtonAreaFixed>
-        </ContentInnerBody>
+            </Button>
+          </Link>
+        </ButtonAreaFixed>
       </ContentBody>
       {isModalOpen && (
         <Modal>
@@ -738,6 +698,6 @@ export default function step3() {
           </OverLapModal>
         </OverLapWrap>
       )}
-    </Wrap>
+    </Container>
   );
 }

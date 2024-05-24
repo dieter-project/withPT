@@ -38,17 +38,11 @@ import JoinStep from "@/components/Trainer/TrSignUpStep";
 import searchIcon from "../../../../../public/Trainer/icons/searchLightGray.png";
 import registerIcon from "../../../../../public/Trainer/plusCircleIcon.png";
 import ModalCloseXButtonImg from "../../../../../public/Trainer/Modal/close-line.png";
-import deleteIcon from "../../../../../public/Trainer/icons/deleteIconGray.png";
+
 import { Button } from "@/styles/TrainerButton";
 import { signupActions } from "@/redux/reducers/trainerSignupSlice";
 import { useAppSelector } from "@/redux/hooks";
 import Storelist from "./storelist/page";
-
-interface TrInfo {
-  // name: string;
-  // birth: Trbirth | string;
-  // sex: string;
-}
 
 const ModalMessage = styled.div`
   margin-top: 2rem;
@@ -120,8 +114,6 @@ const RecentSearchList = styled.li`
   border-bottom: 1px solid var(--border-gray);
   font-size: var(--font-s);
 `;
-
-const DeleteIcon = styled(Image)``;
 
 export default function step2() {
   const [isModalOpen, setIsModalOpen] = useState(false);
