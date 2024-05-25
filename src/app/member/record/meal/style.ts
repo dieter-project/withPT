@@ -65,19 +65,19 @@ export const ProgressWrap = styled.div<ProgressProps>`
     ${props => props.type === 'carb' && css`
       &::-webkit-progress-value {
         border-radius:0.625rem;
-        background: var(--yellow);
+        background: var(--carbohydrate);
       }
     `}
     ${props => props.type === 'prot' && css`
       &::-webkit-progress-value {
         border-radius:0.625rem;
-        background: var(--coral);
+        background: var(--protein);
       }
     `}
     ${props => props.type === 'fats' && css`
       &::-webkit-progress-value {
         border-radius:0.625rem;
-        background: var(--mint);
+        background: var(--fat);
       }
     `}
   }
