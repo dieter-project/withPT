@@ -14,6 +14,7 @@ import beforePage from "../../../../../public/icons/beforePage.png";
 import settingTabBeforeImg from "../../../../../public/Trainer/Header/settingTabBeforeRegion.png";
 import settingTabImg from "../../../../../public/Trainer/Header/settingTabTwoRegion.png";
 import setting from "../../../../../public/Trainer/setting.jpg";
+import { api } from "@/utils/axios";
 
 const MemberItem = ({ member, isSelected, toggleSelection }) => {
   return (
@@ -233,6 +234,26 @@ export default function ManageMember() {
     setIsSelectionEnabled(!isSelectionEnabled);
   };
 
+  const getResponseTest = async () => {
+    try {
+      const response = await api.get(
+        `/api/v1/gyms/19/personal-trainings/members/waiting`,
+      );
+      const responseStatus = response.data.status;
+      const responseData = response.data;
+      console.log("통신 결과", responseData);
+      if (responseStatus === "success") {
+        console.log(responseData);
+      }
+    } catch (error) {
+      console.log("error fetching", error);
+    }
+  };
+
+  useEffect(() => {
+    getResponseTest();
+  }, []);
+
   return (
     <MainContainer>
       <MainHeader>
@@ -368,9 +389,9 @@ export default function ManageMember() {
 
         {isSelectionEnabled && (
           <ul>
-            {members.map(member => (
+            {members.map((member, index) => (
               <MemberItem
-                key={member.id}
+                key={index}
                 member={member}
                 isSelected={selectedMembers.includes(member.id)}
                 toggleSelection={toggleSelection}
