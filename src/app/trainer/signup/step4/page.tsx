@@ -6,6 +6,7 @@ import Image from "next/image";
 import styled from "styled-components";
 import Link from "next/link";
 import { useAppSelector } from "@/redux/hooks";
+import { useDispatch } from "react-redux";
 import ModalCloseXButtonImg from "../../../../../public/Trainer/Modal/close-line.png";
 import beforePage from "../../../../../public/icons/beforePage.png";
 import searchIconImg from "../../../../../public/searchLight.png";
@@ -316,7 +317,8 @@ const SearchIcon = styled(Image)`
 
 export default function step4() {
   const title = "이력 등록";
-  const saveStates = useAppSelector(state => state.trainerSignup);
+  const dispatch = useDispatch();
+
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [showModalContent, setShowModalContent] = useState(false);
   const [selectedDays, setSelectedDays] = useState<string[]>([]);
@@ -326,6 +328,7 @@ export default function step4() {
     Array<{ days: string[]; startTime: string; endTime: string }>
   >([]);
   const [searchValue, setSearchValue] = useState("");
+  const saveStates = useAppSelector(state => state.trainerSignup);
 
   //error message
   const [overlapError, setOverlapError] = useState<string | null>(null);
@@ -416,6 +419,15 @@ export default function step4() {
 
   const toggleModal = () => {
     setIsModalOpen(!isModalOpen);
+  };
+
+  const handleNext = () => {
+    dispatch(
+      signupActions.saveSignupState({
+        gyms: updatedGyms,
+      }),
+    );
+    console.log("states: ", saveStates);
   };
 
   useEffect(() => {
@@ -537,21 +549,19 @@ export default function step4() {
     };
 
     try {
-      const response = await api.post(
-        "http://43.200.45.234/api/v1/trainers/sign-up",
-        dataToSend,
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
+      const response = await api.post("/api/v1/trainers/sign-up", dataToSend, {
+        headers: {
+          "Content-Type": "application/json",
         },
-      );
+      });
       console.log("data: ", response);
 
-      // if (response.data) {
-      //   setCookie("access", response.data.accessToken);
-      //   setCookie("refreshToken", response.data.refreshToken);
-      // }
+      if (response.data) {
+        setCookie("access", response.data.data.accessToken, { path: "/" });
+        setCookie("refreshToken", response.data.data.refreshToken, {
+          path: "/",
+        });
+      }
     } catch (error) {
       console.log("error: ", error);
     }
@@ -671,7 +681,9 @@ export default function step4() {
               <NextTime rel="preload" href="/trainer/register/step5">
                 넘어가기
               </NextTime>
-              <NextStep onClick={handleSubmit}>다음</NextStep>
+              <Link href="/trainer/signup/finished">
+                <NextStep onClick={handleSubmit}>다음</NextStep>
+              </Link>
             </StepButtonWrap>
           </ButtonAreaFixed>
         </ContentInnerBody>

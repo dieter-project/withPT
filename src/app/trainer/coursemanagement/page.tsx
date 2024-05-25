@@ -15,6 +15,7 @@ import purpleExcalmiIcon from "../../../../public/Trainer/icons/exclamationPurpl
 import redMinusIcon from "../../../../public/Trainer/icons/minusIconRed.png";
 import ModalCloseXButtonImg from "../../../../public/Trainer/Modal/close-line.png";
 import Calendar from "../coursemanagement/calendar/page";
+import { api } from "@/utils/axios";
 
 const MainTopContent = styled.div`
   background-color: white;
@@ -272,6 +273,40 @@ export default function ManageMain() {
     setIsModalOpen(false);
     setPickedCenter(centerName);
   };
+
+  const getResponseTest = async () => {
+    try {
+      const response = await api.get(
+        `/api/v1/lessons?gym=${19}&date=${"2024-05-25"}&status=${"RESERVED"}`,
+      );
+      const responseStatus = response.data.status;
+      const responseData = response.data;
+      console.log("통신 결과", responseData);
+      if (responseStatus === "success") {
+        console.log(responseData);
+      }
+    } catch (error) {
+      console.log("error fetching", error);
+    }
+  };
+
+  // const getResponseTest = async () => {
+  //   try {
+  //     const response = await api.get(`/api/v1/gyms`);
+  //     const responseStatus = response.data.status;
+  //     const responseData = response.data;
+  //     console.log("통신 결과", responseData);
+  //     if (responseStatus === "success") {
+  //       console.log(responseData);
+  //     }
+  //   } catch (error) {
+  //     console.log("error fetching", error);
+  //   }
+  // };
+
+  useEffect(() => {
+    getResponseTest();
+  }, []);
 
   return (
     <Container>

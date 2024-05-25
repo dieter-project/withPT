@@ -224,7 +224,9 @@ export default function Main() {
 
   const getResponseTest = async () => {
     try {
-      const response = await api.get("/api/v1/trainers/3/educations/");
+      const response = await api.get(
+        `/api/v1/gyms/personal-trainings/statistics?date=${"2024-05-25"}`,
+      );
       const responseStatus = response.data.status;
       const responseData = response.data;
       console.log("통신 결과", responseData);
