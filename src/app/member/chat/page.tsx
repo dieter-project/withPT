@@ -120,7 +120,7 @@ const page = () => {
             </section>
             {exitMode &&
             <ButtonAreaFixed $nav>
-              <Button variant='primary'>채팅방 나가기</Button>
+              <Button $variant='primary'>채팅방 나가기</Button>
             </ButtonAreaFixed>
             }
           </>

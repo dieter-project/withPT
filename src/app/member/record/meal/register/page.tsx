@@ -68,7 +68,7 @@ const page = () => {
               </div>
               <div>X</div>
             </li>
-            <Button variant='outline' onClick={() => router.push('/member/record/meal/register/add')}>추가하기</Button>
+            <Button $variant='outline' onClick={() => router.push('/member/record/meal/register/add')}>추가하기</Button>
           </MealList>
         </ContentSection>
         <ContentSection>
@@ -77,7 +77,7 @@ const page = () => {
             <AddImgButton></AddImgButton>
           </MealImgWrap>
         </ContentSection>
-        <Button variant="primary">저장하기</Button>
+        <Button $variant="primary">저장하기</Button>
       </BaseContentWrap>
     </>
   );

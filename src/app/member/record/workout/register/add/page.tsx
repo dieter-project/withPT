@@ -1,7 +1,7 @@
 "use client";
 
 import PageTitle from '@/components/PageTitle';
-import { bodyPart, exerciseType } from '@/constants/record';
+import { BODY_PART, EXERCISE_TYPE } from '@/constants/record';
 import { workoutRecordActions } from '@/redux/reducers/workoutRecordSlice';
 import { Button } from '@/styles/Button';
 import { CategoryPartList } from '@/styles/CategoryPartList';
@@ -14,19 +14,9 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import React, { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux';
 import { styled } from 'styled-components'
+import { BookmarkButton, BookmarkSaveToggle } from './style';
 
-const BookmarkButton = styled(Button)`
-  margin-bottom: 1.5rem;
-`;
-
-const BookmarkSaveToggle = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 1.25rem;
-`;
 const page = () => {
-  const title = "운동 입력";
   const [inputData, setInputData] = useState({
     exerciseDate: "",
     title: "",
@@ -103,9 +93,9 @@ const page = () => {
 
   return (
     <>
-      <PageTitle title={title} />
+      <PageTitle title={"운동 입력"} />
       <BaseContentWrap>
-        <BookmarkButton variant="outline">북마크에서 가져오기</BookmarkButton>
+        <BookmarkButton $variant="outline">북마크에서 가져오기</BookmarkButton>
         <FormWrap>
           <LabelTitle>운동명</LabelTitle>
           <Input
@@ -119,7 +109,7 @@ const page = () => {
         <FormWrap>
           <LabelTitle>분류</LabelTitle>
           <CategoryPartList>
-            {exerciseType?.map((type, index) => {
+            {EXERCISE_TYPE?.map((type, index) => {
               return (
                 <li
                   key={index}
@@ -128,7 +118,7 @@ const page = () => {
                     inputData.exerciseType === type.value ? "active" : ""
                   }
                 >
-                  {type.text}
+                  {type.title}
                 </li>
               );
             })}
@@ -137,14 +127,14 @@ const page = () => {
         <FormWrap>
           <LabelTitle>부위</LabelTitle>
           <CategoryPartList>
-            {bodyPart?.map((part, index) => {
+            {BODY_PART?.map((part, index) => {
               return (
                 <li
                   key={index}
                   onClick={() => handleChoiceBodyPart(part.value)}
                   className={inputData.bodyPart === part.value ? "active" : ""}
                 >
-                  {part.text}
+                  {part.title}
                 </li>
               );
             })}
@@ -219,7 +209,7 @@ const page = () => {
           </ToggleButton>
         </BookmarkSaveToggle>
         <ButtonAreaFixed $nav>
-          <Button variant='primary' onClick={handleAddRecord}>추가하기</Button>
+          <Button $variant='primary' onClick={handleAddRecord}>추가하기</Button>
         </ButtonAreaFixed>
       </BaseContentWrap>
     </>

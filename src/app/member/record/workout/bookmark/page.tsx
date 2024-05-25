@@ -149,7 +149,7 @@ const page = () => {
         )}
       </BaseContentWrap>
       <ButtonAreaFixed $nav>
-        <Button variant='primary' onClick={() => router.push('/member/record/workout/bookmark/register')}>북마크 등록하기</Button>
+        <Button $variant='primary' onClick={() => router.push('/member/record/workout/bookmark/register')}>북마크 등록하기</Button>
       </ButtonAreaFixed>
     </>
   );

@@ -62,7 +62,7 @@ const page = () => {
     try {
       const response = await api.post('/api/v1/members/sign-up', states)
 
-      if(response.data.data.accessToken) {
+      if (response.data.data.accessToken) {
         // dispatch(memberActions.getToken(response.data.data.accessToken))
         dispatch(memberActions.isLogin({
           name: response.data.data.name,
@@ -71,10 +71,10 @@ const page = () => {
           accessToken: response.data.data.accessToken
         }))
         // const now = Date.now()
-        setCookie('access', response.data.data.accessToken)
-        setCookie('refreshToken', response.data.data.refreshToken)
-        
-        router.replace('/member/signup/finished') 
+        setCookie("access", response.data.data.accessToken, { path: "/" })
+        setCookie("refreshToken", response.data.data.refreshToken, { path: "/" })
+
+        router.replace('/member/signup/finished')
       } else {
         //alert
       }
@@ -104,10 +104,10 @@ const page = () => {
             {exerciseFrequency?.map((time, index) => {
               return (
                 <label key={index}>
-                  <input 
-                    type="radio" 
-                    name="workout" 
-                    value={time.value} 
+                  <input
+                    type="radio"
+                    name="workout"
+                    value={time.value}
                     onChange={handleOnChange}
                   />
                   <span>{time.title}</span>
@@ -115,17 +115,17 @@ const page = () => {
                 </label>
               )
             })
-          }
-        </RadioButton>
-      </div>
-      <ButtonAreaFixed $nav={false}>
-        <Button 
-          variant='primary' 
-          onClick={handleSubmit}
-        >저장하기</Button>
-      </ButtonAreaFixed>
-    </BaseContentWrap>
-  </>
+            }
+          </RadioButton>
+        </div>
+        <ButtonAreaFixed $nav={false}>
+          <Button
+            $variant='primary'
+            onClick={handleSubmit}
+          >저장하기</Button>
+        </ButtonAreaFixed>
+      </BaseContentWrap>
+    </>
   )
 }
 

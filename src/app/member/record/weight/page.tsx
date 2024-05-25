@@ -152,7 +152,7 @@ const page = () => {
               />
               <span>kg</span>
             </WeightInput>
-            {showBtn && <WeightSaveBtn variant='primary' onClick={handleWeightSave}>저장</WeightSaveBtn>}
+            {showBtn && <WeightSaveBtn $variant='primary' onClick={handleWeightSave}>저장</WeightSaveBtn>}
           </WeightBox>
         </ContentSection>
         <ContentSection>

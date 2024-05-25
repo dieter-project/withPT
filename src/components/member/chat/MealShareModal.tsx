@@ -48,7 +48,7 @@ export const MealShareModal = ({
               <li>11월 13일 월요일 식단</li>
               <li>11월 9일 목요일 식단</li>
             </MealList>
-            <Button variant='primary' onClick={handleSubmit}>전송하기</Button>
+            <Button $variant='primary' onClick={handleSubmit}>전송하기</Button>
           </ModalContents>
         </div>
       </div>

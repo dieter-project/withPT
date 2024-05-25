@@ -6,15 +6,20 @@ import { BaseContentWrap } from "@/styles/Layout";
 import { LabelTitle } from "@/styles/Text";
 import { api } from "@/utils/axios";
 import { getCookie } from "@/utils/cookie";
+import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 
 const page = () => {
   const title = "계정관리"
+  const router = useRouter()
 
   const handleWithdrawl = async () => {
     try {
       const response = await api.delete('/api/v1/members/withdrawal')
-      console.log('data: ', response);
+      if (response.status === 200) {
+        alert("회원 탈퇴가 완료되었습니다.")
+        router.push('/')
+      }
     } catch (error) {
       console.log('error: ', error);
 

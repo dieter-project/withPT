@@ -1,8 +1,6 @@
 "use client";
 import React, { useEffect } from "react";
-import { useRouter, usePathname, useSearchParams } from "next/navigation";
-import Link from "next/link";
-import Script from "next/script";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useDispatch } from "react-redux";
 import { api } from "@/utils/axios";
 import { signupActions } from "@/redux/reducers/trainerSignupSlice";
@@ -27,7 +25,7 @@ export default function page() {
       );
 
       if (response.data.accessToken) {
-        setCookie("access", response.data.accessToken);
+        setCookie("access", response.data.accessToken, { path: "/" });
         router.replace("/trainer/main");
       } else {
         dispatch(

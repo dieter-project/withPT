@@ -98,7 +98,7 @@ const page = () => {
         </div>
         <ButtonAreaFixed $nav={false}>
           <Button
-            variant='primary'
+            $variant='primary'
             onClick={handleNext}
           >다음</Button>
         </ButtonAreaFixed>

@@ -4,11 +4,12 @@ import Header from '@/components/Header';
 import { api } from '@/utils/axios';
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react'
-import { LabelTitle } from '@/styles/Text';
+import { ExclamationMark, LabelTitle } from '@/styles/Text';
 import { ContentSection } from '@/styles/Layout';
 import MemberBottomNav from '@/components/MemberBottomNav';
 import { TrainerSwipe } from '@/components/TrainerSwipe';
 import {
+  EmptyTodayMeal,
   GoalContents,
   MainWrap,
   MoveButton,
@@ -24,6 +25,7 @@ import MonthlyCalendar from '@/components/member/MonthlyCalendar';
 import { format } from 'date-fns';
 import { ko } from 'date-fns/locale';
 import { getExercise } from '@/services/member/exercise';
+import { AddRecordButton } from '@/styles/AddButton';
 
 export type WorkoutType = {
   id: number,
@@ -153,22 +155,36 @@ const page = () => {
             </TodayTab>
             <div>
               {tabClick === '1'
-                ? <TodayMeal>
-                  <TodayMealContents>
-                    <div>
-                      <div className='title'>섭취칼로리</div>
-                      <div><span>1018Kcal</span> / 1550 Kcal</div>
-                      <TodayMealList>
-                        <li>탄수화물 <strong>50%</strong></li>
-                        <li>단백질 <strong>50%</strong></li>
-                        <li>지방 <strong>50%</strong></li>
-                      </TodayMealList>
-                    </div>
-                    <div>
-                      <DonutChart />
-                    </div>
-                  </TodayMealContents>
-                </TodayMeal>
+                ? <>
+                  {data.todayMeal.length > 0 ?
+                    (
+                      <TodayMeal>
+                        <TodayMealContents>
+                          <div>
+                            <div className='title'>섭취칼로리</div>
+                            <div><span>1018Kcal</span> / 1550 Kcal</div>
+                            <TodayMealList>
+                              <li>탄수화물 <strong>50%</strong></li>
+                              <li>단백질 <strong>50%</strong></li>
+                              <li>지방 <strong>50%</strong></li>
+                            </TodayMealList>
+                          </div>
+                          <div>
+                            <DonutChart />
+                          </div>
+                        </TodayMealContents>
+                      </TodayMeal>
+                    ) : (
+                      <EmptyTodayMeal>
+                        <ExclamationMark>!</ExclamationMark>
+                        <div>아직 등록된 식단이 없어요.</div>
+                        <div>
+                          눌러서 오늘의 식단을 입력해 주세요
+                        </div>
+                      </EmptyTodayMeal>
+                    )
+                  }
+                </>
                 : <WorkoutList workout={data.todayWorkout} />
               }
             </div>

@@ -1,27 +1,15 @@
 import { css, styled } from "styled-components";
 
-interface ButtonProps {
-  variant: string;
-}
-
-export const Button = styled.button<ButtonProps>`
+export const Button = styled.button<{ $variant: string }>`
   width: 100%;
   height: 56px;
   border: none;
   text-align: center;
   line-height: 2.5rem;
   border-radius: 0.5rem;
-
-  ${props =>
-    props.variant === "primary" &&
-    css`
-      background-color: var(—primary);
-      color: var(—white);
-    `}
-
-  ${props => props.variant === 'outline' && css`
-    border: 1px solid var(--font-gray400);
-  `}
+  background-color: ${props => props.$variant === "primary" && "var(--primary)"};
+  color: ${props => props.$variant === "primary" && "var(--white)"};
+  border: ${props => props.$variant === "outline" && "1px solid var(--font-gray400)"};
 `
 
 export const CloseBtn = styled.button`

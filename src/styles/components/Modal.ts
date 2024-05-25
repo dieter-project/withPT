@@ -26,9 +26,6 @@ export const ModalContainer = styled.div<{$full?: boolean;}>`
     position: fixed;
     display: none;
     z-index: 5;
-  }
-
-  .overlay {
     display: block;
   }
 
@@ -39,7 +36,7 @@ export const ModalContainer = styled.div<{$full?: boolean;}>`
     bottom: 0;
     left: 0;
     background-color: var(--white);
-    padding: 0.75rem 0.75rem;
+    padding: 1.25rem;
     animation: slideUp 0.3s ease-out;
     border-radius: 0.5rem 0.5rem 0 0;
     z-index: 10;
@@ -58,4 +55,10 @@ export const ModalContainer = styled.div<{$full?: boolean;}>`
     }
   }
   
+`
+
+export const ModalTitle = styled.h3`
+  font-weight: var(--font-semibold);
+  text-align: center;
+  margin-bottom: 1.5rem;
 `

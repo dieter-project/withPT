@@ -1,7 +1,7 @@
 "use client";
 
 import PageTitle from "@/components/PageTitle";
-import { bodyPart, exerciseType } from "@/constants/record";
+import { BODY_PART, EXERCISE_TYPE } from "@/constants/record";
 import { workoutRecordActions } from "@/redux/reducers/workoutRecordSlice";
 import { Button } from "@/styles/Button";
 import { CategoryPartList } from "@/styles/CategoryPartList";
@@ -89,7 +89,7 @@ const page = () => {
         <FormWrap>
           <LabelTitle>분류</LabelTitle>
           <CategoryPartList>
-            {exerciseType?.map(type => {
+            {EXERCISE_TYPE?.map(type => {
               return (
                 <li
                   onClick={() => handleChoiceExerciseType(type.value)}
@@ -97,7 +97,7 @@ const page = () => {
                     inputData.exerciseType === type.value ? "active" : ""
                   }
                 >
-                  {type.text}
+                  {type.title}
                 </li>
               );
             })}
@@ -106,13 +106,13 @@ const page = () => {
         <FormWrap>
           <LabelTitle>부위</LabelTitle>
           <CategoryPartList>
-            {bodyPart?.map(part => {
+            {BODY_PART?.map(part => {
               return (
                 <li
                   onClick={() => handleChoiceBodyPart(part.value)}
                   className={inputData.bodyPart === part.value ? "active" : ""}
                 >
-                  {part.text}
+                  {part.title}
                 </li>
               );
             })}
@@ -177,7 +177,7 @@ const page = () => {
           </InputRowWrap>
         </FormWrap>
         <ButtonAreaFixed $nav>
-          <Button variant='primary' onClick={handleAddRecord}>추가하기</Button>
+          <Button $variant='primary' onClick={handleAddRecord}>추가하기</Button>
         </ButtonAreaFixed>
       </BaseContentWrap>
     </>

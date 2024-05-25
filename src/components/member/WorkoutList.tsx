@@ -3,6 +3,8 @@ import { AddRecordButton } from '@/styles/AddButton'
 import { styled } from 'styled-components'
 import { WorkoutType } from '@/app/member/main/page'
 import { WorkoutPayload } from '@/redux/reducers/workoutRecordSlice'
+import { EmptyTodayMeal } from '@/app/member/main/styles'
+import { ExclamationMark } from '@/styles/Text'
 
 const WorkoutListBox = styled.div`
   li {
@@ -37,33 +39,42 @@ interface Props {
 }
 
 const WorkoutList = ({ workout }: Props) => {
-  if (workout.length > 0)
-  return (
-    <WorkoutListBox>
-      <div>
-        <ul>
-          {
-            workout?.map((workout, index) => {
-              return (
-                <li key={index}>
-                  <div>이미지</div>
-                  <div>
-                    <div>{workout.title}</div>
-                    <div className='workout-contents'>{workout.set}</div>
-                  </div>
-                </li>
-              )
-            })
-          }
-        </ul>
-        {/* <AddRecordButton
+  return (<>
+    {workout.length > 0 ?
+      <WorkoutListBox>
+        <div>
+          <ul>
+            {
+              workout?.map((workout, index) => {
+                return (
+                  <li key={index}>
+                    <div>이미지</div>
+                    <div>
+                      <div>{workout.title}</div>
+                      <div className='workout-contents'>{workout.set}</div>
+                    </div>
+                  </li>
+                )
+              })
+            }
+          </ul>
+          {/* <AddRecordButton
           onClick={handleAddWorkout}
           style={{
             height: "48px",
           }}
         /> */}
-      </div>
-    </WorkoutListBox>
+        </div>
+      </WorkoutListBox>
+      : <EmptyTodayMeal>
+        <ExclamationMark>!</ExclamationMark>
+        <div>아직 등록된 운동이 없어요.</div>
+        <div>
+          눌러서 오늘의 운동을 입력해 주세요
+        </div>
+      </EmptyTodayMeal>
+    }
+  </>
   )
 }
 
