@@ -20,7 +20,7 @@ const persistConfig = {
 
 const rootReducer = combineReducers({
   trainer: trainerReducer,
-  // member: memberReducer,
+  member: memberReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
