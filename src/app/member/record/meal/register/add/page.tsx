@@ -34,7 +34,7 @@ const page = () => {
           </InputRowWrap>
         </div>
         <div>
-          <Button variant="primary">저장하기</Button>
+          <Button $variant="primary">저장하기</Button>
         </div>
       </ContentsWrap>
     </>

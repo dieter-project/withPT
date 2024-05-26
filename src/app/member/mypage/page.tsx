@@ -5,6 +5,7 @@ import { BaseContentWrap, ContentSection } from "@/styles/Layout";
 import { LabelTitle } from "@/styles/Text";
 import { GoalIcon, GoalListItem, GoalValue, MenuList, NextArrow, ProfileWrap } from "./styles";
 import { useRouter } from "next/navigation";
+import { logout } from "@/services/member/auth";
 
 
 
@@ -12,9 +13,14 @@ const page = () => {
   const title = "마이페이지"
   const router = useRouter();
 
+  const handleLogout = () => {
+    logout();
+    router.push('/')
+  }
+
   return (
     <>
-      <Header title={title} back={true}/>
+      <Header title={title} back={true} />
       <BaseContentWrap>
         <ContentSection>
           <ProfileWrap>
@@ -91,7 +97,7 @@ const page = () => {
               <div>공지사항</div>
               <NextArrow></NextArrow>
             </MenuList>
-            <MenuList>
+            <MenuList onClick={handleLogout}>
               <div>로그아웃</div>
               <NextArrow></NextArrow>
             </MenuList>

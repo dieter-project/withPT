@@ -5,9 +5,9 @@ import useFcmToken from "@/hooks/useFcmToken";
 import firebaseApp from "@/lib/firebase";
 import { BaseContentWrap, ButtonAreaFixed, RoundBox } from "@/styles/Layout";
 import { styled } from "styled-components";
-import { Button } from "@/styles/TrainerButton";
 import { useRouter } from "next/navigation";
 import { getMessaging, onMessage } from "@firebase/messaging";
+import { Button } from "@/styles/Button";
 
 const TextWrap = styled.div`
   text-align: center;
@@ -184,7 +184,7 @@ export default function Home() {
       { isActive.member === true || isActive.trainer === true 
         ? <ButtonAreaFixed $nav>
             <Button
-              variant='primary' 
+              $variant="primary"
               onClick={handleOnNext}
             >다음</Button>
           </ButtonAreaFixed>

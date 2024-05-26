@@ -181,7 +181,7 @@ const page = () => {
         </div>
         <ButtonAreaFixed $nav={false}>
           <Button
-            variant='primary'
+            $variant='primary'
             onClick={handleEdit}
           >저장하기</Button>
         </ButtonAreaFixed>

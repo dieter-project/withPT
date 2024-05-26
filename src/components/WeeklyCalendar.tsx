@@ -1,35 +1,35 @@
 import { addDays, eachDayOfInterval, eachWeekOfInterval, format, subDays } from 'date-fns'
 import { ko } from 'date-fns/locale'
-import React, { useEffect, useLayoutEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { styled } from 'styled-components'
-import { Swiper, SwiperSlide, useSwiper } from 'swiper/react'
 
-const CalendarWrap = styled.section`
+const WeeklyContainer = styled.section`
+  padding-bottom: 1rem;
   margin-bottom: 1.5rem;
   border-bottom: 1px solid var(--border-gray300);
   width: 100%;
-  height: 55px;
-  overflow: hidden;
+  height: 3.75rem;
+  overflow-x: scroll;
+  scroll-snap-type: x mandatory;
   display: flex;
-  .swiper {
-    width: 100%;
-  }
-  .swiper-wrapper {
-    display: flex;
-    width: 100%;
-    > div {
-      width: 100%;
-    }
-  }
-  ul, .swiper-slide {
-    display: flex;
-    align-items: center;
-    justify-content: space-around;
-    min-width: calc(100vw - 40px);
+  /* justify-content: center; */
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
   }
 `
 
-const CalendarItem = styled.li`
+const WeeklyScrollWrap = styled.ul`
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  min-width: calc(100vw - 40px);
+  scroll-snap-align: start;
+`
+
+const WeeklyScrollItem = styled.li`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -76,7 +76,8 @@ export const WeeklyCalendar = () => {
   const [recordDate, setRecordDate] = useState()
   const [aWeek, setAWeek] = useState<Date[][]>([])
   const [activeIndex, setActiveIndex] = useState<number>(0)
-  const swiperRef = useRef(null);
+  const scrollRef = useRef<HTMLUListElement | null>(null);
+  const week: Date[][] = [];
 
   const makeWeek = (count: number, boundary: number = 7): Date[][] => {
 
@@ -105,9 +106,15 @@ export const WeeklyCalendar = () => {
   }
 
   useEffect(() => {
-    const week = makeWeek(0)
-    setAWeek(week)
+    setAWeek(makeWeek(0))
   }, [])
+
+
+  useEffect(() => {
+    const rect = scrollRef.current?.getBoundingClientRect();
+    console.log('rect: ', rect && rect.left);
+
+  }, [scrollRef])
 
   const handleSlidePrev = (swiper: any) => {
     const prevWeek = makeWeek(-1, 1)
@@ -115,57 +122,21 @@ export const WeeklyCalendar = () => {
     // setAWeek((prev) => [...prevWeek, ...prev])
     // swiper.appendSlide(prevWeek)
     const addPrev = prevWeek.map(() => {
-      
+
     })
     swiper.prependSlide(addPrev)
     swiper.update();
   }
 
-  const swiperItem = aWeek?.map((week, i) => {
-    return (
-      <SwiperSlide key={i}>
-        {week?.map((day, i) => {
-          const txt = format(day, 'EEEEE', { locale: ko })
-          return (
-            <CalendarItem key={i}>
-              <DayText>{txt}</DayText>
-              <DateText>{day.getDate()}</DateText>
-              <DotWrap>
-                <span></span>
-                <span></span>
-                <span></span>
-              </DotWrap>
-            </CalendarItem>
-          )
-        })}
-      </SwiperSlide>
-    )
-  })
-
-  // const option = {
-  //   spaceBetween: 0,
-  //   slidesPerView: 1,
-  //   ref: swiperRef,
-  //   initialSlide: 1,
-  // }
-
   return (
-    <CalendarWrap>
-      <Swiper
-        ref={swiperRef}
-        initialSlide={1}
-        // onSlideChange={(swiper) => {handleSlideChange(swiper)}}
-        observer={true}
-        onSlidePrevTransitionEnd={(swiper) => { handleSlidePrev(swiper) }}
-      >
-        {swiperItem}
-        {/* {aWeek?.map((week, i) => {
+    <WeeklyContainer>
+      {aWeek?.map((week, i) => {
         return (
-          <SwiperSlide key={i}>
-            { week?.map((day, i)=> {
-              const txt = format(day, 'EEEEE', {locale: ko})
+          <WeeklyScrollWrap key={i} ref={scrollRef}>
+            {week?.map((day, i) => {
+              const txt = format(day, 'EEEEE', { locale: ko })
               return (
-                <CalendarItem key={i}>
+                <WeeklyScrollItem key={i}>
                   <DayText>{txt}</DayText>
                   <DateText>{day.getDate()}</DateText>
                   <DotWrap>
@@ -173,13 +144,12 @@ export const WeeklyCalendar = () => {
                     <span></span>
                     <span></span>
                   </DotWrap>
-                </CalendarItem>
+                </WeeklyScrollItem>
               )
             })}
-          </SwiperSlide>
+          </WeeklyScrollWrap>
         )
-      })} */}
-      </Swiper>
-    </CalendarWrap>
+      })}
+    </WeeklyContainer>
   )
 }

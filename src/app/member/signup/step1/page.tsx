@@ -3,7 +3,7 @@
 import PageTitle from "@/components/PageTitle";
 import JoinStep from "@/components/SignUpStep";
 import { useRouter } from "next/navigation";
-import React, { MutableRefObject, useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { LabelTitle, SignUpTitleText, SignUpSubtext } from "@/styles/Text";
 import { Input, InputRowWrap, InputWrap } from "@/styles/Input";
 import { Button } from "@/styles/Button";
@@ -275,7 +275,7 @@ const page = () => {
           </div>
         </div>
         <ButtonAreaFixed $nav={false}>
-          <Button variant="primary" onClick={handleNext}>
+          <Button $variant="primary" onClick={handleNext}>
             다음
           </Button>
         </ButtonAreaFixed>
