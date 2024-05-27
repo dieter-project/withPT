@@ -45,23 +45,8 @@ const ManageTitle = styled.h4`
   font-weight: 600;
 `;
 
-const CenterNameItem = styled(Link)`
-  display: flex;
-  justify-content: space-between;
-  background-color: var(--purple50);
-  padding: 1rem 0.5rem;
-  margin-bottom: 0.5rem;
-  border-radius: 0.5rem;
-`;
-
 const CenterName = styled.span`
   font-weight: 600;
-`;
-
-const MemberNum = styled.span`
-  font-weight: 400;
-  position: absolute;
-  right: 3%;
 `;
 
 const ArrowRightIcon = styled(Image)`
@@ -70,37 +55,11 @@ const ArrowRightIcon = styled(Image)`
   right: 2%;
 `;
 
-const MainFooter = styled.footer`
-  position: fixed;
-  display: flex;
-  width: 100%;
-  left: 0;
-  bottom: 0;
-  height: 3rem;
-  padding: 0 1rem;
-  align-items: center;
-  background-color: #ffffff;
-  justify-content: space-between;
-  z-index: 100;
-`;
-
-const FooterCtgItem = styled.button`
-  all: unset;
-  text-align: center;
-  width: 100%;
-`;
-
-const FooterItemImg = styled.img``;
-
-const FooterImgSpan = styled.span`
-  display: block;
-`;
-
 export default function MemberRegist() {
   const title = "신규회원 등록";
   return (
     <MainContainer>
-      <ContentHeader title={title}></ContentHeader>
+      <ContentHeader title={title} variant="iconBack"></ContentHeader>
       <ManageContentWrap>
         <ManageMemberWrap>
           <ManageTitleWrap>

@@ -2,6 +2,7 @@ import { Middleware, Store, combineReducers } from "redux";
 import { persistReducer, persistStore } from "redux-persist";
 import storage from "redux-persist/lib/storage/session";
 import memberReducer from "../redux/reducers/memberSlice";
+import trainerReducer from "../redux/reducers/trainerSlice";
 import {
   EnhancedStore,
   ThunkAction,
@@ -18,7 +19,7 @@ const persistConfig = {
 };
 
 const rootReducer = combineReducers({
-  // trainer: trainerReducer,
+  trainer: trainerReducer,
   member: memberReducer,
 });
 

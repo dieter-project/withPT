@@ -1,11 +1,12 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import styled from "styled-components";
 import Link from "next/link";
 import { Button } from "@/styles/TrainerButton";
 import { ListButton } from "@/styles/TrainerButton";
 import Footer from "@/components/TrainerFooter";
 import { startOfWeek, addDays, format } from "date-fns";
+import { api } from "@/utils/axios";
 
 const MainContainer = styled.div`
   background-color: #ffffff;
@@ -110,11 +111,29 @@ export default function ManageMain() {
   const [startDate, setStartDate] = useState(startOfWeek(today));
   const endDate = addDays(startDate, 13);
 
+  const getResponseTest = async () => {
+    try {
+      const response = await api.get(`/api/v1/gyms/personal-trainings`);
+      const responseStatus = response.data.status;
+      const responseData = response.data;
+      console.log("통신 결과", responseData);
+      if (responseStatus === "success") {
+        console.log(responseData);
+      }
+    } catch (error) {
+      console.log("error fetching", error);
+    }
+  };
+
+  useEffect(() => {
+    getResponseTest();
+  }, []);
+
   return (
     <MainContainer>
       <MainHeader>회원 관리</MainHeader>
       <MainContentWrap>
-        <Link href="/trainer/membermanagement/member/regist">
+        <Link href="/trainer/membermanagement/member/register">
           {" "}
           <Button variant="primary" height="3.5rem">
             신규 회원 등록하기

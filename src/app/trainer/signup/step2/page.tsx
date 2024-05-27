@@ -1,10 +1,24 @@
 "use client";
-import { useRouter } from "next/navigation";
+
 import { useState, useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
 import Image from "next/image";
 import styled from "styled-components";
-import Link from "next/link";
-import { Container } from "@/styles/TrainerLayout";
+import {
+  Container,
+  ContentBody,
+  ButtonAreaFixed,
+} from "@/styles/TrainerLayout";
+import {
+  FormTitle,
+  SignUpInputContainer,
+  SignUpTitleWrap,
+  SignupStepInfo,
+  SignupStepInfoSub,
+  SignupInputInnerContainer,
+} from "@/styles/SignupForm";
 import ContentHeader from "@/components/TrainerPageTitle";
 import {
   SearchBarWrap,
@@ -20,50 +34,15 @@ import {
   ModalBody,
   ModalContent,
 } from "@/styles/TrainerModal";
-
 import JoinStep from "@/components/Trainer/TrSignUpStep";
 import searchIcon from "../../../../../public/Trainer/icons/searchLightGray.png";
 import registerIcon from "../../../../../public/Trainer/plusCircleIcon.png";
 import ModalCloseXButtonImg from "../../../../../public/Trainer/Modal/close-line.png";
-import deleteIcon from "../../../../../public/Trainer/icons/deleteIconGray.png";
+
 import { Button } from "@/styles/TrainerButton";
-import axios from "axios";
-import { useDispatch } from "react-redux";
 import { signupActions } from "@/redux/reducers/trainerSignupSlice";
 import { useAppSelector } from "@/redux/hooks";
-
-interface TrInfo {
-  // name: string;
-  // birth: Trbirth | string;
-  // sex: string;
-}
-
-const ContentBody = styled.div`
-  padding: 6.8rem 1.25rem 3.2rem 1.25rem;
-`;
-
-const ContentInnerBody = styled.div``;
-
-const SignupStepInfo = styled.p`
-  font-size: var(--font-xxxl);
-  font-weight: 600;
-  color: #222;
-`;
-
-const SignupStepInfoSub = styled.p`
-  font-size: var(--font-m);
-  color: var(--black);
-`;
-
-const ButtonAreaFixed = styled.div`
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  z-index: 100;
-  width: 100%;
-  padding: 2.4rem 1.6rem 1.6rem;
-  background-color: transparent;
-`;
+import Storelist from "./storelist/page";
 
 const ModalMessage = styled.div`
   margin-top: 2rem;
@@ -136,23 +115,14 @@ const RecentSearchList = styled.li`
   font-size: var(--font-s);
 `;
 
-const DeleteIcon = styled(Image)``;
-
 export default function step2() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [showModalContent, setShowModalContent] = useState(false);
-
+  const [workingCenter, setWorkingCenter] = useState(null);
+  const [isDisabled, setIsDisabled] = useState(true);
   const dispatch = useDispatch();
   const title = "센터 등록";
-  const [inputData, setInputData] = useState<TrInfo>({
-    name: "",
-    birth: {
-      year: "",
-      month: "",
-      date: "",
-    },
-    sex: "",
-  });
+  const states = useAppSelector(state => state.trainerSignup);
 
   const toggleModal = () => {
     setIsModalOpen(!isModalOpen);
@@ -168,37 +138,50 @@ export default function step2() {
     }
   }, [isModalOpen]);
 
+  //조건에 따라 버튼 비활성화 시키기
+  useEffect(() => {
+    const isAnyFieldEmpty = () => {
+      if (workingCenter && workingCenter !== null) {
+        setIsDisabled(false);
+      } else {
+        setIsDisabled(true);
+      }
+    };
+    isAnyFieldEmpty();
+  }, [workingCenter]);
+
+  console.log("workingCenter", workingCenter ? workingCenter : "exmaplenno");
+
   const handleNext = () => {
     dispatch(
       signupActions.saveSignupState({
         gyms: [
           {
-            name: "헬스장",
-            address: "주소",
-            latitude: "헬스장",
-            longitude: inputData.gyms[0].longitude,
+            name: workingCenter.content,
+            address: workingCenter.roadAddress,
+            latitude: Number(workingCenter.position.lat),
+            longitude: Number(workingCenter.position.lng),
           },
         ],
       }),
     );
-    router.push(`/trainer/signup/step2`);
     console.log("states: ", states);
   };
-
-  const centerLists = ["청담점", "잠실점", "고양점"];
 
   return (
     <Container>
       <ContentHeader title={title}></ContentHeader>
       <ContentBody>
-        <ContentInnerBody>
-          <JoinStep active={"2"} />
-          <div style={{ marginBottom: "1.5rem" }}>
-            <SignupStepInfo>센터 정보를 등록해주세요.</SignupStepInfo>
+        <JoinStep active={"2"} />
+        <div>
+          <SignUpTitleWrap>
+            <SignupStepInfo>센터를 등록해주세요.</SignupStepInfo>
             <SignupStepInfoSub>
-              재직 중인 센터를 등록해 주세요.
+              재직 중인 센터를 등록해주세요.
             </SignupStepInfoSub>
-          </div>
+          </SignUpTitleWrap>
+        </div>
+        {!workingCenter && (
           <RegisterCenterButton onClick={toggleModal}>
             <RegisterIcon
               src={registerIcon}
@@ -208,18 +191,28 @@ export default function step2() {
             />
             <div>등록할 센터를 검색해 주세요.</div>
           </RegisterCenterButton>
+        )}
+        {workingCenter && workingCenter !== null && (
           <ul>
             <CenterSearchList>
-              <div>아자아자 피트니스 센터</div>
+              <div>{workingCenter.content}</div>
             </CenterSearchList>
           </ul>
+        )}
+        {workingCenter && (
           <CenterRegisterButton onClick={toggleModal}>+</CenterRegisterButton>
-          <ButtonAreaFixed>
-            <Link href="/trainer/signup/step3">
-              <Button variant="primary">다음</Button>
-            </Link>
-          </ButtonAreaFixed>
-        </ContentInnerBody>
+        )}
+        <ButtonAreaFixed>
+          <Link href="/trainer/signup/step3">
+            <Button
+              variant={isDisabled ? "ghost" : "primary"}
+              onClick={handleNext}
+              disabled={isDisabled}
+            >
+              다음
+            </Button>
+          </Link>
+        </ButtonAreaFixed>
       </ContentBody>
       {isModalOpen && (
         <Modal>
@@ -231,39 +224,12 @@ export default function step2() {
               onClick={() => setIsModalOpen(false)}
             />
             <ModalBody>
-              <ModalContent>
-                <SearchBarWrap>
-                  <SearchIcon
-                    src={searchIcon}
-                    alt="검색 회색 돋보기 아이콘"
-                  ></SearchIcon>
-                  <SearchBarInput
-                    type="text"
-                    name="센터 검색바"
-                    placeholder="검색"
-                  ></SearchBarInput>
-                </SearchBarWrap>
-
-                <SearchListTitleWrap>
-                  <SearchListTitle>최근 검색기록</SearchListTitle>
-                  <SearchDeleteButton>전체삭제</SearchDeleteButton>
-                </SearchListTitleWrap>
-                <ul>
-                  {centerLists.map(centerList => (
-                    <RecentSearchList>
-                      <div>{centerList}</div>
-                      <DeleteIcon
-                        src={deleteIcon}
-                        alt="검색 기록 삭제 아이콘"
-                      ></DeleteIcon>
-                    </RecentSearchList>
-                  ))}
-                </ul>
-                {/* <ModalMessage>최근 검색한 기록이 없습니다.</ModalMessage> */}
-              </ModalContent>
+              <Storelist
+                setIsModalOpen={setIsModalOpen}
+                setWorkingCenter={setWorkingCenter}
+              />
             </ModalBody>
           </ModalWrap>
-          <ModalDimmed></ModalDimmed>
         </Modal>
       )}
     </Container>

@@ -147,6 +147,7 @@ const SignupFormWrap = styled.div`
 `;
 
 const RegisterItemWrap = styled.div`
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: space-between;

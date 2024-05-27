@@ -91,7 +91,7 @@ export default function finished() {
           </SignupFinWrap>
 
           <ButtonAreaFixed>
-            <NextStep href="/trainer/signup/finished">위피티 시작하기</NextStep>
+            <NextStep href="/trainer/main">위피티 시작하기</NextStep>
           </ButtonAreaFixed>
         </ContentInnerBody>
       </ContentBody>

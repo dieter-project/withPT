@@ -1,18 +1,29 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import React, { useEffect, useRef, useState } from "react";
-import Image from "next/image";
-import styled from "styled-components";
+import { useDispatch } from "react-redux";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { Container } from "@/styles/TrainerLayout";
+import {
+  Container,
+  ContentBody,
+  ButtonAreaFixed,
+} from "@/styles/TrainerLayout";
 import ContentHeader from "@/components/TrainerPageTitle";
 import { Button } from "@/styles/TrainerButton";
-import { Input2 } from "@/styles/TrainerInput";
-import { useDispatch } from "react-redux";
+import { NoIconInput } from "@/styles/TrainerInput";
 import { signupActions } from "@/redux/reducers/trainerSignupSlice";
 import { useAppSelector } from "@/redux/hooks";
 import JoinStep from "@/components/Trainer/TrSignUpStep";
+import {
+  FormTitle,
+  SignUpInputContainer,
+  SignUpTitleWrap,
+  SignupStepInfo,
+  SignupStepInfoSub,
+  SignupInputInnerContainer,
+} from "@/styles/SignupForm";
+import { TrGenderLabel, TrGenderRadio, Slash } from "./style";
 
 interface Trbirth {
   year: string;
@@ -26,109 +37,12 @@ interface TrInfo {
   sex: string;
 }
 
-interface TrGenderLabelProps {
-  selected: boolean;
-  htmlFor: string;
-  children: React.ReactNode;
-}
-
-const RegisterTitle = styled.h4`
-  color: #222;
-  font-size: var(--font-xl);
-  font-weight: 700;
-  letter-spacing: -0;
-`;
-
-const ContentBody = styled.div`
-  padding: 6.8rem 1.25rem 3.2rem 1.25rem;
-`;
-
-const ContentInnerBody = styled.div``;
-
-const SignupStepInfo = styled.p`
-  font-size: var(--font-xxxl);
-  font-weight: 600;
-  color: #222;
-`;
-
-const SignupStepInfoSub = styled.p`
-  font-size: var(--font-m);
-  color: var(--font-gray400);
-`;
-
-const SignupFormWrap = styled.div`
-  margin-bottom: 1rem;
-`;
-
-const FormTitle = styled.h4<TrInfo>`
-  font-size: var(--font-l);
-  margin-bottom: 0.2rem;
-`;
-
-const TrGenderLabel = styled.label<TrGenderLabelProps>`
-  width: 100%;
-  height: 3rem;
-  background-color: var(--purple50);
-  border: ${props => (props.selected ? "1.5px solid var(--primary)" : "none")};
-  border-radius: 8px;
-  color: ${props => (props.selected ? "var(--primary)" : "black")};
-  margin: 0 0.3rem;
-  padding: 0.75rem 0;
-  text-align: center;
-`;
-
-const TrGenderRadio = styled.input`
-  appearance: none;
-  background-color: var(--purple50);
-`;
-
-const TrRegisItemWrap = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  /* color: var(--black); */
-`;
-
-const SignupInput = styled.input`
-  border: none;
-  border-radius: 0.2rem;
-  margin-bottom: 2rem;
-  line-height: 2.3rem;
-  background-color: var(--purple50);
-  text-align: center;
-  width: 100%;
-  height: 3rem;
-  margin: 0 0.3rem;
-`;
-
-const Slash = styled.span`
-  padding: 0 0.75rem;
-`;
-
-const ButtonAreaFixed = styled.div`
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  padding: 2.4rem 1.6rem 1.6rem;
-  z-index: 100;
-  background-color: transparent;
-`;
-
-// const NextStep = styled(Link)`
-//   display: block;
-//   width: 100%;
-//   line-height: 3.5rem;
-//   padding: 0 1.6rem;
-//   border: none;
-//   border-radius: 0.6rem;
-//   background-color: var(--primary);
-//   color: white;
-//   font-size: var(--font-m);
-//   text-align: center;
-// `;
-
 export default function step1() {
+  const dispatch = useDispatch();
+  const states = useAppSelector(state => state.trainerSignup);
+  const router = useRouter();
+  const title = "회원가입";
+
   const [inputData, setInputData] = useState<TrInfo>({
     name: "",
     birth: {
@@ -139,16 +53,19 @@ export default function step1() {
     sex: "",
   });
 
-  const [selectedGender, setSelectedGender] = useState<string | null>(null);
+  const nameRef = useRef<null | HTMLInputElement>(null);
+  const birthRef = useRef<(null | HTMLInputElement)[]>([]);
+  const sexRef = useRef<null | HTMLInputElement>(null);
+  const inputRef = useRef<(null | HTMLInputElement)[]>([]);
 
-  const router = useRouter();
-  const inputRef = useRef<null[] | HTMLInputElement[]>([]);
-  const dispatch = useDispatch();
-  const states = useAppSelector(state => state.trainerSignup);
-  const title = "회원가입";
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
-
+    if (name === "name" || name === "sex") {
+      setInputData(prevState => ({
+        ...prevState,
+        [name]: value,
+      }));
+    }
     if (name === "year" || name === "month" || name === "date") {
       setInputData(prevState => ({
         ...prevState,
@@ -158,15 +75,33 @@ export default function step1() {
                 ...prevState.birth,
                 [name]: value.replace(/[^0-9.]/g, ""),
               }
-            : "",
+            : { year: "", month: "", date: "" },
       }));
-    } else {
-      setInputData({
-        ...inputData,
-        [name]: value,
-      });
     }
   };
+
+  const [isDisabled, setIsDisabled] = useState(true);
+
+  //조건에 따라 버튼 비활성화 시키기
+  useEffect(() => {
+    const isAnyFieldEmpty = () => {
+      if (
+        inputData.name.length === 0 ||
+        (typeof inputData.birth !== "string" &&
+          (inputData.birth.year.length === 0 ||
+            inputData.birth.month.length === 0 ||
+            inputData.birth.date.length === 0)) ||
+        inputData.sex.length === 0
+      ) {
+        setIsDisabled(true);
+      } else {
+        setIsDisabled(false);
+      }
+    };
+    isAnyFieldEmpty();
+  }, [inputData]);
+
+  console.log("inputData", inputData.sex.length);
 
   const handleNext = () => {
     const birthJoin =
@@ -182,6 +117,7 @@ export default function step1() {
       inputRef.current[0] !== null &&
       inputRef.current[0] !== undefined
     ) {
+      //해당 필드가 누락되었을 때 포커스 이동으로 사용자에게 정보 입력 안내하기
       inputRef.current[0].focus();
       return false;
     }
@@ -222,137 +158,130 @@ export default function step1() {
         sex: inputData.sex,
       }),
     );
-    // sessionStorage.setItem('member_login_step1', JSON.stringify(inputData))
-    console.log("inputData", inputData);
-    // router.push(`/trainer/signup/step2`);
+
     console.log("states: ", states);
   };
-
-  useEffect(() => {}, []);
 
   return (
     <Container>
       <ContentHeader title={title}></ContentHeader>
       <ContentBody>
-        <ContentInnerBody>
-          <JoinStep active={"1"} />
-          <div style={{ marginBottom: "1.5rem" }}>
-            <SignupStepInfo>안녕하세요 조은혜님!</SignupStepInfo>
+        <JoinStep active={"1"} />
+        <div>
+          <SignUpTitleWrap>
+            <SignupStepInfo>안녕하세요 회원님!</SignupStepInfo>
             <SignupStepInfoSub>
               아래 정보가 맞는지 확인해주세요.
             </SignupStepInfoSub>
-          </div>
-          <form method="post" autoComplete="on">
-            <SignupFormWrap>
-              <FormTitle>이름</FormTitle>
-              <TrRegisItemWrap>
-                <Input2
-                  name="name"
-                  type="text"
-                  required
-                  value={inputData.name}
-                  onChange={handleInputChange}
-                ></Input2>
-              </TrRegisItemWrap>
-            </SignupFormWrap>
-            <SignupFormWrap>
-              <FormTitle>생년월일</FormTitle>
-              <TrRegisItemWrap>
-                <Input2
-                  type="text"
-                  name="year"
-                  value={
-                    typeof inputData.birth !== "string"
-                      ? inputData.birth.year
-                      : ""
-                  }
-                  maxLength={4}
-                  onChange={handleInputChange}
-                  ref={element => (inputRef.current[1] = element)}
-                  style={{ textAlign: "center" }}
-                  required
-                ></Input2>
-                <Slash>/</Slash>
-                <Input2
-                  type="text"
-                  name="month"
-                  maxLength={2}
-                  value={
-                    typeof inputData.birth !== "string"
-                      ? inputData.birth.month
-                      : ""
-                  }
-                  onChange={handleInputChange}
-                  ref={element => (inputRef.current[2] = element)}
-                  inputMode="decimal"
-                  style={{ textAlign: "center" }}
-                  required
-                ></Input2>
-                <Slash>/</Slash>
-                <Input2
-                  type="text"
-                  name="date"
-                  maxLength={2}
-                  value={
-                    typeof inputData.birth !== "string"
-                      ? inputData.birth.date
-                      : ""
-                  }
-                  onChange={handleInputChange}
-                  ref={element => (inputRef.current[3] = element)}
-                  inputMode="decimal"
-                  style={{ textAlign: "center" }}
-                  required
-                ></Input2>
-              </TrRegisItemWrap>
-            </SignupFormWrap>
-            <SignupFormWrap>
-              <FormTitle>성별</FormTitle>
-              <TrRegisItemWrap>
-                <TrGenderLabel
+          </SignUpTitleWrap>
+        </div>
+        <div>
+          <SignUpInputContainer>
+            <FormTitle>이름</FormTitle>
+            <SignupInputInnerContainer>
+              <NoIconInput
+                type="text"
+                name="name"
+                value={inputData.name}
+                onChange={handleInputChange}
+                ref={nameRef}
+              ></NoIconInput>
+            </SignupInputInnerContainer>
+          </SignUpInputContainer>
+          <SignUpInputContainer>
+            <FormTitle>생년월일</FormTitle>
+            <SignupInputInnerContainer>
+              <NoIconInput
+                type="text"
+                name="year"
+                value={
+                  typeof inputData.birth !== "string"
+                    ? inputData.birth.year
+                    : ""
+                }
+                maxLength={4}
+                onChange={handleInputChange}
+                ref={(element: HTMLInputElement | null) =>
+                  (birthRef.current[0] = element)
+                }
+                inputMode="decimal"
+              ></NoIconInput>
+              <Slash>/</Slash>
+              <NoIconInput
+                type="text"
+                name="month"
+                maxLength={2}
+                value={
+                  typeof inputData.birth !== "string"
+                    ? inputData.birth.month
+                    : ""
+                }
+                onChange={handleInputChange}
+                ref={(element: HTMLInputElement | null) =>
+                  (birthRef.current[1] = element)
+                }
+                inputMode="decimal"
+                //  required
+              ></NoIconInput>
+              <Slash>/</Slash>
+              <NoIconInput
+                type="text"
+                name="date"
+                maxLength={2}
+                value={
+                  typeof inputData.birth !== "string"
+                    ? inputData.birth.date
+                    : ""
+                }
+                onChange={handleInputChange}
+                ref={(element: HTMLInputElement | null) =>
+                  (inputRef.current[3] = element)
+                }
+                inputMode="decimal"
+                style={{ textAlign: "center" }}
+                required
+              ></NoIconInput>
+            </SignupInputInnerContainer>
+          </SignUpInputContainer>
+          <SignUpInputContainer>
+            <FormTitle>성별</FormTitle>
+            <SignupInputInnerContainer>
+              <TrGenderLabel>
+                <TrGenderRadio
+                  id="sex"
+                  type="radio"
                   name="sex"
-                  htmlFor="radio-box1"
-                  selected={selectedGender === "남자"}
+                  value="MAN"
                   onChange={handleInputChange}
-                  ref={element => (inputRef.current[4] = element)}
-                >
-                  <TrGenderRadio
-                    type="radio"
-                    name="sex"
-                    id="radio-box1"
-                    value="남자"
-                    checked={selectedGender === "남자"}
-                    onChange={() => setSelectedGender("남자")}
-                  ></TrGenderRadio>
-                  남자
-                </TrGenderLabel>
-                <TrGenderLabel
-                  htmlFor="radio-box2"
-                  selected={selectedGender === "여자"}
+                  ref={sexRef}
+                ></TrGenderRadio>
+                남자
+              </TrGenderLabel>
+              <TrGenderLabel>
+                <TrGenderRadio
+                  id="sex"
+                  type="radio"
+                  name="sex"
+                  value="WOMAN"
                   onChange={handleInputChange}
-                  ref={element => (inputRef.current[4] = element)}
-                >
-                  <TrGenderRadio
-                    type="radio"
-                    name="sex"
-                    id="radio-box2"
-                    value="여자"
-                    checked={selectedGender === "여자"}
-                    onChange={() => setSelectedGender("여자")}
-                  ></TrGenderRadio>{" "}
-                  여자
-                </TrGenderLabel>
-              </TrRegisItemWrap>
-            </SignupFormWrap>
-          </form>
-          <ButtonAreaFixed>
-            <Link href="/trainer/signup/step2">
-              <Button variant="primary" onClick={handleNext}>
-                다음
-              </Button>
-            </Link>
-          </ButtonAreaFixed>
-        </ContentInnerBody>
+                  ref={sexRef}
+                ></TrGenderRadio>{" "}
+                여자
+              </TrGenderLabel>
+            </SignupInputInnerContainer>
+          </SignUpInputContainer>
+        </div>
+        <ButtonAreaFixed>
+          <Link href="/trainer/signup/step2">
+            <Button
+              variant={isDisabled ? "ghost" : "primary"}
+              onClick={handleNext}
+              disabled={isDisabled}
+            >
+              다음
+            </Button>
+          </Link>
+        </ButtonAreaFixed>
       </ContentBody>
     </Container>
   );
