@@ -23,7 +23,13 @@ import {
   SignupStepInfoSub,
   SignupInputInnerContainer,
 } from "@/styles/SignupForm";
-import { TrGenderLabel, TrGenderRadio, Slash } from "./style";
+import {
+  FormRadio,
+  TrGenderLabel,
+  TrGenderRadio,
+  Slash,
+  StyledLabel,
+} from "./style";
 
 interface Trbirth {
   year: string;
@@ -246,28 +252,30 @@ export default function step1() {
           <SignUpInputContainer>
             <FormTitle>성별</FormTitle>
             <SignupInputInnerContainer>
-              <TrGenderLabel>
-                <TrGenderRadio
-                  id="sex"
+              <FormRadio>
+                <input
+                  id="gender-1"
                   type="radio"
                   name="sex"
                   value="MAN"
                   onChange={handleInputChange}
                   ref={sexRef}
-                ></TrGenderRadio>
-                남자
-              </TrGenderLabel>
-              <TrGenderLabel>
-                <TrGenderRadio
-                  id="sex"
+                  checked={inputData.sex === "MAN"}
+                />
+                <StyledLabel htmlFor="gender-1">남자</StyledLabel>
+              </FormRadio>
+              <FormRadio>
+                <input
+                  id="gender-2"
                   type="radio"
                   name="sex"
                   value="WOMAN"
                   onChange={handleInputChange}
                   ref={sexRef}
-                ></TrGenderRadio>{" "}
-                여자
-              </TrGenderLabel>
+                  checked={inputData.sex === "WOMAN"}
+                />
+                <StyledLabel htmlFor="gender-2">여자</StyledLabel>
+              </FormRadio>
             </SignupInputInnerContainer>
           </SignUpInputContainer>
         </div>

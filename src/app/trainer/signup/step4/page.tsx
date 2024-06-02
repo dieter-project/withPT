@@ -1,68 +1,42 @@
 "use client";
-import ContentHeader from "@/components/TrainerPageTitle";
-import JoinStep from "@/components/Trainer/TrSignUpStep";
 import { useState, useEffect } from "react";
-import Image from "next/image";
-import styled from "styled-components";
-import Link from "next/link";
 import { useAppSelector } from "@/redux/hooks";
 import { useDispatch } from "react-redux";
+import Link from "next/link";
+import ContentHeader from "@/components/TrainerPageTitle";
+import JoinStep from "@/components/Trainer/TrSignUpStep";
+import Image from "next/image";
+import styled from "styled-components";
+import {
+  Container,
+  ContentBody,
+  ButtonAreaFixed,
+} from "@/styles/TrainerLayout";
+import {
+  FormTitle,
+  SignUpInputContainer,
+  SignUpTitleWrap,
+  SignupStepInfo,
+  SignupStepInfoSub,
+  SignupInputInnerContainer,
+} from "@/styles/SignupForm";
+import {
+  Modal,
+  ModalWrap,
+  ModalCloseXButton,
+  ModalDimmed,
+  ModalHeader,
+  ModalBody,
+  ModalContent,
+} from "@/styles/TrainerModal";
 import ModalCloseXButtonImg from "../../../../../public/Trainer/Modal/close-line.png";
-import beforePage from "../../../../../public/icons/beforePage.png";
 import searchIconImg from "../../../../../public/searchLight.png";
-import deleteIcon from "../../../../../public/Trainer/delete.png";
 import checkIconPurple from "../../../../../public/Trainer/checkIconPurple.png";
-import checkIconGray from "../../../../../public/Trainer/checkIconGray.png";
 import { api } from "@/utils/axios";
 import { setCookie } from "@/utils/cookie";
 
-const Wrap = styled.div`
-  position: relative;
-  background-color: white;
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  width: 100%;
-  height: auto;
-`;
-
-const ButtonHistoryBack = styled.button`
-  width: 2.4rem;
-  height: 2.4rem;
-`;
-
-const SignupTitle = styled.h4`
-  line-height: 3rem;
-  color: #222;
-  font-size: 1.6rem;
-  font-weight: 700;
-  letter-spacing: -0;
-`;
-
-const ContentBody = styled.div`
-  padding: 6.8rem 1.25rem 3.2rem 1.25rem;
-`;
-
-const ContentInnerBody = styled.div``;
-
-const SignupStepInfo = styled.p`
-  font-size: var(--font-xxxl);
-  font-weight: 600;
-  color: #222;
-`;
-
-const SignupStepInfoSub = styled.p`
-  font-size: var(--font-m);
-  color: var(--font-gray700);
-`;
-
 const SignupFormWrap = styled.div`
   margin-bottom: 1.5rem;
-`;
-
-const FormTitle = styled.h4`
-  font-size: var(--font-l);
-  margin-bottom: 0.2rem;
 `;
 
 const TrRegisItemWrap = styled.div`
@@ -81,20 +55,12 @@ const SignupButton = styled.button`
 `;
 
 const AlertMessage = styled.div`
+  display: flex;
+  align-items: center;
   font-size: var(--font-s);
   font-weight: 500;
   text-align: center;
   margin-bottom: 1.56rem;
-`;
-
-const ButtonAreaFixed = styled.div`
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  padding: 2.4rem 1.6rem 1.6rem;
-  width: 100%;
-  z-index: 100;
-  background-color: transparent;
 `;
 
 const StepButtonWrap = styled.div`
@@ -127,62 +93,12 @@ const NextStep = styled.button`
   text-align: center;
 `;
 
-const Modal = styled.div`
-  position: fixed;
-  width: 100%;
-  height: 100%;
-  top: 0;
-  left: 0;
-  z-index: 999;
-`;
-
-const ModalCloseXButton = styled(Image)`
-  position: absolute;
-  top: 1%;
-  right: 2%;
-`;
-
-const ModalWrap = styled.div`
-  position: absolute;
-  bottom: -100%;
-  left: 0;
-  width: 100%;
-  height: 100vh;
-  background-color: white;
-  padding: 1.75rem 1rem 3.38rem;
-  border-radius: 1rem 1rem 0 0;
-  transition: 0.3s;
-`;
-
 const ModalCloseButton = styled.button`
   background-color: var(--primary);
   width: 100%;
   color: var(--white);
   border-radius: 0.5rem;
   padding: 1.5vh 0;
-`;
-
-const ModalDimmed = styled.div`
-  z-index: -1;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.7);
-`;
-
-const ModalHeader = styled.header`
-  text-align: center;
-  font-size: var(--font-l);
-  font-weight: 600;
-  margin-bottom: 2.75rem;
-`;
-
-const ModalBody = styled.header``;
-
-const ModalContent = styled.div`
-  display: flex;
-  align-items: center;
-  margin-bottom: 1rem;
-  line-height: 2.5rem;
 `;
 
 const ScheduleWrap = styled.div``;
@@ -211,35 +127,6 @@ const ModalFormInput = styled.input`
   background-color: transparent;
   border: none;
   outline: none;
-`;
-
-const ModalFormLabel = styled.label`
-  padding: 0.62rem 0.75rem;
-  border: 1px solid var(--border-darkgray);
-  border-radius: 0.5rem;
-  margin-right: 0.5vh;
-  font-size: var(--font-m);
-  cursor: pointer;
-  /* 선택된 label에 대한 스타일 */
-  &.selected {
-    background-color: var(--primary);
-  }
-`;
-
-const ModalCheckBox = styled.input`
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-
-  /* 기본 스타일 없애기 */
-  border: none;
-  padding: 0;
-  margin: 0;
-
-  /* checkbox 선택 시 배경색 변경 */
-  &:checked + label {
-    background-color: white;
-  }
 `;
 
 const TimeSelect = styled.select`
@@ -318,7 +205,7 @@ const SearchIcon = styled(Image)`
 export default function step4() {
   const title = "이력 등록";
   const dispatch = useDispatch();
-
+  const saveStates = useAppSelector(state => state.trainerSignup);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [showModalContent, setShowModalContent] = useState(false);
   const [selectedDays, setSelectedDays] = useState<string[]>([]);
@@ -328,7 +215,6 @@ export default function step4() {
     Array<{ days: string[]; startTime: string; endTime: string }>
   >([]);
   const [searchValue, setSearchValue] = useState("");
-  const saveStates = useAppSelector(state => state.trainerSignup);
 
   //error message
   const [overlapError, setOverlapError] = useState<string | null>(null);
@@ -568,125 +454,127 @@ export default function step4() {
   };
 
   return (
-    <Wrap>
+    <Container>
       <ContentHeader title={title}></ContentHeader>
       <ContentBody>
-        <ContentInnerBody>
-          <JoinStep active={"4"} />
-          <div style={{ marginBottom: "1.5rem" }}>
+        <JoinStep active={"4"} />
+        <div>
+          <SignUpTitleWrap>
             <SignupStepInfo>내 이력을 등록해주세요</SignupStepInfo>
             <SignupStepInfoSub>
               회원가입 후 마이페이지에서도 입력이 가능해요.
             </SignupStepInfoSub>
-          </div>
-          <RegisterTitle>경력 입력</RegisterTitle>
-          <SignupFormWrap>
-            <TrRegisItemWrap>
-              <SignupButton onClick={toggleModal}>
-                {selectedSchedules[0] ? (
-                  <RegisterStatus>
-                    <CheckIcon src={checkIconPurple} alt="등록 완료 이미지" />
-                    <RegisterMessage>등록 완료 </RegisterMessage>
-                  </RegisterStatus>
-                ) : (
-                  <>
-                    <PlusIcon>+</PlusIcon>
-                  </>
-                )}
-              </SignupButton>
-            </TrRegisItemWrap>
-            {selectedSchedules[0] ? (
-              <ScheduleFlexWrap>
-                {selectedSchedules.map((schedule, index) => (
-                  <ScheduleFlex key={index}>
-                    <span>{schedule.days.join("/")}</span>
-                    <span>
-                      {schedule.startTime} ~ {schedule.endTime}
-                    </span>
-                  </ScheduleFlex>
-                ))}
-              </ScheduleFlexWrap>
-            ) : (
-              ""
-            )}
-          </SignupFormWrap>
-          <RegisterTitle>자격증/수상/교육 등록</RegisterTitle>
-          <SignupFormWrap>
-            <TrRegisItemWrap>
-              <SignupButton onClick={toggleModal}>
-                {selectedSchedules[0] ? (
-                  <RegisterStatus>
-                    <CheckIcon src={checkIconPurple} alt="등록 완료 이미지" />
-                    <RegisterMessage>등록 완료 </RegisterMessage>
-                  </RegisterStatus>
-                ) : (
-                  <>
-                    <PlusIcon>+</PlusIcon>
-                  </>
-                )}
-              </SignupButton>
-            </TrRegisItemWrap>
-            {selectedSchedules[0] ? (
-              <ScheduleFlexWrap>
-                {selectedSchedules.map((schedule, index) => (
-                  <ScheduleFlex key={index}>
-                    <span>{schedule.days.join("/")}</span>
-                    <span>
-                      {schedule.startTime} ~ {schedule.endTime}
-                    </span>
-                  </ScheduleFlex>
-                ))}
-              </ScheduleFlexWrap>
-            ) : (
-              ""
-            )}
-          </SignupFormWrap>
-          <RegisterTitle>학력사항 등록</RegisterTitle>
-          <SignupFormWrap>
-            <TrRegisItemWrap>
-              <SignupButton onClick={toggleModal}>
-                {selectedSchedules[0] ? (
-                  <RegisterStatus>
-                    <CheckIcon src={checkIconPurple} alt="등록 완료 이미지" />
-                    <RegisterMessage>등록 완료 </RegisterMessage>
-                  </RegisterStatus>
-                ) : (
-                  <>
-                    <PlusIcon>+</PlusIcon>
-                  </>
-                )}
-              </SignupButton>
-            </TrRegisItemWrap>
-            {selectedSchedules[0] ? (
-              <ScheduleFlexWrap>
-                {selectedSchedules.map((schedule, index) => (
-                  <ScheduleFlex key={index}>
-                    <span>{schedule.days.join("/")}</span>
-                    <span>
-                      {schedule.startTime} ~ {schedule.endTime}
-                    </span>
-                  </ScheduleFlex>
-                ))}
-              </ScheduleFlexWrap>
-            ) : (
-              ""
-            )}
-          </SignupFormWrap>
+          </SignUpTitleWrap>
+        </div>
 
-          <ButtonAreaFixed>
-            <AlertMessage>
-              등록된 트레이너 이력은 회원페이지에 노출이 됩니다.
-            </AlertMessage>
-            <StepButtonWrap>
-              <NextTime rel="preload" href="/trainer/register/step5">
-                넘어가기
-              </NextTime>
-              <Link href="/trainer/signup/finished">
-                <NextStep onClick={handleSubmit}>다음</NextStep>
-              </Link>
-            </StepButtonWrap>
-          </ButtonAreaFixed>
-        </ContentInnerBody>
+        <RegisterTitle>경력 입력</RegisterTitle>
+        <SignupFormWrap>
+          <TrRegisItemWrap>
+            <SignupButton onClick={toggleModal}>
+              {selectedSchedules[0] ? (
+                <RegisterStatus>
+                  <CheckIcon src={checkIconPurple} alt="등록 완료 이미지" />
+                  <RegisterMessage>등록 완료 </RegisterMessage>
+                </RegisterStatus>
+              ) : (
+                <>
+                  <PlusIcon>+</PlusIcon>
+                </>
+              )}
+            </SignupButton>
+          </TrRegisItemWrap>
+          {selectedSchedules[0] ? (
+            <ScheduleFlexWrap>
+              {selectedSchedules.map((schedule, index) => (
+                <ScheduleFlex key={index}>
+                  <span>{schedule.days.join("/")}</span>
+                  <span>
+                    {schedule.startTime} ~ {schedule.endTime}
+                  </span>
+                </ScheduleFlex>
+              ))}
+            </ScheduleFlexWrap>
+          ) : (
+            ""
+          )}
+        </SignupFormWrap>
+        <RegisterTitle>자격증/수상/교육 등록</RegisterTitle>
+        <SignupFormWrap>
+          <TrRegisItemWrap>
+            <SignupButton onClick={toggleModal}>
+              {selectedSchedules[0] ? (
+                <RegisterStatus>
+                  <CheckIcon src={checkIconPurple} alt="등록 완료 이미지" />
+                  <RegisterMessage>등록 완료 </RegisterMessage>
+                </RegisterStatus>
+              ) : (
+                <>
+                  <PlusIcon>+</PlusIcon>
+                </>
+              )}
+            </SignupButton>
+          </TrRegisItemWrap>
+          {selectedSchedules[0] ? (
+            <ScheduleFlexWrap>
+              {selectedSchedules.map((schedule, index) => (
+                <ScheduleFlex key={index}>
+                  <span>{schedule.days.join("/")}</span>
+                  <span>
+                    {schedule.startTime} ~ {schedule.endTime}
+                  </span>
+                </ScheduleFlex>
+              ))}
+            </ScheduleFlexWrap>
+          ) : (
+            ""
+          )}
+        </SignupFormWrap>
+        <RegisterTitle>학력사항 등록</RegisterTitle>
+        <SignupFormWrap>
+          <TrRegisItemWrap>
+            <SignupButton onClick={toggleModal}>
+              {selectedSchedules[0] ? (
+                <RegisterStatus>
+                  <CheckIcon src={checkIconPurple} alt="등록 완료 이미지" />
+                  <RegisterMessage>등록 완료 </RegisterMessage>
+                </RegisterStatus>
+              ) : (
+                <>
+                  <PlusIcon>+</PlusIcon>
+                </>
+              )}
+            </SignupButton>
+          </TrRegisItemWrap>
+          {selectedSchedules[0] ? (
+            <ScheduleFlexWrap>
+              {selectedSchedules.map((schedule, index) => (
+                <ScheduleFlex key={index}>
+                  <span>{schedule.days.join("/")}</span>
+                  <span>
+                    {schedule.startTime} ~ {schedule.endTime}
+                  </span>
+                </ScheduleFlex>
+              ))}
+            </ScheduleFlexWrap>
+          ) : (
+            ""
+          )}
+        </SignupFormWrap>
+
+        <ButtonAreaFixed>
+          <AlertMessage>
+            <img src="/svgs/icon_alert.svg" alt="" />
+            등록된 트레이너 이력은 회원페이지에 노출이 됩니다.
+          </AlertMessage>
+          <StepButtonWrap>
+            <NextTime rel="preload" href="/trainer/register/step5">
+              넘어가기
+            </NextTime>
+            <Link href="/trainer/signup/finished">
+              <NextStep onClick={handleSubmit}>다음</NextStep>
+            </Link>
+          </StepButtonWrap>
+        </ButtonAreaFixed>
       </ContentBody>
       {isModalOpen && (
         <Modal>
@@ -773,6 +661,6 @@ export default function step4() {
           <ModalDimmed></ModalDimmed>
         </Modal>
       )}
-    </Wrap>
+    </Container>
   );
 }
