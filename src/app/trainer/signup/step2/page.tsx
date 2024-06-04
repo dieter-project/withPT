@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 import styled from "styled-components";
@@ -38,11 +37,11 @@ import JoinStep from "@/components/Trainer/TrSignUpStep";
 import searchIcon from "../../../../../public/Trainer/icons/searchLightGray.png";
 import registerIcon from "../../../../../public/Trainer/plusCircleIcon.png";
 import ModalCloseXButtonImg from "../../../../../public/Trainer/Modal/close-line.png";
-
+import { searchGym } from "@/lib/kakaoApi";
 import { Button } from "@/styles/TrainerButton";
 import { signupActions } from "@/redux/reducers/trainerSignupSlice";
 import { useAppSelector } from "@/redux/hooks";
-import Storelist from "./storelist/page";
+// import Storelist from "./storelist/page";
 
 const ModalMessage = styled.div`
   margin-top: 2rem;
@@ -116,16 +115,29 @@ const RecentSearchList = styled.li`
 `;
 
 export default function step2() {
+  const title = "센터 등록";
+  const dispatch = useDispatch();
+  const states = useAppSelector(state => state.trainerSignup);
+  const [searchKeywords, setSearchKeywords] = useState<string | null>("");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [showModalContent, setShowModalContent] = useState(false);
   const [workingCenter, setWorkingCenter] = useState(null);
   const [isDisabled, setIsDisabled] = useState(true);
-  const dispatch = useDispatch();
-  const title = "센터 등록";
-  const states = useAppSelector(state => state.trainerSignup);
+
+  //
+
+  const [gyms, setGyms] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  //위까지 추가
 
   const toggleModal = () => {
     setIsModalOpen(!isModalOpen);
+  };
+
+  const searchEvent = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchKeywords(e.target.value);
   };
 
   useEffect(() => {
@@ -150,7 +162,7 @@ export default function step2() {
     isAnyFieldEmpty();
   }, [workingCenter]);
 
-  console.log("workingCenter", workingCenter ? workingCenter : "exmaplenno");
+  // console.log("workingCenter", workingCenter ? workingCenter : "exmaplenno");
 
   const handleNext = () => {
     dispatch(
@@ -224,10 +236,39 @@ export default function step2() {
               onClick={() => setIsModalOpen(false)}
             />
             <ModalBody>
-              <Storelist
+              {/* <Storelist
                 setIsModalOpen={setIsModalOpen}
                 setWorkingCenter={setWorkingCenter}
-              />
+              /> */}
+              <SearchBarWrap>
+                <SearchIcon
+                  src={searchIcon}
+                  alt="검색 회색 돋보기 아이콘"
+                ></SearchIcon>
+                <SearchBarInput
+                  type="text"
+                  name="센터 검색바"
+                  placeholder="검색"
+                  onChange={searchEvent}
+                ></SearchBarInput>
+              </SearchBarWrap>
+              <div>
+                <h1>헬스장 검색</h1>
+                <input
+                  type="text"
+                  value={keyword}
+                  onChange={e => setKeyword(e.target.value)}
+                  placeholder="검색어 입력"
+                />
+                <button onClick={handleSearch}>검색</button>
+                <ul>
+                  {gyms.map(gym => (
+                    <li key={gym.id}>
+                      {gym.place_name} - {gym.address_name}
+                    </li>
+                  ))}
+                </ul>
+              </div>
             </ModalBody>
           </ModalWrap>
         </Modal>
