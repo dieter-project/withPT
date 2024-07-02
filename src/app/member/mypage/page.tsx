@@ -6,16 +6,78 @@ import { LabelTitle } from "@/styles/Text";
 import { GoalIcon, GoalListItem, GoalValue, MenuList, NextArrow, ProfileWrap } from "./styles";
 import { useRouter } from "next/navigation";
 import { logout } from "@/services/member/auth";
+import { useEffect, useState } from "react";
+import { getMemberInfo } from "@/services/member/member";
+import { MemberInfo } from "@/types/member/member";
 
 
 
 const page = () => {
   const title = "마이페이지"
   const router = useRouter();
+  const [memberInfo, setMemberInfo] = useState<MemberInfo>({
+    id: 0,
+    email: "",
+    oauthProvider: "",
+    loginType: "",
+    name: "",
+    height: 0,
+    weight: 0,
+    birth: "",
+    sex: "",
+    imageUrl: "",
+    dietType: "",
+    exerciseFrequency: "",
+    targetWeight: 0,
+    role: "",
+    joinDate: "",
+    lastModifiedDate: ""
+  })
 
   const handleLogout = () => {
     logout();
     router.push('/')
+  }
+
+  const getMember = async () => {
+    try {
+      const { data: { data } } = await getMemberInfo();
+      setMemberInfo(data)
+    } catch (error) {
+      console.log('error: ', error);
+    }
+  }
+
+  useEffect(() => {
+    getMember()
+  }, [])
+
+  const convertGoal = (type: string, value: string) => {
+    if (type === "diet") {
+      switch (value) {
+        case "Carb_Protein_Fat":
+          return "탄단지";
+        case "PROTEIN":
+          return "단백질";
+        case "DIET":
+          return "다이어트";
+        case "KETO":
+          return "키토";
+      }
+    } else if (type === "exercise") {
+      switch (value) {
+        case "FIRST_TIME":
+          return "운동은 처음이라 잘 모르겠어요";
+        case "ONCE_TWICE_A_WEEK":
+          return "주 1~2회";
+        case "THREE_TIMES_A_WEEK_OR_MORE":
+          return "주 3회 이상";
+        case "FIVE_TIMES_A_WEEK_OR_MORE":
+          return "주 5회 이상";
+        case "EVERYDAY":
+          return "매일 운동할래요";
+      }
+    }
   }
 
   return (
@@ -25,7 +87,7 @@ const page = () => {
         <ContentSection>
           <ProfileWrap>
             <div className="profile-name">
-              <div>맥도날드님!</div>
+              <div>{memberInfo.name}님!</div>
               <p>오늘도 힘찬 하루 보내세요!</p>
             </div>
             <div className="profile-img" onClick={() => router.push('/member/mypage/edit/info')}>
@@ -48,7 +110,7 @@ const page = () => {
                     }} />
                     <GoalValue>
                       <div>목표식단 수정하기</div>
-                      <div>탄단지 식단</div>
+                      <div>{convertGoal("diet", memberInfo.dietType)}</div>
                     </GoalValue>
                   </div>
                   <NextArrow></NextArrow>
@@ -65,7 +127,7 @@ const page = () => {
                     }} />
                     <GoalValue>
                       <div>운동목표 수정하기</div>
-                      <div>주 3회 이상</div>
+                      <div>{convertGoal("exercise", memberInfo.exerciseFrequency)}</div>
                     </GoalValue>
                   </div>
                   <NextArrow></NextArrow>
@@ -82,7 +144,7 @@ const page = () => {
                     }} />
                     <GoalValue>
                       <div>목표체중 수정하기</div>
-                      <div>51kg</div>
+                      <div>{memberInfo.targetWeight} kg</div>
                     </GoalValue>
                   </div>
                   <NextArrow></NextArrow>
