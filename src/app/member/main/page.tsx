@@ -26,6 +26,10 @@ import { format } from 'date-fns';
 import { ko } from 'date-fns/locale';
 import { getExercise } from '@/services/member/exercise';
 import { AddRecordButton } from '@/styles/AddButton';
+import { getPersonalTrainers } from '@/services/member/training';
+import { MemberInfo } from '@/types/member/member';
+import { getMemberInfo } from '@/services/member/member';
+import { convertGoal } from '@/utils/convertGoal';
 
 export type WorkoutType = {
   id: number,
@@ -62,22 +66,25 @@ const page = () => {
   });
   const [recordDate, setRecordDate] = useState([])
   const [trainers, setTrainers] = useState([]);
+  const [memberInfo, setMemberInfo] = useState<MemberInfo>({
+    id: 0,
+    email: "",
+    oauthProvider: "",
+    loginType: "",
+    name: "",
+    height: 0,
+    weight: 0,
+    birth: "",
+    sex: "",
+    imageUrl: "",
+    dietType: "",
+    exerciseFrequency: "",
+    targetWeight: 0,
+    role: "",
+    joinDate: "",
+    lastModifiedDate: ""
+  })
 
-
-  const handleGetGoalMeal = async () => {
-    try {
-
-    } catch (error) {
-      console.log('error: ', error);
-    }
-  }
-  const handleGetGoalWorkout = async () => {
-    try {
-
-    } catch (error) {
-      console.log('error: ', error);
-    }
-  }
   const handleGetTodayMeal = async () => {
     try {
 
@@ -107,7 +114,7 @@ const page = () => {
   }
   const handleGetTrainers = async () => {
     try {
-      const response = await api.get(`/api/v1/gyms/personal-trainings/members/5/trainers`)
+      const response = await getPersonalTrainers(5)
       const { data: { data } } = response
 
       setTrainers(data)
@@ -116,7 +123,17 @@ const page = () => {
     }
   }
 
+  const getMember = async () => {
+    try {
+      const { data: { data } } = await getMemberInfo();
+      setMemberInfo(data)
+    } catch (error) {
+      console.log('error: ', error);
+    }
+  }
+
   useEffect(() => {
+    getMember();
     handleGetTodayWorkout();
     handleGetTrainers();
   }, [])
@@ -131,11 +148,11 @@ const page = () => {
             <GoalContents>
               <div>
                 <span></span>
-                <div>탄단지식단</div>
+                <div>{convertGoal("diet", memberInfo.dietType)}식단</div>
               </div>
               <div>
                 <span></span>
-                <div>주 2회이상 운동</div>
+                <div>{convertGoal("exercise", memberInfo.exerciseFrequency)}</div>
               </div>
             </GoalContents>
           </MyGoal>
