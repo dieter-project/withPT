@@ -13,19 +13,7 @@ import { BaseContentWrap, ButtonAreaFixed } from '@/styles/Layout'
 import { SignUpInputContainer, SignUpTitleWrap } from '@/styles/SignupForm'
 import { useAppSelector } from '@/redux/hooks'
 import { RadioButton } from './styles'
-interface Ibirth {
-  year: string;
-  month: string;
-  date: string;
-}
-
-interface Imember {
-  name: string;
-  birth: Ibirth | string;
-  sex: string;
-  height: string;
-  weight: string;
-}
+import { Imember } from '@/types/member/member';
 
 const page = () => {
   const [inputData, setInputData] = useState<Imember>({

@@ -7,6 +7,9 @@ export const Input = styled.input`
   border-radius: 0.5rem;
   background-color: var(--purple50);
   padding: 0 0.625rem;
+  &:disabled {
+    color: var(--border-gray400);
+  }
 `
 
 export const Select = styled.select`

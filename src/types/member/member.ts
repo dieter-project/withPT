@@ -16,3 +16,17 @@ export interface MemberInfo  {
   joinDate: string,
   lastModifiedDate: string
 }
+
+interface Ibirth {
+  year: string;
+  month: string;
+  date: string;
+}
+
+export interface Imember {
+  name: string;
+  birth: Ibirth | string;
+  sex: string;
+  height: string;
+  weight: string;
+}

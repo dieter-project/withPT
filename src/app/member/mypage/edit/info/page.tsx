@@ -12,13 +12,9 @@ import { getCookie } from "@/utils/cookie";
 import { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import { Button } from "@/styles/Button";
-
-interface Imember {
-  name: string,
-  sex: string,
-  height: string,
-  weight: string,
-}
+import { getMemberInfo, patchMemberInfo } from "@/services/member/member";
+import { Imember } from "@/types/member/member";
+import { useRouter } from "next/navigation";
 
 const ProfileWrap = styled.div`
   width: 6.375rem;
@@ -46,20 +42,29 @@ const page = () => {
   const title = "내 정보 수정"
   const [inputData, setInputData] = useState<Imember>({
     name: "",
+    birth: "",
     sex: "",
     height: "",
     weight: "",
   })
 
   const nameRef = useRef<null | HTMLInputElement>(null)
+  const birthRef = useRef<null[] | HTMLInputElement[]>([])
   const sexRef = useRef<null | HTMLInputElement>(null)
   const heightRef = useRef<null | HTMLInputElement>(null)
   const weightRef = useRef<null | HTMLInputElement>(null)
+  
+  const router = useRouter();
 
   useEffect(() => {
     const token = getCookie('access')
-    console.log('token: ', token);
+    // console.log('token: ', token);
   }, [])
+
+  useEffect(()=>{
+    console.log('inputData: ', inputData);
+
+  }, [inputData])
 
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -81,28 +86,47 @@ const page = () => {
     })
   }
 
+  const getInfo = async () => {
+    const { data: { data } } = await getMemberInfo()
+    console.log('data: ', data);
+    setInputData(prev => ({
+      ...prev,
+      name: data.name,
+      sex: data.sex,
+      birth: data.birth,
+      height: data.height,
+      weight: data.weight
+    }))
+  }
 
-  const handleEdit = () => {
-    
-    if (inputData.name.length <= 0 && nameRef.current !== null) { 
+
+  const handleEdit = async () => {
+
+    if (inputData.name.length <= 0 && nameRef.current !== null) {
       nameRef.current.focus();
       return false;
     }
-    if (inputData.sex.length <= 0 && sexRef.current !== null) { 
+    if (inputData.sex.length <= 0 && sexRef.current !== null) {
       sexRef.current.focus();
       return false;
     }
-    if (inputData.height.length <= 0 && heightRef.current !== null) { 
+    if (inputData.height.length <= 0 && heightRef.current !== null) {
       heightRef.current.focus();
       return false;
     }
-    if (inputData.weight.length <= 0 && weightRef.current !== null) { 
+    if (inputData.weight.length <= 0 && weightRef.current !== null) {
       weightRef.current.focus();
       return false;
     }
-
+    await patchMemberInfo(inputData);
+    router.push('/member/mypage')
     // sessionStorage.setItem('member_login_step1', JSON.stringify(inputData))
   }
+
+  useEffect(() => {
+    getInfo();
+
+  }, [])
 
   return (
     <>
@@ -124,6 +148,53 @@ const page = () => {
               onChange={handleInputChange}
               ref={nameRef}
             />
+          </SignUpInputContainer>
+          <SignUpInputContainer>
+            <LabelTitle>생년월일</LabelTitle>
+            <InputRowWrap>
+              <Input
+                type="text"
+                name="year"
+                value={
+                  typeof inputData.birth !== "string"
+                    ? inputData.birth.year
+                    : inputData.birth.split("-")[0]
+                }
+                maxLength={4}
+                onChange={handleInputChange}
+                ref={(element) => birthRef.current[0] = element}
+                inputMode='decimal'
+                disabled
+              />/
+              <Input
+                type="text"
+                name="month"
+                maxLength={2}
+                value={
+                  typeof inputData.birth !== "string"
+                    ? inputData.birth.month
+                    : inputData.birth.split("-")[1]
+                }
+                onChange={handleInputChange}
+                ref={(element) => birthRef.current[1] = element}
+                inputMode='decimal'
+                disabled
+              />/
+              <Input
+                type="text"
+                name="date"
+                maxLength={2}
+                value={
+                  typeof inputData.birth !== "string"
+                    ? inputData.birth.date
+                    : inputData.birth.split("-")[2]
+                }
+                onChange={handleInputChange}
+                ref={(element) => birthRef.current[2] = element}
+                inputMode='decimal'
+                disabled
+              />
+            </InputRowWrap>
           </SignUpInputContainer>
           <SignUpInputContainer>
             <LabelTitle>성별</LabelTitle>
@@ -173,13 +244,14 @@ const page = () => {
                   onChange={handleHeightWeightChange}
                   ref={weightRef}
                   inputMode='decimal'
+                  disabled
                 />
                 <span>kg</span>
               </InputWrap>
             </InputRowWrap>
           </SignUpInputContainer>
         </div>
-        <ButtonAreaFixed $nav={false}>
+        <ButtonAreaFixed $nav={true}>
           <Button
             $variant='primary'
             onClick={handleEdit}
