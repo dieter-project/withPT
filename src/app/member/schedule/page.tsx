@@ -1,12 +1,14 @@
 "use client";
 
 import PageTitle from "@/components/PageTitle";
+import MonthlyCalendar from "@/components/member/MonthlyCalendar";
 import { Button } from "@/styles/Button";
 import { BaseContentWrap, ContentSection, RoundBox } from "@/styles/Layout";
 import { LabelTitle } from "@/styles/Text";
+import { ScheduleDates } from "@/types/member/schedule";
 import { api } from "@/utils/axios";
-import { signIn, useSession } from "next-auth/react";
-import React, { useEffect } from "react";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import React, { useEffect, useState } from "react";
 import { styled } from "styled-components";
 
 const ScheduleDate = styled.div`
@@ -43,17 +45,40 @@ const ScheduleDetail = styled.div`
 
 const page = () => {
   const title = "나의 수업일정";
+  const [markDate, setMarkDate] = useState([]);
+  const [activeDate, setActiveDate] = useState<ScheduleDates>(null);
+  const searchParams = useSearchParams();
+  const search = searchParams.get("date")
+  const router = useRouter();
+  const pathname = usePathname()
 
   const getSchedule = async () => {
     const response = await api.get("");
   };
+
+  const onChange = (value: ScheduleDates) => {
+    setActiveDate(value)
+  }
+
+  useEffect(() => {
+    if (search) { setActiveDate(new Date(search)) }
+
+  }, [search])
 
   return (
     <>
       <PageTitle title={title} />
       <BaseContentWrap>
         <ContentSection>
-          <RoundBox variant="outline">달력</RoundBox>
+          <RoundBox variant="outline">
+            <MonthlyCalendar
+              activeDate={activeDate}
+              setActiveDate={setActiveDate}
+              markDate={markDate}
+              onChange={onChange}
+              // handleClick={handleDayClick}
+            />
+          </RoundBox>
         </ContentSection>
         <ContentSection>
           <LabelTitle>수업일정</LabelTitle>
@@ -80,7 +105,7 @@ const page = () => {
             </ul>
           </div>
           <div>
-            <Button variant="primary">수업 예약하기</Button>
+            <Button $variant="primary">수업 예약하기</Button>
           </div>
         </ContentSection>
       </BaseContentWrap>

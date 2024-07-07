@@ -1,13 +1,12 @@
 'use client'
 
+import { ScheduleDates } from '@/types/member/schedule';
 import { format } from 'date-fns';
-import React, { ReactElement, useState } from 'react'
+import { useSearchParams } from 'next/navigation';
+import React, { ReactElement, useEffect, useState } from 'react'
 import Calendar from 'react-calendar';
 import { TileArgs, View } from 'react-calendar/dist/cjs/shared/types';
 import { styled } from 'styled-components';
-
-type ValuePiece = Date | null;
-type Value = ValuePiece | [ValuePiece, ValuePiece];
 
 const CalendarWrap = styled.div`
     .react-calendar {
@@ -84,8 +83,23 @@ interface Tile {
   date: TileArgs | Date
   view?: View
 }
-const MonthlyCalendar = () => {
-  const [value, onChange] = useState<Value>(new Date());
+const MonthlyCalendar = ({ activeDate, setActiveDate, markDate, handleClick, onChange }: {
+  activeDate: ScheduleDates, 
+  setActiveDate: React.Dispatch<React.SetStateAction<ScheduleDates>>,
+  markDate: string[],
+  handleClick?: () => void;
+  onChange: (value: ScheduleDates) => void;
+}) => {
+  const searchParams = useSearchParams();
+  const dateParams = searchParams.get("date")
+  // const [value, onChange] = useState<ScheduleDates>(new Date(dateParams || ""));
+  // console.log('value: ', value);
+  
+  useEffect(() => {
+    if (dateParams) {
+      setActiveDate(new Date(dateParams))
+    }
+  }, [])
 
   const tileContent = ({date, view} : TileArgs): ReactElement => {
     // console.log('date: ', format(date, 'yyyy-MM-dd'));
@@ -104,14 +118,14 @@ const MonthlyCalendar = () => {
   }
   
 
-  const markDate = [
-    '2023-12-02',
-    '2023-12-04',
-    '2023-12-10',
-    '2023-12-12',
-    '2023-12-23',
-    '2023-12-27',
-  ]
+  // const markDate = [
+  //   '2023-12-02',
+  //   '2023-12-04',
+  //   '2023-12-10',
+  //   '2023-12-12',
+  //   '2023-12-23',
+  //   '2023-12-27',
+  // ]
   return (
     <CalendarWrap>
     <Calendar
@@ -120,8 +134,9 @@ const MonthlyCalendar = () => {
       next2Label={null}
       prev2Label={null}
       showNeighboringMonth={false}
-      value={value}
+      value={activeDate}
       onChange={onChange}
+      onClickDay={handleClick}
       tileContent={(date) => tileContent(date)}
     />
     </CalendarWrap>

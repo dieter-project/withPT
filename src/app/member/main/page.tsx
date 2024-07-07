@@ -21,15 +21,15 @@ import {
 } from './styles';
 import DonutChart from '@/components/member/main/DonutChart';
 import WorkoutList from '@/components/member/WorkoutList';
-import MonthlyCalendar from '@/components/member/MonthlyCalendar';
 import { format } from 'date-fns';
 import { ko } from 'date-fns/locale';
 import { getExercise } from '@/services/member/exercise';
-import { AddRecordButton } from '@/styles/AddButton';
-import { getPersonalTrainers } from '@/services/member/training';
+import { getLessonsDays, getPersonalTrainers } from '@/services/member/training';
 import { MemberInfo } from '@/types/member/member';
 import { getMemberInfo } from '@/services/member/member';
 import { convertGoal } from '@/utils/convertGoal';
+import { ScheduleDates } from '@/types/member/schedule';
+import MonthlyCalendar from '@/components/member/MonthlyCalendar';
 
 export type WorkoutType = {
   id: number,
@@ -64,7 +64,8 @@ const page = () => {
       }
     ],
   });
-  const [recordDate, setRecordDate] = useState([])
+  const [markDate, setMarkDate] = useState([]);
+  const [activeDate, setActiveDate] = useState<ScheduleDates>(today);
   const [trainers, setTrainers] = useState([]);
   const [memberInfo, setMemberInfo] = useState<MemberInfo>({
     id: 0,
@@ -132,9 +133,25 @@ const page = () => {
     }
   }
 
+  const getLesson = async () => {
+    try {
+      const { data: { data } } = await getLessonsDays(format(today, "yyyy-MM"));
+      getLessonsDays(data)
+    } catch (error) {
+      console.log('error: ', error);
+    }
+  }
+
+
+  const onChange = (value: ScheduleDates) => {
+    setActiveDate(value)
+    router.push(`/member/schedule?date=${format(new Date(value as Date), "yyyy-MM-dd")}`)
+  }
+
   useEffect(() => {
     getMember();
     handleGetTodayWorkout();
+    getLesson();
     handleGetTrainers();
   }, [])
 
@@ -210,7 +227,12 @@ const page = () => {
         <ContentSection>
           <LabelTitle>수업일정</LabelTitle>
           <div className='section-contents'>
-            <MonthlyCalendar />
+            <MonthlyCalendar
+              activeDate={activeDate}
+              setActiveDate={setActiveDate}
+              markDate={markDate}
+              onChange={onChange}
+            />
           </div>
         </ContentSection>
         {trainers.length > 0 &&
