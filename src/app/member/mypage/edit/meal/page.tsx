@@ -15,7 +15,6 @@ import React, { useEffect, useState } from 'react'
 const page = () => {
   const title = '식단 설정'
   const router = useRouter()
-  const states = useAppSelector((state) => state.signup)
   const [inputData, setInputData] = useState({
     dietType: ""
   })
@@ -55,9 +54,8 @@ const page = () => {
             {
               targetDiet?.map((diet, index) => {
                 return (
-                  <label>
+                  <label key={index}>
                     <input
-                      key={index}
                       type="radio"
                       name="meal"
                       value={diet.vlaue}
