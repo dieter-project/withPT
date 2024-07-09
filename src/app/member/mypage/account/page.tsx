@@ -7,15 +7,17 @@ import { LabelTitle } from "@/styles/Text";
 import { api } from "@/utils/axios";
 import { getCookie } from "@/utils/cookie";
 import { useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { MenuList } from "../styles";
 import { logout } from "@/services/member/auth";
+import { WithdrawModal } from "@/components/member/WithdrawModal";
 
 const page = () => {
   const title = "계정관리"
   const router = useRouter()
+  const [displayModal, setDisplayModal] = useState(false)
 
-  const handleWithdrawl = async () => {
+  const handleWithdraw = async () => {
     try {
       const response = await api.delete('/api/v1/members/withdrawal')
       if (response.status === 200) {
@@ -52,12 +54,13 @@ const page = () => {
             <MenuList onClick={handleLogout}>
               <div>로그아웃</div>
             </MenuList>
-            <MenuList onClick={handleWithdrawl}>
+            <MenuList onClick={() => setDisplayModal(true)}>
               <div>계정삭제</div>
             </MenuList>
           </ul>
         </ContentSection>
       </BaseContentWrap>
+      {displayModal && <WithdrawModal setDisplayModal={setDisplayModal} handleWithdraw={handleWithdraw} />}
     </>
   )
 }
