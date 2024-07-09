@@ -33,11 +33,6 @@ const page = () => {
     lastModifiedDate: ""
   })
 
-  const handleLogout = () => {
-    logout();
-    router.push('/')
-  }
-
   const getMember = async () => {
     try {
       const { data: { data } } = await getMemberInfo();
@@ -129,10 +124,6 @@ const page = () => {
           <ul>
             <MenuList>
               <div>공지사항</div>
-              <NextArrow></NextArrow>
-            </MenuList>
-            <MenuList onClick={handleLogout}>
-              <div>로그아웃</div>
               <NextArrow></NextArrow>
             </MenuList>
             <MenuList onClick={() => router.push('/member/mypage/account')}>
