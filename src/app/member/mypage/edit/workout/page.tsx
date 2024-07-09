@@ -3,27 +3,28 @@
 import React, { useEffect, useState } from 'react'
 import PageTitle from '@/components/PageTitle'
 import { useAppSelector } from '@/redux/hooks'
-import { signupActions } from '@/redux/reducers/signupSlice'
 import { Button } from '@/styles/Button'
 import { BaseContentWrap, ButtonAreaFixed } from '@/styles/Layout'
 import { SignUpTitleWrap } from '@/styles/SignupForm'
 import { SignUpTitleText, SignUpSubtext } from '@/styles/Text'
 import { useRouter } from 'next/navigation'
 import { useDispatch } from 'react-redux'
-import { api } from '@/utils/axios'
 import { exerciseFrequency } from '@/constants/signup'
 import { RadioButton, RecommendBadge } from '@/app/member/signup/step4/styles'
-import { setCookie } from '@/utils/cookie'
+import { getMemberInfo, patchMemberExercise } from '@/services/member/member'
 
 const page = () => {
   const title = '목표 설정'
   const router = useRouter()
-  const dispatch = useDispatch()
-  const states = useAppSelector((state) => state.signup)
 
   const [inputData, setInputData] = useState({
     exerciseFrequency: ""
   })
+  
+  const getWorkout = async () => {
+    const { data: { data } } = await getMemberInfo()
+    setInputData({...inputData, exerciseFrequency: data.exerciseFrequency})
+  }
 
   const handleOnChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setInputData({
@@ -32,52 +33,17 @@ const page = () => {
     })
   }
 
-  useEffect(() => {
-    dispatch(signupActions.saveSignupState({
-      exerciseFrequency: inputData.exerciseFrequency,
-      // email: "test@test.kr",
-      //   oauthProvider: "KAKAO",
-      // nickname: "test"
-    }))
-    console.log('states: ', states);
-  }, [inputData.exerciseFrequency])
-
   const handleSubmit = async () => {
-    console.log('states: ', states);
-    dispatch(signupActions.saveSignupState({
-      exerciseFrequency: inputData.exerciseFrequency,
-    }))
-
-    if (inputData.exerciseFrequency.length <= 0) {
-      alert('체크 plz')
-      return false;
-    }
-
     try {
-      const response = await api.post('/api/v1/members/sign-up', states)
-      console.log('data: ', response.data);
-
-      if (response.data) {
-        // dispatch(memberActions.getToken(response.data.data.accessToken))
-
-        // const now = Date.now()
-        setCookie("access", response.data.data.accessToken, { path: "/" })
-        setCookie("refreshToken", response.data.data.refreshToken, { path: "/" })
-
-        router.replace('/member/signup/finished')
-      }
-
+      await patchMemberExercise(inputData)
+      router.replace('/member/mypage')
     } catch (error) {
       console.log('error: ', error);
     }
   }
 
-
   useEffect(() => {
-    console.log('states: ', states);
-    // return () => {
-    //   dispatch(signupActions.signupStateReset())
-    // }
+    getWorkout()
   }, [])
 
   return (
@@ -109,7 +75,7 @@ const page = () => {
             }
           </RadioButton>
         </div>
-        <ButtonAreaFixed $nav={false}>
+        <ButtonAreaFixed $nav={true}>
           <Button
             $variant='primary'
             onClick={handleSubmit}

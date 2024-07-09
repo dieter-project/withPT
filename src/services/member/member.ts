@@ -8,14 +8,14 @@ export const patchMemberInfo = async (data: {}) => {
   return await api.patch(`/api/v1/members/info`, data)
 }
 
-export const patchMemberWeight = async () => {
-  return await api.patch(`/api/v1/members/info/weight`)
+export const patchMemberWeight = async (data: {}) => {
+  return await api.patch(`/api/v1/members/info/weight`, data)
 }
 
-export const patchMemberExercise = async () => {
-  return await api.patch(`/api/v1/members/info/exercise`)
+export const patchMemberExercise = async (data: {}) => {
+  return await api.patch(`/api/v1/members/info/exercise`, data)
 }
 
-export const patchMemberDiet = async () => {
-  return await api.patch(`/api/v1/members/info/diet`)
+export const patchMemberDiet = async (data: {}) => {
+  return await api.patch(`/api/v1/members/info/diet`, data)
 }
