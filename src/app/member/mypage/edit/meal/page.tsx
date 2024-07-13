@@ -60,6 +60,7 @@ const page = () => {
                       name="meal"
                       value={diet.vlaue}
                       onChange={handleOnChange}
+                      checked={inputData.dietType === diet.vlaue}
                     />
                     <div className='meal-item'>
                       <MealText>

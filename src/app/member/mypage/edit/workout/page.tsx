@@ -66,6 +66,7 @@ const page = () => {
                       name="workout"
                       value={time.value}
                       onChange={handleOnChange}
+                      checked={inputData.exerciseFrequency === time.value}
                     />
                     <span>{time.title}</span>
                     {index === 2 && <RecommendBadge>추천 목표</RecommendBadge>}
