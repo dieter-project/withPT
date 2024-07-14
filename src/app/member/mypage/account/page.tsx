@@ -1,7 +1,7 @@
 'use client';
 
 import Header from "@/components/Header";
-import PageTitle from "@/components/PageTitle";
+import PageHeader from "@/components/PageHeader";
 import { BaseContentWrap, ContentSection } from "@/styles/Layout";
 import { LabelTitle } from "@/styles/Text";
 import { api } from "@/utils/axios";

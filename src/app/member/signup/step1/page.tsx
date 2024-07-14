@@ -1,6 +1,6 @@
 "use client";
 
-import PageTitle from '@/components/PageTitle'
+import PageHeader from '@/components/PageHeader'
 import JoinStep from '@/components/SignUpStep'
 import { useRouter } from 'next/navigation'
 import React, { useEffect, useRef, useState } from 'react'
@@ -127,7 +127,7 @@ const page = () => {
 
   return (
     <>
-      <PageTitle title={title} />
+      <PageHeader title={title} />
       <BaseContentWrap>
         <JoinStep active={"1"} />
         <div>

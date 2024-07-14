@@ -1,6 +1,6 @@
 'use client';
 
-import PageTitle from '@/components/PageTitle';
+import PageHeader from '@/components/PageHeader';
 import { TimeModal } from '@/components/TimeModal';
 import { AddImgButton } from '@/styles/AddButton';
 import { Button } from '@/styles/Button';
@@ -32,7 +32,7 @@ const page = () => {
           setSlideUpModal={setSlideUpModal}
         />
       )}
-      <PageTitle title={title} />
+      <PageHeader title={title} />
       <BaseContentWrap>
         <ContentSection>
           <LabelTitle>분류</LabelTitle>

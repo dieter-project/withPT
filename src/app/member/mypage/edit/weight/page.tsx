@@ -1,6 +1,6 @@
 'use client'
 
-import PageTitle from '@/components/PageTitle'
+import PageHeader from '@/components/PageHeader'
 import { useRouter } from 'next/navigation'
 import React, { useEffect, useRef, useState } from 'react'
 import { Button } from '@/styles/Button'
@@ -50,7 +50,7 @@ const page = () => {
 
   return (
   <>
-    <PageTitle title={title}/>
+    <PageHeader title={title}/>
     <BaseContentWrap>
       <div>
         <SignUpTitleWrap>

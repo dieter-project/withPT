@@ -6,6 +6,7 @@ import { styled } from 'styled-components';
 
 interface Props {
   title: string;
+  rightElement?: HTMLDivElement
 }
 
 const TitleWrap = styled(BaseHeader)`
@@ -34,7 +35,7 @@ const TitleWrap = styled(BaseHeader)`
   }
 `
 
-const PageTitle: React.FC<Props> = ({ title }) => {
+const PageHeader = ({ title, rightElement }: Props) => {
   const router = useRouter();
 
   return (
@@ -50,4 +51,4 @@ const PageTitle: React.FC<Props> = ({ title }) => {
   )
 }
 
-export default PageTitle;
+export default PageHeader;

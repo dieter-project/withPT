@@ -1,6 +1,6 @@
 'use client';
 
-import PageTitle from '@/components/PageTitle';
+import PageHeader from '@/components/PageHeader';
 import { BodyPhotoModal } from '@/components/member/record/BodyPhotoModal';
 import { Checkbox } from '@/styles/Input';
 import { BaseContentWrap } from '@/styles/Layout';
@@ -120,7 +120,7 @@ const page = () => {
       photo={photo}
       setDisplayModal={setDisplayModal}
     />}
-      <PageTitle title={title}/>
+      <PageHeader title={title}/>
       <BaseContentWrap>
         <PhotoGrid>
           {bodyphoto?.map((photo, index) => {

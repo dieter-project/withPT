@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useEffect, useState } from 'react'
-import PageTitle from '@/components/PageTitle'
+import PageHeader from '@/components/PageHeader'
 import { useAppSelector } from '@/redux/hooks'
 import { Button } from '@/styles/Button'
 import { BaseContentWrap, ButtonAreaFixed } from '@/styles/Layout'
@@ -48,7 +48,7 @@ const page = () => {
 
   return (
     <>
-      <PageTitle title={title} />
+      <PageHeader title={title} />
       <BaseContentWrap>
         <div>
           <SignUpTitleWrap>

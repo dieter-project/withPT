@@ -1,6 +1,6 @@
 "use client";
 
-import PageTitle from "@/components/PageTitle";
+import PageHeader from "@/components/PageHeader";
 import { BODY_PART, EXERCISE_TYPE } from "@/constants/record";
 import { workoutRecordActions } from "@/redux/reducers/workoutRecordSlice";
 import { postBookmark } from "@/services/member/bookmark";
@@ -65,7 +65,7 @@ const page = () => {
 
   return (
     <>
-      <PageTitle title={title} />
+      <PageHeader title={title} />
       <BaseContentWrap>
         <FormWrap>
           <LabelTitle>운동명</LabelTitle>

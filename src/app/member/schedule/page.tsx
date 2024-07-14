@@ -1,6 +1,6 @@
 "use client";
 
-import PageTitle from "@/components/PageTitle";
+import PageHeader from "@/components/PageHeader";
 import MonthlyCalendar from "@/components/member/MonthlyCalendar";
 import { Button } from "@/styles/Button";
 import { BaseContentWrap, ContentSection, RoundBox } from "@/styles/Layout";
@@ -67,7 +67,7 @@ const page = () => {
 
   return (
     <>
-      <PageTitle title={title} />
+      <PageHeader title={title} />
       <BaseContentWrap>
         <ContentSection>
           <RoundBox variant="outline">

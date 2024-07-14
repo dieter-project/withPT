@@ -1,7 +1,7 @@
 'use client'
 
 import { MealIcon, MealText, RadioButton } from '@/app/member/signup/step2/styles'
-import PageTitle from '@/components/PageTitle'
+import PageHeader from '@/components/PageHeader'
 import { targetDiet } from '@/constants/signup'
 import { useAppSelector } from '@/redux/hooks'
 import { getMemberInfo, patchMemberDiet } from '@/services/member/member'
@@ -43,7 +43,7 @@ const page = () => {
 
   return (
     <>
-      <PageTitle title={title} />
+      <PageHeader title={title} />
       <BaseContentWrap>
         <div>
           <SignUpInputContainer>

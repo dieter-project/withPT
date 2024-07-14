@@ -1,6 +1,6 @@
 'use client';
 
-import PageTitle from '@/components/PageTitle';
+import PageHeader from '@/components/PageHeader';
 import { signIn, useSession } from 'next-auth/react';
 import React, { useEffect } from 'react'
 import { styled } from 'styled-components'
@@ -10,7 +10,7 @@ const page = () => {
   
   return (
     <>
-      <PageTitle title={title}/>
+      <PageHeader title={title}/>
       <div>
         <div>
           <div>운동명 입력</div>

@@ -1,6 +1,6 @@
 "use client";
 
-import PageTitle from "@/components/PageTitle";
+import PageHeader from "@/components/PageHeader";
 import JoinStep from "@/components/SignUpStep";
 import { targetDiet } from "@/constants/signup";
 import { useAppSelector } from "@/redux/hooks";
@@ -47,7 +47,7 @@ const page = () => {
 
   return (
     <>
-      <PageTitle title={title} />
+      <PageHeader title={title} />
       <BaseContentWrap>
         <JoinStep active={"2"} />
         <div>

@@ -1,6 +1,6 @@
 'use client';
 
-import PageTitle from '@/components/PageTitle';
+import PageHeader from '@/components/PageHeader';
 import { BaseContentWrap, ContentSection } from '@/styles/Layout';
 import { LabelTitle } from '@/styles/Text';
 import { api } from '@/utils/axios';
@@ -133,7 +133,7 @@ const page = ({ params }: { params: { id: number } }) => {
   
   return (
     <>
-      <PageTitle title={title}/>
+      <PageHeader title={title}/>
       <BaseContentWrap>
         <ContentSection>
           <DateText>2023년 11월 15일(목) 08:30 am</DateText>

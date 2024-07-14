@@ -1,6 +1,6 @@
 "use client";
 
-import PageTitle from '@/components/PageTitle';
+import PageHeader from '@/components/PageHeader';
 import { BODY_PART, EXERCISE_TYPE } from '@/constants/record';
 import { workoutRecordActions } from '@/redux/reducers/workoutRecordSlice';
 import { Button } from '@/styles/Button';
@@ -93,7 +93,7 @@ const page = () => {
 
   return (
     <>
-      <PageTitle title={"운동 입력"} />
+      <PageHeader title={"운동 입력"} />
       <BaseContentWrap>
         <BookmarkButton $variant="outline" onClick={() => router.push('/member/record/workout/bookmark')}>북마크에서 가져오기</BookmarkButton>
         <FormWrap>

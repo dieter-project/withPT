@@ -1,7 +1,7 @@
 'use client';
 
 import Header from '@/components/Header';
-import PageTitle from '@/components/PageTitle';
+import PageHeader from '@/components/PageHeader';
 import { BaseContentWrap } from '@/styles/Layout';
 import { api } from '@/utils/axios';
 import { signIn, useSession } from 'next-auth/react';
@@ -61,7 +61,7 @@ const page = () => {
 
   return (
     <>
-      <PageTitle title={title}/>
+      <PageHeader title={title}/>
       <BaseContentWrap>
         <NotificationList>
           <li>

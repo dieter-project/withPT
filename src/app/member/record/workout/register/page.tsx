@@ -1,7 +1,7 @@
 "use client";
 
 import { MonthlyModal } from '@/components/MonthlyModal';
-import PageTitle from '@/components/PageTitle';
+import PageHeader from '@/components/PageHeader';
 import WorkoutList from '@/components/member/WorkoutList';
 import { useAppSelector } from '@/redux/hooks';
 import { WorkoutPayload, workoutRecordActions } from '@/redux/reducers/workoutRecordSlice';
@@ -173,7 +173,7 @@ const page = () => {
           setActiveDate={setActiveDate}
         />
       )}
-      <PageTitle title={title} />
+      <PageHeader title={title} />
       <BaseContentWrap>
         <DateText onClick={handleDateChange}>{dateText(recordDate)}</DateText>
         <ContentSection>

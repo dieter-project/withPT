@@ -1,6 +1,6 @@
 "use client";
 
-import PageTitle from "@/components/PageTitle";
+import PageHeader from "@/components/PageHeader";
 import { Button } from "@/styles/Button";
 import { CategoryPartList } from "@/styles/CategoryPartList";
 import { Input, InputRowWrap, InputWrap } from "@/styles/Input";
@@ -32,7 +32,7 @@ const page = () => {
 
   return (
     <>
-      <PageTitle title={title} />
+      <PageHeader title={title} />
       <BaseContentWrap>
         {/* <BookmarkButton $variant='outline'>북마크에서 가져오기</BookmarkButton> */}
         <FormWrap>

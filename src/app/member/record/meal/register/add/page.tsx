@@ -1,7 +1,7 @@
 "use client";
 
 import { MealSearchModal } from '@/components/MealSearchModal';
-import PageTitle from '@/components/PageTitle';
+import PageHeader from '@/components/PageHeader';
 import { Button } from '@/styles/Button';
 import { Input, InputRowWrap, InputWrap } from '@/styles/Input';
 import { BaseContentWrap } from '@/styles/Layout';
@@ -18,7 +18,7 @@ const page = () => {
   return (
     <>
       {searchOpen && <MealSearchModal setSearchOpen={setSearchOpen}/> }
-      <PageTitle title={title}/>
+      <PageHeader title={title}/>
       <ContentsWrap>
         <div>
           <MealTypeInput>

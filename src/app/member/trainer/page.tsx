@@ -1,6 +1,6 @@
 'use client';
 
-import PageTitle from '@/components/PageTitle';
+import PageHeader from '@/components/PageHeader';
 import { api } from '@/utils/axios';
 import React, { useEffect, useState } from 'react'
 import { styled } from 'styled-components'
@@ -80,7 +80,7 @@ const page = ({ params }: { params: { id: number } }) => {
 
   return (
     <>
-      <PageTitle title={title}/>
+      <PageHeader title={title}/>
       <BaseContentWrap>
         <ContentSection>
           <LabelTitle>담당 트레이너</LabelTitle>
