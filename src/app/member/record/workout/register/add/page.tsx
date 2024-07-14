@@ -61,11 +61,11 @@ const page = () => {
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const numberValue = event.target.name === 'weight' || event.target.name === 'set' || event.target.name === 'times' || event.target.name === 'hour'
-    if (numberValue ) {
+    if (numberValue) {
       setInputData({
         ...inputData,
         [event.target.name]: Number(event.target.value)
-      }) 
+      })
     } else {
       setInputData({
         ...inputData,
@@ -95,7 +95,7 @@ const page = () => {
     <>
       <PageTitle title={"운동 입력"} />
       <BaseContentWrap>
-        <BookmarkButton $variant="outline">북마크에서 가져오기</BookmarkButton>
+        <BookmarkButton $variant="outline" onClick={() => router.push('/member/record/workout/bookmark')}>북마크에서 가져오기</BookmarkButton>
         <FormWrap>
           <LabelTitle>운동명</LabelTitle>
           <Input
