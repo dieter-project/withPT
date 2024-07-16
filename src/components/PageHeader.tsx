@@ -1,53 +1,53 @@
 import { BaseHeader } from '@/styles/Layout';
-import { NextPage } from 'next';
-import { useRouter } from 'next/navigation';
-import React from 'react'
+import { useRouter, useSearchParams } from 'next/navigation';
+import React, { useRef } from 'react'
 import { styled } from 'styled-components';
 
 interface Props {
+  back: boolean;
   title: string;
-  rightElement?: HTMLDivElement
+  rightElement: {
+    path: string;
+    component: React.ReactNode;
+  };
 }
 
-const TitleWrap = styled(BaseHeader)`
-  div {
-    position: absolute;
-    left: 1.25rem;
-    top: 50%;
-    transform: translateY(-50%);
-  }
-  button {
-    width: 0.75rem;
-    height: 0.75rem;
-    border-left: 2px solid var(--black);
-    border-bottom: 2px solid var(--black);
-    transform: rotate(45deg);
-    overflow: hidden;
-    text-indent: -999px;
-  }
-  h1 {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    font-size: 18px;
-    font-weight: var(--font-semibold);
-  }
+const HeaderWrap = styled(BaseHeader)`
+  width: 100%;
+  padding: 0 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 `
 
-const PageHeader = ({ title, rightElement }: Props) => {
+const BackButton = styled.button`
+  width: 0.75rem;
+  height: 0.75rem;
+  border-left: 2px solid var(--black);
+  border-bottom: 2px solid var(--black);
+  transform: rotate(45deg);
+  overflow: hidden;
+  text-indent: -999px;
+`
+
+const PageHeader = ({ back, title, rightElement }: Props) => {
+  const { path, component } = rightElement;
   const router = useRouter();
 
   return (
-    <TitleWrap>
+    <HeaderWrap>
       <div>
-        <button 
-          onClick={() => router.back()} 
-          className='back-btn'
-        >뒤로</button>
+        {
+          back &&
+          <BackButton
+            onClick={() => router.back()}
+            className='back-btn'
+          >뒤로</BackButton>
+        }
       </div>
       <h1>{title}</h1>
-    </TitleWrap>
+      <div>{component}</div>
+    </HeaderWrap>
   )
 }
 
