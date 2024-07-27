@@ -6,7 +6,7 @@ import { styled } from 'styled-components';
 interface Props {
   back: boolean;
   title: string;
-  rightElement: {
+  rightElement?: {
     path: string;
     component: React.ReactNode;
   };
@@ -31,7 +31,6 @@ const BackButton = styled.button`
 `
 
 const PageHeader = ({ back, title, rightElement }: Props) => {
-  const { path, component } = rightElement;
   const router = useRouter();
 
   return (
@@ -46,7 +45,7 @@ const PageHeader = ({ back, title, rightElement }: Props) => {
         }
       </div>
       <h1>{title}</h1>
-      <div>{component}</div>
+      <div>{rightElement?.component}</div>
     </HeaderWrap>
   )
 }
