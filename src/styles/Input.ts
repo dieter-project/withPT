@@ -1,7 +1,7 @@
 import { styled } from "styled-components";
 
-export const Input = styled.input`
-  width: 100%;
+export const Input = styled.input<{ $width?: string }>`
+  width: ${props => props.$width ? props.$width : "100%"};
   height: 48px;
   border: none;
   border-radius: 0.5rem;
