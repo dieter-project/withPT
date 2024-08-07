@@ -1,6 +1,7 @@
 import { CloseBtn, InputResetBtn } from '@/styles/Button'
 import { Input } from '@/styles/Input'
-import React, { SetStateAction } from 'react'
+import { ModalTitle } from '@/styles/components/Modal'
+import React, { SetStateAction, useEffect, useState } from 'react'
 import { styled } from 'styled-components'
 
 const MealSearchModalWrap = styled.div`
@@ -27,6 +28,7 @@ const InputWrap = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
+  margin-bottom: 1.5rem;
   input {
     width: 90%;
   }
@@ -99,62 +101,60 @@ const RecentSearchtMealList = styled.ul`
   }
 `
 
+const EmptyText = styled.div`
+  font-size: 0.875rem;
+  text-align: center;
+`
 
+export const MealSearchModal = ({
+  setSearchOpen
+}: {
+  setSearchOpen: React.Dispatch<SetStateAction<boolean>>
+}) => {
+  const [meals, setMeals] = useState([])
 
-export const MealSearchModal = ({ setSearchOpen } : { setSearchOpen: React.Dispatch<SetStateAction<boolean>>}) => {
+  useEffect(() => {
+
+  }, [])
+
   return (
     <MealSearchModalWrap>
       <div className='container'>
-        <div>음식 종류 검색</div>
+        <ModalTitle>음식종류 검색</ModalTitle>
         <div>
           <InputWrap>
-            <Input type="text" placeholder='종류를 검색해보세요'/>
+            <Input type="text" placeholder='종류를 검색해보세요' />
             <div>
-              <InputResetBtn/>
+              <InputResetBtn />
             </div>
           </InputWrap>
-          <div>
-            <ListTop>
-              <div>최근에 등록된 식단</div>
-              <button className='all-delete'>전체삭제</button>
-            </ListTop>
-            <div>
-              <RecentRegistMealList>
-                <li>
-                  <div>견과류와 요거트</div>
-                  <button>X</button>
-                </li>
-              </RecentRegistMealList>
-            </div>
-          </div>
-          <div>
-            <ListTop>
-              <div>최근 검색어</div>
-              <button className='all-delete'>전체삭제</button>
-            </ListTop>
-            <div>
+          {meals.length > 0
+            ? <div>
+              <ListTop>
+                <div>최근에 등록된 식단</div>
+                <button className='all-delete'>전체삭제</button>
+              </ListTop>
               <RecentSearchtMealList>
                 <li>
                   <div>햇반 작은 공기</div>
                   <div>
-                    <CloseBtn/>
+                    <CloseBtn />
                   </div>
                 </li>
                 <li>
                   <div>두부</div>
                   <div>
-                    <CloseBtn/>
-                  </div>
-                </li>
-                <li className='not-result'>
-                  <div>트러플소금으로 0개 검색되었습니다</div>
-                  <div>
-                    <CloseBtn/>
+                    <CloseBtn />
                   </div>
                 </li>
               </RecentSearchtMealList>
             </div>
-          </div>
+            : <EmptyText>
+                최근 검색한 기록이 없습니다
+            </EmptyText>
+          }
+
+
         </div>
       </div>
       <div className='mask' onClick={() => setSearchOpen(false)}></div>

@@ -1,36 +1,43 @@
 'use client';
 
 import Header from '@/components/Header';
-import { TimeModal } from '@/components/TimeModal';
 import { AddRecordButton } from '@/styles/AddButton';
 import { BaseContentWrap, ContentSection, RoundBox } from '@/styles/Layout';
 import { LabelTitle } from '@/styles/Text';
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react'
 import ReactApexChart from 'react-apexcharts';
-import { css, styled } from 'styled-components'
 import { GraphWrap, MealList, MyGoal, NutritionProgress, ProgressWrap, TrainerFeedback } from './style';
 import { api } from '@/utils/axios';
+import { getDietByDate } from '@/services/member/diet';
+import { format } from 'date-fns';
 
 
 const page = () => {
-  const [todayRecord, setTodayRecord] = useState([]);
+  const [todayRecord, setTodayRecord] = useState({
+    carbonate: 100,
+    protien: 50,
+    fat: 10,
+    record: []
+  });
   const router = useRouter();
-  const title = '식단'
+  const cobMax = 160;
+  const proMax = 80;
+  const fatMax = 20;
 
   const handleGetMeal = async () => {
-    const { data } = await api.get('/')
+    const { data: { data } } = await getDietByDate(format(new Date(), "yyyy-MM-dd"))
     console.log('response data: ', data);
-    setTodayRecord(data.data)
+    setTodayRecord(data)
   }
 
   useEffect(() => {
-    // handleGetMeal()
+    handleGetMeal()
   }, [])
 
   return (
     <>
-      <Header title={title} back={true} calendar={true} />
+      <Header title={"식단"} back={true} calendar={true} />
       <BaseContentWrap>
         <section>
           달력
@@ -51,12 +58,12 @@ const page = () => {
               <div>
                 <ReactApexChart
                   type="donut"
-                  series={[44, 55]}
+                  series={[1210, 1500 - 1210]}
                   options={{
                     chart: {
                       type: 'donut',
                     },
-                    colors: ['#FFE926', '#cccccc'],
+                    colors: ['#6C69FF', '#cccccc'],
                     dataLabels: {
                       enabled: false,
                       dropShadow: {
@@ -97,18 +104,18 @@ const page = () => {
               <NutritionProgress>
                 <ProgressWrap type='carb'>
                   <div>탄수화물 0%</div>
-                  <progress value='50'></progress>
-                  <div>0g / <span>120g</span></div>
+                  <progress value={todayRecord.carbonate} max={cobMax}></progress>
+                  <div>{todayRecord.carbonate}g / <span>{cobMax}g</span></div>
                 </ProgressWrap>
                 <ProgressWrap type='prot'>
                   <div>단백질 0%</div>
-                  <progress value='50'></progress>
-                  <div>0g / <span>120g</span></div>
+                  <progress value={todayRecord.protien} max={proMax}></progress>
+                  <div>{todayRecord.protien}g / <span>{proMax}g</span></div>
                 </ProgressWrap>
                 <ProgressWrap type='fats'>
                   <div>지방 0%</div>
-                  <progress value='50'></progress>
-                  <div>0g / <span>120g</span></div>
+                  <progress value={todayRecord.fat} max={fatMax}></progress>
+                  <div>{todayRecord.fat}g / <span>{fatMax}g</span></div>
                 </ProgressWrap>
               </NutritionProgress>
             </div>
@@ -116,7 +123,7 @@ const page = () => {
         </ContentSection>
         <ContentSection>
           <LabelTitle>식단</LabelTitle>
-          {todayRecord?.length < 1 
+          {todayRecord?.record.length < 1
             ? <AddRecordButton variant='purple' onClick={() => router.push('/member/record/meal/register')}>
               <div>!</div>
               <p>눌러서 식단을 입력해주세요</p>

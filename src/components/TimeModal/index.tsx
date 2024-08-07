@@ -10,13 +10,13 @@ import { InputWrap, TimeModalWrap } from "./style";
 interface ModalProps {
   displayModal: boolean;
   setDisplayModal: React.Dispatch<React.SetStateAction<boolean>>;
-  setFormData: React.Dispatch<React.SetStateAction<MealRecord>>;
+  setInputData: React.Dispatch<React.SetStateAction<MealRecord>>;
 }
 
 export const TimeModal = ({
   displayModal,
   setDisplayModal,
-  setFormData
+  setInputData
 }: ModalProps) => {
 
   const handleOnClose = () => {
@@ -24,7 +24,7 @@ export const TimeModal = ({
   };
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setFormData(prev => ({ ...prev, mealTime: e.target.value }))
+    setInputData(prev => ({ ...prev, mealTime: e.target.value }))
   }
 
   return (

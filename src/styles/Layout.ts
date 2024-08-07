@@ -78,10 +78,16 @@ export const RoundBox = styled.div<BoxProps>`
 
 export const ButtonAreaFixed = styled.div<{ $nav?: boolean; }>`
   position: fixed;
-  bottom: ${props => props.$nav ? '4.375rem': '0'};
+  bottom: ${props => props.$nav ? '4.375rem' : '0'};
   left: 0;
   padding: 2.4rem 1.25rem 1.25rem;
   width: 100%;
   z-index: 100;
   background-color: transparent;
 `;
+
+export const RowWrap = styled.div<{ $gap?: string }>`
+  width: 100%;
+  display: flex;
+  gap: ${props => props.$gap ? props.$gap : '0'};
+`
