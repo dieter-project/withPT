@@ -2,9 +2,6 @@ import React, { SetStateAction } from "react";
 import { CloseBtn } from "@/styles/TrainerButton";
 import { Input } from "@/styles/Input";
 import Image from "next/image";
-import { SearchBarWrap, SearchBarInput } from "@/styles/TrainerSearchBar";
-import searchIcon from "../../public/Trainer/icons/searchLightGray.png";
-// /Trainer/icons/searchLightGray.png";
 import { styled } from "styled-components";
 
 const ModalContainer = styled.div`
@@ -53,47 +50,34 @@ const ModalContent = styled.div`
   margin: 3vh 0 2vh 0;
 `;
 
-const SearchIcon = styled(Image)`
-  display: inline-block;
-  width: 8%;
-  line-height: 1.5rem;
-`;
-
 interface ModalProps {
+  title: string;
+  isOpenModal: boolean;
+  onCloseModal: () => void;
+  content?: React.ReactNode;
   showModalContent: boolean;
   setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  searchEvent: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export const TrainerSearchModalComponent = ({
+export const TrainerModalLayout = ({
+  isOpenModal,
+  onCloseModal,
+  title,
+  content,
   showModalContent,
+  isModalOpen,
   setIsModalOpen,
-  searchEvent,
 }: ModalProps) => {
+  if (!isModalOpen) return null;
+
   return (
     <ModalContainer>
       <ModalInnerWrap style={{ bottom: showModalContent ? "-30%" : "-100%" }}>
-        <ModalHeader>헤더</ModalHeader>
-        <ModalCloseXButton
-          // src={ModalCloseXButtonImg}
-          alt="모달을 닫는 버튼"
-          onClick={() => setIsModalOpen(false)}
-        />
+        <ModalHeader>{title}</ModalHeader>
+        <ModalCloseXButton onClick={() => setIsModalOpen(false)} />
         <ModalBody>
-          <ModalContent>?</ModalContent>
+          <ModalContent>{content}</ModalContent>
         </ModalBody>
-        <SearchBarWrap>
-          <SearchIcon
-            src={searchIcon}
-            alt="검색 회색 돋보기 아이콘"
-          ></SearchIcon>
-          <SearchBarInput
-            type="text"
-            name="센터 검색바"
-            placeholder="검색"
-            onChange={searchEvent}
-          ></SearchBarInput>
-        </SearchBarWrap>
       </ModalInnerWrap>
       <ModalDimmed></ModalDimmed>
     </ModalContainer>

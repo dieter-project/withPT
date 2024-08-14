@@ -25,6 +25,9 @@ import {
 } from "@/styles/SignupForm";
 import { Button } from "@/styles/TrainerButton";
 import { signupActions } from "@/redux/reducers/trainerSignupSlice";
+import { TrainerModalLayout } from "@/components/Trainer/Modal/CommonLayout";
+import { EnterCenterSchedule } from "@/components/Trainer/Modal/EnterCenterSchedule";
+import { changeDayFormatEnglish } from "@/utils/Trainer/changeDayFormatEnglish";
 
 const SignupFormWrap = styled.div`
   margin-bottom: 1rem;
@@ -48,151 +51,6 @@ const SignupButton = styled.button`
   align-items: center;
 `;
 
-const RegistScheTxt = styled.span`
-  width: 100%;
-  color: var(--font-gray400);
-`;
-
-const NextStep = styled(Link)`
-  display: block;
-  border: none;
-  border-radius: 0.6rem;
-  line-height: 3rem;
-  width: 100%;
-  background-color: var(--primary);
-  color: white;
-  padding: 0 1.6rem;
-  text-align: center;
-`;
-
-const Modal = styled.div`
-  position: fixed;
-  display: flex;
-  align-items: center;
-  width: 100%;
-  height: 100%;
-  top: 0;
-  left: 0;
-  z-index: 100;
-`;
-
-const ModalWrap = styled.div`
-  position: absolute;
-  bottom: -100%;
-  left: 0;
-  width: 100%;
-  height: 100vh;
-  background-color: white;
-  padding: 1.75rem 1rem 3.38rem;
-  border-radius: 1rem 1rem 0 0;
-  transition: 0.3s;
-`;
-
-const ModalCloseXButton = styled(Image)`
-  position: absolute;
-  top: 1%;
-  right: 2%;
-`;
-
-const ModalCloseButton = styled.button`
-  background-color: var(--primary);
-  width: 100%;
-  color: var(--white);
-  border-radius: 0.5rem;
-  padding: 1.5vh 0;
-`;
-
-const ModalDimmed = styled.div`
-  z-index: -1;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.7);
-`;
-
-const ModalHeader = styled.header`
-  text-align: center;
-  font-size: var(--font-l);
-  font-weight: 600;
-  margin-bottom: 2.75rem;
-`;
-
-const ModalBody = styled.header``;
-
-const ModalContent = styled.div`
-  display: flex;
-  align-items: center;
-  margin-bottom: 1rem;
-  line-height: 2.5rem;
-`;
-
-const ScheduleWrap = styled.div``;
-
-const ModalContentTit = styled.div`
-  margin-right: 1rem;
-`;
-
-const RegisterSchedule = styled.button`
-  width: 100%;
-  border: 1px solid var(--font-gray400);
-  border-radius: 0.5rem;
-  line-height: 3rem;
-  font-size: var(--font-xxxl);
-`;
-
-const ModalFormWrap = styled.div``;
-
-const ModalFormLabel = styled.label`
-  padding: 0.62rem 0.75rem;
-  border: 1px solid var(--border-darkgray);
-  border-radius: 0.5rem;
-  margin-right: 0.5vh;
-  font-size: var(--font-m);
-  cursor: pointer;
-  /* 선택된 label에 대한 스타일 */
-  &.selected {
-    background-color: var(--primary);
-  }
-`;
-
-const ModalCheckBox = styled.input`
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-
-  /* 기본 스타일 없애기 */
-  border: none;
-  padding: 0;
-  margin: 0;
-
-  /* checkbox 선택 시 배경색 변경 */
-  &:checked + label {
-    background-color: white;
-  }
-`;
-
-const NewScheduleWrap = styled.div`
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-`;
-
-const TimeSelect = styled.select`
-  background-color: var(--purple50);
-  color: var(--font-gray400);
-  margin-right: 1.81rem;
-  padding: 0.62rem;
-`;
-
-const SelectedItem = styled.div`
-  display: inline-block;
-  width: 47.5%;
-  margin-right: 1vh;
-  border: 1px solid var(--border-darkgray);
-  border-radius: 0.625rem;
-  padding: 0.5rem 0.88rem;
-  margin-bottom: 1vh;
-`;
-
 const CenterName = styled.div`
   width: 60%;
   text-align: left;
@@ -211,13 +69,6 @@ const RegisterMessage = styled.span`
 const RegisterBeforeMessage = styled.span`
   color: var(--font-gray400);
 `;
-
-const SelectedItemDay = styled.div`
-  display: flex;
-  justify-content: space-between;
-`;
-
-const SelectedItemTime = styled.div``;
 
 const OverLapErrorMessage = styled.div``;
 
@@ -285,11 +136,19 @@ const OverLapClose = styled.button`
   border-top: 1px solid rgba(0, 0, 0, 0.3);
 `;
 
+const ModalCloseXButton = styled.button``;
+
 export default function step3() {
   const title = "센터일정 등록";
   const dispatch = useDispatch();
   const saveStates = useAppSelector(state => state.trainerSignup);
+
+  //처음 화면을 그릴때 정된 헬스장 리스트 가져오기
+  const [recordGyms, setRecordGyms] = useState(null);
+
+  const [openModalNum, setOpenModalNum] = useState<number | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalTitle, setModalTitle] = useState<string>("");
   const [showModalContent, setShowModalContent] = useState(false);
   const [selectedDays, setSelectedDays] = useState<string[]>([]);
   const [selectedStartTime, setSelectedStartTime] = useState<string>("");
@@ -297,14 +156,13 @@ export default function step3() {
   const [selectedSchedules, setSelectedSchedules] = useState<
     Array<{ days: string[]; startTime: string; endTime: string }>
   >([]);
-  const [recordGyms, setRecordGyms] = useState(null);
-  const [isDisabled, setIsDisabled] = useState(true);
-  //error message
   const [overlapError, setOverlapError] = useState<boolean>(false);
-
   const [allSchedules, setAllSchedules] = useState<
     Array<{ days: string[]; startTime: string; endTime: string }>
   >([]);
+
+  //조건에 따라 다음버튼 비활성화 시키기
+  const [isDisabled, setIsDisabled] = useState(true);
 
   const handleConfirm = () => {
     // 최종 확인 시에는 모든 일정들과 비교하여 겹치는지 확인
@@ -347,8 +205,10 @@ export default function step3() {
     }
   };
 
-  const toggleModal = () => {
+  const toggleModal = (centername: string, index: number) => {
     setIsModalOpen(!isModalOpen);
+    setModalTitle(centername);
+    setOpenModalNum(index);
   };
 
   useEffect(() => {
@@ -360,38 +220,6 @@ export default function step3() {
       setShowModalContent(false);
     }
   }, [isModalOpen]);
-
-  const handleDayClick = (day: string) => {
-    if (selectedDays.includes(day)) {
-      setSelectedDays(selectedDays.filter(d => d !== day));
-    } else {
-      const updatedDays = [...selectedDays, day].sort((a, b) => {
-        const daysOrder = ["월", "화", "수", "목", "금", "토", "일"];
-        return daysOrder.indexOf(a) - daysOrder.indexOf(b);
-      });
-      setSelectedDays(updatedDays);
-    }
-  };
-
-  const handleStartTimeChange = (time: string) => {
-    setSelectedStartTime(time);
-  };
-
-  const handleEndTimeChange = (time: string) => {
-    setSelectedEndTime(time);
-  };
-
-  const generateTimeOptions = () => {
-    const timeOptions = [];
-    for (let hour = 0; hour <= 24; hour++) {
-      for (let minute = 0; minute < 60; minute += 30) {
-        const formattedHour = hour.toString().padStart(2, "0");
-        const formattedMinute = minute.toString().padStart(2, "0");
-        timeOptions.push(`${formattedHour}:${formattedMinute}`);
-      }
-    }
-    return timeOptions;
-  };
 
   const modalClose = () => {
     setIsModalOpen(false);
@@ -421,8 +249,6 @@ export default function step3() {
     }
   }, [showModalContent]);
 
-  const timeOptions = generateTimeOptions();
-
   const handleRemoveSchedule = index => {
     const newSelectedSchedules = [...selectedSchedules];
     newSelectedSchedules.splice(index, 1);
@@ -430,34 +256,57 @@ export default function step3() {
   };
 
   useEffect(() => {
-    setRecordGyms(saveStates.gyms);
+    // setRecordGyms(saveStates.gyms);
+    // setRecordGyms(
+    //   {
+    //   name: "짱헬스",
+    //   address: "서울시 강동구 성안로",
+    //   latitude: 255.34,
+    //   longitude: 260.12,
+    // });
+    setRecordGyms([
+      {
+        name: "짱헬스",
+        address: "서울시 강동구 성안로",
+        latitude: 255.34,
+        longitude: 260.12,
+      },
+      {
+        name: "짱헬스2",
+        address: "서울시 강동구 성안로",
+        latitude: 255.34,
+        longitude: 260.12,
+      },
+    ]);
   }, []);
 
-  const changeDayFormatEnglish = day => {
-    if (day === "월") {
-      return "MON";
-    } else if (day === "화") {
-      return "TUE";
-    } else if (day === "수") {
-      return "WED";
-    } else if (day === "목") {
-      return "THU";
-    } else if (day === "금") {
-      return "FRI";
-    } else if (day === "토") {
-      return "SAT";
-    } else if (day === "일") {
-      return "SUN";
-    }
-  };
+  // const changeDayFormatEnglish = (day: string) => {
+  //   if (day === "월") {
+  //     return "MON";
+  //   } else if (day === "화") {
+  //     return "TUE";
+  //   } else if (day === "수") {
+  //     return "WED";
+  //   } else if (day === "목") {
+  //     return "THU";
+  //   } else if (day === "금") {
+  //     return "FRI";
+  //   } else if (day === "토") {
+  //     return "SAT";
+  //   } else if (day === "일") {
+  //     return "SUN";
+  //   }
+  // };
 
   const gyms = saveStates.gyms || [];
 
   const updatedGyms = {
-    ...saveStates.gyms[0],
+    // ...saveStates.gyms[0],
     workSchedules: [
       {
-        day: changeDayFormatEnglish(selectedSchedules[0]?.days[0]),
+        day: selectedSchedules[0]?.days[0]
+          ? changeDayFormatEnglish(selectedSchedules[0]?.days[0])
+          : "",
         inTime: selectedSchedules[0]?.startTime,
         outTime: selectedSchedules[0]?.endTime,
       },
@@ -474,14 +323,16 @@ export default function step3() {
   };
 
   // console.log("saveStates", recordGyms);
-  console.log(
-    "요일변환",
-    selectedSchedules[0]?.days[0],
-    selectedSchedules[0]?.startTime,
-    selectedSchedules
-      ? changeDayFormatEnglish(selectedSchedules[0]?.days[0])
-      : "",
-  );
+  // console.log(
+  //   "요일변환",
+  //   selectedSchedules[0]?.days[0],
+  //   selectedSchedules[0]?.startTime,
+  //   selectedSchedules
+  //     ? changeDayFormatEnglish(selectedSchedules[0]?.days[0])
+  //     : "",
+  // );
+
+  console.log(selectedDays.length, "selectedDays");
 
   return (
     <Container>
@@ -499,7 +350,7 @@ export default function step3() {
         {recordGyms?.map((gym, index) => (
           <SignupFormWrap key={index}>
             <TrRegisItemWrap>
-              <SignupButton onClick={toggleModal}>
+              <SignupButton onClick={() => toggleModal(gym.name, index)}>
                 <CenterName>{gym.name}</CenterName>
                 {selectedSchedules[0] ? (
                   <RegisterStatus>
@@ -517,7 +368,7 @@ export default function step3() {
             {selectedSchedules[0] ? (
               <ScheduleFlexWrap>
                 <ModalCloseXButton
-                  src={ModalCloseXButtonImg}
+                  // src={ModalCloseXButtonImg}
                   alt="리스트 삭제 버튼"
                   onClick={() => handleRemoveSchedule()}
                 />
@@ -539,7 +390,7 @@ export default function step3() {
         <ButtonAreaFixed>
           <Link href="/trainer/signup/step4">
             <Button
-              variant={isDisabled ? "ghost" : "primary"}
+              $variant={isDisabled ? "ghost" : "primary"}
               onClick={handleNext}
               disabled={isDisabled}
             >
@@ -549,140 +400,24 @@ export default function step3() {
         </ButtonAreaFixed>
       </ContentBody>
       {isModalOpen && (
-        <Modal>
-          <ModalWrap style={{ bottom: showModalContent ? "0" : "-100%" }}>
-            <ModalHeader>아자아자 피트니스 센터</ModalHeader>
-            <ModalCloseXButton
-              src={ModalCloseXButtonImg}
-              alt="모달을 닫는 버튼"
-              onClick={() => setIsModalOpen(false)}
+        <TrainerModalLayout
+          title={modalTitle}
+          isModalOpen={isModalOpen}
+          setIsModalOpen={setIsModalOpen}
+          showModalContent={showModalContent}
+          content={
+            <EnterCenterSchedule
+              handleConfirm={handleConfirm}
+              selectedSchedules={selectedSchedules}
+              selectedStartTime={selectedStartTime}
+              setSelectedStartTime={setSelectedStartTime}
+              selectedEndTime={selectedEndTime}
+              setSelectedEndTime={setSelectedEndTime}
+              selectedDays={selectedDays}
+              setSelectedDays={setSelectedDays}
             />
-            <ModalBody>
-              <ModalContent>
-                <ModalContentTit>날짜</ModalContentTit>
-                <ModalFormWrap>
-                  <ModalFormLabel
-                    className={selectedDays.includes("월") ? "selected" : ""}
-                  >
-                    <ModalCheckBox
-                      type="checkbox"
-                      onChange={() => handleDayClick("월")}
-                    />
-                    월
-                  </ModalFormLabel>
-                  <ModalFormLabel
-                    className={selectedDays.includes("화") ? "selected" : ""}
-                  >
-                    <ModalCheckBox
-                      type="checkbox"
-                      onChange={() => handleDayClick("화")}
-                    />
-                    화
-                  </ModalFormLabel>
-                  <ModalFormLabel
-                    className={selectedDays.includes("수") ? "selected" : ""}
-                  >
-                    <ModalCheckBox
-                      type="checkbox"
-                      onChange={() => handleDayClick("수")}
-                    />
-                    수
-                  </ModalFormLabel>
-                  <ModalFormLabel
-                    className={selectedDays.includes("목") ? "selected" : ""}
-                  >
-                    <ModalCheckBox
-                      type="checkbox"
-                      onChange={() => handleDayClick("목")}
-                    />
-                    목
-                  </ModalFormLabel>
-                  <ModalFormLabel
-                    className={selectedDays.includes("금") ? "selected" : ""}
-                  >
-                    <ModalCheckBox
-                      type="checkbox"
-                      onChange={() => handleDayClick("금")}
-                    />
-                    금
-                  </ModalFormLabel>
-                  <ModalFormLabel
-                    className={selectedDays.includes("토") ? "selected" : ""}
-                  >
-                    <ModalCheckBox
-                      type="checkbox"
-                      onChange={() => handleDayClick("토")}
-                    />
-                    토
-                  </ModalFormLabel>
-                  <ModalFormLabel
-                    className={selectedDays.includes("일") ? "selected" : ""}
-                  >
-                    <ModalCheckBox
-                      type="checkbox"
-                      onChange={() => handleDayClick("일")}
-                    />
-                    일
-                  </ModalFormLabel>
-                </ModalFormWrap>
-              </ModalContent>
-              <ModalContent>
-                <ModalContentTit>시작</ModalContentTit>
-                <TimeSelect
-                  value={selectedStartTime}
-                  onChange={e => handleStartTimeChange(e.target.value)}
-                >
-                  {timeOptions.map((timeOption, index) => (
-                    <option key={index} value={timeOption}>
-                      {timeOption}
-                    </option>
-                  ))}
-                </TimeSelect>
-                <ModalContentTit>종료</ModalContentTit>
-                <TimeSelect
-                  value={selectedEndTime}
-                  onChange={e => handleEndTimeChange(e.target.value)}
-                >
-                  {timeOptions.map((timeOption, index) => (
-                    <option key={index} value={timeOption}>
-                      {timeOption}
-                    </option>
-                  ))}
-                </TimeSelect>
-              </ModalContent>
-              <ModalContent>
-                <RegisterSchedule onClick={handleConfirm}>+</RegisterSchedule>
-              </ModalContent>
-
-              <div>
-                <ModalContentTit>일정</ModalContentTit>
-              </div>
-              <div style={{ paddingBottom: "10rem" }}>
-                <ScheduleWrap>
-                  {selectedSchedules.map((schedule, index) => (
-                    <SelectedItem key={index}>
-                      <SelectedItemDay>
-                        <span>{schedule.days.join("/")}</span>
-                      </SelectedItemDay>
-                      <SelectedItemTime>
-                        {schedule.startTime} ~ {schedule.endTime}
-                      </SelectedItemTime>
-                    </SelectedItem>
-                  ))}
-                </ScheduleWrap>
-                {/* {overlapError && (
-                  <OverLapErrorMessage
-                    style={{ color: "red", marginBottom: "1rem" }}
-                  >
-                    {overlapError}
-                  </OverLapErrorMessage>
-                )} */}
-              </div>
-              <ModalCloseButton onClick={modalClose}>저장하기</ModalCloseButton>
-            </ModalBody>
-          </ModalWrap>
-          <ModalDimmed></ModalDimmed>
-        </Modal>
+          }
+        />
       )}
       {overlapError && (
         <OverLapWrap>

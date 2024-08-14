@@ -11,37 +11,21 @@ import {
   ButtonAreaFixed,
 } from "@/styles/TrainerLayout";
 import {
-  FormTitle,
-  SignUpInputContainer,
   SignUpTitleWrap,
   SignupStepInfo,
   SignupStepInfoSub,
-  SignupInputInnerContainer,
 } from "@/styles/SignupForm";
 import ContentHeader from "@/components/TrainerPageTitle";
-import {
-  SearchBarWrap,
-  SearchIcon,
-  SearchBarInput,
-} from "@/styles/TrainerSearchBar";
-import {
-  Modal,
-  ModalWrap,
-  ModalCloseXButton,
-  ModalDimmed,
-  ModalHeader,
-  ModalBody,
-  ModalContent,
-} from "@/styles/TrainerModal";
 import JoinStep from "@/components/Trainer/TrSignUpStep";
-import searchIcon from "../../../../../public/Trainer/icons/searchLightGray.png";
 import registerIcon from "../../../../../public/Trainer/plusCircleIcon.png";
-import ModalCloseXButtonImg from "../../../../../public/Trainer/Modal/close-line.png";
 import { searchGym } from "@/lib/kakaoApi";
 import { Button } from "@/styles/TrainerButton";
 import { signupActions } from "@/redux/reducers/trainerSignupSlice";
 import { useAppSelector } from "@/redux/hooks";
 // import Storelist from "./storelist/page";
+import { TrainerModalLayout } from "@/components/Trainer/Modal/CommonLayout";
+import { SearchCenter } from "@/components/Trainer/Modal/SearchCenter";
+import Search from "antd/es/input/Search";
 
 const ModalMessage = styled.div`
   margin-top: 2rem;
@@ -123,12 +107,6 @@ export default function step2() {
   const [showModalContent, setShowModalContent] = useState(false);
   const [workingCenter, setWorkingCenter] = useState(null);
   const [isDisabled, setIsDisabled] = useState(true);
-
-  //
-
-  const [gyms, setGyms] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
 
   //위까지 추가
 
@@ -217,7 +195,7 @@ export default function step2() {
         <ButtonAreaFixed>
           <Link href="/trainer/signup/step3">
             <Button
-              variant={isDisabled ? "ghost" : "primary"}
+              $variant={isDisabled ? "ghost" : "primary"}
               onClick={handleNext}
               disabled={isDisabled}
             >
@@ -227,51 +205,13 @@ export default function step2() {
         </ButtonAreaFixed>
       </ContentBody>
       {isModalOpen && (
-        <Modal>
-          <ModalWrap style={{ bottom: showModalContent ? "0" : "-100%" }}>
-            <ModalHeader>센터 검색</ModalHeader>
-            <ModalCloseXButton
-              src={ModalCloseXButtonImg}
-              alt="모달을 닫는 버튼"
-              onClick={() => setIsModalOpen(false)}
-            />
-            <ModalBody>
-              {/* <Storelist
-                setIsModalOpen={setIsModalOpen}
-                setWorkingCenter={setWorkingCenter}
-              /> */}
-              <SearchBarWrap>
-                <SearchIcon
-                  src={searchIcon}
-                  alt="검색 회색 돋보기 아이콘"
-                ></SearchIcon>
-                <SearchBarInput
-                  type="text"
-                  name="센터 검색바"
-                  placeholder="검색"
-                  onChange={searchEvent}
-                ></SearchBarInput>
-              </SearchBarWrap>
-              <div>
-                <h1>헬스장 검색</h1>
-                <input
-                  type="text"
-                  value={keyword}
-                  onChange={e => setKeyword(e.target.value)}
-                  placeholder="검색어 입력"
-                />
-                <button onClick={handleSearch}>검색</button>
-                <ul>
-                  {gyms.map(gym => (
-                    <li key={gym.id}>
-                      {gym.place_name} - {gym.address_name}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </ModalBody>
-          </ModalWrap>
-        </Modal>
+        <TrainerModalLayout
+          title={title}
+          isModalOpen={isModalOpen}
+          setIsModalOpen={setIsModalOpen}
+          showModalContent={showModalContent}
+          content={<SearchCenter />}
+        />
       )}
     </Container>
   );

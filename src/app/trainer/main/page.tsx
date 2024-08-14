@@ -7,13 +7,12 @@ import { useState, useEffect } from "react";
 import ReactApexChart from "react-apexcharts";
 import { ApexOptions } from "apexcharts";
 import Footer from "@/components/TrainerFooter";
-import { Button } from "@/styles/TrainerButton";
-import alert from "../../../../public/Trainer/Main/bell-solid.png";
+import alert from "/public/Trainer/Main/bell-solid.png";
 import Image from "next/image";
-import foodFeedbackImg from "../../../../public/Trainer/Main/foodFeedback.png";
-import changeClassImg from "../../../../public/Trainer/Main/changeClass.png";
-import newClassImg from "../../../../public/Trainer/Main/newClass.png";
-import wePTLogo from "../../../../public/Trainer/wePTLogo.png";
+import foodFeedbackImg from "/public/Trainer/Main/foodFeedback.png";
+import changeClassImg from "/public/Trainer/Main/changeClass.png";
+import newClassImg from "/public/Trainer/Main/newClass.png";
+import wePTLogo from "/public/Trainer/wePTLogo.png";
 import { api } from "@/utils/axios";
 
 const MainContainer = styled.div`

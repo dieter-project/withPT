@@ -8,12 +8,12 @@ import { Button, IconButton } from "@/styles/TrainerButton";
 import ContentHeader from "@/components/TrainerPageTitle";
 import Footer from "@/components/TrainerFooter";
 import "react-calendar/dist/Calendar.css";
-import arrowCircleUnderGray from "../../../../public/Trainer/icons/arrowCircleUnderGray.png";
-import purplePlusIcon from "../../../../public/Trainer/icons/plusIconWhite.png";
-import purpleCheckIcon from "../../../../public/Trainer/icons/checkIconPurple.png";
-import purpleExcalmiIcon from "../../../../public/Trainer/icons/exclamationPurple.png";
-import redMinusIcon from "../../../../public/Trainer/icons/minusIconRed.png";
-import ModalCloseXButtonImg from "../../../../public/Trainer/Modal/close-line.png";
+import arrowCircleUnderGray from "public/Trainer/icons/arrowCircleUnderGray.png";
+import purplePlusIcon from "public/Trainer/icons/plusIconWhite.png";
+import purpleCheckIcon from "public/Trainer/icons/checkIconPurple.png";
+import purpleExcalmiIcon from "public/Trainer/icons/exclamationPurple.png";
+import redMinusIcon from "public/Trainer/icons/minusIconRed.png";
+import ModalCloseXButtonImg from "public/Trainer/Modal/close-line.png";
 import Calendar from "../coursemanagement/calendar/page";
 import { api } from "@/utils/axios";
 
@@ -175,7 +175,6 @@ const PickedCenterButton = styled.button`
 `;
 
 const ArrowCircleUnderGray = styled(Image)`
-  display: inline-block;
   width: 1rem;
   line-height: 1rem;
   margin-left: 0.5rem;
@@ -290,20 +289,6 @@ export default function ManageMain() {
     }
   };
 
-  // const getResponseTest = async () => {
-  //   try {
-  //     const response = await api.get(`/api/v1/gyms`);
-  //     const responseStatus = response.data.status;
-  //     const responseData = response.data;
-  //     console.log("통신 결과", responseData);
-  //     if (responseStatus === "success") {
-  //       console.log(responseData);
-  //     }
-  //   } catch (error) {
-  //     console.log("error fetching", error);
-  //   }
-  // };
-
   useEffect(() => {
     getResponseTest();
   }, []);
@@ -314,9 +299,8 @@ export default function ManageMain() {
       <ColorContentBody>
         <MainTopContent>
           <ButtonRegionWrap>
-            {" "}
             <Button
-              variant="primary"
+              $variant="primary"
               height="3.5rem"
               style={{ marginRight: "1rem" }}
             >
@@ -327,7 +311,7 @@ export default function ManageMain() {
                 </Link>
               </ButtonInnerRegion>
             </Button>{" "}
-            <Button variant="outlinepurple" height="3.5rem">
+            <Button $variant="outlinepurple" height="3.5rem">
               <ButtonInnerRegion>
                 <Link href="/trainer/membermanagement/member/regist">
                   <ButtonIcon src={purpleExcalmiIcon} alt="플러스 아이콘" />

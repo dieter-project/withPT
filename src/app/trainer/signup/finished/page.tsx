@@ -67,7 +67,7 @@ const NextStep = styled(Link)`
 `;
 
 export default function finished() {
-  const title = "이력 등록";
+  const title = "가입 완료";
   return (
     <Wrap>
       <ContentHeader title={title}></ContentHeader>

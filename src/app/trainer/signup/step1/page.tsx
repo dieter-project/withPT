@@ -1,5 +1,4 @@
 "use client";
-
 import React, { useEffect, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useRouter } from "next/navigation";
@@ -23,13 +22,7 @@ import {
   SignupStepInfoSub,
   SignupInputInnerContainer,
 } from "@/styles/SignupForm";
-import {
-  FormRadio,
-  TrGenderLabel,
-  TrGenderRadio,
-  Slash,
-  StyledLabel,
-} from "./style";
+import { FormRadio, Slash, StyledLabel } from "./style";
 
 interface Trbirth {
   year: string;
@@ -282,7 +275,7 @@ export default function step1() {
         <ButtonAreaFixed>
           <Link href="/trainer/signup/step2">
             <Button
-              variant={isDisabled ? "ghost" : "primary"}
+              $variant={isDisabled ? "ghost" : "primary"}
               onClick={handleNext}
               disabled={isDisabled}
             >

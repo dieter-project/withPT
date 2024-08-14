@@ -10,7 +10,7 @@ import { Container, ContentBody } from "@/styles/TrainerLayout";
 import { NoIconInput } from "@/styles/TrainerInput";
 import { Button } from "@/styles/TrainerButton";
 import Footer from "@/components/TrainerFooter";
-import { yearsToMonths } from "date-fns";
+import CareerTimeSelector from "@/components/Trainer/Selector/CareerTimeSelector";
 
 const ContentInnerBody = styled.div``;
 
@@ -158,31 +158,23 @@ const RegisterContentTitle = styled.div`
   width: 15%;
 `;
 
+const FlexWrap = styled.div`
+  display: flex;
+`;
+
 export default function EditPage() {
-  const title = "경력";
-
+  const title = "경력수정";
   const [centerName, setCenterName] = useState<string | null>(null);
-
   const currentYear = new Date().getFullYear();
   const currentMonth = new Date().getMonth();
   const [selectedYear, setSelectedYear] = useState(currentYear);
   const [selectedMonth, setSelectedMonth] = useState(currentMonth);
-  const years: number[] = [];
-  const months: number[] = [];
 
-  for (let year = currentYear - 50; year <= currentYear; year++) {
-    years.push(year);
-  }
-
-  for (let month = 1; month <= 12; month++) {
-    months.push(month);
-  }
-
-  const handleYearChange = e => {
+  const handleYearChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedYear(parseInt(e.target.value));
   };
 
-  const handleMonthChange = e => {
+  const handleMonthChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedMonth(parseInt(e.target.value));
   };
 
@@ -221,36 +213,15 @@ export default function EditPage() {
                 // onChange={handleInputChange}
               ></NoIconInput>
             </RegisterItemWrap>
-            <RegisterItemWrap>
+            <FlexWrap>
               <RegisterContentTitle>기간</RegisterContentTitle>
-              {/* <label> 
-        
-         </label> */}
-              <select
-                id="year"
-                value={selectedYear}
-                onChange={handleYearChange}
-              >
-                {years.map(year => (
-                  <option key={year} value={year}>
-                    {year}
-                  </option>
-                ))}
-              </select>
-              <select
-                id="month"
-                value={selectedMonth}
-                onChange={handleMonthChange}
-              >
-                {months.map(month => (
-                  <option key={month} value={month}>
-                    {month}
-                  </option>
-                ))}
-              </select>
-            </RegisterItemWrap>
-
-            <Button variant="outlinegray">수정하기</Button>
+              <CareerTimeSelector
+                selectedYear={selectedYear}
+                handleYearChange={handleYearChange}
+                selectedMonth={selectedMonth}
+                handleMonthChange={handleMonthChange}
+              ></CareerTimeSelector>
+            </FlexWrap>
           </RegisterAllWrap>
         </ContentInnerBody>
         <Footer />

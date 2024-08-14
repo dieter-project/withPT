@@ -9,6 +9,16 @@ export const NoIconInput = styled.input`
   padding: 1rem;
 `;
 
+export const NoIconSelect = styled.select`
+  width: 6rem;
+  height: 3rem;
+  padding-left: 1rem;
+  margin-right: 10px;
+  border: none;
+  border-radius: 0.5rem;
+  background-color: var(--purple50);
+`;
+
 export const DeleteInputXbutton = styled.button`
   position: absolute;
   top: 0.7rem;

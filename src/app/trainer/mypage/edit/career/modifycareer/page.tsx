@@ -11,6 +11,7 @@ import { Container, ContentBody } from "@/styles/TrainerLayout";
 import { NoIconInput } from "@/styles/TrainerInput";
 import { Button } from "@/styles/TrainerButton";
 import Footer from "@/components/TrainerFooter";
+import { FlexDivWrap, Purpl50Div } from "@/styles/TrainerStyledDiv";
 
 const ContentInnerBody = styled.div``;
 
@@ -34,7 +35,6 @@ const SearchIcon = styled(Image)`
 const TrainerResume = styled.div`
   padding: 0rem 0.94rem 0.64rem 0.94rem;
   background-color: var(--purple50);
-  /* border-radius: 0.5rem; */
 `;
 
 const TrainerResumeAward = styled.div`
@@ -76,10 +76,6 @@ const RegisterWrap = styled.div`
   border-bottom: 1px solid var(--border-darkgray);
 `;
 
-const handlePlusClick = () => {
-  // 원하는 동작 실행
-};
-
 export default function ModifyCareer() {
   const title = "경력";
   const [centerName, setCenterName] = useState(null);
@@ -87,11 +83,6 @@ export default function ModifyCareer() {
   const [registerWraps, setRegisterWraps] = useState([
     <RegisterAllWrap key={0} />,
   ]);
-  const router = useRouter();
-
-  // const onClick = id => {
-  //   router.push();
-  // };
 
   const handlePlusClick = () => {
     const newRegisterWrap = <RegisterAllWrap key={registerWraps.length} />;
@@ -111,20 +102,7 @@ export default function ModifyCareer() {
             <RegisterWrap key={index}>
               <RegisterItemWrap>
                 <RegisterContentTitle>센터</RegisterContentTitle>
-                <NoIconInput
-                  name="name"
-                  type="text"
-                  required
-                  value={centerName || ""}
-                  onChange={e => setCenterName(e.target.value)}
-                ></NoIconInput>
-                <DeleteInputXbutton
-                  onClick={() => {
-                    setCenterName(null);
-                  }}
-                >
-                  {" "}
-                </DeleteInputXbutton>
+                <Purpl50Div $width={100}>센터이름</Purpl50Div>
               </RegisterItemWrap>
               <RegisterItemWrap>
                 <RegisterContentTitle>직책</RegisterContentTitle>
@@ -132,12 +110,31 @@ export default function ModifyCareer() {
               </RegisterItemWrap>
               <RegisterItemWrap>
                 <RegisterContentTitle>기간</RegisterContentTitle>
-                <NoIconInput name="name" type="text" required />
+                <FlexDivWrap>
+                  <Purpl50Div $width={30} $marginRight={6}>
+                    응?
+                  </Purpl50Div>
+                  <Purpl50Div $width={30} $marginRight={6}>
+                    응?
+                  </Purpl50Div>
+                </FlexDivWrap>
+              </RegisterItemWrap>
+              <RegisterItemWrap>
+                <RegisterContentTitle>기간</RegisterContentTitle>
+                <FlexDivWrap>
+                  <Purpl50Div $width={30} $marginRight={6}>
+                    응?
+                  </Purpl50Div>
+                  <Purpl50Div $width={30} $marginRight={6}>
+                    응?
+                  </Purpl50Div>
+                  <div>재직중</div>
+                </FlexDivWrap>
               </RegisterItemWrap>
               <Link
                 href={`/trainer/mypage/edit/career/modifycareer/editpage/${index}`}
               >
-                <Button variant="outlinegray">수정하기</Button>
+                <Button $variant="outlinegray">수정하기</Button>
               </Link>
             </RegisterWrap>
           ))}
