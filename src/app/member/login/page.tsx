@@ -25,7 +25,7 @@ const page = () => {
 
   return (
     <>
-      <PageHeader title='' />
+      <PageHeader title='' back={true}/>
       <BaseContentWrap>
         <LogoWrap>
           <Image 
