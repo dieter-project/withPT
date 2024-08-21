@@ -11,6 +11,8 @@ import { ArrowWrap, RecordBoxWrap } from './styles';
 import { api } from '@/utils/axios';
 import { NextArrow } from '../mypage/styles';
 import { todayDate } from '@/constants/record';
+import { getExerciseByDate } from '@/services/member/exercise';
+import { getBody } from '@/services/member/body';
 
 
 const page = () => {
@@ -19,11 +21,24 @@ const page = () => {
     exercise: "",
     urls: ""
   });
-  const [weight, setWeight] = useState({})
+  const [weight, setWeight] = useState({
+    currentTargetWeight: 0,
+    weights: [
+      {
+        recentUploadDate: "",
+        weight: 0
+      }
+    ],
+    bodyInfo: {
+      weight: 0,
+      targetWeight: 0,
+      record: true
+    }
+  })
   const router = useRouter()
   const handleGetWorkout = async () => {
-    const { data: { data: workoutData } } = await api.get(`/api/v1/members/exercise?dateTime=${todayDate}`)
-    setWorkout({ ...workout, ...workoutData })
+    const { data: { data } } = await getExerciseByDate(todayDate)
+    setWorkout({ ...workout, ...data })
   }
 
   const handleGetMeal = async () => {
@@ -32,8 +47,8 @@ const page = () => {
   }
 
   const handleGetWeight = async () => {
-    const { data: { data: weightData } } = await api.get(`/api/v1/members/body?dateTime=${todayDate}`)
-    setWeight({ ...weight, ...weightData })
+    const { data: { data } } = await getBody(todayDate)
+    setWeight({ ...weight, ...data })
   }
   useEffect(() => {
     handleGetWorkout()
@@ -109,7 +124,7 @@ const page = () => {
             <div>
               <div>
                 <p>오늘의 체중은?</p>
-                <div className='record-value'>0 kg</div>
+                <div className='record-value'>{weight.currentTargetWeight} kg</div>
               </div>
               <div className='caption'>
                 <span>!</span>체중을 입력해 주세요!
