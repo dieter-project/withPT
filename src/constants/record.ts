@@ -1,3 +1,5 @@
+import React from 'react';
+import { SettingIcon } from './../styles/components/Header';
 import { format } from "date-fns"
 
 /* 운동 기록 */
@@ -17,7 +19,7 @@ export const EXERCISE_TYPE = [
 export const BODY_PART = [
   {
     title: '전신',
-    value: 'WHOLE_BODY',
+    value: 'FULL_BODY',
   }, {
     title: '팔',
     value: 'ARM',
@@ -41,7 +43,7 @@ export const BODY_PART = [
     value: 'WAIST',
   }, {
     title: '엉덩이',
-    value: 'HIP',
+    value: 'BUTTOCKS',
   }, {
     title: '코어',
     value: 'CORE',

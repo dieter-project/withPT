@@ -4,15 +4,15 @@ import { PayloadAction, createSlice, current } from "@reduxjs/toolkit";
 
 
 export type WorkoutPayload = {
-  exerciseDate: string | null,
-  title: string | null,
-  weight: number | null,
-  set: number | null,
-  times: number | null,
-  hour: number | null,
-  bookmarkYn: string | null,
-  bodyPart: string | null,
-  exerciseType: string | null,
+  uploadDate: string,
+  title: string,
+  weight: number,
+  exerciseSet: number,
+  exerciseTime: number,
+  times: number,
+  bookmarkYn: boolean,
+  bodyParts: string[],
+  exerciseType: string,
 }
 
 const initialState: WorkoutPayload[] = []
@@ -27,7 +27,10 @@ const workoutRecordSlice = createSlice({
   initialState,
   reducers: {
     addWorkoutState: (state, action) => {
-      return [ ...state, { ...action.payload } ]
+      console.log('state: ', state);
+      console.log('action: ', action);
+      state.push(action.payload)
+      // return [ ...state, { ...action.payload } ]
     },
     workoutStateReset: (state) => {
       return state = []

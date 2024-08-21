@@ -2,30 +2,28 @@
 
 import PageHeader from '@/components/PageHeader';
 import { BODY_PART, EXERCISE_TYPE } from '@/constants/record';
-import { workoutRecordActions } from '@/redux/reducers/workoutRecordSlice';
+import { WorkoutPayload, workoutRecordActions } from '@/redux/reducers/workoutRecordSlice';
 import { Button } from '@/styles/Button';
 import { CategoryPartList } from '@/styles/CategoryPartList';
 import { Input, InputRowWrap, InputWrap } from '@/styles/Input';
 import { BaseContentWrap, ButtonAreaFixed, FormWrap } from '@/styles/Layout';
 import { LabelTitle } from '@/styles/Text';
 import { ToggleButton } from '@/styles/TogglButton';
-import { signIn, useSession } from 'next-auth/react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import React, { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux';
-import { styled } from 'styled-components'
 import { BookmarkButton, BookmarkSaveToggle } from './style';
 
 const page = () => {
-  const [inputData, setInputData] = useState({
-    exerciseDate: "",
+  const [inputData, setInputData] = useState<WorkoutPayload>({
+    uploadDate: "",
     title: "",
     weight: 0,
-    set: 0,
+    exerciseSet: 0,
     times: 0,
-    hour: 0,
-    bookmarkYn: "N",
-    bodyPart: "WHOLE_BODY",
+    exerciseTime: 0,
+    bookmarkYn: false,
+    bodyParts: [],
     exerciseType: "AEROBIC",
   });
   const dispatch = useDispatch();
@@ -40,17 +38,20 @@ const page = () => {
   };
 
   const handleChoiceBodyPart = (bodyPart: string) => {
-    setInputData({
-      ...inputData,
-      bodyPart,
-    });
+    console.log('inputData.bodyParts.includes(bodyPart: ', inputData.bodyParts?.includes(bodyPart))
+    if (!inputData.bodyParts?.includes(bodyPart)) {
+      setInputData({ ...inputData, bodyParts: [...inputData.bodyParts, bodyPart] })
+    } else {
+      inputData.bodyParts.splice(inputData.bodyParts.indexOf(bodyPart), 1)
+      setInputData({ ...inputData, bodyParts: [...inputData.bodyParts] })
+    }
   };
 
   const handleBookmarkChecked = (checked: boolean) => {
     if (checked) {
-      setInputData({ ...inputData, bookmarkYn: "Y" });
+      setInputData({ ...inputData, bookmarkYn: true });
     } else if (!checked) {
-      setInputData({ ...inputData, bookmarkYn: "N" });
+      setInputData({ ...inputData, bookmarkYn: false });
     }
   };
 
@@ -86,14 +87,14 @@ const page = () => {
     if (date) {
       setInputData({
         ...inputData,
-        exerciseDate: date,
+        uploadDate: date,
       });
     }
   }, []);
 
   return (
     <>
-      <PageHeader title={"운동 입력"} />
+      <PageHeader back={true} title={"운동 입력"} />
       <BaseContentWrap>
         <BookmarkButton $variant="outline" onClick={() => router.push('/member/record/workout/bookmark')}>북마크에서 가져오기</BookmarkButton>
         <FormWrap>
@@ -132,7 +133,7 @@ const page = () => {
                 <li
                   key={index}
                   onClick={() => handleChoiceBodyPart(part.value)}
-                  className={inputData.bodyPart === part.value ? "active" : ""}
+                  className={inputData.bodyParts?.includes(part.value) ? "active" : ""}
                 >
                   {part.title}
                 </li>
@@ -147,9 +148,9 @@ const page = () => {
               <InputWrap>
                 <Input
                   type="text"
-                  name="hour"
+                  name="times"
                   onChange={handleInputChange}
-                  value={inputData.hour}
+                  value={inputData.times}
                 />
                 <span>분</span>
               </InputWrap>
@@ -168,9 +169,9 @@ const page = () => {
                 <InputWrap>
                   <Input
                     type="text"
-                    name="times"
+                    name="exerciseTime"
                     onChange={handleInputChange}
-                    value={inputData.times}
+                    value={inputData.exerciseTime}
                   />
                   <span>회</span>
                 </InputWrap>{" "}
@@ -178,9 +179,9 @@ const page = () => {
                 <InputWrap>
                   <Input
                     type="text"
-                    name="set"
+                    name="exerciseSet"
                     onChange={handleInputChange}
-                    value={inputData.set}
+                    value={inputData.exerciseSet}
                   />
                   <span>set</span>
                 </InputWrap>
@@ -189,9 +190,9 @@ const page = () => {
               <InputWrap>
                 <Input
                   type="text"
-                  name="hour"
+                  name="times"
                   onChange={handleInputChange}
-                  value={inputData.hour}
+                  value={inputData.times}
                 />
                 <span>분</span>
               </InputWrap>
