@@ -133,7 +133,7 @@ const page = ({ params }: { params: { id: number } }) => {
   
   return (
     <>
-      <PageHeader title={title}/>
+      <PageHeader title={title} back={true}/>
       <BaseContentWrap>
         <ContentSection>
           <DateText>2023년 11월 15일(목) 08:30 am</DateText>

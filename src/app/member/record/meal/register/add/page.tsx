@@ -21,16 +21,16 @@ const page = () => {
   const searchParams = useSearchParams();
   const [inputData, setInputData] = useState<DietFood>({
     name: "",
-    capacity: null,
+    capacity: 0,
     units: "g",
-    calories: null,
-    carbohydrate: null,
-    protein: null,
-    fat: null
+    calories: 0,
+    carbohydrate: 0,
+    protein: 0,
+    fat: 0
   })
   const dispatch = useDispatch();
   const router = useRouter()
-  
+
   useEffect(() => {
     if (searchParams.get('type')) {
       setHasSearchResult(true)

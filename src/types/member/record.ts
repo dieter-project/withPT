@@ -7,18 +7,10 @@ export interface WeightRecord {
 }
 
 export interface MealRecord {
-  request: {
-    uploadDate: string,
-    mealCategory: string,
-    mealTime: {
-      hour: number,
-      minute: number,
-      second: number,
-      nano: number
-    },
-    dietFoods: DietFood[]
-  },
-  file: string[]
+  uploadDate: string,
+  mealCategory: string,
+  mealTime: string,
+  dietFoods: DietFood[]
 }
 
 interface MealFoodItems {
