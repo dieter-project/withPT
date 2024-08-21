@@ -45,14 +45,11 @@ const page = () => {
 
   const handleGetWeight = async () => {
     try {
-      const { data } = await getBody(todayDate);
-      console.log('data: ', data);
-      if (data) {
-        setTodayWeight({
-          ...todayWeight,
-          ...data.data
-        })
-      }
+      const { data: { data } } = await getBody(todayDate);
+      setTodayWeight({
+        ...todayWeight,
+        ...data
+      })
     } catch (error) {
       console.log('error: ', error);
     }
@@ -84,27 +81,22 @@ const page = () => {
   const handleChangeFile = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
       const fileArray = Array.from(e.target.files)
-      console.log('fileArray: ', fileArray);
       setFiles(prev => [...prev, ...fileArray])
     }
-    // console.log('files: ', files);
-
   }
 
   useEffect(() => {
     if (files.length > 0) {
       const formData = new FormData();
-      files.forEach((ele, idx) => {
-        formData.append('files', files[idx])
+      files.forEach((file, idx) => {
+        formData.append('files', file)
       })
       handleBodyPhotoSubmit(formData)
     }
   }, [files])
 
   const handleBodyPhotoSubmit = async (files: FormData) => {
-    const response = await postBodyImage({
-      files
-    })
+    const response = await postBodyImage(files)
     console.log('response: ', response);
   }
 
