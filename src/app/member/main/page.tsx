@@ -23,10 +23,11 @@ import DonutChart from '@/components/member/main/DonutChart';
 import WorkoutList from '@/components/member/WorkoutList';
 import { format } from 'date-fns';
 import { ko } from 'date-fns/locale';
-import { getExercise } from '@/services/member/exercise';
+import { getExerciseByDate } from '@/services/member/exercise';
 import { getLessonsDays, getPersonalTrainers } from '@/services/member/training';
-import { MemberInfo } from '@/types/member/member';
 import { getMemberInfo } from '@/services/member/member';
+import { getDietByDate } from '@/services/member/diet';
+import { MemberInfo } from '@/types/member/member';
 import { convertGoal } from '@/utils/convertGoal';
 import { ScheduleDates } from '@/types/member/schedule';
 import MonthlyCalendar from '@/components/member/MonthlyCalendar';
@@ -35,10 +36,10 @@ export type WorkoutType = {
   id: number,
   title: string,
   weight: number,
-  set: number,
+  exerciseSet: number,
   times: number,
-  hour: number,
-  bodyPart: string,
+  exerciseTime: number,
+  bodyParts: string,
   exerciseType: string
 }
 
@@ -56,10 +57,10 @@ const page = () => {
         id: 0,
         title: "string",
         weight: 0,
-        set: 0,
+        exerciseSet: 0,
         times: 0,
-        hour: 0,
-        bodyPart: "WHOLE_BODY",
+        exerciseTime: 0,
+        bodyParts: "FULL_BODY",
         exerciseType: "AEROBIC"
       }
     ],
@@ -88,7 +89,11 @@ const page = () => {
 
   const handleGetTodayMeal = async () => {
     try {
-
+      const { data } = await getDietByDate(format(today, 'yyyy-MM-dd'))
+      setData(prev => ({
+        ...prev,
+        todayWorkout: data.data
+      }))
     } catch (error) {
       console.log('error: ', error);
     }
@@ -96,10 +101,10 @@ const page = () => {
 
   const handleGetTodayWorkout = async () => {
     try {
-      const response = await getExercise(format(today, 'yyyy-MM-dd'))
+      const { data } = await getExerciseByDate(format(today, 'yyyy-MM-dd'))
       setData(prev => ({
         ...prev,
-        todayWorkout: response.data.data
+        todayWorkout: data
       }))
     } catch (error) {
       console.log('error: ', error);
