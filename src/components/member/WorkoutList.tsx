@@ -1,10 +1,10 @@
 import React from 'react'
 import { AddRecordButton } from '@/styles/AddButton'
 import { styled } from 'styled-components'
-import { WorkoutType } from '@/app/member/main/page'
 import { WorkoutPayload } from '@/redux/reducers/workoutRecordSlice'
 import { EmptyTodayMeal } from '@/app/member/main/styles'
 import { ExclamationMark } from '@/styles/Text'
+import { WorkoutType } from '@/types/member/record'
 
 const WorkoutListBox = styled.div`
   li {
@@ -51,7 +51,7 @@ const WorkoutList = ({ workout }: Props) => {
                     <div>이미지</div>
                     <div>
                       <div>{workout.title}</div>
-                      <div className='workout-contents'>{workout.set}</div>
+                      <div className='workout-contents'>{workout.exerciseSet}</div>
                     </div>
                   </li>
                 )

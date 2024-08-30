@@ -6,6 +6,17 @@ export interface WeightRecord {
   bodyRecordDate: string
 }
 
+export type WorkoutType = {
+  id: number,
+  title: string,
+  weight: number,
+  exerciseSet: number,
+  times: number,
+  exerciseTime: number,
+  bodyParts: string,
+  exerciseType: string
+}
+
 export interface MealRecord {
   uploadDate: string,
   mealCategory: string,

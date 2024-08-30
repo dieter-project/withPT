@@ -1,7 +1,6 @@
 'use client';
 
 import Header from '@/components/Header';
-import { api } from '@/utils/axios';
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react'
 import { ExclamationMark, LabelTitle } from '@/styles/Text';
@@ -32,43 +31,10 @@ import { convertGoal } from '@/utils/convertGoal';
 import { ScheduleDates } from '@/types/member/schedule';
 import MonthlyCalendar from '@/components/member/MonthlyCalendar';
 
-export type WorkoutType = {
-  id: number,
-  title: string,
-  weight: number,
-  exerciseSet: number,
-  times: number,
-  exerciseTime: number,
-  bodyParts: string,
-  exerciseType: string
-}
-
 const page = () => {
   const router = useRouter();
-  const [tabClick, setTabClick] = useState('1')
   const today = new Date();
-
-  const [data, setData] = useState({
-    goalMeal: "",
-    goalWorkout: "",
-    todayMeal: "",
-    todayWorkout: [
-      {
-        id: 0,
-        title: "string",
-        weight: 0,
-        exerciseSet: 0,
-        times: 0,
-        exerciseTime: 0,
-        bodyParts: "FULL_BODY",
-        exerciseType: "AEROBIC"
-      }
-    ],
-  });
-  const [markDate, setMarkDate] = useState([]);
-  const [activeDate, setActiveDate] = useState<ScheduleDates>(today);
-  const [trainers, setTrainers] = useState([]);
-  const [memberInfo, setMemberInfo] = useState<MemberInfo>({
+  const memberInit = {
     id: 0,
     email: "",
     oauthProvider: "",
@@ -85,15 +51,20 @@ const page = () => {
     role: "",
     joinDate: "",
     lastModifiedDate: ""
-  })
+  }
+
+  const [tabClick, setTabClick] = useState('1')
+  const [todayMeal, setTodayMeal] = useState("")
+  const [todayWorkout, setTodayWorkout] = useState([])
+  const [markDate, setMarkDate] = useState([]);
+  const [activeDate, setActiveDate] = useState<ScheduleDates>(today);
+  const [trainers, setTrainers] = useState([]);
+  const [memberInfo, setMemberInfo] = useState<MemberInfo>(memberInit)
 
   const handleGetTodayMeal = async () => {
     try {
       const { data } = await getDietByDate(format(today, 'yyyy-MM-dd'))
-      setData(prev => ({
-        ...prev,
-        todayWorkout: data.data
-      }))
+      setTodayMeal(data.data)
     } catch (error) {
       console.log('error: ', error);
     }
@@ -102,22 +73,12 @@ const page = () => {
   const handleGetTodayWorkout = async () => {
     try {
       const { data } = await getExerciseByDate(format(today, 'yyyy-MM-dd'))
-      setData(prev => ({
-        ...prev,
-        todayWorkout: data
-      }))
+      setTodayWorkout(data.data)
     } catch (error) {
       console.log('error: ', error);
     }
   }
 
-  const handleGetRecordDate = async () => {
-    try {
-
-    } catch (error) {
-      console.log('error: ', error);
-    }
-  }
   const handleGetTrainers = async () => {
     try {
       const response = await getPersonalTrainers(5)
@@ -140,8 +101,8 @@ const page = () => {
 
   const getLesson = async () => {
     try {
-      const { data: { data } } = await getLessonsDays(format(today, "yyyy-MM"));
-      getLessonsDays(data)
+      const params = { date: format(today, "yyyy-MM"), gym: 1 }
+      const { data: { data } } = await getLessonsDays(params);
     } catch (error) {
       console.log('error: ', error);
     }
@@ -155,6 +116,7 @@ const page = () => {
 
   useEffect(() => {
     getMember();
+    handleGetTodayMeal();
     handleGetTodayWorkout();
     getLesson();
     handleGetTrainers();
@@ -195,7 +157,7 @@ const page = () => {
             <div>
               {tabClick === '1'
                 ? <>
-                  {data.todayMeal.length > 0 ?
+                  {todayMeal.length > 0 ?
                     (
                       <TodayMeal>
                         <TodayMealContents>
@@ -224,7 +186,7 @@ const page = () => {
                     )
                   }
                 </>
-                : <WorkoutList workout={data.todayWorkout} />
+                : <WorkoutList workout={todayWorkout} />
               }
             </div>
           </div>
