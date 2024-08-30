@@ -55,12 +55,14 @@ api.interceptors.response.use(
       }, {
         headers: { Authorization: `Bearer ${token}` }
       }).then(async (response) => {
-        console.log('response: ', response);
+        // console.log('response: ', response);
         if (response.status === 200 && response.data.accessToken) {
-          setCookie("access", response.data.accessToken)
+          setCookie("access", response.data.accessToken, { path: "/" })
           const accesstoken = getCookie("access")
           error.config.headers["Authorization"] = `${accesstoken}`;
           return api(error.config)
+        } else if (response.status === 401) {
+          window.location.href = "/member/login"
         }
       })
       console.log('token response: ', response);
