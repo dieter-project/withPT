@@ -20,35 +20,34 @@ import { dietRecordActions } from '@/redux/reducers/dietRecordSlice';
 
 
 const page = () => {
-  const [modalOpen, setModalOpen] = useState(false);
-  const [displayModal, setDisplayModal] = useState(false);
-  const [slideUpModal, setSlideUpModal] = useState(false);
-  const [inputData, setInputData] = useState<MealRecord>({
+  const dietInit = {
     uploadDate: format(new Date(), "yyyy-MM-dd"),
     mealCategory: "BREAKFAST",
     mealTime: "10:10",
     dietFoods: [],
-  })
+  }
+  const [displayModal, setDisplayModal] = useState(false);
+  const [diet, setDiet] = useState<MealRecord>(dietInit)
   const router = useRouter()
   const state = useAppSelector(state => state.dietRecord);
   const dispatch = useDispatch()
 
   useEffect(() => {
     if (state.length > 0) {
-      setInputData(prev => ({
+      setDiet(prev => ({
         ...prev,
-          dietFoods: [
-            {
-              name: "test",
-              capacity: 10,
-              units: "g",
-              calories: 10,
-              carbohydrate: 10,
-              protein: 10,
-              fat: 10
-            }
-          ]
-        }
+        dietFoods: [
+          {
+            name: "test",
+            capacity: 10,
+            units: "g",
+            calories: 10,
+            carbohydrate: 10,
+            protein: 10,
+            fat: 10
+          }
+        ]
+      }
       ))
     }
   }, [state])
@@ -56,13 +55,13 @@ const page = () => {
 
   useEffect(() => {
 
-    console.log('inputData: ', inputData);
-  }, [inputData])
+    console.log('diet: ', diet);
+  }, [diet])
 
   const handleSubmit = async () => {
     // dispatch(dietRecordActions.dietStateReset())
     const formData = new FormData();
-    formData.append('request', new Blob([JSON.stringify(inputData)], {
+    formData.append('request', new Blob([JSON.stringify(diet)], {
       type: "application/json",
     }))
     const { data } = await postDiet(formData)
@@ -76,8 +75,8 @@ const page = () => {
         <TimeModal
           displayModal={displayModal}
           setDisplayModal={setDisplayModal}
-          inputData={inputData}
-          setInputData={setInputData}
+          diet={diet}
+          setDiet={setDiet}
         />
       )}
       <PageHeader back={true} title="식단 입력" />
@@ -87,12 +86,10 @@ const page = () => {
           <CategoryPartList>
             {MEAL_CATEGORY.map((category, idx) => {
               return (
-                <li key={idx} className={`${category.value === inputData.mealCategory ? "active" : ""}`} onClick={() => {
-                  setInputData(prev => ({
-                    ...prev, request: {
-                      ...prev,
-                      mealCategory: category.value
-                    }
+                <li key={idx} className={`${category.value === diet.mealCategory ? "active" : ""}`} onClick={() => {
+                  setDiet(prev => ({
+                    ...prev,
+                    mealCategory: category.value
                   }))
                 }}>{category.title}</li>
               )
@@ -108,7 +105,7 @@ const page = () => {
         <ContentSection>
           <LabelTitle>음식 종류</LabelTitle>
           <MealList>
-            {inputData.dietFoods?.map((food, idx) => {
+            {diet.dietFoods?.map((food, idx) => {
               return (
                 <li key={idx}>
                   <div>
