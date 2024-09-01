@@ -1,27 +1,29 @@
 'use client';
 
-import { WeeklyCalendar } from '@/components/WeeklyCalendar';
+import React, { useEffect, useMemo, useState } from 'react'
 import Header from '@/components/Header';
-import { BaseContentWrap, ContentSection, RoundBox } from '@/styles/Layout';
+import { WeeklyCalendar } from '@/components/WeeklyCalendar';
+import { BaseContentWrap, ContentSection } from '@/styles/Layout';
 import { LabelTitle } from '@/styles/Text';
-import { signIn, useSession } from 'next-auth/react';
-import React, { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation';
 import { ArrowWrap, RecordBoxWrap } from './styles';
-import { api } from '@/utils/axios';
 import { NextArrow } from '../mypage/styles';
-import { todayDate } from '@/constants/record';
+import { EXERCISE_GOAL, todayDate } from '@/constants/record';
 import { getExerciseByDate } from '@/services/member/exercise';
 import { getBody } from '@/services/member/body';
+import { getDietByDate } from '@/services/member/diet';
+import { getMemberInfo } from '@/services/member/member';
+import { MemberInfo } from '@/types/member/member';
+import { getRecord } from '@/services/member/record';
 
 
 const page = () => {
-  const [meal, setMeal] = useState({});
-  const [workout, setWorkout] = useState({
+  const mealInit = {}
+  const workoutInit = {
     exercise: "",
     urls: ""
-  });
-  const [weight, setWeight] = useState({
+  }
+  const weightInit = {
     currentTargetWeight: 0,
     weights: [
       {
@@ -34,26 +36,78 @@ const page = () => {
       targetWeight: 0,
       record: true
     }
-  })
+  }
+  const [meal, setMeal] = useState(mealInit);
+  const [workout, setWorkout] = useState(workoutInit);
+  const [weight, setWeight] = useState(weightInit)
+  const [memberInfo, setMemberInfo] = useState<MemberInfo>();
   const router = useRouter()
+
   const handleGetWorkout = async () => {
-    const { data: { data } } = await getExerciseByDate(todayDate)
-    setWorkout({ ...workout, ...data })
+    try {
+      const { data: { data } } = await getExerciseByDate(todayDate)
+      setWorkout(data)
+    } catch (error) {
+      console.log('error: ', error);
+    }
   }
 
   const handleGetMeal = async () => {
-    const response = await api.get(``)
-    console.log('response: ', response);
+    try {
+      const { data: { data } } = await getDietByDate(todayDate)
+      setMeal(data)
+    } catch (error) {
+      console.log('error: ', error);
+    }
   }
 
   const handleGetWeight = async () => {
-    const { data: { data } } = await getBody(todayDate)
-    setWeight({ ...weight, ...data })
+    try {
+      const { data: { data } } = await getBody(todayDate)
+      setWeight(data)
+    } catch (error) {
+      console.log('error: ', error);
+    }
   }
+
+  const mealSubText = useMemo(() => {
+    // if (meal.length ) 
+  }, [meal])
+
+  const getMember = async () => {
+    try {
+      const { data: { data: memberInfo } } = await getMemberInfo()
+      setMemberInfo(memberInfo);
+    } catch (error) {
+      console.log('error: ', error);
+    }
+  }
+  // const workoutSubText = useMemo(async () => {
+  //   if (memberInfo) {
+  //     const findGoalFrequency = EXERCISE_GOAL.find(goal => {
+  //       return goal.title === memberInfo.exerciseFrequency
+  //     })
+
+  //     const findFrequency = EXERCISE_GOAL.find(goal => {
+  //       return goal.title === memberInfo.exerciseFrequency
+  //     })
+      
+  //   }
+  // }, [workout, memberInfo])
+
+  const getRecords = async () => {
+    try {
+      const {data} = await getRecord(todayDate)
+      console.log('data: ', data);
+    } catch (error) {}
+  }
+
   useEffect(() => {
-    handleGetWorkout()
-    handleGetWeight()
+    // handleGetWorkout()
+    // handleGetWeight()
     // handleGetMeal()
+    getMember()
+    getRecords()
   }, [])
 
   return (
@@ -106,7 +160,6 @@ const page = () => {
                   </>
                   : <>
                     <span>♥</span>
-                    오운완 성공!
                   </>}
               </div>
             </div>

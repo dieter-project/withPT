@@ -50,10 +50,39 @@ export const BODY_PART = [
   }
 ]
 
+export const EXERCISE_GOAL = [
+  {
+    title: "FIRST_TIME",
+    text: "운동은 처음이라 잘 모르겠어요",
+    value: 0
+  },
+  {
+    title: "ONCE_TWICE_A_WEEK",
+    text: "주 1~2회",
+    value: 2
+  },
+  {
+    title: "THREE_TIMES_A_WEEK_OR_MORE",
+    text: "주 3회 이상",
+    value: 3
+  },
+  {
+    title: "FIVE_TIMES_A_WEEK_OR_MORE",
+    text: "주 5회 이상",
+    value: 5
+  },
+  {
+    title: "EVERYDAY",
+    text: "매일 운동할래요",
+    value: 7
+  },
+
+]
+
 export const MEAL_CATEGORY = [
   {
     title: "아침",
-    value: "BREAKFAST "
+    value: "BREAKFAST"
   }, {
     title: "아점",
     value: "BRUNCH",
