@@ -5,7 +5,7 @@ import React from 'react'
 import styled from 'styled-components'
 
 
-const MealList = styled.ul`
+const DietList = styled.ul`
   li {
     width: 100%;
     padding: 0.825rem;
@@ -25,7 +25,7 @@ const ModalContents = styled.div`
   justify-content: space-between;
 `
 
-export const MealShareModal = ({ 
+export const DietShareModal = ({ 
   displayModal, 
   setDisplayModal, 
 }: ModalProps) => {
@@ -43,11 +43,11 @@ export const MealShareModal = ({
         <div>
           <Title>식단 선택</Title>
           <ModalContents>
-            <MealList>
+            <DietList>
               <li className='active'>오늘 식단</li>
               <li>11월 13일 월요일 식단</li>
               <li>11월 9일 목요일 식단</li>
-            </MealList>
+            </DietList>
             <Button $variant='primary' onClick={handleSubmit}>전송하기</Button>
           </ModalContents>
         </div>

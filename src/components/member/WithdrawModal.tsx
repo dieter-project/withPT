@@ -1,7 +1,7 @@
 import { Input } from "@/styles/Input";
 import React from "react";
 import { ModalContainer, ModalTitle } from "@/styles/components/Modal";
-import { MealRecord } from "@/types/member/record";
+import { DietRecord } from "@/types/member/record";
 import { Button } from "@/styles/Button";
 import styled from "styled-components";
 

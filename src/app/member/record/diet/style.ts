@@ -84,9 +84,9 @@ export const ProgressWrap = styled.div<ProgressProps>`
 `
 
 
-export const MealList = styled.li`
+export const DietList = styled.li`
   display: flex;
-  .meal-img {
+  .diet-img {
     width: 140px;
     height: 140px;
     border-radius: 0.5rem;
@@ -95,7 +95,7 @@ export const MealList = styled.li`
       object-fit: cover;
     }
   }
-  .meal-detail {
+  .diet-detail {
     > div {
       &:first-child {
         display: flex;

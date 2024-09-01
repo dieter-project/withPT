@@ -18,7 +18,7 @@ import { getRecord } from '@/services/member/record';
 
 
 const page = () => {
-  const mealInit = {}
+  const dietInit = {}
   const workoutInit = {
     exercise: "",
     urls: ""
@@ -37,7 +37,7 @@ const page = () => {
       record: true
     }
   }
-  const [meal, setMeal] = useState(mealInit);
+  const [diet, setDiet] = useState(dietInit);
   const [workout, setWorkout] = useState(workoutInit);
   const [weight, setWeight] = useState(weightInit)
   const [memberInfo, setMemberInfo] = useState<MemberInfo>();
@@ -52,10 +52,10 @@ const page = () => {
     }
   }
 
-  const handleGetMeal = async () => {
+  const handleGetDiet = async () => {
     try {
       const { data: { data } } = await getDietByDate(todayDate)
-      setMeal(data)
+      setDiet(data)
     } catch (error) {
       console.log('error: ', error);
     }
@@ -70,9 +70,9 @@ const page = () => {
     }
   }
 
-  const mealSubText = useMemo(() => {
-    // if (meal.length ) 
-  }, [meal])
+  const dietSubText = useMemo(() => {
+    // if (diet.length ) 
+  }, [diet])
 
   const getMember = async () => {
     try {
@@ -105,7 +105,7 @@ const page = () => {
   useEffect(() => {
     // handleGetWorkout()
     // handleGetWeight()
-    // handleGetMeal()
+    // handleGetDiet()
     getMember()
     getRecords()
   }, [])
@@ -124,7 +124,7 @@ const page = () => {
         <WeeklyCalendar />
         <ContentSection>
           <LabelTitle>식단</LabelTitle>
-          <RecordBoxWrap variant='purple' onClick={() => router.push('/member/record/meal')}>
+          <RecordBoxWrap variant='purple' onClick={() => router.push('/member/record/diet')}>
             <div>
               <div>
                 <p>오늘은 뭘 드셨나요?</p>

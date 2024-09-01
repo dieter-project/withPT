@@ -1,6 +1,6 @@
 import styled from "styled-components"
 
-export const MealTime = styled.div`
+export const DietTime = styled.div`
   width: 7.5rem;
   height: 40px;
   border: 1px solid var(--border-gray300);
@@ -12,7 +12,7 @@ export const MealTime = styled.div`
   margin-bottom: 1.5rem;
 `
 
-export const MealList = styled.ul`
+export const DietList = styled.ul`
   margin-bottom: 1.5rem;
   li{
     width: 100%;
@@ -43,7 +43,7 @@ export const MealList = styled.ul`
   }
 `
 
-export const MealImgWrap = styled.ul`
+export const DietImgWrap = styled.ul`
   li {
     width: 111px;
     height: 111px;

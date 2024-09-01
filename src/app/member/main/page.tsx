@@ -8,14 +8,14 @@ import { ContentSection } from '@/styles/Layout';
 import MemberBottomNav from '@/components/MemberBottomNav';
 import { TrainerSwipe } from '@/components/TrainerSwipe';
 import {
-  EmptyTodayMeal,
+  EmptyTodayDiet,
   GoalContents,
   MainWrap,
   MoveButton,
   MyGoal,
-  TodayMeal,
-  TodayMealContents,
-  TodayMealList,
+  TodayDiet,
+  TodayDietContents,
+  TodayDietList,
   TodayTab
 } from './styles';
 import DonutChart from '@/components/member/main/DonutChart';
@@ -54,17 +54,17 @@ const page = () => {
   }
 
   const [tabClick, setTabClick] = useState('1')
-  const [todayMeal, setTodayMeal] = useState("")
+  const [todayDiet, setTodayDiet] = useState("")
   const [todayWorkout, setTodayWorkout] = useState([])
   const [markDate, setMarkDate] = useState([]);
   const [activeDate, setActiveDate] = useState<ScheduleDates>(today);
   const [trainers, setTrainers] = useState([]);
   const [memberInfo, setMemberInfo] = useState<MemberInfo>(memberInit)
 
-  const handleGetTodayMeal = async () => {
+  const handleGetTodayDiet = async () => {
     try {
       const { data } = await getDietByDate(format(today, 'yyyy-MM-dd'))
-      setTodayMeal(data.data)
+      setTodayDiet(data.data)
     } catch (error) {
       console.log('error: ', error);
     }
@@ -116,7 +116,7 @@ const page = () => {
 
   useEffect(() => {
     getMember();
-    handleGetTodayMeal();
+    handleGetTodayDiet();
     handleGetTodayWorkout();
     getLesson();
     handleGetTrainers();
@@ -157,32 +157,32 @@ const page = () => {
             <div>
               {tabClick === '1'
                 ? <>
-                  {todayMeal.length > 0 ?
+                  {todayDiet.length > 0 ?
                     (
-                      <TodayMeal>
-                        <TodayMealContents>
+                      <TodayDiet>
+                        <TodayDietContents>
                           <div>
                             <div className='title'>섭취칼로리</div>
                             <div><span>1018Kcal</span> / 1550 Kcal</div>
-                            <TodayMealList>
+                            <TodayDietList>
                               <li>탄수화물 <strong>50%</strong></li>
                               <li>단백질 <strong>50%</strong></li>
                               <li>지방 <strong>50%</strong></li>
-                            </TodayMealList>
+                            </TodayDietList>
                           </div>
                           <div>
                             <DonutChart />
                           </div>
-                        </TodayMealContents>
-                      </TodayMeal>
+                        </TodayDietContents>
+                      </TodayDiet>
                     ) : (
-                      <EmptyTodayMeal>
+                      <EmptyTodayDiet>
                         <ExclamationMark>!</ExclamationMark>
                         <div>아직 등록된 식단이 없어요.</div>
                         <div>
                           눌러서 오늘의 식단을 입력해 주세요
                         </div>
-                      </EmptyTodayMeal>
+                      </EmptyTodayDiet>
                     )
                   }
                 </>

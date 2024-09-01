@@ -79,7 +79,7 @@ export const EXERCISE_GOAL = [
 
 ]
 
-export const MEAL_CATEGORY = [
+export const DIET_CATEGORY = [
   {
     title: "아침",
     value: "BREAKFAST"

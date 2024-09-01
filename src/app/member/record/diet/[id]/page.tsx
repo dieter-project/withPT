@@ -91,7 +91,7 @@ const GraphWrap = styled.div`
   }
 `
 
-const MealList = styled.div`
+const DietList = styled.div`
   .list-top {
     display: flex;
     align-items: center;
@@ -121,13 +121,13 @@ const MealList = styled.div`
 
 const page = ({ params }: { params: { id: number } }) => {
   const title = '식단'
-  const mealId = params.id
+  const dietId = params.id
   
   useEffect(() => {
-    console.log('mealId: ', mealId);
+    console.log('dietId: ', dietId);
   }, [])
 
-  const getMeal = async () => {
+  const getDiet = async () => {
     const response = await api.get(``)
   }
   
@@ -168,7 +168,7 @@ const page = ({ params }: { params: { id: number } }) => {
           </GraphWrap>
         </ContentSection>
         <ContentSection>
-          <MealList>
+          <DietList>
             <div className='list-top'>
               <LabelTitle>식단</LabelTitle>
               <div>총 칼로리 <strong>360 kcal</strong></div>
@@ -184,7 +184,7 @@ const page = ({ params }: { params: { id: number } }) => {
                 </div>
               </li>
             </ul>
-          </MealList>
+          </DietList>
         </ContentSection>
       </BaseContentWrap>
     </>

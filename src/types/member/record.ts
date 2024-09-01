@@ -17,14 +17,14 @@ export type WorkoutType = {
   exerciseType: string
 }
 
-export interface MealRecord {
+export interface DietRecord {
   uploadDate: string,
-  mealCategory: string,
-  mealTime: string,
+  dietCategory: string,
+  dietTime: string,
   dietFoods: DietFood[]
 }
 
-interface MealFoodItems {
+interface DietFoodItems {
   food: {
     id: number,
     name: string,

@@ -66,11 +66,11 @@ const page = () => {
           <LabelTitle>내 목표</LabelTitle>
           <div>
             <ul>
-              <li onClick={() => router.push('/member/mypage/edit/meal')}>
+              <li onClick={() => router.push('/member/mypage/edit/diet')}>
                 <GoalListItem variant="purple">
                   <div>
                     <GoalIcon style={{
-                      background: `url(/svgs/icon_meal_1.svg) no-repeat`,
+                      background: `url(/svgs/icon_diet_1.svg) no-repeat`,
                       backgroundSize: "1.5rem 1.5rem",
                       backgroundPosition: "center",
                       backgroundColor: "white"
@@ -87,7 +87,7 @@ const page = () => {
                 <GoalListItem variant="purple">
                   <div>
                     <GoalIcon style={{
-                      background: `url(/svgs/icon_meal.svg) no-repeat`,
+                      background: `url(/svgs/icon_diet.svg) no-repeat`,
                       backgroundSize: "1.5rem 1.5rem",
                       backgroundPosition: "center",
                       backgroundColor: "white"

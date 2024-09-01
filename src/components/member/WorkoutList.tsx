@@ -2,7 +2,7 @@ import React from 'react'
 import { AddRecordButton } from '@/styles/AddButton'
 import { styled } from 'styled-components'
 import { WorkoutPayload } from '@/redux/reducers/workoutRecordSlice'
-import { EmptyTodayMeal } from '@/app/member/main/styles'
+import { EmptyTodayDiet } from '@/app/member/main/styles'
 import { ExclamationMark } from '@/styles/Text'
 import { WorkoutType } from '@/types/member/record'
 
@@ -66,13 +66,13 @@ const WorkoutList = ({ workout }: Props) => {
         /> */}
         </div>
       </WorkoutListBox>
-      : <EmptyTodayMeal>
+      : <EmptyTodayDiet>
         <ExclamationMark>!</ExclamationMark>
         <div>아직 등록된 운동이 없어요.</div>
         <div>
           눌러서 오늘의 운동을 입력해 주세요
         </div>
-      </EmptyTodayMeal>
+      </EmptyTodayDiet>
     }
   </>
   )

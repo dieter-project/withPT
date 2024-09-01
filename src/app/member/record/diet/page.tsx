@@ -7,7 +7,7 @@ import { LabelTitle } from '@/styles/Text';
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react'
 // import ReactApexChart from 'react-apexcharts';
-import { GraphWrap, MealList, MyGoal, NutritionProgress, ProgressWrap, TrainerFeedback } from './style';
+import { GraphWrap, DietList, MyGoal, NutritionProgress, ProgressWrap, TrainerFeedback } from './style';
 import { getDietByDate } from '@/services/member/diet';
 import { format } from 'date-fns';
 import dynamic from 'next/dynamic';
@@ -26,14 +26,14 @@ const page = () => {
   const proMax = 80;
   const fatMax = 20;
 
-  const handleGetMeal = async () => {
+  const handleGetDiet = async () => {
     const { data: { data } } = await getDietByDate(format(new Date(), "yyyy-MM-dd"))
     console.log('response data: ', data);
     setTodayDiet(data)
   }
 
   useEffect(() => {
-    handleGetMeal()
+    handleGetDiet()
   }, [])
 
   return (
@@ -125,17 +125,17 @@ const page = () => {
         <ContentSection>
           <LabelTitle>식단</LabelTitle>
           {todayDiet?.record.length < 1
-            ? <AddRecordButton variant='purple' onClick={() => router.push('/member/record/meal/register')}>
+            ? <AddRecordButton variant='purple' onClick={() => router.push('/member/record/diet/register')}>
               <div>!</div>
               <p>눌러서 식단을 입력해주세요</p>
             </AddRecordButton>
             : <div>
               <ul>
-                <MealList>
-                  <div className='meal-img'>
+                <DietList>
+                  <div className='diet-img'>
                     <img src="" alt="" />
                   </div>
-                  <div className='meal-detail'>
+                  <div className='diet-detail'>
                     <div>
                       <div className='time'>아침</div>
                       <div className='calorie'>360 kcal</div>
@@ -145,7 +145,7 @@ const page = () => {
                     <div className='menu'>메뉴</div>
                     <div className='menu'>메뉴</div>
                   </div>
-                </MealList>
+                </DietList>
               </ul>
             </div>
           }

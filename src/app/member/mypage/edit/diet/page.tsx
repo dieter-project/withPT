@@ -1,6 +1,6 @@
 'use client'
 
-import { MealIcon, MealText, RadioButton } from '@/app/member/signup/step2/styles'
+import { DietIcon, DietText, RadioButton } from '@/app/member/signup/step2/styles'
 import PageHeader from '@/components/PageHeader'
 import { targetDiet } from '@/constants/signup'
 import { useAppSelector } from '@/redux/hooks'
@@ -57,18 +57,18 @@ const page = () => {
                   <label key={index}>
                     <input
                       type="radio"
-                      name="meal"
+                      name="diet"
                       value={diet.vlaue}
                       onChange={handleOnChange}
                       checked={inputData.dietType === diet.vlaue}
                     />
-                    <div className='meal-item'>
-                      <MealText>
+                    <div className='diet-item'>
+                      <DietText>
                         <h3>{diet.title}</h3>
                         <div>{diet.subtitle}</div>
                         <p>{diet.balance}</p>
-                      </MealText>
-                      <MealIcon style={{
+                      </DietText>
+                      <DietIcon style={{
                         background: `url(${diet.icon}) no-repeat`,
                         backgroundColor: "white",
                         backgroundPosition: "center"

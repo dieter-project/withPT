@@ -1,6 +1,6 @@
 "use client";
 
-import { MealSearchModal } from '@/components/MealSearchModal';
+import { DietSearchModal } from '@/components/DietSearchModal';
 import PageHeader from '@/components/PageHeader';
 import { Button } from '@/styles/Button';
 import { Input, InputRowWrap, InputWrap, Select } from '@/styles/Input';
@@ -8,7 +8,7 @@ import { BaseContentWrap, ButtonAreaFixed, RowWrap } from '@/styles/Layout';
 import { LabelTitle } from '@/styles/Text';
 import { signIn, useSession } from 'next-auth/react';
 import React, { ChangeEvent, useEffect, useState } from 'react'
-import { ContentsWrap, MealTypeInput } from './style';
+import { ContentsWrap, DietTypeInput } from './style';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useDispatch } from 'react-redux';
 import { dietRecordActions } from '@/redux/reducers/dietRecordSlice';
@@ -48,7 +48,7 @@ const page = () => {
 
   const handleAddDiet = () => {
     dispatch(dietRecordActions.addDietState(inputData));
-    router.push('/member/record/meal/register')
+    router.push('/member/record/diet/register')
   }
 
   useEffect(() => {
@@ -61,10 +61,10 @@ const page = () => {
       <PageHeader back={true} title="음식 등록하기" />
       <ContentsWrap>
         {!hasSearchResult ? <div>
-          <MealTypeInput>
+          <DietTypeInput>
             <LabelTitle>음식명</LabelTitle>
             <Input type="text" placeholder='음식명을 입력해주세요' name='name' onChange={handleChange} value={inputData.name || ""} />
-          </MealTypeInput>
+          </DietTypeInput>
           <LabelTitle>내용량</LabelTitle>
           <InputRowWrap>
             <Input $width='10.625rem' placeholder='100' name='capacity' onChange={handleChange} value={inputData.capacity || ""}></Input>
