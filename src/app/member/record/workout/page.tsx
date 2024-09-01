@@ -16,20 +16,20 @@ import { useAppSelector } from '@/redux/hooks';
 import PageHeader from '@/components/PageHeader';
 import { SettingIcon } from '@/styles/components/Header';
 import SettingMenu from '@/components/SettingMenu';
+import { getExerciseByDate } from '@/services/member/exercise';
+import { BODY_PART } from '@/constants/record';
 
 
 const page = () => {
   const [workout, setWorkout] = useState<WorkoutPayload[]>([])
   const [isOpen, setIsOpen] = useState(false)
   const router = useRouter()
-  const date = format(new Date(), 'yyyy-MM-dd')
+  const today = format(new Date(), 'yyyy-MM-dd')
   const user = useAppSelector((state) => state.member)
 
   const handleGetWorkout = async () => {
-    const { data } = await api.get(`/api/v1/members/exercise?dateTime=${date}`)
-    console.log('data: ', data);
-
-    setWorkout(data.exercise)
+    const { data: { data } } = await getExerciseByDate(today)
+    setWorkout(data.exerciseInfos)
   }
 
   const handleGetWorkoutGoal = async () => {
@@ -52,7 +52,10 @@ const page = () => {
     <div onClick={() => { }}>운동 삭제하기</div>
   </>
 
-
+  const convertPart = (part: string) => {
+    return BODY_PART.find(p => p.value === part)?.title
+  }
+  
   return (
     <>
       <PageHeader back={true} title='운동기록' rightElement={headerRight} />
@@ -90,11 +93,17 @@ const page = () => {
                           <div>
                             <WorkoutListTitle>{workout.title}</WorkoutListTitle>
                             <WorkoutListDetail>
-                              {workout.bodyParts && <div>{workout.bodyParts},</div>}
-                              {workout.weight && <div>{workout.weight}kg </div>}
-                              {workout.exerciseTime && <div>x {workout.exerciseTime}분</div>}
-                              {workout.exerciseSet && <div>x {workout.exerciseSet}set</div>}
-                              {workout.times && <div>{workout.times}분</div>}
+                              {workout.bodyParts &&
+                                (workout.bodyParts.map((part, index) => {
+                                  return (
+                                    <div key={index}>{convertPart(part)},&nbsp;</div>
+                                  )
+                                }))
+                              }
+                              {workout.weight > 0 && <div>{workout.weight}kg&nbsp;</div>}
+                              {workout.exerciseTime > 0 && <div>x {workout.exerciseTime}분&nbsp;</div>}
+                              {workout.exerciseSet > 0 && <div>x {workout.exerciseSet}set&nbsp;</div>}
+                              {workout.times > 0 && <div>{workout.times}분</div>}
                             </WorkoutListDetail>
                           </div>
                         </WorkoutList>
@@ -117,11 +126,11 @@ const page = () => {
               </TitleWrap>
               <WorkoutImgGrid>
                 <ul>
-                  {workout?.map(() => {
+                  {workout?.map((_, index) => {
                     return (
-                      <li>
+                      <li key={index}>
                         <WorkoutImg>
-                          <img src="" alt="" />
+                          {/* <img src="" alt="" /> */}
                         </WorkoutImg>
                       </li>
                     )
@@ -133,7 +142,7 @@ const page = () => {
           }
         </ContentSection>
       </BaseContentWrap>
-      {isOpen && <SettingMenu contents={menu}/>}
+      {isOpen && <SettingMenu contents={menu} />}
     </>
   )
 }
