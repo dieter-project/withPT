@@ -1,5 +1,6 @@
+import dynamic from 'next/dynamic'
 import React, { useState } from 'react'
-import ReactApexChart from 'react-apexcharts'
+const ReactApexChart = dynamic(() => import('react-apexcharts'), {ssr: false})
 
 const DonutChart = () => {
   const [nutrient, setNutrient] = useState({
