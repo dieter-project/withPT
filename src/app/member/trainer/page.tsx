@@ -80,7 +80,7 @@ const page = ({ params }: { params: { id: number } }) => {
 
   return (
     <>
-      <PageHeader title={title}/>
+      <PageHeader back={true} title={title}/>
       <BaseContentWrap>
         <ContentSection>
           <LabelTitle>담당 트레이너</LabelTitle>

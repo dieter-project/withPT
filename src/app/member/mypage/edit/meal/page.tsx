@@ -43,7 +43,7 @@ const page = () => {
 
   return (
     <>
-      <PageHeader title={title} />
+      <PageHeader back={true} title={title} />
       <BaseContentWrap>
         <div>
           <SignUpInputContainer>

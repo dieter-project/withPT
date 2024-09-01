@@ -120,7 +120,7 @@ const page = () => {
       photo={photo}
       setDisplayModal={setDisplayModal}
     />}
-      <PageHeader title={title}/>
+      <PageHeader back={true} title={title}/>
       <BaseContentWrap>
         <PhotoGrid>
           {bodyphoto?.map((photo, index) => {

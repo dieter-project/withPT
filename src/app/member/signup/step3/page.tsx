@@ -64,7 +64,7 @@ const page = () => {
 
   return (
     <>
-      <PageHeader title={title} />
+      <PageHeader back={true} title={title} />
       <BaseContentWrap>
         <JoinStep active={"3"} />
         <div>

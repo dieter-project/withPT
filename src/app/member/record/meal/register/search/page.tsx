@@ -18,7 +18,7 @@ const page = () => {
   return (
     <>
       {searchOpen && <MealSearchModal setSearchOpen={setSearchOpen}/> }
-      <PageHeader title={title}/>
+      <PageHeader back={true} title={title}/>
       <ContentsWrap>
         <div>
           <MealTypeInput>

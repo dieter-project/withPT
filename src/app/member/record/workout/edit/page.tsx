@@ -1,16 +1,14 @@
 'use client';
 
+import React from 'react'
 import PageHeader from '@/components/PageHeader';
-import { signIn, useSession } from 'next-auth/react';
-import React, { useEffect } from 'react'
-import { styled } from 'styled-components'
 
 const page = () => {
   const title = '식단 입력'
   
   return (
     <>
-      <PageHeader title={title}/>
+      <PageHeader back={true} title={title}/>
       <div>
         <div>
           <div>운동명 입력</div>

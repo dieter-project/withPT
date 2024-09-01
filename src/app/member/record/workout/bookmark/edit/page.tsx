@@ -32,7 +32,7 @@ const page = () => {
 
   return (
     <>
-      <PageHeader title={title} />
+      <PageHeader back={true} title={title} />
       <BaseContentWrap>
         {/* <BookmarkButton $variant='outline'>북마크에서 가져오기</BookmarkButton> */}
         <FormWrap>
