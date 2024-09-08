@@ -22,7 +22,6 @@ import { searchGym } from "@/lib/kakaoApi";
 import { Button } from "@/styles/TrainerButton";
 import { signupActions } from "@/redux/reducers/trainerSignupSlice";
 import { useAppSelector } from "@/redux/hooks";
-// import Storelist from "./storelist/page";
 import { TrainerModalLayout } from "@/components/Trainer/Modal/CommonLayout";
 import { SearchCenter } from "@/components/Trainer/Modal/SearchCenter";
 import Search from "antd/es/input/Search";
