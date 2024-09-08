@@ -1,19 +1,21 @@
 "use client";
-import styled from "styled-components";
-import Link from "next/link";
 import { format } from "date-fns";
 import ko from "date-fns/locale/ko";
-import { useState, useEffect } from "react";
 import ReactApexChart from "react-apexcharts";
-import { ApexOptions } from "apexcharts";
-import Footer from "@/components/TrainerFooter";
-import alert from "/public/Trainer/Main/bell-solid.png";
+import { useState, useEffect } from "react";
+import styled from "styled-components";
 import Image from "next/image";
-import foodFeedbackImg from "/public/Trainer/Main/foodFeedback.png";
+import Link from "next/link";
+import { ApexOptions } from "apexcharts";
+
+import Footer from "@/components/TrainerFooter";
+import { api } from "@/utils/axios";
+
+import alert from "/public/Trainer/Main/bell-solid.png";
 import changeClassImg from "/public/Trainer/Main/changeClass.png";
+import foodFeedbackImg from "/public/Trainer/Main/foodFeedback.png";
 import newClassImg from "/public/Trainer/Main/newClass.png";
 import wePTLogo from "/public/Trainer/wePTLogo.png";
-import { api } from "@/utils/axios";
 
 const MainContainer = styled.div`
   background-color: var(--purple50);
