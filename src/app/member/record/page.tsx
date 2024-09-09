@@ -2,19 +2,37 @@
 
 import React, { useEffect, useMemo, useState } from 'react'
 import Header from '@/components/Header';
-import { WeeklyCalendar } from '@/components/WeeklyCalendar';
 import { BaseContentWrap, ContentSection } from '@/styles/Layout';
 import { LabelTitle } from '@/styles/Text';
 import { useRouter } from 'next/navigation';
 import { ArrowWrap, RecordBoxWrap } from './styles';
 import { NextArrow } from '../mypage/styles';
-import { EXERCISE_GOAL, todayDate } from '@/constants/record';
+import { thisMonth, todayDate } from '@/constants/record';
 import { getExerciseByDate } from '@/services/member/exercise';
 import { getBody } from '@/services/member/body';
 import { getDietByDate } from '@/services/member/diet';
 import { getMemberInfo } from '@/services/member/member';
 import { MemberInfo } from '@/types/member/member';
 import { getRecord } from '@/services/member/record';
+import { WeeklyCalendar } from '@/components/member/common/WeeklyCalendar';
+import { format } from 'date-fns';
+type WeeklyRecord = {
+  [date: string]: {
+    diet: {
+      totalCalorie: number;
+      targetCalorie: number;
+      record: boolean;
+    };
+    exercise: {
+      record: boolean;
+    };
+    bodyInfo: {
+      weight: number;
+      targetWeight: number;
+      record: boolean;
+    };
+  };
+};
 
 
 const page = () => {
@@ -40,6 +58,7 @@ const page = () => {
   const [diet, setDiet] = useState(dietInit);
   const [workout, setWorkout] = useState(workoutInit);
   const [weight, setWeight] = useState(weightInit)
+  const [weekly, setWeekly] = useState<WeeklyRecord | null>(null)
   const [memberInfo, setMemberInfo] = useState<MemberInfo>();
   const router = useRouter()
 
@@ -91,15 +110,15 @@ const page = () => {
   //     const findFrequency = EXERCISE_GOAL.find(goal => {
   //       return goal.title === memberInfo.exerciseFrequency
   //     })
-      
+
   //   }
   // }, [workout, memberInfo])
 
   const getRecords = async () => {
     try {
-      const {data} = await getRecord(todayDate)
-      console.log('data: ', data);
-    } catch (error) {}
+      const { data: { data } } = await getRecord(thisMonth)
+      setWeekly(data)
+    } catch (error) { }
   }
 
   useEffect(() => {
@@ -121,7 +140,7 @@ const page = () => {
         {/* <section>
           달력
         </section> */}
-        <WeeklyCalendar />
+        <WeeklyCalendar weekly={weekly} />
         <ContentSection>
           <LabelTitle>식단</LabelTitle>
           <RecordBoxWrap variant='purple' onClick={() => router.push('/member/record/diet')}>

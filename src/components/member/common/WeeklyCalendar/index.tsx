@@ -1,83 +1,41 @@
-import { addDays, eachDayOfInterval, eachWeekOfInterval, format, subDays } from 'date-fns'
-import { ko } from 'date-fns/locale'
-import React, { useEffect, useRef, useState } from 'react'
-import { styled } from 'styled-components'
+'use client'
 
-const WeeklyContainer = styled.section`
-  padding-bottom: 1rem;
-  margin-bottom: 1.5rem;
-  border-bottom: 1px solid var(--border-gray300);
-  width: 100%;
-  height: 3.75rem;
-  overflow-x: scroll;
-  scroll-snap-type: x mandatory;
-  display: flex;
-  /* justify-content: center; */
-  -ms-overflow-style: none;
-  scrollbar-width: none;
-  &::-webkit-scrollbar {
-    display: none;
-  }
-`
-
-const WeeklyScrollWrap = styled.ul`
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: space-around;
-  min-width: calc(100vw - 40px);
-  scroll-snap-align: start;
-`
-
-const WeeklyScrollItem = styled.li`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-`
-
-const DayText = styled.div`
-  font-size: var(--font-xs);
-
-  &.active {
-    color: var(--white);
-    width: 27px;
-    height: 27px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    text-align: center;
-  }
-`
-
-const DateText = styled.div`
-  color: var(--font-gray700);
-  font-weight: var(--font-medium);
-  
-  &.active {
-    font-weight: var(--font-semibold);
-    color: var(--black);
-  }
-`
-
-const DotWrap = styled.div`
-  display: flex;
-  gap: 4px;
-  span {
-    display: block;
-    width: 4px;
-    height: 4px;
-    border-radius: 50%;
-    background-color: var(--border-gray300);
-  }
-`
+import { addDays, eachDayOfInterval, eachWeekOfInterval, format, subDays } from "date-fns";
+import { useEffect, useRef, useState } from "react";
+import { DateText, DayText, DotWrap, WeeklyContainer, WeeklyScrollItem, WeeklyScrollWrap } from "./style";
+import { ko } from "date-fns/locale";
+import { useSwipeable } from 'react-swipeable';
+type WeeklyRecord = {
+  [date: string]: {
+    diet: {
+      totalCalorie: number;
+      targetCalorie: number;
+      record: boolean;
+    };
+    exercise: {
+      record: boolean;
+    };
+    bodyInfo: {
+      weight: number;
+      targetWeight: number;
+      record: boolean;
+    };
+  };
+};
 
 
-export const WeeklyCalendar = () => {
+export const WeeklyCalendar = ({ weekly }: { weekly: WeeklyRecord | null }) => {
   const [recordDate, setRecordDate] = useState()
   const [aWeek, setAWeek] = useState<Date[][]>([])
   const [activeIndex, setActiveIndex] = useState<number>(0)
   const scrollRef = useRef<HTMLUListElement | null>(null);
   const week: Date[][] = [];
+  const handlers = useSwipeable({
+    onSwiped: (eventData) => console.log("User Swiped!", eventData),
+    onSwipeStart: () => console.log('jkljskjfklajks')
+  });
+
+
 
   const makeWeek = (count: number, boundary: number = 7): Date[][] => {
 
@@ -128,21 +86,28 @@ export const WeeklyCalendar = () => {
     swiper.update();
   }
 
+  const recordCheck = (date: string, type: string): boolean => {
+    if (weekly && weekly[date]) {
+      return !!weekly[date][type as keyof WeeklyRecord[string]].record;
+    }
+    return false;
+  };
+
   return (
-    <WeeklyContainer>
+    <WeeklyContainer {...handlers} >
       {aWeek?.map((week, i) => {
         return (
           <WeeklyScrollWrap key={i} ref={scrollRef}>
             {week?.map((day, i) => {
               const txt = format(day, 'EEEEE', { locale: ko })
               return (
-                <WeeklyScrollItem key={i}>
+                <WeeklyScrollItem key={i} onClick={() => console.log(day)}>
                   <DayText>{txt}</DayText>
                   <DateText>{day.getDate()}</DateText>
                   <DotWrap>
-                    <span></span>
-                    <span></span>
-                    <span></span>
+                    <span style={{ backgroundColor: recordCheck(format(day, 'yyyy-MM-dd'), 'bodyInfo') ? '#FF5E5E' : '#EAEAEA' }}></span>
+                    <span style={{ backgroundColor: recordCheck(format(day, 'yyyy-MM-dd'), 'diet') ? '#FFE926' : '#EAEAEA' }}></span>
+                    <span style={{ backgroundColor: recordCheck(format(day, 'yyyy-MM-dd'), 'exercise') ? '#33DFD5' : '#EAEAEA' }}></span>
                   </DotWrap>
                 </WeeklyScrollItem>
               )
