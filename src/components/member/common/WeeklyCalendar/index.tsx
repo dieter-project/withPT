@@ -24,7 +24,7 @@ type WeeklyRecord = {
 };
 
 
-export const WeeklyCalendar = ({ weekly }: { weekly: WeeklyRecord | null }) => {
+export const WeeklyCalendar = ({ weekly, onChange }: { weekly: WeeklyRecord | null, onChange: (date: Date) => void }) => {
   const [recordDate, setRecordDate] = useState()
   const [aWeek, setAWeek] = useState<Date[][]>([])
   const [activeIndex, setActiveIndex] = useState<number>(0)
@@ -101,7 +101,7 @@ export const WeeklyCalendar = ({ weekly }: { weekly: WeeklyRecord | null }) => {
             {week?.map((day, i) => {
               const txt = format(day, 'EEEEE', { locale: ko })
               return (
-                <WeeklyScrollItem key={i} onClick={() => console.log(day)}>
+                <WeeklyScrollItem key={i} onClick={() => onChange(day)}>
                   <DayText>{txt}</DayText>
                   <DateText>{day.getDate()}</DateText>
                   <DotWrap>

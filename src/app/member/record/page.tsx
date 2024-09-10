@@ -36,58 +36,27 @@ type WeeklyRecord = {
 
 
 const page = () => {
-  const dietInit = {}
+  const dietInit = {
+    record: false,
+    targetCalorie: 1500,
+    totalCalorie: 0
+  }
   const workoutInit = {
-    exercise: "",
-    urls: ""
+    record: false
   }
   const weightInit = {
-    currentTargetWeight: 0,
-    weights: [
-      {
-        recentUploadDate: "",
-        weight: 0
-      }
-    ],
-    bodyInfo: {
-      weight: 0,
-      targetWeight: 0,
-      record: true
-    }
+    record: false,
+    targetWeight: 0,
+    weight: 0
   }
   const [diet, setDiet] = useState(dietInit);
   const [workout, setWorkout] = useState(workoutInit);
   const [weight, setWeight] = useState(weightInit)
   const [weekly, setWeekly] = useState<WeeklyRecord | null>(null)
+  const [targetDate, setTargetDate] = useState(new Date())
   const [memberInfo, setMemberInfo] = useState<MemberInfo>();
   const router = useRouter()
 
-  const handleGetWorkout = async () => {
-    try {
-      const { data: { data } } = await getExerciseByDate(todayDate)
-      setWorkout(data)
-    } catch (error) {
-      console.log('error: ', error);
-    }
-  }
-
-  const handleGetDiet = async () => {
-    try {
-      const { data: { data } } = await getDietByDate(todayDate)
-      setDiet(data)
-    } catch (error) {
-      console.log('error: ', error);
-    }
-  }
-
-  const handleGetWeight = async () => {
-    try {
-      const { data: { data } } = await getBody(todayDate)
-      setWeight(data)
-    } catch (error) {
-      console.log('error: ', error);
-    }
-  }
 
   const dietSubText = useMemo(() => {
     // if (diet.length ) 
@@ -101,18 +70,6 @@ const page = () => {
       console.log('error: ', error);
     }
   }
-  // const workoutSubText = useMemo(async () => {
-  //   if (memberInfo) {
-  //     const findGoalFrequency = EXERCISE_GOAL.find(goal => {
-  //       return goal.title === memberInfo.exerciseFrequency
-  //     })
-
-  //     const findFrequency = EXERCISE_GOAL.find(goal => {
-  //       return goal.title === memberInfo.exerciseFrequency
-  //     })
-
-  //   }
-  // }, [workout, memberInfo])
 
   const getRecords = async () => {
     try {
@@ -121,10 +78,20 @@ const page = () => {
     } catch (error) { }
   }
 
+  const handleDateChange = (date: Date) => {
+    setTargetDate(date)
+  }
+
   useEffect(() => {
-    // handleGetWorkout()
-    // handleGetWeight()
-    // handleGetDiet()
+    const date = format(targetDate, 'yyyy-MM-dd')
+    if (weekly) {
+      setDiet(weekly[date].diet);
+      setWorkout(weekly[date].exercise);
+      setWeight(weekly[date].bodyInfo);
+    }
+  }, [targetDate])
+
+  useEffect(() => {
     getMember()
     getRecords()
   }, [])
@@ -137,10 +104,7 @@ const page = () => {
         calendar={true}
       />
       <BaseContentWrap>
-        {/* <section>
-          달력
-        </section> */}
-        <WeeklyCalendar weekly={weekly} />
+        <WeeklyCalendar weekly={weekly} onChange={handleDateChange} />
         <ContentSection>
           <LabelTitle>식단</LabelTitle>
           <RecordBoxWrap variant='purple' onClick={() => router.push('/member/record/diet')}>
@@ -168,17 +132,18 @@ const page = () => {
               <div>
                 <p>오늘은 운동을 하셨나요?</p>
                 <div className='record-value'>
-                  {workout.exercise.length < 1 ? "운동 기록 없음" : "운동 성공"}
+                  {!!workout.record ? "운동 성공" : "운동 기록 없음"}
                 </div>
               </div>
               <div className='caption'>
-                {workout.exercise.length < 1
+                {!!workout.record
                   ? <>
-                    <span>!</span>
-                    운동을 입력해 주세요!
+                    <span>♥</span>
+                    오운완 성공!
                   </>
                   : <>
-                    <span>♥</span>
+                    <span>!</span>
+                    운동을 입력해 주세요!
                   </>}
               </div>
             </div>
@@ -196,10 +161,19 @@ const page = () => {
             <div>
               <div>
                 <p>오늘의 체중은?</p>
-                <div className='record-value'>{weight.currentTargetWeight} kg</div>
+                <div className='record-value'>{weight.weight} kg</div>
               </div>
               <div className='caption'>
-                <span>!</span>체중을 입력해 주세요!
+                {!weight.record
+                  ? <><span>!</span>체중을 입력해 주세요! </>
+                  : weight.weight === weight.targetWeight
+                    ? <><span>-</span>체중 변화가 없어요.</>
+                    : weight.targetWeight < weight.weight
+                      ? <><span>-</span>어제보다 체중이 증가했어요ㅜ</>
+                      : <><span>♥</span>어제보다 체중이 감소했어요!</>
+                }
+
+
               </div>
             </div>
             <div className='img-wrap'>
