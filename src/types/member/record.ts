@@ -1,9 +1,13 @@
 export interface WeightRecord {
+  weight: number,
+  uploadDate: string
+}
+
+export interface BodyInfoRecord {
   bmi: number,
   bodyFatPercentage: number,
   skeletalMuscle: number,
-  weight: number,
-  bodyRecordDate: string
+  uploadDate: string
 }
 
 export type WorkoutType = {

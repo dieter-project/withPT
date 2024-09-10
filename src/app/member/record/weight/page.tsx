@@ -23,16 +23,21 @@ import { api } from '@/utils/axios';
 import { todayDate } from '@/constants/record';
 import { WeightEditModal } from '@/components/WeightEditModal';
 import { FileInput } from '@/styles/Input';
-import { WeightRecord } from '@/types/member/record';
+import { BodyInfoRecord, WeightRecord } from '@/types/member/record';
 import { getBody, postBodyImage, postWeight } from '@/services/member/body';
+import { Skeleton } from 'antd';
 
 const page = () => {
   const [todayWeight, setTodayWeight] = useState<WeightRecord>({
+    weight: 0,
+    uploadDate: todayDate
+  })
+
+  const [bodyInfo, setBodyInfo] = useState<BodyInfoRecord>({
     bmi: 0,
     bodyFatPercentage: 0,
     skeletalMuscle: 0,
-    weight: 0,
-    bodyRecordDate: todayDate
+    uploadDate: todayDate
   })
   const [displayModal, setDisplayModal] = useState(false);
   const [files, setFiles] = useState<File[]>([])
@@ -43,13 +48,10 @@ const page = () => {
 
   const title = '체중'
 
-  const handleGetWeight = async () => {
+  const handleGetBodyInfo = async () => {
     try {
       const { data: { data } } = await getBody(todayDate);
-      setTodayWeight({
-        ...todayWeight,
-        ...data
-      })
+      setBodyInfo(data.bodyInfo)
     } catch (error) {
       console.log('error: ', error);
     }
@@ -67,7 +69,7 @@ const page = () => {
 
   const handleWeightSave = async () => {
     const response = await postWeight({
-      bodyRecordDate: todayDate,
+      uploadDate: todayDate,
       weight: todayWeight.weight
     })
     console.log('response: ', response);
@@ -100,8 +102,13 @@ const page = () => {
     console.log('response: ', response);
   }
 
+  useEffect(()=>{
+
+    console.log('bodyInfo: ', bodyInfo);
+  }, [bodyInfo]) 
+
   useEffect(() => {
-    handleGetWeight()
+    handleGetBodyInfo()
   }, [])
 
   return (
@@ -109,8 +116,8 @@ const page = () => {
       {displayModal && <WeightEditModal
         displayModal={displayModal}
         setDisplayModal={setDisplayModal}
-        todayWeight={todayWeight}
-        setTodayWeight={setTodayWeight}
+        bodyInfo={bodyInfo}
+        setBodyInfo={setBodyInfo}
       />}
       <Header back={true} title={title} />
       <BaseContentWrap>
@@ -153,13 +160,13 @@ const page = () => {
             <div className='recent-date'>최근기록이 없습니다</div>
           </TitleWrap>
           <WeightDetail>
-            {todayWeight.skeletalMuscle > 0
+            {bodyInfo.skeletalMuscle > 0
               ? <>
                 <AddDetailButton variant='purple' onClick={() => setDisplayModal(true)}>
                   <PlusRound>
                     <Plus fill="white" width="0.75rem" height="0.75rem" />
                   </PlusRound>
-                  <CompositionValueText>21.8%</CompositionValueText>
+                  <CompositionValueText>{bodyInfo.skeletalMuscle}</CompositionValueText>
                   <CompositionText>골격근량</CompositionText>
                 </AddDetailButton>
               </>
@@ -171,13 +178,13 @@ const page = () => {
                   <CompositionText>골격근량</CompositionText>
                 </AddDetailButton>
               </>}
-            {todayWeight.bodyFatPercentage > 0
+            {bodyInfo.bodyFatPercentage > 0
               ? <>
                 <AddDetailButton variant='purple' onClick={() => setDisplayModal(true)}>
                   <PlusRound>
                     <Plus fill="white" width="0.75rem" height="0.75rem" />
                   </PlusRound>
-                  <CompositionValueText>29.1%</CompositionValueText>
+                  <CompositionValueText>{bodyInfo.bodyFatPercentage}</CompositionValueText>
                   <CompositionText>체지방률</CompositionText>
                 </AddDetailButton>
               </>
@@ -189,13 +196,13 @@ const page = () => {
                   <CompositionText>체지방률</CompositionText>
                 </AddDetailButton>
               </>}
-            {todayWeight.bmi > 0
+            {bodyInfo.bmi > 0
               ? <>
                 <AddDetailButton variant='purple' onClick={() => setDisplayModal(true)}>
                   <PlusRound>
                     <Plus fill="white" width="0.75rem" height="0.75rem" />
                   </PlusRound>
-                  <CompositionValueText>22.4%</CompositionValueText>
+                  <CompositionValueText>{bodyInfo.bmi}</CompositionValueText>
                   <CompositionText>BMI</CompositionText>
                 </AddDetailButton>
               </>

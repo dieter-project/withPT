@@ -13,7 +13,7 @@ export const getBodyImages = async () => {
 }
 
 export const postBody = async (data: {}) => {
-  return await api.post('/api/v1/members/record/body-info', data)
+  return await api.post('/api/v1/members/record/body-info/bodyInfo', data)
 }
 
 export const postWeight = async (data: {}) => {
