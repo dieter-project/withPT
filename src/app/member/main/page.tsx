@@ -157,7 +157,7 @@ const page = () => {
             <div>
               {tabClick === '1'
                 ? <>
-                  {todayDiet.length > 0 ?
+                  {todayDiet?.length > 0 ?
                     (
                       <TodayDiet>
                         <TodayDietContents>

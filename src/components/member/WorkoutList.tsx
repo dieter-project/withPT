@@ -40,7 +40,7 @@ interface Props {
 
 const WorkoutList = ({ workout }: Props) => {
   return (<>
-    {workout.length > 0 ?
+    {workout?.length > 0 ?
       <WorkoutListBox>
         <div>
           <ul>
