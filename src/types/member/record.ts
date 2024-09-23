@@ -21,25 +21,46 @@ export type WorkoutType = {
   exerciseType: string
 }
 
-export interface DietRecord {
+export interface DietRquestDate {
   uploadDate: string,
   dietCategory: string,
   dietTime: string,
   dietFoods: DietFood[]
 }
 
+export interface DietRecord {
+  id: number,
+  dietInfos: DietInfos[],
+  feedback: string | null,
+  targetDietType: string,
+  uploadDate: string,
+  totalCalorie: number,
+  totalCarbohydrate: number,
+  totalFat: number,
+  totalProtein: number,
+}
+
+interface DietInfos {
+  dietCategory: string
+  dietFoods: DietFoodItems[]
+  dietTime: string
+  id: number
+  images: []
+  totalCalorie: number
+  totalCarbohydrate: number
+  totalFat: number
+  totalProtein: number
+}
+
 interface DietFoodItems {
-  food: {
-    id: number,
-    name: string,
-    totalGram: string,
-    calories: string,
-    carbohydrate: string,
-    protein: string,
-    province: string,
-    sugars: string
-  },
-  gram: number
+  id: number,
+  name: string,
+  capacity: number,
+  calories: number,
+  carbohydrate: number,
+  fat: number,
+  protein: number,
+  units: string
 }
 
 export interface DietFood {

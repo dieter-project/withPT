@@ -51,11 +51,6 @@ const page = () => {
     router.push('/member/record/diet/register')
   }
 
-  useEffect(() => {
-
-    console.log('inputData: ', inputData);
-  }, [inputData])
-
   return (
     <>
       <PageHeader back={true} title="음식 등록하기" />

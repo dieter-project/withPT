@@ -11,7 +11,7 @@ import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react'
 import { DietImgWrap, DietList, DietTime } from './style';
 import { DIET_CATEGORY } from '@/constants/record';
-import { DietRecord } from '@/types/member/record';
+import { DietRquestDate } from '@/types/member/record';
 import { useAppSelector } from '@/redux/hooks';
 import { postDiet } from '@/services/member/diet';
 import { format } from 'date-fns';
@@ -20,14 +20,16 @@ import { dietRecordActions } from '@/redux/reducers/dietRecordSlice';
 
 
 const page = () => {
+  const hours = String(new Date().getHours()).padStart(2, '0')
+  const minutes = String(new Date().getMinutes()).padStart(2, '0')
   const dietInit = {
     uploadDate: format(new Date(), "yyyy-MM-dd"),
     dietCategory: "BREAKFAST",
-    dietTime: "10:10",
+    dietTime: `${hours}:${minutes}`,
     dietFoods: [],
   }
   const [displayModal, setDisplayModal] = useState(false);
-  const [diet, setDiet] = useState<DietRecord>(dietInit)
+  const [diet, setDiet] = useState<DietRquestDate>(dietInit)
   const router = useRouter()
   const state = useAppSelector(state => state.dietRecord);
   const dispatch = useDispatch()
@@ -36,36 +38,27 @@ const page = () => {
     if (state.length > 0) {
       setDiet(prev => ({
         ...prev,
-        dietFoods: [
-          {
-            name: "test",
-            capacity: 10,
-            units: "g",
-            calories: 10,
-            carbohydrate: 10,
-            protein: 10,
-            fat: 10
-          }
-        ]
+        dietFoods: state
       }
       ))
     }
   }, [state])
 
-
   useEffect(() => {
-
-    console.log('diet: ', diet);
+    // console.log('diet: ', diet);
   }, [diet])
 
   const handleSubmit = async () => {
-    // dispatch(dietRecordActions.dietStateReset())
     const formData = new FormData();
     formData.append('request', new Blob([JSON.stringify(diet)], {
       type: "application/json",
     }))
-    const { data } = await postDiet(formData)
-    console.log('data: ', data);
+
+    try 
+    {
+      const { data } = await postDiet(formData)
+      dispatch(dietRecordActions.dietStateReset)
+    } catch (err) { }
   }
 
 

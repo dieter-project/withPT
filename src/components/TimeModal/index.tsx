@@ -3,15 +3,15 @@ import { Input } from "@/styles/Input";
 import React, { ChangeEvent, Dispatch, SetStateAction, useEffect, useState } from "react";
 import { styled } from "styled-components";
 import { ModalContainer, ModalTitle } from "@/styles/components/Modal";
-import { DietRecord } from "@/types/member/record";
+import { DietRecord, DietRquestDate } from "@/types/member/record";
 import { InputWrap, TimeModalWrap } from "./style";
 
 
 interface ModalProps {
   displayModal: boolean;
   setDisplayModal: React.Dispatch<React.SetStateAction<boolean>>;
-  diet: DietRecord;
-  setDiet: React.Dispatch<React.SetStateAction<DietRecord>>;
+  diet: DietRquestDate;
+  setDiet: React.Dispatch<React.SetStateAction<DietRquestDate>>;
 }
 
 export const TimeModal = ({
@@ -32,7 +32,6 @@ export const TimeModal = ({
       ...prev,
       dietTime: e.target.value
     }))
-
   }
 
 
