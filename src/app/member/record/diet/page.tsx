@@ -141,12 +141,8 @@ const page = () => {
         </ContentSection>
         <ContentSection>
           <LabelTitle>식단</LabelTitle>
-          {Object.keys(todayDiet).length === 0
-            ? <AddRecordButton variant='purple' onClick={() => router.push('/member/record/diet/register')}>
-              <div>!</div>
-              <p>눌러서 식단을 입력해주세요</p>
-            </AddRecordButton>
-            : <div>
+          {todayDiet && Object.keys(todayDiet).length > 0
+            ? <div>
               <ul>
                 {todayDiet?.dietInfos?.map((diet, idx) => {
                   return (
@@ -156,20 +152,24 @@ const page = () => {
                       </div>
                       <div className='diet-detail'>
                         <div>
-                          <div className='time'>{DIET_CATEGORY.find(cate => cate.value ===  diet.dietCategory)?.title}</div>
+                          <div className='time'>{DIET_CATEGORY.find(cate => cate.value === diet.dietCategory)?.title}</div>
                           <div className='calorie'>{diet.totalCalorie} kcal</div>
                         </div>
                         <div className='nutrition'>탄 {diet.totalCarbohydrate}g / 단 {diet.totalProtein}g / 지 {diet.totalFat}g</div>
-                        <div className='menu'>{diet?.dietFoods[0]?.name} {`${diet?.dietFoods.length > 1 ? `외 ${diet?.dietFoods.length - 1} 개`: ''}`}</div>
+                        <div className='menu'>{diet?.dietFoods[0]?.name} {`${diet?.dietFoods.length > 1 ? `외 ${diet?.dietFoods.length - 1} 개` : ''}`}</div>
                       </div>
                     </DietList>
                   )
                 })}
               </ul>
             </div>
+            : <AddRecordButton variant='purple' onClick={() => router.push('/member/record/diet/register')}>
+              <div>!</div>
+              <p>눌러서 식단을 입력해주세요</p>
+            </AddRecordButton>
           }
         </ContentSection>
-        {todayDiet.feedback &&
+        {todayDiet?.feedback &&
           <ContentSection>
             <LabelTitle>트레이너 피드백</LabelTitle>
             <TrainerFeedback variant='purple'>
