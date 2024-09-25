@@ -29,6 +29,7 @@ const page = () => {
 
   const handleGetWorkout = async () => {
     const { data: { data } } = await getExerciseByDate(today)
+    if (data === null) return
     setWorkout(data.exerciseInfos)
   }
 
@@ -55,7 +56,7 @@ const page = () => {
   const convertPart = (part: string) => {
     return BODY_PART.find(p => p.value === part)?.title
   }
-  
+
   return (
     <>
       <PageHeader back={true} title='운동기록' rightElement={headerRight} />
