@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react'
 import { styled } from 'styled-components';
 import { Input, InputRowWrap, InputWrap, Select } from '@/styles/Input';
 import { Button, CloseBtn } from '@/styles/Button';
-import { BodyInfoRecord, WeightRecord } from '@/types/member/record';
+import { BodyInfoRecordRequest, WeightRecordRequest } from '@/types/member/record';
 import { postBody } from '@/services/member/body';
 
 const Title = styled.div`
@@ -82,8 +82,8 @@ const DateWrap = styled.div`
 interface ModalProps {
   displayModal: boolean;
   setDisplayModal: React.Dispatch<React.SetStateAction<boolean>>;
-  bodyInfo: BodyInfoRecord;
-  setBodyInfo: React.Dispatch<React.SetStateAction<BodyInfoRecord>>;
+  bodyInfo: BodyInfoRecordRequest;
+  setBodyInfo: React.Dispatch<React.SetStateAction<BodyInfoRecordRequest>>;
 }
 
 export const WeightEditModal = ({
@@ -108,7 +108,7 @@ export const WeightEditModal = ({
   }
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setBodyInfo(prev => ({
+    setBodyInfo((prev: any) => ({
       ...prev,
       [e.target.name]: e.target.value
     }))
@@ -177,7 +177,7 @@ export const WeightEditModal = ({
                   name='bmi'
                   onChange={handleInputChange}
                 />
-                <span>%</span>
+                <span>kg</span>
               </InputWrap>
             </InputRowWrap>
             <InputRowWrap>

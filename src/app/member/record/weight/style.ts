@@ -76,6 +76,7 @@ export const AddDetailButton = styled(RoundBox)`
 `
 
 export const PlusRound = styled.span`
+  flex-shrink: 0;
   display: flex;
   align-items: center;
   justify-content: center;
