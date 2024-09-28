@@ -79,21 +79,20 @@ const page = () => {
     }
   }
 
-  const handleGetTrainers = async () => {
+  const getMember = async () => {
     try {
-      const response = await getPersonalTrainers(5)
-      const { data: { data } } = response
-
-      setTrainers(data)
+      const { data: { data } } = await getMemberInfo();
+      setMemberInfo(data)
     } catch (error) {
       console.log('error: ', error);
     }
   }
 
-  const getMember = async () => {
+  const handleGetTrainers = async (id: number) => {
     try {
-      const { data: { data } } = await getMemberInfo();
-      setMemberInfo(data)
+      const response = await getPersonalTrainers(id)
+      const { data: { data } } = response
+      setTrainers(data)
     } catch (error) {
       console.log('error: ', error);
     }
@@ -119,8 +118,11 @@ const page = () => {
     handleGetTodayDiet();
     handleGetTodayWorkout();
     getLesson();
-    handleGetTrainers();
   }, [])
+
+  useEffect(() => {
+    handleGetTrainers(memberInfo.id)
+  }, [memberInfo])
 
   return (
     <>
