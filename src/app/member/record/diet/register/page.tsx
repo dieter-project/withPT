@@ -54,9 +54,10 @@ const page = () => {
       type: "application/json",
     }))
 
-    try {
-      const { data } = await postDiet(formData)
-      dispatch(dietRecordActions.dietStateReset)
+    try 
+    {
+      const response = await postDiet(formData)
+      if (response.status === 200) dispatch(dietRecordActions.dietStateReset)
     } catch (err) { }
   }
 
