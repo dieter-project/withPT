@@ -11,6 +11,9 @@ const dietRecordSlice = createSlice({
     addDietState: (state, action) => {
       return [...state, { ...action.payload }]
     },
+    deleteDietState: (state, action) => {
+      return state.filter((diet, index) => action.payload !== index)
+    },
     dietStateReset: (state) => {
       return state = []
     }

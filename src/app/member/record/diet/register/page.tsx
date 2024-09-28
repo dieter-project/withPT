@@ -44,9 +44,9 @@ const page = () => {
     }
   }, [state])
 
-  useEffect(() => {
-    // console.log('diet: ', diet);
-  }, [diet])
+  const handleDietList = (idx: number) => {
+    dispatch(dietRecordActions.deleteDietState(idx))
+  }
 
   const handleSubmit = async () => {
     const formData = new FormData();
@@ -54,12 +54,15 @@ const page = () => {
       type: "application/json",
     }))
 
-    try 
-    {
+    try {
       const { data } = await postDiet(formData)
       dispatch(dietRecordActions.dietStateReset)
     } catch (err) { }
   }
+
+  useEffect(() => {
+    // console.log('diet: ', diet);
+  }, [diet])
 
 
   return (
@@ -105,7 +108,7 @@ const page = () => {
                     <div>{food.name}</div>
                     <div className="amount">{food.capacity}{food.units}</div>
                   </div>
-                  <div>X</div>
+                  <div onClick={() => handleDietList(idx)}>X</div>
                 </li>
               )
             })}
