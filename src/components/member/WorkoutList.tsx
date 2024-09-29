@@ -16,13 +16,20 @@ const WorkoutListBox = styled.div`
     }
     >div {
       &:first-child {
-        width: 40px;
-        height: 40px;
+        width: 3.25rem;
+        height: 3.25rem;
         background-color: var(--purple50);
         border-radius: 0.5rem;
         margin-right: 0.625rem;
         overflow: hidden;
         text-indent: -999px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        img {
+          width: 2rem;
+          height: 2rem;
+        }
       }
       &:last-child {
         .workout-contents {
