@@ -1,10 +1,10 @@
 import React from 'react'
 import { AddRecordButton } from '@/styles/AddButton'
 import { styled } from 'styled-components'
-import { WorkoutPayload } from '@/redux/reducers/workoutRecordSlice'
 import { EmptyTodayDiet } from '@/app/member/main/styles'
 import { ExclamationMark } from '@/styles/Text'
-import { WorkoutType } from '@/types/member/record'
+import { WorkoutPayload, WorkoutType } from '@/types/member/record'
+import { EXERCISE_TYPE } from '@/constants/record'
 
 const WorkoutListBox = styled.div`
   li {
@@ -39,6 +39,7 @@ interface Props {
 }
 
 const WorkoutList = ({ workout }: Props) => {
+  console.log('workout: ', workout);
   return (<>
     {workout?.length > 0 ?
       <WorkoutListBox>
@@ -48,10 +49,16 @@ const WorkoutList = ({ workout }: Props) => {
               workout?.map((workout, index) => {
                 return (
                   <li key={index}>
-                    <div>이미지</div>
+                    <div>
+                      <img src={EXERCISE_TYPE.find(type => type.value === workout.exerciseType)?.src} alt="" />
+                    </div>
                     <div>
                       <div>{workout.title}</div>
-                      <div className='workout-contents'>{workout.exerciseSet}</div>
+                      <div className='workout-contents'>
+                        {workout.exerciseType === 'ANAEROBIC' 
+                          ? `${workout.weight}kg x ${workout.exerciseTime}회 x ${workout.exerciseSet}set` 
+                          : `${EXERCISE_TYPE.find(type => type.value === workout.exerciseType)!.title}, ${workout.times}`}
+                      </div>
                     </div>
                   </li>
                 )

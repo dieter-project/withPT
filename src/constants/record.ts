@@ -3,18 +3,106 @@ import { SettingIcon } from './../styles/components/Header';
 import { format } from "date-fns"
 
 /* 운동 기록 */
-export const EXERCISE_TYPE = [
-  {
-    title: '유산소',
-    value: 'AEROBIC',
-  }, {
-    title: '무산소',
-    value: 'ANAEROBIC',
-  }, {
-    title: '스트레칭',
-    value: 'STRETCHING',
-  }
-]
+export const EXERCISE_TYPE: {
+  title: string,
+  value: string,
+  src: string,
+  bodyPart?: {
+    title: string,
+    value: string,
+    specificBodyParts?: {
+      title: string,
+      value: string,
+    }[]
+  }[],
+}[] = [
+    {
+      title: '유산소',
+      value: 'AEROBIC',
+      src: '/svgs/icon_cardio.svg'
+    }, {
+      title: '무산소',
+      value: 'ANAEROBIC',
+      src: '/svgs/icon_anaerobic.svg',
+      bodyPart: [
+        {
+          title: '전신',
+          value: 'FULL_BODY',
+
+        },
+        {
+          title: '상체',
+          value: 'UPPER_BODY',
+          specificBodyParts: [
+            {
+              title: '가슴',
+              value: 'CHEST',
+            },
+            {
+              title: '복부',
+              value: 'ABS',
+            },
+            {
+              title: '등',
+              value: 'BACK',
+            },
+            {
+              title: '허리',
+              value: 'WAIST',
+            },
+            {
+              title: '어깨',
+              value: 'SHOULDERS',
+            },
+            {
+              title: '팔',
+              value: 'ARMS',
+            },
+          ],
+        },
+        {
+          title: '하체',
+          value: 'LOWER_BODY',
+          specificBodyParts: [
+            {
+              title: '엉덩이',
+              value: 'GLUTES',
+            },
+            {
+              title: '앞 허벅지',
+              value: 'QUADRICEPS',
+            },
+            {
+              title: '뒤 허벅지',
+              value: 'HAMSTRINGS',
+            },
+            {
+              title: '내전근',
+              value: 'ADDUCTOR',
+            },
+          ],
+        },
+      ]
+    }, {
+      title: '스트레칭',
+      value: 'STRETCHING',
+      src: '/svgs/icon_stretching.svg',
+      bodyPart: [
+        {
+          title: '전신',
+          value: 'FULL_BODY',
+        },
+        {
+          title: '상체',
+          value: 'UPPER_BODY',
+        },
+        {
+          title: '하체',
+          value: 'LOWER_BODY',
+        },
+      ]
+    }
+  ]
 
 export const BODY_PART = [
   {

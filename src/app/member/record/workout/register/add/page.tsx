@@ -2,7 +2,7 @@
 
 import PageHeader from '@/components/PageHeader';
 import { BODY_PART, EXERCISE_TYPE } from '@/constants/record';
-import { WorkoutPayload, workoutRecordActions } from '@/redux/reducers/workoutRecordSlice';
+import { workoutRecordActions } from '@/redux/reducers/workoutRecordSlice';
 import { Button } from '@/styles/Button';
 import { CategoryPartList } from '@/styles/CategoryPartList';
 import { Input, InputRowWrap, InputWrap } from '@/styles/Input';
@@ -13,6 +13,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import React, { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux';
 import { BookmarkButton, BookmarkSaveToggle } from './style';
+import { WorkoutPayload } from '@/types/member/record';
 
 const page = () => {
   const [inputData, setInputData] = useState<WorkoutPayload>({
@@ -23,12 +24,27 @@ const page = () => {
     times: 0,
     exerciseTime: 0,
     bookmarkYn: false,
-    bodyParts: [],
+    bodyParts: '',
+    specificBodyParts: [],
     exerciseType: "AEROBIC",
   });
   const dispatch = useDispatch();
   const searchParams = useSearchParams();
   const router = useRouter();
+  const [bodyPart, setBodyPart] = useState<any[] | undefined>([])
+  const [specificBodyParts, setSpecificBodyParts] = useState<any[] | undefined>([])
+
+  useEffect(() => {
+    const selectedBodyPart = EXERCISE_TYPE.find(type => type.value === inputData.exerciseType)?.bodyPart
+    setBodyPart(selectedBodyPart)
+  }, [inputData.exerciseType])
+
+  useEffect(() => {
+    if (bodyPart) {
+      const selectedSpecificBodyParts = bodyPart.find(part => part.value === inputData.bodyParts)?.specificBodyParts
+      setSpecificBodyParts(selectedSpecificBodyParts)
+    }
+  }, [inputData.bodyParts])
 
   const handleChoiceExerciseType = (exerciseType: string) => {
     setInputData({
@@ -37,13 +53,25 @@ const page = () => {
     });
   };
 
-  const handleChoiceBodyPart = (bodyPart: string) => {
-    console.log('inputData.bodyParts.includes(bodyPart: ', inputData.bodyParts?.includes(bodyPart))
-    if (!inputData.bodyParts?.includes(bodyPart)) {
-      setInputData({ ...inputData, bodyParts: [...inputData.bodyParts, bodyPart] })
+  const handleChoiceBodyPart = (bodyParts: string) => {
+      setInputData({
+        ...inputData,
+        bodyParts
+      })
+  };
+
+  const handleChoiceSpecificBodyPart = (bodyPart: string) => {
+    if (!inputData.specificBodyParts?.includes(bodyPart)) {
+      setInputData({
+        ...inputData,
+        specificBodyParts: [...inputData.specificBodyParts, bodyPart]
+      })
     } else {
-      inputData.bodyParts.splice(inputData.bodyParts.indexOf(bodyPart), 1)
-      setInputData({ ...inputData, bodyParts: [...inputData.bodyParts] })
+      inputData.specificBodyParts.splice(inputData.specificBodyParts.indexOf(bodyPart), 1)
+      setInputData({
+        ...inputData,
+        specificBodyParts: [...inputData.specificBodyParts]
+      })
     }
   };
 
@@ -125,26 +153,44 @@ const page = () => {
             })}
           </CategoryPartList>
         </FormWrap>
-        <FormWrap>
-          <LabelTitle>부위</LabelTitle>
-          <CategoryPartList>
-            {BODY_PART?.map((part, index) => {
-              return (
-                <li
-                  key={index}
-                  onClick={() => handleChoiceBodyPart(part.value)}
-                  className={inputData.bodyParts?.includes(part.value) ? "active" : ""}
-                >
-                  {part.title}
-                </li>
-              );
-            })}
-          </CategoryPartList>
-        </FormWrap>
+        {bodyPart !== undefined &&
+          <FormWrap>
+            <LabelTitle>부위</LabelTitle>
+            <CategoryPartList>
+              {bodyPart?.map((part, index) => {
+                return (
+                  <li
+                    key={index}
+                    onClick={() => handleChoiceBodyPart(part.value)}
+                    className={inputData.bodyParts === part.value ? "active" : ""}
+                  >
+                    {part.title}
+                  </li>
+                );
+              })}
+            </CategoryPartList>
+          </FormWrap>}
+        {specificBodyParts !== undefined &&
+          <FormWrap>
+            <LabelTitle>상세 부위</LabelTitle>
+            <CategoryPartList>
+              {specificBodyParts?.map((part, index) => {
+                return (
+                  <li
+                    key={index}
+                    onClick={() => handleChoiceSpecificBodyPart(part.value)}
+                    className={inputData.specificBodyParts?.includes(part.value) ? "active" : ""}
+                  >
+                    {part.title}
+                  </li>
+                );
+              })}
+            </CategoryPartList>
+          </FormWrap>}
         <FormWrap>
           <LabelTitle>운동 내용</LabelTitle>
           <InputRowWrap>
-            {inputData.exerciseType === "AEROBIC" ? (
+            {inputData.exerciseType !== "ANAEROBIC" ? (
               <InputWrap>
                 <Input
                   type="text"
@@ -154,7 +200,7 @@ const page = () => {
                 />
                 <span>분</span>
               </InputWrap>
-            ) : inputData.exerciseType === "ANAEROBIC" ? (
+            ) : (
               <>
                 <InputWrap>
                   <Input
@@ -186,16 +232,6 @@ const page = () => {
                   <span>set</span>
                 </InputWrap>
               </>
-            ) : (
-              <InputWrap>
-                <Input
-                  type="text"
-                  name="times"
-                  onChange={handleInputChange}
-                  value={inputData.times}
-                />
-                <span>분</span>
-              </InputWrap>
             )}
           </InputRowWrap>
         </FormWrap>

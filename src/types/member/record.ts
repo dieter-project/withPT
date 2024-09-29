@@ -22,6 +22,18 @@ export interface BodyInfo {
   recentUploadDate: string
 }
 
+export type WorkoutPayload = {
+  uploadDate: string,
+  title: string,
+  weight: number,
+  exerciseSet: number,
+  exerciseTime: number,
+  times: number,
+  bookmarkYn: boolean,
+  bodyParts: string,
+  specificBodyParts: string[], 
+  exerciseType: string,
+}
 
 export type WorkoutType = {
   id: number,

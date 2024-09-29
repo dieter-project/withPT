@@ -4,7 +4,7 @@ import { MonthlyModal } from '@/components/MonthlyModal';
 import PageHeader from '@/components/PageHeader';
 import WorkoutList from '@/components/member/WorkoutList';
 import { useAppSelector } from '@/redux/hooks';
-import { WorkoutPayload, workoutRecordActions } from '@/redux/reducers/workoutRecordSlice';
+import { workoutRecordActions } from '@/redux/reducers/workoutRecordSlice';
 import { AddImgButton } from '@/styles/AddButton';
 import { Button } from '@/styles/Button';
 import { FileInput } from '@/styles/Input';
@@ -18,6 +18,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import { useDispatch } from 'react-redux';
 import { AddRecordButton, ButtonWrap, DateText, WorkoutImgList } from './style';
 import { postExercise } from '@/services/member/exercise';
+import { WorkoutPayload } from '@/types/member/record';
 
 type ValuePiece = Date | null;
 type Value = ValuePiece | [ValuePiece, ValuePiece];
@@ -79,7 +80,6 @@ const page = () => {
 
   const handleSubmit = async () => {
     const formData = new FormData();
-    console.log('todayWorkout: ', todayWorkout);
     const blob = new Blob([JSON.stringify(todayWorkout)], {
       type: 'application/json',
     });
@@ -87,7 +87,6 @@ const page = () => {
     formData.append('files', JSON.stringify(files))
     if (states) {
       const response = await postExercise(formData)
-      console.log('response: ', response);
       if (response) {
         dispatch(workoutRecordActions.workoutStateReset());
       }
