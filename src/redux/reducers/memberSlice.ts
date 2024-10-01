@@ -1,7 +1,7 @@
 import { PayloadAction, createSlice, current } from "@reduxjs/toolkit";
 
 export type MemberState = {
-  id: string | null,
+  id: number | null,
   name: string | null,
   email: string | null,
   accessToken: string | null,

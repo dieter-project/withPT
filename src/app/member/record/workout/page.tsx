@@ -12,15 +12,17 @@ import React, { useEffect, useState } from 'react'
 import Plus from '../../../../../public/svgs/icon_plus.svg'
 import { TitleWrap, WorkoutImg, WorkoutImgGrid, WorkoutList, WorkoutListDetail, WorkoutListTitle } from './style';
 import { format } from 'date-fns';
+import { useAppSelector } from '@/redux/hooks';
 
 
 const page = () => {
   const [workout, setWorkout] = useState<WorkoutPayload[]>([])
   const router = useRouter()
   const date = format(new Date(), 'yyyy-MM-dd')
-
+  const user = useAppSelector((state) => state.member)
   const handleGetWorkout = async () => {
     const { data } = await api.get(`/api/v1/members/exercise?dateTime=${date}`)
+    console.log('data: ', data);
 
     setWorkout(data.exercise)
   }
@@ -32,40 +34,6 @@ const page = () => {
   useEffect(() => {
     handleGetWorkout()
     handleGetWorkoutGoal()
-    console.log('workout: ', workout.length);
-    // setWorkout([
-    //   {
-    //     exerciseDate: '2023-11-14',
-    //     title: '힙 어브덕션',
-    //     weight: 30,
-    //     set: 3,
-    //     times: 15,
-    //     hour: null,
-    //     bookmarkYn: null,
-    //     bodyPart: '',
-    //     exerciseType: 'ANAEROBIC',
-    //   }, {
-    //     exerciseDate: '2023-11-14',
-    //     title: '불타는 전신 운동',
-    //     weight: null,
-    //     set: null,
-    //     times: null,
-    //     hour: 60,
-    //     bookmarkYn: null,
-    //     bodyPart: 'WHOLE_BODY',
-    //     exerciseType: 'AEROBIC',
-    //   }, {
-    //     exerciseDate: '2023-11-14',
-    //     title: '폼롤러 스트레칭',
-    //     weight: null,
-    //     set: null,
-    //     times: null,
-    //     hour: 20,
-    //     bookmarkYn: null,
-    //     bodyPart: 'WHOLE_BODY',
-    //     exerciseType: 'STRETCHING',
-    //   }
-    // ])
   }, [])
 
   return (
@@ -79,7 +47,9 @@ const page = () => {
           <GoalBox>
             <div>
               <p>이번주 목표까지 3회 남았어요</p>
-              <div>운동을 아직 하지 않으셨어요ㅜ</div>
+              {(workout?.length === 0 || workout === undefined) 
+                ? <div>운동을 아직 하지 않으셨어요ㅜ</div> 
+                : <div>오늘도 오운완! 잘하셨어요 {user.name}님:)</div>}
             </div>
             <div>
               <img src="/images/weight_achv.png" alt="" />

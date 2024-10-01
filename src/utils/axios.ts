@@ -43,12 +43,18 @@ api.interceptors.response.use(
 
       const token = getCookie('access');
       const refreshToken = getCookie('refreshToken');
+<<<<<<< Updated upstream
       window.location.href = "/member/login"
 
+=======
+      
+      console.log('refreshToken: ', refreshToken);
+>>>>>>> Stashed changes
       const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/oauth/reissue`, {
         refresh: refreshToken
       }, {
         headers: { Authorization: `Bearer ${token}` }
+<<<<<<< Updated upstream
       }).then( (response) => {
       if (response.status === 200 && response.data.accessToken) {
         setCookie("access", response.data.accessToken, { path: "/" })
@@ -59,6 +65,22 @@ api.interceptors.response.use(
         window.location.href = "/member/login"
       }
       })
+=======
+      }).then(async (response) => {
+        console.log('response: ', response);
+        if (response.status === 200 && response.data.accessToken) {
+          setCookie("access", response.data.accessToken, { path: "/" })
+          const accesstoken = getCookie("access")
+          error.config.headers["Authorization"] = `${accesstoken}`;
+          return api(error.config)
+        } else if (response.status === 401) {
+          window.location.href = "/member/login"
+        }
+      })
+
+      
+      console.log('token response: ', response);
+>>>>>>> Stashed changes
 
       error.config.header = {
         'Content-Type': 'application/json',

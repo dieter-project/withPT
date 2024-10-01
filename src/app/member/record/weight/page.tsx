@@ -87,8 +87,6 @@ const page = () => {
       const fileArray = Array.from(e.target.files)
       setFiles([...files, ...fileArray])
     }
-    // console.log('files: ', files);
-
   }
 
   // useEffect(() => {

@@ -27,7 +27,10 @@ const workoutRecordSlice = createSlice({
   initialState,
   reducers: {
     addWorkoutState: (state, action) => {
-      return [ ...state, { ...action.payload } ]
+      console.log('state: ', state);
+      console.log('action: ', action);
+      state.push(action.payload)
+      // return [ ...state, { ...action.payload } ]
     },
     workoutStateReset: (state) => {
       return state = []
