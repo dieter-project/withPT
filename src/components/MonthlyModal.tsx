@@ -99,18 +99,22 @@ const ModalContainer = styled.div`
 const DotWrap = styled.div`
   /* display: flex; */
   /* gap: 0.25rem; */
-  position: absolute;
-  /* align-items: center;
-  justify-content: center; */
+  /* position: absolute; */
+  left: 50%;
+  /* transform: translate3d(-50%, 0, 0); */
+  margin-top: 0.25rem;
+  display: flex;
+  gap: 0.25rem;
+  justify-content: center;
 `
 
-const Dot = styled.div`
+const Dot = styled.div<{ $type: string }>`
   width: 0.25rem;
   height: 0.25rem;
   border-radius: 50%;
   display: flex;
   justify-content: center;
-  background-color: var(--black);
+  background-color: ${props => props.$type === "meal" ? "var(--coral)" :props.$type === "workout" ? "var(--yellow)": "var(--mint)"};
 `
 
 
@@ -131,12 +135,19 @@ export const MonthlyModal = ({
 }: ModalProps) => {
   const [value, onChange] = useState<Value>(new Date());
   const markDate = [
-    '2023-11-02',
-    '2023-11-04',
-    '2023-11-10',
-    '2023-11-11',
-    '2023-11-23',
-    '2023-11-27',
+    '2024-07-02',
+    '2024-07-04',
+    '2024-07-10',
+    '2024-07-11',
+    '2024-07-23',
+    '2024-07-27',
+  ]
+  const mealMarkDate = [
+    '2024-07-03',
+    '2024-07-04',
+    '2024-07-11',
+    '2024-07-23',
+    '2024-07-27',
   ]
 
   useEffect(() => {
@@ -174,14 +185,19 @@ export const MonthlyModal = ({
           onChange={onChange}
           tileContent={({ date, view }) => {
             let html = []
+            let meal = []
             if (markDate.find(x => x === format(date, 'yyyy-MM-dd'))) {
-              html.push(<Dot></Dot>)
+              html.push(<Dot $type="meal"></Dot>)
+            }
+            if (mealMarkDate.find(x => x === format(date, 'yyyy-MM-dd'))) {
+              meal.push(<Dot $type="workout"></Dot>)
             }
             return (
               <>
-                <div>
+                <DotWrap>
                   {html}
-                </div>
+                  {meal}
+                </DotWrap>
               </>
             )
 
