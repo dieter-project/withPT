@@ -57,7 +57,10 @@ const page = () => {
     try 
     {
       const response = await postDiet(formData)
-      if (response.status === 200) dispatch(dietRecordActions.dietStateReset)
+      if (response.status === 200) {
+        dispatch(dietRecordActions.dietStateReset)
+        router.push('/member/record/diet')
+      }
     } catch (err) { }
   }
 

@@ -6,7 +6,6 @@ import { BaseContentWrap, ContentSection } from '@/styles/Layout';
 import { LabelTitle } from '@/styles/Text';
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react'
-// import ReactApexChart from 'react-apexcharts';
 import { GraphWrap, DietList, MyGoal, NutritionProgress, ProgressWrap, TrainerFeedback } from './style';
 import { getDietByDate } from '@/services/member/diet';
 import { format } from 'date-fns';
