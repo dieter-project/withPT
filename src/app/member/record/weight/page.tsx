@@ -25,6 +25,7 @@ import { WeightEditModal } from '@/components/WeightEditModal';
 import { FileInput } from '@/styles/Input';
 import { WeightRecord } from '@/types/member/record';
 import { getBody, postBodyImage, postWeight } from '@/services/member/body';
+import { format } from 'date-fns';
 
 const page = () => {
   const [todayWeight, setTodayWeight] = useState<WeightRecord>({
@@ -84,28 +85,29 @@ const page = () => {
   const handleChangeFile = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
       const fileArray = Array.from(e.target.files)
-      console.log('fileArray: ', fileArray);
-      setFiles(prev => [...prev, ...fileArray])
+      setFiles([...files, ...fileArray])
     }
     // console.log('files: ', files);
 
   }
 
-  useEffect(() => {
-    if (files.length > 0) {
-      const formData = new FormData();
-      files.forEach((ele, idx) => {
-        formData.append('files', files[idx])
-      })
-      handleBodyPhotoSubmit(formData)
-    }
-  }, [files])
+  // useEffect(() => {
+  //   handleBodyPhotoSubmit()
+  // }, [files])
 
-  const handleBodyPhotoSubmit = async (files: FormData) => {
-    const response = await postBodyImage({
-      files
-    })
-    console.log('response: ', response);
+  const handleBodyPhotoSubmit = async () => {
+    if (files.length === 0) return
+    const requestDate = {
+      uploadDate: format(new Date(), 'yyyy-MM-dd')
+    }
+    const formData = new FormData();
+    const blob = new Blob([JSON.stringify(requestDate)], {
+      type: 'application/json',
+    });
+    formData.append('request', blob)
+    formData.append('test', JSON.stringify(files))
+    console.log('formData: ', formData);
+    const response = await postBodyImage(formData)
   }
 
   useEffect(() => {
@@ -220,6 +222,7 @@ const page = () => {
         <ContentSection>
           <TitleWrap variant='bodyphoto'>
             <LabelTitle>눈바디</LabelTitle>
+            <button onClick={handleBodyPhotoSubmit}>보내기</button>
             <div className='bodyphoto-history' onClick={() => router.push('/member/record/weight/bodyphoto')}>눈바디 히스토리</div>
           </TitleWrap>
           <ul>

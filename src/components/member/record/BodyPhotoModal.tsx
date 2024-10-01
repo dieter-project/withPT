@@ -34,13 +34,12 @@ const Modal = styled.div`
 
 
 export const BodyPhotoModal = ({ 
-  photo, 
+  bodyphoto, 
   setDisplayModal 
 }: { 
-  photo: string[] | null,
+  bodyphoto: {id: number, usages: string, uploadDate: string, url: string, attachType: string}[],
   setDisplayModal: React.Dispatch<React.SetStateAction<boolean>>
 }) => {
-  console.log('photo: ', typeof photo);
 
   return (
     <ModalContainer>
@@ -49,11 +48,11 @@ export const BodyPhotoModal = ({
           slidesPerView={1}
           spaceBetween={8}
         >
-          {photo && photo.map(ele => {
+          {bodyphoto && bodyphoto.map(ele => {
             return (
               <SwiperSlide>
                 <div>
-                  <img src={ele} alt="" />
+                  <img src={ele.url} alt="" />
                 </div>
               </SwiperSlide>
             )

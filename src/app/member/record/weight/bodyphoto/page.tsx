@@ -2,10 +2,8 @@
 
 import PageHeader from '@/components/PageHeader';
 import { BodyPhotoModal } from '@/components/member/record/BodyPhotoModal';
-import { Checkbox } from '@/styles/Input';
+import { getBodyImages } from '@/services/member/body';
 import { BaseContentWrap } from '@/styles/Layout';
-import { LabelTitle } from '@/styles/Text';
-import { signIn, useSession } from 'next-auth/react';
 import React, { useEffect, useState } from 'react'
 import { styled } from 'styled-components'
 
@@ -63,64 +61,44 @@ const PhotoCheckbox = styled.div`
 `
 
 interface BodyPhoto {
+  id: 0,
+  usages: string,
   uploadDate: string,
-  url: string[]
+  url: string,
+  attachType: string
 }
 
 
 const page = () => {
   const title = '눈바디 히스토리'
-  const [bodyphoto, setBodyPhoto] = useState([
-    {
-      uploadDate: "2024-03-08",
-      url: [
-        "https://flexible.img.hani.co.kr/flexible/normal/970/580/imgdb/child/2024/0129/17064911312214_20240123502746.jpg",
-        "https://flexible.img.hani.co.kr/flexible/normal/970/580/imgdb/child/2024/0129/17064911312214_20240123502746.jpg",
-        "https://flexible.img.hani.co.kr/flexible/normal/970/580/imgdb/child/2024/0129/17064911312214_20240123502746.jpg"
-      ]
-    },
-    {
-      uploadDate: "2024-03-08",
-      url: [
-        "https://flexible.img.hani.co.kr/flexible/normal/970/580/imgdb/child/2024/0129/17064911312214_20240123502746.jpg"
-      ]
-    },
-    {
-      uploadDate: "2024-03-08",
-      url: [
-        "https://flexible.img.hani.co.kr/flexible/normal/970/580/imgdb/child/2024/0129/17064911312214_20240123502746.jpg"
-      ]
-    },
-    {
-      uploadDate: "2024-03-08",
-      url: [
-        "https://flexible.img.hani.co.kr/flexible/normal/970/580/imgdb/child/2024/0129/17064911312214_20240123502746.jpg"
-      ]
-    },
-    {
-      uploadDate: "2024-03-08",
-      url: [
-        "https://flexible.img.hani.co.kr/flexible/normal/970/580/imgdb/child/2024/0129/17064911312214_20240123502746.jpg"
-      ]
-    },
-  ])
+  const [bodyphoto, setBodyPhoto] = useState<BodyPhoto[]>([])
   const [displayModal, setDisplayModal] = useState(false)
-  const [photo, setPhoto] = useState<null | string[]>(null)
-  
-  
-  const handlePopupShow = (url: string[]) => {
+  const [photo, setPhoto] = useState<null | string>(null)
+
+
+  const handlePopupShow = (url: string) => {
     setDisplayModal(true)
     setPhoto(url)
   }
-  
+
+  const getBodyPhotoHistory = async () => {
+    const { data } = await getBodyImages()
+    console.log('data: ', data);
+    setBodyPhoto(data.content)
+  }
+
+  useEffect(() => {
+    getBodyPhotoHistory()
+  }, [])
+
   return (
     <>
-    {displayModal && 
-    <BodyPhotoModal 
-      photo={photo}
-      setDisplayModal={setDisplayModal}
-    />}
-      <PageHeader title={title}/>
+      {displayModal &&
+        <BodyPhotoModal
+          bodyphoto={bodyphoto}
+          setDisplayModal={setDisplayModal}
+        />}
+      <PageHeader back={true} title={title} />
       <BaseContentWrap>
         <PhotoGrid>
           {bodyphoto?.map((photo, index) => {
@@ -131,7 +109,7 @@ const page = () => {
                     <input type="checkbox" />
                   </PhotoCheckbox>
                   <img src={photo.url[0]} alt="" />
-                  { photo?.url.length > 1 && <DozenIcon/> }
+                  {photo?.url.length > 1 && <DozenIcon />}
                 </div>
               </li>
             )
