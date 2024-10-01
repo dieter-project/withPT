@@ -9,28 +9,42 @@ import { Input, InputRowWrap, InputWrap } from '@/styles/Input';
 import { BaseContentWrap, ButtonAreaFixed, FormWrap } from '@/styles/Layout';
 import { LabelTitle } from '@/styles/Text';
 import { ToggleButton } from '@/styles/TogglButton';
-import { signIn, useSession } from 'next-auth/react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import React, { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux';
-import { styled } from 'styled-components'
 import { BookmarkButton, BookmarkSaveToggle } from './style';
+import { WorkoutPayload } from '@/types/member/record';
 
 const page = () => {
-  const [inputData, setInputData] = useState({
-    exerciseDate: "",
+  const [inputData, setInputData] = useState<WorkoutPayload>({
+    uploadDate: "",
     title: "",
     weight: 0,
-    set: 0,
+    exerciseSet: 0,
     times: 0,
-    hour: 0,
-    bookmarkYn: "N",
-    bodyPart: "WHOLE_BODY",
+    exerciseTime: 0,
+    bookmarkYn: false,
+    bodyParts: '',
+    specificBodyParts: [],
     exerciseType: "AEROBIC",
   });
   const dispatch = useDispatch();
   const searchParams = useSearchParams();
   const router = useRouter();
+  const [bodyPart, setBodyPart] = useState<any[] | undefined>([])
+  const [specificBodyParts, setSpecificBodyParts] = useState<any[] | undefined>([])
+
+  useEffect(() => {
+    const selectedBodyPart = EXERCISE_TYPE.find(type => type.value === inputData.exerciseType)?.bodyPart
+    setBodyPart(selectedBodyPart)
+  }, [inputData.exerciseType])
+
+  useEffect(() => {
+    if (bodyPart) {
+      const selectedSpecificBodyParts = bodyPart.find(part => part.value === inputData.bodyParts)?.specificBodyParts
+      setSpecificBodyParts(selectedSpecificBodyParts)
+    }
+  }, [inputData.bodyParts])
 
   const handleChoiceExerciseType = (exerciseType: string) => {
     setInputData({
@@ -39,18 +53,33 @@ const page = () => {
     });
   };
 
-  const handleChoiceBodyPart = (bodyPart: string) => {
-    setInputData({
-      ...inputData,
-      bodyPart,
-    });
+  const handleChoiceBodyPart = (bodyParts: string) => {
+      setInputData({
+        ...inputData,
+        bodyParts
+      })
+  };
+
+  const handleChoiceSpecificBodyPart = (bodyPart: string) => {
+    if (!inputData.specificBodyParts?.includes(bodyPart)) {
+      setInputData({
+        ...inputData,
+        specificBodyParts: [...inputData.specificBodyParts, bodyPart]
+      })
+    } else {
+      inputData.specificBodyParts.splice(inputData.specificBodyParts.indexOf(bodyPart), 1)
+      setInputData({
+        ...inputData,
+        specificBodyParts: [...inputData.specificBodyParts]
+      })
+    }
   };
 
   const handleBookmarkChecked = (checked: boolean) => {
     if (checked) {
-      setInputData({ ...inputData, bookmarkYn: "Y" });
+      setInputData({ ...inputData, bookmarkYn: true });
     } else if (!checked) {
-      setInputData({ ...inputData, bookmarkYn: "N" });
+      setInputData({ ...inputData, bookmarkYn: false });
     }
   };
 
@@ -86,14 +115,14 @@ const page = () => {
     if (date) {
       setInputData({
         ...inputData,
-        exerciseDate: date,
+        uploadDate: date,
       });
     }
   }, []);
 
   return (
     <>
-      <PageHeader title={"운동 입력"} />
+      <PageHeader back={true} title={"운동 입력"} />
       <BaseContentWrap>
         <BookmarkButton $variant="outline" onClick={() => router.push('/member/record/workout/bookmark')}>북마크에서 가져오기</BookmarkButton>
         <FormWrap>
@@ -124,36 +153,54 @@ const page = () => {
             })}
           </CategoryPartList>
         </FormWrap>
-        <FormWrap>
-          <LabelTitle>부위</LabelTitle>
-          <CategoryPartList>
-            {BODY_PART?.map((part, index) => {
-              return (
-                <li
-                  key={index}
-                  onClick={() => handleChoiceBodyPart(part.value)}
-                  className={inputData.bodyPart === part.value ? "active" : ""}
-                >
-                  {part.title}
-                </li>
-              );
-            })}
-          </CategoryPartList>
-        </FormWrap>
+        {bodyPart !== undefined &&
+          <FormWrap>
+            <LabelTitle>부위</LabelTitle>
+            <CategoryPartList>
+              {bodyPart?.map((part, index) => {
+                return (
+                  <li
+                    key={index}
+                    onClick={() => handleChoiceBodyPart(part.value)}
+                    className={inputData.bodyParts === part.value ? "active" : ""}
+                  >
+                    {part.title}
+                  </li>
+                );
+              })}
+            </CategoryPartList>
+          </FormWrap>}
+        {specificBodyParts !== undefined &&
+          <FormWrap>
+            <LabelTitle>상세 부위</LabelTitle>
+            <CategoryPartList>
+              {specificBodyParts?.map((part, index) => {
+                return (
+                  <li
+                    key={index}
+                    onClick={() => handleChoiceSpecificBodyPart(part.value)}
+                    className={inputData.specificBodyParts?.includes(part.value) ? "active" : ""}
+                  >
+                    {part.title}
+                  </li>
+                );
+              })}
+            </CategoryPartList>
+          </FormWrap>}
         <FormWrap>
           <LabelTitle>운동 내용</LabelTitle>
           <InputRowWrap>
-            {inputData.exerciseType === "AEROBIC" ? (
+            {inputData.exerciseType !== "ANAEROBIC" ? (
               <InputWrap>
                 <Input
                   type="text"
-                  name="hour"
+                  name="times"
                   onChange={handleInputChange}
-                  value={inputData.hour}
+                  value={inputData.times}
                 />
                 <span>분</span>
               </InputWrap>
-            ) : inputData.exerciseType === "ANAEROBIC" ? (
+            ) : (
               <>
                 <InputWrap>
                   <Input
@@ -168,9 +215,9 @@ const page = () => {
                 <InputWrap>
                   <Input
                     type="text"
-                    name="times"
+                    name="exerciseTime"
                     onChange={handleInputChange}
-                    value={inputData.times}
+                    value={inputData.exerciseTime}
                   />
                   <span>회</span>
                 </InputWrap>{" "}
@@ -178,23 +225,13 @@ const page = () => {
                 <InputWrap>
                   <Input
                     type="text"
-                    name="set"
+                    name="exerciseSet"
                     onChange={handleInputChange}
-                    value={inputData.set}
+                    value={inputData.exerciseSet}
                   />
                   <span>set</span>
                 </InputWrap>
               </>
-            ) : (
-              <InputWrap>
-                <Input
-                  type="text"
-                  name="hour"
-                  onChange={handleInputChange}
-                  value={inputData.hour}
-                />
-                <span>분</span>
-              </InputWrap>
             )}
           </InputRowWrap>
         </FormWrap>

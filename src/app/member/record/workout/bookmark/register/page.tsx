@@ -21,7 +21,7 @@ const page = () => {
     exerciseSet: 0,
     times: 0,
     hour: 0,
-    bodyPart: "WHOLE_BODY",
+    bodyPart: "FULL_BODY",
     exerciseType: "AEROBIC",
   });
 
@@ -65,7 +65,7 @@ const page = () => {
 
   return (
     <>
-      <PageHeader title={title} />
+      <PageHeader back={true} title={title} />
       <BaseContentWrap>
         <FormWrap>
           <LabelTitle>운동명</LabelTitle>

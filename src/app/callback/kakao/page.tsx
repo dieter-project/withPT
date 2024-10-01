@@ -24,8 +24,9 @@ export default function page () {
       })
       // console.log('response: ', data);
       
-      if (data.accessToken) {
+      if (data.accessToken && data.refreshToken) {
         setCookie('access', data.accessToken, { path: "/" })
+        setCookie('refreshToken', data.refreshToken, { path: "/" })
         router.replace('/member/main')
       } else {
         dispatch(signupActions.saveSignupState({

@@ -1,6 +1,6 @@
 "use client";
 
-import { MealSearchModal } from '@/components/MealSearchModal';
+import { DietSearchModal } from '@/components/DietSearchModal';
 import PageHeader from '@/components/PageHeader';
 import { Button } from '@/styles/Button';
 import { Input, InputRowWrap, InputWrap } from '@/styles/Input';
@@ -8,7 +8,7 @@ import { BaseContentWrap } from '@/styles/Layout';
 import { LabelTitle } from '@/styles/Text';
 import { signIn, useSession } from 'next-auth/react';
 import React, { useEffect, useState } from 'react'
-import { ContentsWrap, MealTypeInput } from './style';
+import { ContentsWrap, DietTypeInput } from './style';
 
 
 const page = () => {
@@ -17,14 +17,14 @@ const page = () => {
   
   return (
     <>
-      {searchOpen && <MealSearchModal setSearchOpen={setSearchOpen}/> }
-      <PageHeader title={title}/>
+      {searchOpen && <DietSearchModal setSearchOpen={setSearchOpen}/> }
+      <PageHeader back={true} title={title}/>
       <ContentsWrap>
         <div>
-          <MealTypeInput>
+          <DietTypeInput>
             <LabelTitle>종류입력</LabelTitle>
             <Input type="text" placeholder='종류를 검색해보세요' onFocus={() => {setSearchOpen(true)}}/>
-          </MealTypeInput>
+          </DietTypeInput>
           <InputRowWrap>
             <LabelTitle>그람 수</LabelTitle>
             <InputWrap>

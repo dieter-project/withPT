@@ -1,6 +1,6 @@
 "use client";
 
-import { MealSearchModal } from '@/components/MealSearchModal';
+import { DietSearchModal } from '@/components/DietSearchModal';
 import PageHeader from '@/components/PageHeader';
 import { Button } from '@/styles/Button';
 import { Input, InputRowWrap, InputWrap, Select } from '@/styles/Input';
@@ -8,7 +8,7 @@ import { BaseContentWrap, ButtonAreaFixed, RowWrap } from '@/styles/Layout';
 import { LabelTitle } from '@/styles/Text';
 import { signIn, useSession } from 'next-auth/react';
 import React, { ChangeEvent, useEffect, useState } from 'react'
-import { ContentsWrap, MealTypeInput } from './style';
+import { ContentsWrap, DietTypeInput } from './style';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useDispatch } from 'react-redux';
 import { dietRecordActions } from '@/redux/reducers/dietRecordSlice';
@@ -21,16 +21,16 @@ const page = () => {
   const searchParams = useSearchParams();
   const [inputData, setInputData] = useState<DietFood>({
     name: "",
-    capacity: null,
+    capacity: 0,
     units: "g",
-    calories: null,
-    carbohydrate: null,
-    protein: null,
-    fat: null
+    calories: 0,
+    carbohydrate: 0,
+    protein: 0,
+    fat: 0
   })
   const dispatch = useDispatch();
   const router = useRouter()
-  
+
   useEffect(() => {
     if (searchParams.get('type')) {
       setHasSearchResult(true)
@@ -48,23 +48,18 @@ const page = () => {
 
   const handleAddDiet = () => {
     dispatch(dietRecordActions.addDietState(inputData));
-    router.push('/member/record/meal/register')
+    router.push('/member/record/diet/register')
   }
-
-  useEffect(() => {
-
-    console.log('inputData: ', inputData);
-  }, [inputData])
 
   return (
     <>
       <PageHeader back={true} title="음식 등록하기" />
       <ContentsWrap>
         {!hasSearchResult ? <div>
-          <MealTypeInput>
+          <DietTypeInput>
             <LabelTitle>음식명</LabelTitle>
             <Input type="text" placeholder='음식명을 입력해주세요' name='name' onChange={handleChange} value={inputData.name || ""} />
-          </MealTypeInput>
+          </DietTypeInput>
           <LabelTitle>내용량</LabelTitle>
           <InputRowWrap>
             <Input $width='10.625rem' placeholder='100' name='capacity' onChange={handleChange} value={inputData.capacity || ""}></Input>

@@ -1,26 +1,7 @@
+import { WorkoutPayload } from "@/types/member/record";
 import { PayloadAction, createSlice, current } from "@reduxjs/toolkit";
 
-// export type WorkoutRecordState = []
-
-
-export type WorkoutPayload = {
-  exerciseDate: string | null,
-  title: string | null,
-  weight: number | null,
-  set: number | null,
-  times: number | null,
-  hour: number | null,
-  bookmarkYn: string | null,
-  bodyPart: string | null,
-  exerciseType: string | null,
-}
-
 const initialState: WorkoutPayload[] = []
-// function userReducer() {
-
-// }
-
-// export default userReducer;
 
 const workoutRecordSlice = createSlice({
   name: 'workoutRecord',

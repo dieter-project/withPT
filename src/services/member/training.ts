@@ -11,6 +11,7 @@ export const getPersonalTrainerAwards = async (id: number, page: number, size: n
 }
 
 //lesson
-export const getLessonsDays = async (date: string, gym?: number) => {
-  return await api.get(`/api/v1/lessons/days?date=${date}${gym && `gym=${gym}`}`)
+export const getLessonsDays = async (paramsObj: {}) => {
+  const params = new URLSearchParams(paramsObj).toString()
+  return await api.get(`/api/v1/lessons/days?${params}`)
 }

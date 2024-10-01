@@ -67,7 +67,7 @@ const page = () => {
 
   return (
     <>
-      <PageHeader back={true} title={title} />
+      <PageHeader title={title} />
       <BaseContentWrap>
         <ContentSection>
           <RoundBox variant="outline">

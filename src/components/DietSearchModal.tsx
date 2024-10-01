@@ -4,7 +4,7 @@ import { ModalTitle } from '@/styles/components/Modal'
 import React, { SetStateAction, useEffect, useState } from 'react'
 import { styled } from 'styled-components'
 
-const MealSearchModalWrap = styled.div`
+const DietSearchModalWrap = styled.div`
   .container {
     width: 100%;
     height: 90vh;
@@ -53,7 +53,7 @@ const ListTop = styled.div`
   }
 `
 
-const RecentRegistMealList = styled.ul`
+const RecentRegistDietList = styled.ul`
   display: flex;
   gap: 0.625rem;
   margin-top: 1.25rem;
@@ -79,7 +79,7 @@ const RecentRegistMealList = styled.ul`
   }
   `
 
-const RecentSearchtMealList = styled.ul`
+const RecentSearchtDietList = styled.ul`
   li {
     width: 100%;
     display: flex;
@@ -106,19 +106,19 @@ const EmptyText = styled.div`
   text-align: center;
 `
 
-export const MealSearchModal = ({
+export const DietSearchModal = ({
   setSearchOpen
 }: {
   setSearchOpen: React.Dispatch<SetStateAction<boolean>>
 }) => {
-  const [meals, setMeals] = useState([])
+  const [diets, setDiets] = useState([])
 
   useEffect(() => {
 
   }, [])
 
   return (
-    <MealSearchModalWrap>
+    <DietSearchModalWrap>
       <div className='container'>
         <ModalTitle>음식종류 검색</ModalTitle>
         <div>
@@ -128,13 +128,13 @@ export const MealSearchModal = ({
               <InputResetBtn />
             </div>
           </InputWrap>
-          {meals.length > 0
+          {diets.length > 0
             ? <div>
               <ListTop>
                 <div>최근에 등록된 식단</div>
                 <button className='all-delete'>전체삭제</button>
               </ListTop>
-              <RecentSearchtMealList>
+              <RecentSearchtDietList>
                 <li>
                   <div>햇반 작은 공기</div>
                   <div>
@@ -147,7 +147,7 @@ export const MealSearchModal = ({
                     <CloseBtn />
                   </div>
                 </li>
-              </RecentSearchtMealList>
+              </RecentSearchtDietList>
             </div>
             : <EmptyText>
                 최근 검색한 기록이 없습니다
@@ -158,6 +158,6 @@ export const MealSearchModal = ({
         </div>
       </div>
       <div className='mask' onClick={() => setSearchOpen(false)}></div>
-    </MealSearchModalWrap>
+    </DietSearchModalWrap>
   )
 }

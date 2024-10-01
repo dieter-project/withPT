@@ -1,38 +1,91 @@
-export interface WeightRecord {
+export interface WeightRecordRequest {
+  weight: number,
+  uploadDate: string
+}
+
+export interface BodyInfoRecordRequest {
   bmi: number,
   bodyFatPercentage: number,
   skeletalMuscle: number,
+  uploadDate: string
+}
+
+export interface Weight {
+  recentUploadDate: string,
+  weight: number
+}
+
+export interface BodyInfo {
+  bmi: number,
+  bodyFatPercentage: number,
+  skeletalMuscle: number,
+  recentUploadDate: string
+}
+
+export type WorkoutPayload = {
+  uploadDate: string,
+  title: string,
   weight: number,
-  bodyRecordDate: string
+  exerciseSet: number,
+  exerciseTime: number,
+  times: number,
+  bookmarkYn: boolean,
+  bodyParts: string,
+  specificBodyParts: string[], 
+  exerciseType: string,
 }
 
-export interface MealRecord {
-  request: {
-    uploadDate: string,
-    mealCategory: string,
-    mealTime: {
-      hour: number,
-      minute: number,
-      second: number,
-      nano: number
-    },
-    dietFoods: DietFood[]
-  },
-  file: string[]
+export type WorkoutType = {
+  id: number,
+  title: string,
+  weight: number,
+  exerciseSet: number,
+  times: number,
+  exerciseTime: number,
+  bodyParts: string,
+  exerciseType: string
 }
 
-interface MealFoodItems {
-  food: {
-    id: number,
-    name: string,
-    totalGram: string,
-    calories: string,
-    carbohydrate: string,
-    protein: string,
-    province: string,
-    sugars: string
-  },
-  gram: number
+export interface DietRquestDate {
+  uploadDate: string,
+  dietCategory: string,
+  dietTime: string,
+  dietFoods: DietFood[]
+}
+
+export interface DietRecord {
+  id: number,
+  dietInfos: DietInfos[],
+  feedback: string | null,
+  targetDietType: string,
+  uploadDate: string,
+  totalCalorie: number,
+  totalCarbohydrate: number,
+  totalFat: number,
+  totalProtein: number,
+}
+
+interface DietInfos {
+  dietCategory: string
+  dietFoods: DietFoodItems[]
+  dietTime: string
+  id: number
+  images: []
+  totalCalorie: number
+  totalCarbohydrate: number
+  totalFat: number
+  totalProtein: number
+}
+
+interface DietFoodItems {
+  id: number,
+  name: string,
+  capacity: number,
+  calories: number,
+  carbohydrate: number,
+  fat: number,
+  protein: number,
+  units: string
 }
 
 export interface DietFood {

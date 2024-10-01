@@ -65,7 +65,7 @@ const MyChat = () => {
   )
 }
 interface BlockType {
-  type: 'meal' | 'accept' | 'refusal',
+  type: 'diet' | 'accept' | 'refusal',
   person: 'trainer' | 'member'
 }
 const FeedbackBlockWrap = styled.div<BlockType>`
@@ -74,7 +74,7 @@ const FeedbackBlockWrap = styled.div<BlockType>`
   border-radius: 1rem;
   text-align: center;
   color: var(--white);
-  ${props => props.type === 'meal' && css`
+  ${props => props.type === 'diet' && css`
     background-color: var(--block-orange);
   `}
   ${props => props.type === 'accept' && css`
@@ -113,7 +113,7 @@ export const ChatBody = () => {
       <div>
         <TrainerChat />
         <MyChat />
-        <FeedbackBlock type='meal' person='member'/>
+        <FeedbackBlock type='diet' person='member'/>
       </div>
     </ChatBodySection>
   )

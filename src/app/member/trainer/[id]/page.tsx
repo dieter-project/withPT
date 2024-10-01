@@ -91,7 +91,7 @@ const page = ({ params }: { params: { id: number } }) => {
 
   return (
     <>
-      <PageHeader title={title}/>
+      <PageHeader back={true} title={title}/>
       <BaseContentWrap>
         <ContentSection>
           <LabelTitle>경력 입력</LabelTitle>

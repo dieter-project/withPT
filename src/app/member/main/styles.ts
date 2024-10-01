@@ -59,7 +59,7 @@ export const GoalContents = styled.div`
         display: block;
         width: 1.25rem;
         height: 1.25rem;
-        background: url(/svgs/icon_goal_meal.svg) no-repeat;
+        background: url(/svgs/icon_goal_diet.svg) no-repeat;
         background-position: center;
         background-size: contain;
         margin-right: 0.25rem;
@@ -109,7 +109,7 @@ export const TodayTab = styled.section`
   }
 `
 
-export const TodayMeal = styled.div`
+export const TodayDiet = styled.div`
   > div {
     display: flex;
     justify-content: space-between;
@@ -119,7 +119,7 @@ export const TodayMeal = styled.div`
   } 
 `
 
-export const TodayMealContents = styled.div`
+export const TodayDietContents = styled.div`
   .title { 
     font-size: var(--font-s);
     color: var(--font-gray700);
@@ -130,7 +130,7 @@ export const TodayMealContents = styled.div`
   }
 `
 
-export const TodayMealList = styled.ul`
+export const TodayDietList = styled.ul`
   margin-top: 0.625rem;
   margin-bottom: 0.5rem;
   li {
@@ -173,7 +173,7 @@ export const MoveButton = styled.button`
   font-weight: var(--font-semibold);
 `
 
-export const EmptyTodayMeal = styled.div`
+export const EmptyTodayDiet = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;

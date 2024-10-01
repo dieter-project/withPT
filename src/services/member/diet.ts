@@ -13,7 +13,11 @@ export const patchDiets = async (dietId: number, dietInfoId: number, data: {}) =
 }
 
 export const postDiet = async (data: {}) => {
-  return await api.post(`/api/v1/members/record/diets`, data)
+  return await api.post(`/api/v1/members/record/diets`, data, {
+    headers: {
+      'Content-Type': 'multipart/form-data'
+    }
+  })
 }
 
 export const deleteDiets = async (dietId: number, dietInfoId: number) => {

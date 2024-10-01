@@ -1,31 +1,39 @@
 import { Button } from "@/styles/TrainerButton";
 import { Input } from "@/styles/Input";
-import React, { ChangeEvent, Dispatch, SetStateAction, useEffect } from "react";
+import React, { ChangeEvent, Dispatch, SetStateAction, useEffect, useState } from "react";
 import { styled } from "styled-components";
 import { ModalContainer, ModalTitle } from "@/styles/components/Modal";
-import { MealRecord } from "@/types/member/record";
+import { DietRecord, DietRquestDate } from "@/types/member/record";
 import { InputWrap, TimeModalWrap } from "./style";
 
 
 interface ModalProps {
   displayModal: boolean;
   setDisplayModal: React.Dispatch<React.SetStateAction<boolean>>;
-  setInputData: React.Dispatch<React.SetStateAction<MealRecord>>;
+  diet: DietRquestDate;
+  setDiet: React.Dispatch<React.SetStateAction<DietRquestDate>>;
 }
 
 export const TimeModal = ({
   displayModal,
   setDisplayModal,
-  setInputData
+  diet,
+  setDiet
 }: ModalProps) => {
+  const [dietTime, setDietTime] = useState("")
 
   const handleOnClose = () => {
     setDisplayModal(false);
   };
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setInputData(prev => ({ ...prev, mealTime: e.target.value }))
+    console.log('e: ', e);
+    setDiet(prev => ({
+      ...prev,
+      dietTime: e.target.value
+    }))
   }
+
 
   return (
     <ModalContainer>
@@ -34,7 +42,7 @@ export const TimeModal = ({
           <ModalTitle>시간 입력</ModalTitle>
           <div>
             <InputWrap>
-              <input type="time" onChange={handleChange} />
+              <input type="time" onChange={handleChange} min={"00:00"} max={"23:59"} value={diet.dietTime} />
               <div className="time-text">
                 <div>시간</div>
                 <div>분</div>

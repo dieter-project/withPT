@@ -1,7 +1,7 @@
 import { api } from "@/utils/axios"
 
 export const getExerciseByDate = async (params: string) => {
-  return await api.get(`/api/v1/members/record/exercises?dateTime=${params}`)
+  return await api.get(`/api/v1/members/record/exercises?uploadDate=${params}`)
 }
 
 export const getExercise = async (exerciseId: number) => {
