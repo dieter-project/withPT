@@ -110,9 +110,26 @@ const page = () => {
     const response = await postBodyImage(formData)
   }
 
-  useEffect(() => {
-    handleGetWeight()
-  }, [])
+  // useEffect(() => {
+  //   if (todayBodyInfos) {
+  //     setWeightInput(prev => ({
+  //       ...prev,
+  //       weight: todayBodyInfos.weights[0].weight,
+  //       uploadDate: todayBodyInfos.weights[0].recentUploadDate
+  //     }))
+  //     setBodyInfoInput(prev => ({
+  //       ...prev,
+  //       bmi: todayBodyInfos.bodyInfo.bmi,
+  //       bodyFatPercentage: todayBodyInfos.bodyInfo.bodyFatPercentage,
+  //       skeletalMuscle: todayBodyInfos.bodyInfo.skeletalMuscle,
+  //       uploadDate: todayBodyInfos.bodyInfo.recentUploadDate
+  //     }))
+  //   }
+  // }, [todayBodyInfos])
+
+  // useEffect(() => {
+  //   handleGetBodyInfo()
+  // }, [])
 
   return (
     <>
