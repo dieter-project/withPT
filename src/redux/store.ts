@@ -8,7 +8,6 @@ import member from "./reducers/memberSlice";
 import trainerSignup from "./reducers/trainerSignupSlice";
 import signup from "./reducers/signupSlice";
 import workoutRecord from "./reducers/workoutRecordSlice";
-import dietRecord from "./reducers/dietRecordSlice";
 import storage from "redux-persist/lib/storage/session";
 import { persistReducer, persistStore } from "redux-persist";
 import createWebStorage from "redux-persist/es/storage/createWebStorage";
@@ -35,7 +34,7 @@ import createWebStorage from "redux-persist/es/storage/createWebStorage";
 const persistConfig = {
   key: "root",
   storage,
-  whitelist: ["signup", "workoutRecord", "trainersignup", "dietRecord", 'member'], //적용할 리듀서
+  whitelist: ["signup", "workoutRecord", "trainersignup"], //적용할 리듀서
   timeout: 1000,
 };
 
@@ -43,7 +42,6 @@ const rootReducer = combineReducers({
   member,
   signup,
   workoutRecord,
-  dietRecord,
   trainerSignup,
 });
 
