@@ -10,13 +10,15 @@ import { InputWrap, TimeModalWrap } from "./style";
 interface ModalProps {
   displayModal: boolean;
   setDisplayModal: React.Dispatch<React.SetStateAction<boolean>>;
-  setFormData: React.Dispatch<React.SetStateAction<MealRecord>>;
+  diet: DietRquestDate;
+  setDiet: React.Dispatch<React.SetStateAction<DietRquestDate>>;
 }
 
 export const TimeModal = ({
   displayModal,
   setDisplayModal,
-  setFormData
+  diet,
+  setDiet
 }: ModalProps) => {
   const [dietTime, setDietTime] = useState("")
 
@@ -25,15 +27,12 @@ export const TimeModal = ({
   };
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-<<<<<<< HEAD
     console.log('e: ', e);
     setDiet(prev => ({
       ...prev,
       dietTime: e.target.value
     }))
-=======
     setFormData(prev => ({ ...prev, mealTime: e.target.value }))
->>>>>>> parent of 78917c3 (FEAT: [회원] 기록 식단 기능 구현 및 api 연동)
   }
 
 
