@@ -2,18 +2,19 @@
 
 import { LabelTitle } from '@/styles/Text';
 import React, { useEffect, useState } from 'react'
-import styled from 'styled-components';
 import Plus from '../../../../public/svgs/icon_plus.svg'
 import { useRouter } from 'next/navigation';
 import ChatHeader from '@/components/member/chat/ChatHeader';
 import { BaseContentWrap, ButtonAreaFixed } from '@/styles/Layout';
 import { Checkbox } from '@/styles/Input';
 import { Button } from '@/styles/Button';
-import { api } from '@/utils/axios';
 import { format } from 'date-fns';
 import { ko } from 'date-fns/locale';
 import { ChatDate, ChatTrainerList, ChatTrainerListInfo, ChatTrainerListWrap, EmptyChat, ExclamationMark, NewChatButton, ProfileCircle } from './style';
-import { getChatRooms } from '@/services/member/chat';
+import { getChatRooms, postChatRoom } from '@/services/member/chat';
+import { useAppSelector } from '@/redux/hooks';
+import { TrainersInfo } from '@/types/member/trainer';
+import { getPersonalTrainers } from '@/services/member/training';
 
 interface ChatRooms {
   roomId: number,
@@ -27,8 +28,11 @@ interface ChatRooms {
 }
 const page = () => {
   const [chatRooms, setChatRooms] = useState<ChatRooms[]>([]);
+  const [trainerList, setTrainerList] = useState([]);
   const [exitMode, setExitMode] = useState(false);
   const [deleteChatRooms, setDeleteChatRooms] = useState([]);
+  const memberInfo = useAppSelector((state) => state.member)
+  console.log('states: ', memberInfo);
 
   const router = useRouter();
   const title = '채팅'
@@ -37,21 +41,41 @@ const page = () => {
     try {
       const response = await getChatRooms()
       const { data: { data } } = response;
+      console.log('data: ', data);
       setChatRooms(data.roomList)
     } catch (error) {
 
     }
   }
 
+  const handleStartChat = async (trainer: TrainersInfo) => {
+    const response = await postChatRoom({
+      id: 13,
+      role: "MEMBER",
+      roomName: trainer.trainer.name,
+      identifier: `TRAINER_${trainer.trainer.id}&MEMBER_13`
+    })
+    setTrainerList(response.data.data)
+  }
+
+  const handleGetPersnalTrainer = async () => {
+    if (memberInfo.id) {
+      const response = await getPersonalTrainers(memberInfo.id)
+      console.log('response: ', response);
+
+    }
+  }
+
   useEffect(() => {
     handleGetChats();
+    handleGetPersnalTrainer();
   }, [])
 
   return (
     <>
       <ChatHeader title={title} back={false} />
       <BaseContentWrap>
-        {chatRooms.length <= 0
+        {chatRooms.length === 0
           ? <>
             <section>
               <EmptyChat>
@@ -65,23 +89,27 @@ const page = () => {
                 <LabelTitle>트레이너 목록</LabelTitle>
                 <div>
                   <ul>
-                    <ChatTrainerList>
-                      <div>
-                        <ProfileCircle>
-                          <img src="" alt="" />
-                        </ProfileCircle>
-                        <ChatTrainerListInfo>
-                          <div>트레이너</div>
-                          <div>센터</div>
-                        </ChatTrainerListInfo>
-                      </div>
-                      <div>
-                        <NewChatButton>
-                          <Plus fill="#6C69FF" width="0.75rem" height="0.75rem" />
-                          <div>채팅</div>
-                        </NewChatButton>
-                      </div>
-                    </ChatTrainerList>
+                    {trainerList.map(trainer => {
+                      return (
+                        <ChatTrainerList>
+                          <div>
+                            <ProfileCircle>
+                              <img src="" alt="" />
+                            </ProfileCircle>
+                            <ChatTrainerListInfo>
+                              <div>트레이너</div>
+                              <div>센터</div>
+                            </ChatTrainerListInfo>
+                          </div>
+                          <div>
+                            <NewChatButton onClick={() => handleStartChat(trainer)}>
+                              <Plus fill="#6C69FF" width="0.75rem" height="0.75rem" />
+                              <div>채팅</div>
+                            </NewChatButton>
+                          </div>
+                        </ChatTrainerList>
+                      )
+                    })}
                   </ul>
                 </div>
               </ChatTrainerListWrap>
@@ -109,7 +137,7 @@ const page = () => {
                         </div>
                         <div>
                           <ChatDate>
-                            <div>{format(new Date(room.lastModifiedDate),"hh:mm", {locale: ko})}</div>
+                            <div>{format(new Date(room.lastModifiedDate), "hh:mm", { locale: ko })}</div>
                           </ChatDate>
                         </div>
                       </ChatTrainerList>
@@ -119,9 +147,9 @@ const page = () => {
               </div>
             </section>
             {exitMode &&
-            <ButtonAreaFixed $nav>
-              <Button $variant='primary'>채팅방 나가기</Button>
-            </ButtonAreaFixed>
+              <ButtonAreaFixed $nav>
+                <Button $variant='primary'>채팅방 나가기</Button>
+              </ButtonAreaFixed>
             }
           </>
         }
