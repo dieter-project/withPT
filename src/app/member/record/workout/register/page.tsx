@@ -87,8 +87,9 @@ const page = () => {
     formData.append('files', JSON.stringify(files))
     if (states) {
       const response = await postExercise(formData)
-      if (response) {
+      if (response.status === 200) {
         dispatch(workoutRecordActions.workoutStateReset());
+        router.push('/member/record/workout')
       }
     } else {
       alert('등록된 기록이 없습니다.')
