@@ -1,10 +1,9 @@
 "use client";
 
-import { DietSearchModal } from '@/components/DietSearchModal';
 import PageHeader from '@/components/PageHeader';
 import { Button } from '@/styles/Button';
 import { Input, InputRowWrap, InputWrap, Select } from '@/styles/Input';
-import { BaseContentWrap, ButtonAreaFixed, RowWrap } from '@/styles/Layout';
+import { BaseContentWrap, ButtonAreaFixed } from '@/styles/Layout';
 import { LabelTitle } from '@/styles/Text';
 import { signIn, useSession } from 'next-auth/react';
 import React, { ChangeEvent, useEffect, useState } from 'react'
@@ -75,7 +74,7 @@ const page = () => {
               <span>Kcal</span>
             </InputWrap>
           </InputRowWrap>
-          <RowWrap $gap='0.625rem'>
+          <InputRowWrap >
             <div>
               <LabelTitle>탄수화물</LabelTitle>
               <InputRowWrap>
@@ -103,7 +102,7 @@ const page = () => {
                 </InputWrap>
               </InputRowWrap>
             </div>
-          </RowWrap>
+          </InputRowWrap>
         </div> : <></>
         }
         <ButtonAreaFixed>
