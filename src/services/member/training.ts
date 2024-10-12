@@ -13,5 +13,10 @@ export const getPersonalTrainerAwards = async (id: number, page: number, size: n
 //lesson
 export const getLessonsDays = async (paramsObj: {}) => {
   const params = new URLSearchParams(paramsObj).toString()
-  return await api.get(`/api/v1/lessons/days?${params}`)
+  return await api.get(`/api/v1/lessons/member-schedules?${params}`)
+}
+
+export const getLessonsMonthly = async (paramsObj: {}) => {
+  const params = new URLSearchParams(paramsObj).toString()
+  return await api.get(`/api/v1/lessons/member-schedules/monthly?${params}`)
 }

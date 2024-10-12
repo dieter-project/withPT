@@ -23,7 +23,7 @@ import WorkoutList from '@/components/member/WorkoutList';
 import { format } from 'date-fns';
 import { ko } from 'date-fns/locale';
 import { getExerciseByDate } from '@/services/member/exercise';
-import { getLessonsDays, getPersonalTrainers } from '@/services/member/training';
+import { getLessonsDays, getLessonsMonthly, getPersonalTrainers } from '@/services/member/training';
 import { getMemberInfo } from '@/services/member/member';
 import { getDietByDate } from '@/services/member/diet';
 import { MemberInfo } from '@/types/member/member';
@@ -94,16 +94,16 @@ const page = () => {
       const { data: { data } } = response
       setTrainers(data)
     } catch (error) {
-      console.log('error: ', error);
+      // console.log('error: ', error);
     }
   }
 
   const getLesson = async () => {
     try {
-      const params = { date: format(today, "yyyy-MM"), gym: 1 }
-      const { data: { data } } = await getLessonsDays(params);
+      const params = { year: format(today, "yyyy"), month: format(today, "MM") }
+      const { data: { data } } = await getLessonsMonthly(params);
     } catch (error) {
-      console.log('error: ', error);
+      // console.log('error: ', error);
     }
   }
 
