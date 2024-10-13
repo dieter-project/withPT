@@ -5,7 +5,7 @@ import { format } from 'date-fns';
 import { useSearchParams } from 'next/navigation';
 import React, { ReactElement, useEffect, useState } from 'react'
 import Calendar from 'react-calendar';
-import { TileArgs, View } from 'react-calendar/dist/cjs/shared/types';
+import { TileArgs, Value, View } from 'react-calendar/dist/cjs/shared/types';
 import { styled } from 'styled-components';
 
 const CalendarWrap = styled.div`
@@ -84,11 +84,11 @@ interface Tile {
   view?: View
 }
 const MonthlyCalendar = ({ activeDate, setActiveDate, markDate, handleClick, onChange }: {
-  activeDate: ScheduleDates, 
-  setActiveDate: React.Dispatch<React.SetStateAction<ScheduleDates>>,
+  activeDate: Value, 
+  setActiveDate: React.Dispatch<React.SetStateAction<Value>>,
   markDate: string[],
   handleClick?: () => void;
-  onChange: (value: ScheduleDates) => void;
+  onChange: (value: Value) => void;
 }) => {
   const searchParams = useSearchParams();
   const dateParams = searchParams.get("date")
