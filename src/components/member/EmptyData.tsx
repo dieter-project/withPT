@@ -1,14 +1,14 @@
 import React from "react";
 import styled from "styled-components";
 
-const EmptyBox = styled.div<{ $bg?: boolean }>`
+const EmptyBox = styled.div<{ $bg?: boolean; $pointer: boolean }>`
   display: flex;
   flex-direction: column;
   align-items: center;
   padding: 2.5rem 0;
   background-color: ${props => (props.$bg ? "var(--purple50)" : "none")};
   border-radius: ${props => (props.$bg ? "0.5rem" : "none")};
-  cursor: ${props => (props.$bg ? "pointer" : "")};
+  cursor: ${props => (props.$pointer ? "pointer" : "")};
 
   > div {
     color: var(--font-secondary);
@@ -40,7 +40,7 @@ const EmptyData = ({
   bg?: boolean;
 }) => {
   return (
-    <EmptyBox onClick={onClick} $bg={bg}>
+    <EmptyBox onClick={onClick} $bg={bg} $pointer={!!onClick}>
       <ExclamationMark></ExclamationMark>
       <div>{text}</div>
       <div>{subText}</div>
