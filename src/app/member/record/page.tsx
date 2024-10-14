@@ -1,18 +1,18 @@
-'use client';
+"use client";
 
-import React, { useEffect, useMemo, useState } from 'react'
-import Header from '@/components/Header';
-import { BaseContentWrap, ContentSection } from '@/styles/Layout';
-import { LabelTitle } from '@/styles/Text';
-import { useRouter } from 'next/navigation';
-import { ArrowWrap, RecordBoxWrap } from './styles';
-import { NextArrow } from '../mypage/styles';
-import { thisMonth } from '@/constants/record';
-import { getMemberInfo } from '@/services/member/member';
-import { MemberInfo } from '@/types/member/member';
-import { getRecord } from '@/services/member/record';
-import { WeeklyCalendar } from '@/components/member/common/WeeklyCalendar';
-import { format } from 'date-fns';
+import React, { useEffect, useMemo, useState } from "react";
+import Header from "@/components/Header";
+import { BaseContentWrap, ContentSection } from "@/styles/Layout";
+import { LabelTitle } from "@/styles/Text";
+import { useRouter } from "next/navigation";
+import { ArrowWrap, RecordBoxWrap } from "./styles";
+import { NextArrow } from "../mypage/styles";
+import { thisMonth } from "@/constants/record";
+import { getMemberInfo } from "@/services/member/member";
+import { MemberInfo } from "@/types/member/member";
+import { getRecord } from "@/services/member/record";
+import { WeeklyCalendar } from "@/components/member/common/WeeklyCalendar";
+import { format } from "date-fns";
 type WeeklyRecord = {
   [date: string]: {
     diet: {
@@ -31,94 +31,97 @@ type WeeklyRecord = {
   };
 };
 
-
 const page = () => {
   const dietInit = {
     record: false,
     targetCalorie: 1500,
-    totalCalorie: 0
-  }
+    totalCalorie: 0,
+  };
   const workoutInit = {
-    record: false
-  }
+    record: false,
+  };
   const weightInit = {
     record: false,
     targetWeight: 0,
-    weight: 0
-  }
+    weight: 0,
+  };
   const [diet, setDiet] = useState(dietInit);
   const [workout, setWorkout] = useState(workoutInit);
-  const [weight, setWeight] = useState(weightInit)
-  const [weekly, setWeekly] = useState<WeeklyRecord | null>(null)
-  const [targetDate, setTargetDate] = useState(new Date())
+  const [weight, setWeight] = useState(weightInit);
+  const [weekly, setWeekly] = useState<WeeklyRecord | null>(null);
+  const [targetDate, setTargetDate] = useState(new Date());
   const [memberInfo, setMemberInfo] = useState<MemberInfo>();
-  const router = useRouter()
-
+  const router = useRouter();
 
   const dietSubText = useMemo(() => {
-    // if (diet.length ) 
-  }, [diet])
+    // if (diet.length )
+  }, [diet]);
 
   const getMember = async () => {
     try {
-      const { data: { data: memberInfo } } = await getMemberInfo()
+      const {
+        data: { data: memberInfo },
+      } = await getMemberInfo();
       setMemberInfo(memberInfo);
     } catch (error) {
-      console.log('error: ', error);
+      console.log("error: ", error);
     }
-  }
+  };
 
   const getRecords = async () => {
     try {
-      const { data: { data } } = await getRecord(thisMonth)
-      const date = format(targetDate, 'yyyy-MM-dd')
-    
+      const {
+        data: { data },
+      } = await getRecord(thisMonth);
+      const date = format(targetDate, "yyyy-MM-dd");
+
       setDiet(data[date].diet);
       setWorkout(data[date].exercise);
       setWeight(data[date].bodyInfo);
-    } catch (error) { }
-  }
+    } catch (error) {}
+  };
 
   const handleDateChange = (date: Date) => {
-    setTargetDate(date)
-  }
+    setTargetDate(date);
+  };
 
   useEffect(() => {
-    const date = format(targetDate, 'yyyy-MM-dd')
+    const date = format(targetDate, "yyyy-MM-dd");
     if (weekly) {
       setDiet(weekly[date].diet);
       setWorkout(weekly[date].exercise);
       setWeight(weekly[date].bodyInfo);
     }
-  }, [targetDate])
+  }, [targetDate]);
 
   useEffect(() => {
-    getMember()
-    getRecords()
-  }, [])
+    getMember();
+    getRecords();
+  }, []);
 
   return (
     <>
-      <Header
-        back={true}
-        bookmark={true}
-        calendar={true}
-      />
+      <Header back={true} bookmark={true} calendar={true} />
       <BaseContentWrap>
         <WeeklyCalendar weekly={weekly} onChange={handleDateChange} />
         <ContentSection>
           <LabelTitle>식단</LabelTitle>
-          <RecordBoxWrap variant='purple' onClick={() => router.push('/member/record/diet')}>
+          <RecordBoxWrap
+            variant="purple"
+            onClick={() => router.push("/member/record/diet")}
+          >
             <div>
               <div>
                 <p>오늘은 뭘 드셨나요?</p>
-                <div className='record-value'>{diet.record ? diet.totalCalorie : '0'} Kcal</div>
+                <div className="record-value">
+                  {diet.record ? diet.totalCalorie : "0"} Kcal
+                </div>
               </div>
-              <div className='caption'>
+              <div className="caption">
                 <span>!</span>식단을 입력해 주세요!
               </div>
             </div>
-            <div className='img-wrap'>
+            <div className="img-wrap">
               <img src="" alt="" />
             </div>
             <ArrowWrap>
@@ -128,27 +131,32 @@ const page = () => {
         </ContentSection>
         <ContentSection>
           <LabelTitle>운동</LabelTitle>
-          <RecordBoxWrap variant='purple' onClick={() => router.push('/member/record/workout')}>
+          <RecordBoxWrap
+            variant="purple"
+            onClick={() => router.push("/member/record/workout")}
+          >
             <div>
               <div>
                 <p>오늘은 운동을 하셨나요?</p>
-                <div className='record-value'>
+                <div className="record-value">
                   {!!workout.record ? "운동 성공" : "운동 기록 없음"}
                 </div>
               </div>
-              <div className='caption'>
-                {!!workout.record
-                  ? <>
+              <div className="caption">
+                {!!workout.record ? (
+                  <>
                     <span>♥</span>
                     오운완 성공!
                   </>
-                  : <>
+                ) : (
+                  <>
                     <span>!</span>
                     운동을 입력해 주세요!
-                  </>}
+                  </>
+                )}
               </div>
             </div>
-            <div className='img-wrap'>
+            <div className="img-wrap">
               <img src="" alt="" />
             </div>
             <ArrowWrap>
@@ -158,26 +166,36 @@ const page = () => {
         </ContentSection>
         <ContentSection>
           <LabelTitle>체중</LabelTitle>
-          <RecordBoxWrap variant='purple' onClick={() => router.push('/member/record/weight')}>
+          <RecordBoxWrap
+            variant="purple"
+            onClick={() => router.push("/member/record/weight")}
+          >
             <div>
               <div>
                 <p>오늘의 체중은?</p>
-                <div className='record-value'>{weight.weight} kg</div>
+                <div className="record-value">{weight.weight} kg</div>
               </div>
-              <div className='caption'>
-                {!weight.record
-                  ? <><span>!</span>체중을 입력해 주세요! </>
-                  : weight.weight === weight.targetWeight
-                    ? <><span>-</span>체중 변화가 없어요.</>
-                    : weight.targetWeight < weight.weight
-                      ? <><span>-</span>어제보다 체중이 증가했어요ㅜ</>
-                      : <><span>♥</span>어제보다 체중이 감소했어요!</>
-                }
-
-
+              <div className="caption">
+                {!weight.record ? (
+                  <>
+                    <span>!</span>체중을 입력해 주세요!{" "}
+                  </>
+                ) : weight.weight === weight.targetWeight ? (
+                  <>
+                    <span>-</span>체중 변화가 없어요.
+                  </>
+                ) : weight.targetWeight < weight.weight ? (
+                  <>
+                    <span>-</span>어제보다 체중이 증가했어요ㅜ
+                  </>
+                ) : (
+                  <>
+                    <span>♥</span>어제보다 체중이 감소했어요!
+                  </>
+                )}
               </div>
             </div>
-            <div className='img-wrap'>
+            <div className="img-wrap">
               <img src="" alt="" />
             </div>
             <ArrowWrap>
@@ -187,7 +205,7 @@ const page = () => {
         </ContentSection>
       </BaseContentWrap>
     </>
-  )
-}
+  );
+};
 
-export default page
+export default page;
