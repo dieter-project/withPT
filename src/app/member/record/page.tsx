@@ -7,10 +7,7 @@ import { LabelTitle } from '@/styles/Text';
 import { useRouter } from 'next/navigation';
 import { ArrowWrap, RecordBoxWrap } from './styles';
 import { NextArrow } from '../mypage/styles';
-import { thisMonth, todayDate } from '@/constants/record';
-import { getExerciseByDate } from '@/services/member/exercise';
-import { getBody } from '@/services/member/body';
-import { getDietByDate } from '@/services/member/diet';
+import { thisMonth } from '@/constants/record';
 import { getMemberInfo } from '@/services/member/member';
 import { MemberInfo } from '@/types/member/member';
 import { getRecord } from '@/services/member/record';
@@ -74,7 +71,11 @@ const page = () => {
   const getRecords = async () => {
     try {
       const { data: { data } } = await getRecord(thisMonth)
-      setWeekly(data)
+      const date = format(targetDate, 'yyyy-MM-dd')
+    
+      setDiet(data[date].diet);
+      setWorkout(data[date].exercise);
+      setWeight(data[date].bodyInfo);
     } catch (error) { }
   }
 
@@ -111,7 +112,7 @@ const page = () => {
             <div>
               <div>
                 <p>오늘은 뭘 드셨나요?</p>
-                <div className='record-value'>0 Kcal</div>
+                <div className='record-value'>{diet.record ? diet.totalCalorie : '0'} Kcal</div>
               </div>
               <div className='caption'>
                 <span>!</span>식단을 입력해 주세요!
