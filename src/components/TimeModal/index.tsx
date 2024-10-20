@@ -8,31 +8,23 @@ import { InputWrap, TimeModalWrap } from "./style";
 
 
 interface ModalProps {
-  displayModal: boolean;
   setDisplayModal: React.Dispatch<React.SetStateAction<boolean>>;
-  diet: DietRquestDate;
-  setDiet: React.Dispatch<React.SetStateAction<DietRquestDate>>;
+  time: string;
+  handleChangeTime: (time: string) => void;
 }
 
 export const TimeModal = ({
-  displayModal,
   setDisplayModal,
-  diet,
-  setDiet
+  time,
+  handleChangeTime
 }: ModalProps) => {
-  const [dietTime, setDietTime] = useState("")
 
   const handleOnClose = () => {
     setDisplayModal(false);
   };
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    console.log('e: ', e);
-    setDiet(prev => ({
-      ...prev,
-      dietTime: e.target.value
-    }))
-    setFormData(prev => ({ ...prev, mealTime: e.target.value }))
+    handleChangeTime(e.target.value)
   }
 
 
@@ -43,7 +35,7 @@ export const TimeModal = ({
           <ModalTitle>시간 입력</ModalTitle>
           <div>
             <InputWrap>
-              <input type="time" onChange={handleChange} min={"00:00"} max={"23:59"} value={diet.dietTime} />
+              <input type="time" onChange={handleChange} min={"00:00"} max={"23:59"} value={time} />
               <div className="time-text">
                 <div>시간</div>
                 <div>분</div>

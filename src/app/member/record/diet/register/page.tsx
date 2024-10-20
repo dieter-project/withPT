@@ -64,6 +64,13 @@ const page = () => {
     } catch (err) { }
   }
 
+  const handleChangeTime = (time: string) => {
+    setDiet(prev => ({
+      ...prev,
+      dietTime: time
+    }))
+  }
+
   useEffect(() => {
     // console.log('diet: ', diet);
   }, [diet])
@@ -73,10 +80,9 @@ const page = () => {
     <>
       {displayModal && (
         <TimeModal
-          displayModal={displayModal}
           setDisplayModal={setDisplayModal}
-          diet={diet}
-          setDiet={setDiet}
+          time={diet.dietTime}
+          handleChangeTime={handleChangeTime}
         />
       )}
       <PageHeader back={true} title="식단 입력" />
