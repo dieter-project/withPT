@@ -31,7 +31,7 @@ export default function page () {
       } else {
         dispatch(signupActions.saveSignupState({
           email: data.email,
-          oauthProvider: data.oauthProvider,
+          authProvider: data.authProvider,
           role: data.role,
         }))
         router.replace('/member/signup/step1')

@@ -17,7 +17,7 @@ const page = () => {
   const [memberInfo, setMemberInfo] = useState<MemberInfo>({
     id: 0,
     email: "",
-    oauthProvider: "",
+    authProvider: "",
     loginType: "",
     name: "",
     height: 0,

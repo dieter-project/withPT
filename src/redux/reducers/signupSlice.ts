@@ -10,7 +10,7 @@ export type SignupState = {
   dietType: string | null,
   exerciseFrequency: number | null,
   targetWeight: number | null,
-  oauthProvider: string | null,
+  authProvider: string | null,
   role: string | null
 };
 
@@ -24,7 +24,7 @@ let initialState: SignupState = {
   dietType: null,
   exerciseFrequency: null,
   targetWeight: null,
-  oauthProvider: null,
+  authProvider: null,
   role: null
 }
 

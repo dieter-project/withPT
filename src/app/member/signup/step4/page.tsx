@@ -38,9 +38,9 @@ const page = () => {
     dispatch(
       signupActions.saveSignupState({
         exerciseFrequency: inputData.exerciseFrequency,
-        // email: "test@test.kr",
-        //   oauthProvider: "KAKAO",
-        // nickname: "test"
+        email: "test@test.kr",
+        authProvider: "KAKAO",
+        nickname: "test"
       }),
     );
     console.log("states: ", states);

@@ -42,7 +42,7 @@ const page = () => {
   const memberInit = {
     id: 0,
     email: "",
-    oauthProvider: "",
+    authProvider: "",
     loginType: "",
     name: "",
     height: 0,

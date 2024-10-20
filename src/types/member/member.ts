@@ -1,7 +1,7 @@
 export interface MemberInfo  {
   id: number,
   email: string,
-  oauthProvider: string,
+  authProvider: string,
   loginType: string,
   name: string,
   height: number,
