@@ -44,7 +44,7 @@ const WorkoutListBox = styled.div`
 `;
 
 interface Props {
-  workout: WorkoutType[] | WorkoutPayload[];
+  workout: WorkoutType[] | WorkoutPayload[] | undefined;
 }
 
 const WorkoutList = ({ workout }: Props) => {
@@ -52,7 +52,7 @@ const WorkoutList = ({ workout }: Props) => {
 
   return (
     <>
-      {workout?.length > 0 ? (
+      {workout && workout.length > 0 ? (
         <WorkoutListBox>
           <div>
             <ul>

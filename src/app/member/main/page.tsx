@@ -35,6 +35,7 @@ import { convertGoal } from "@/utils/convertGoal";
 import { ScheduleDates } from "@/types/member/schedule";
 import MonthlyCalendar from "@/components/member/MonthlyCalendar";
 import EmptyData from "@/components/member/EmptyData";
+import { DietRecord, WorkoutRecord } from "@/types/member/record";
 
 const page = () => {
   const router = useRouter();
@@ -59,8 +60,8 @@ const page = () => {
   };
 
   const [tabClick, setTabClick] = useState("1");
-  const [todayDiet, setTodayDiet] = useState("");
-  const [todayWorkout, setTodayWorkout] = useState([]);
+  const [todayDiet, setTodayDiet] = useState<DietRecord>();
+  const [todayWorkout, setTodayWorkout] = useState<WorkoutRecord>();
   const [markDate, setMarkDate] = useState([]);
   const [activeDate, setActiveDate] = useState<ScheduleDates>(today);
   const [trainers, setTrainers] = useState([]);
@@ -182,7 +183,7 @@ const page = () => {
             <div>
               {tabClick === "1" ? (
                 <>
-                  {todayDiet?.length > 0 ? (
+                  {todayDiet && todayDiet.dietInfos.length > 0 ? (
                     <TodayDiet>
                       <TodayDietContents>
                         <div>
@@ -216,7 +217,7 @@ const page = () => {
                   )}
                 </>
               ) : (
-                <WorkoutList workout={todayWorkout} />
+                <WorkoutList workout={todayWorkout?.exerciseInfos} />
               )}
             </div>
           </div>

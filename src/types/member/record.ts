@@ -39,11 +39,18 @@ export type WorkoutType = {
   id: number,
   title: string,
   weight: number,
-  exerciseSet: number,
   times: number,
-  exerciseTime: number,
   bodyParts: string,
+  exerciseSet: number,
+  exerciseTime: number,
   exerciseType: string
+}
+
+export interface WorkoutRecord {
+  id: number;
+  remainingExerciseCountToTarget: number;
+  uploadDate: string;
+  exerciseInfos: WorkoutType[]
 }
 
 export interface DietRquestDate {
