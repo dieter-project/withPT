@@ -1,12 +1,14 @@
 "use client";
 import { useState, useEffect } from "react";
+import { api } from "@/utils/axios";
 import styled from "styled-components";
 import Link from "next/link";
+import { Container, ContentBody } from "@/styles/TrainerLayout";
+import ContentHeader from "@/components/TrainerPageTitle";
 import { Button } from "@/styles/TrainerButton";
 import { ListButton } from "@/styles/TrainerButton";
-import Footer from "@/components/TrainerFooter";
 import { startOfWeek, addDays, format } from "date-fns";
-import { api } from "@/utils/axios";
+import Footer from "@/components/TrainerFooter";
 
 const MainContainer = styled.div`
   background-color: #ffffff;
@@ -107,6 +109,7 @@ const ScheduleLink = styled(Link)`
 `;
 
 export default function ManageMain() {
+  const title = "회원관리";
   const today = new Date();
   const [startDate, setStartDate] = useState(startOfWeek(today));
   const endDate = addDays(startDate, 13);
@@ -130,12 +133,11 @@ export default function ManageMain() {
   }, []);
 
   return (
-    <MainContainer>
-      <MainHeader>회원 관리</MainHeader>
+    <Container>
+      <ContentHeader title={title} variant="center" />
       <MainContentWrap>
         <Link href="/trainer/membermanagement/member/register">
-          {" "}
-          <Button variant="primary" height="3.5rem">
+          <Button $variant="primary" height="3.5rem">
             신규 회원 등록하기
           </Button>
         </Link>
@@ -169,6 +171,6 @@ export default function ManageMain() {
         </ManageMemberWrap>
       </MainContentWrap>
       <Footer />
-    </MainContainer>
+    </Container>
   );
 }

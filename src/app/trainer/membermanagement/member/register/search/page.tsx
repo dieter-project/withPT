@@ -1,5 +1,6 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { api } from "@/utils/axios";
 import styled from "styled-components";
 import Link from "next/link";
 import { startOfWeek, addDays, format } from "date-fns";
@@ -56,6 +57,25 @@ const MemberSearchInput = styled.input`
 
 export default function MemberRegistSearch() {
   const title = "회원 등록";
+
+  const getResponseTest = async () => {
+    try {
+      const response = await api.get(`/api/v1/gyms/2/members/search?name=jane`);
+      // const responseStatus = response.data.status;
+      // const responseData = response?.data;
+      console.log("통신 결과", response);
+      //   if (responseStatus === "success") {
+      //     console.log(responseData);
+      //   }
+    } catch (error) {
+      console.log("error fetching", error);
+    }
+  };
+
+  useEffect(() => {
+    getResponseTest();
+  }, []);
+
   return (
     <MainContainer>
       <ContentHeader title={title}></ContentHeader>
@@ -66,13 +86,6 @@ export default function MemberRegistSearch() {
           </ManageTitleWrap>
 
           <MemberSearchInput type="text" placeholder="검색"></MemberSearchInput>
-
-          <label>
-            <input type="radio" name="sport" value="soccer" /> Soccer
-          </label>
-          <label>
-            <input type="radio" name="sport" value="baseball" /> Baseball
-          </label>
         </ManageMemberWrap>
       </ManageContentWrap>
     </MainContainer>

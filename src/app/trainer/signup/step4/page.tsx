@@ -12,6 +12,7 @@ import {
   ContentBody,
   ButtonAreaFixed,
 } from "@/styles/TrainerLayout";
+import { TitleWrapper } from "@/components/Trainer/Signup/TitleWrapper";
 import {
   FormTitle,
   SignUpInputContainer,
@@ -458,15 +459,10 @@ export default function step4() {
       <ContentHeader title={title}></ContentHeader>
       <ContentBody>
         <JoinStep active={"4"} />
-        <div>
-          <SignUpTitleWrap>
-            <SignupStepInfo>내 이력을 등록해주세요</SignupStepInfo>
-            <SignupStepInfoSub>
-              회원가입 후 마이페이지에서도 입력이 가능해요.
-            </SignupStepInfoSub>
-          </SignUpTitleWrap>
-        </div>
-
+        <TitleWrapper
+          topTitle="내 이력을 등록해주세요."
+          underTitle="회원가입 후 마이페이지에서도 입력이 가능해요."
+        />
         <RegisterTitle>경력 입력</RegisterTitle>
         <SignupFormWrap>
           <TrRegisItemWrap>

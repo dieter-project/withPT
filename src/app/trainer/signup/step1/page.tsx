@@ -8,6 +8,7 @@ import {
   ContentBody,
   ButtonAreaFixed,
 } from "@/styles/TrainerLayout";
+import { TitleWrapper } from "@/components/Trainer/Signup/TitleWrapper";
 import ContentHeader from "@/components/TrainerPageTitle";
 import { Button } from "@/styles/TrainerButton";
 import { NoIconInput } from "@/styles/TrainerInput";
@@ -17,9 +18,6 @@ import JoinStep from "@/components/Trainer/TrSignUpStep";
 import {
   FormTitle,
   SignUpInputContainer,
-  SignUpTitleWrap,
-  SignupStepInfo,
-  SignupStepInfoSub,
   SignupInputInnerContainer,
 } from "@/styles/SignupForm";
 import { FormRadio, Slash, StyledLabel } from "./style";
@@ -39,7 +37,6 @@ interface TrInfo {
 export default function step1() {
   const dispatch = useDispatch();
   const states = useAppSelector(state => state.trainerSignup);
-  const router = useRouter();
   const title = "회원가입";
 
   const [inputData, setInputData] = useState<TrInfo>({
@@ -56,6 +53,7 @@ export default function step1() {
   const birthRef = useRef<(null | HTMLInputElement)[]>([]);
   const sexRef = useRef<null | HTMLInputElement>(null);
   const inputRef = useRef<(null | HTMLInputElement)[]>([]);
+  const [isDisabled, setIsDisabled] = useState(true);
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
@@ -78,8 +76,6 @@ export default function step1() {
       }));
     }
   };
-
-  const [isDisabled, setIsDisabled] = useState(true);
 
   //조건에 따라 버튼 비활성화 시키기
   useEffect(() => {
@@ -166,14 +162,10 @@ export default function step1() {
       <ContentHeader title={title}></ContentHeader>
       <ContentBody>
         <JoinStep active={"1"} />
-        <div>
-          <SignUpTitleWrap>
-            <SignupStepInfo>안녕하세요 회원님!</SignupStepInfo>
-            <SignupStepInfoSub>
-              아래 정보가 맞는지 확인해주세요.
-            </SignupStepInfoSub>
-          </SignUpTitleWrap>
-        </div>
+        <TitleWrapper
+          topTitle="안녕하세요. 트레이너님!"
+          underTitle="아래 정보가 맞는지 확인해주세요."
+        />
         <div>
           <SignUpInputContainer>
             <FormTitle>이름</FormTitle>

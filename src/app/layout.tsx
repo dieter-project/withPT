@@ -1,10 +1,11 @@
 import AuthContext from "@/components/AuthContext";
+import ReactQueryProviders from "@/utils/react-query-provider";
+import Script from "next/script";
 import "./globals.css";
-import type { Metadata } from "next";
 import { Providers } from "../redux/provider";
 import StyledComponentsRegistry from "@/lib/StyledComponentsRegistry";
+import type { Metadata } from "next";
 import { BaseContainer } from "@/styles/Layout";
-import Script from "next/script";
 
 export const metadata: Metadata = {
   title: "WithPT",
@@ -25,13 +26,15 @@ export default function RootLayout({
   return (
     <html lang="ko">
       <body>
-        <Providers>
-          {/* <AuthContext> */}
-          <StyledComponentsRegistry>
-            <BaseContainer>{children}</BaseContainer>
-          </StyledComponentsRegistry>
-          {/* </AuthContext> */}
-        </Providers>
+        <ReactQueryProviders>
+          <Providers>
+            {/* <AuthContext> */}
+            <StyledComponentsRegistry>
+              <BaseContainer>{children}</BaseContainer>
+            </StyledComponentsRegistry>
+            {/* </AuthContext> */}
+          </Providers>
+        </ReactQueryProviders>
       </body>
       <Script src="https://developers.kakao.com/sdk/js/kakao.js" async />
       <Script

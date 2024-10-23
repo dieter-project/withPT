@@ -10,6 +10,7 @@ import {
   ContentBody,
   ButtonAreaFixed,
 } from "@/styles/TrainerLayout";
+import { TitleWrapper } from "@/components/Trainer/Signup/TitleWrapper";
 import JoinStep from "@/components/Trainer/TrSignUpStep";
 import checkIconPurple from "../../../../../public/Trainer/checkIconPurple.png";
 import checkIconGray from "../../../../../public/Trainer/checkIconGray.png";
@@ -339,14 +340,10 @@ export default function step3() {
       <ContentHeader title={title}></ContentHeader>
       <ContentBody>
         <JoinStep active={"3"} />
-        <div>
-          <SignUpTitleWrap>
-            <SignupStepInfo>센터일정을 등록해 주세요.</SignupStepInfo>
-            <SignupStepInfoSub>
-              센터별로 수업이 가능한 시간을 등록해주세요.
-            </SignupStepInfoSub>
-          </SignUpTitleWrap>
-        </div>
+        <TitleWrapper
+          topTitle="센터일정을 등록해 주세요."
+          underTitle="센터별로 수업이 가능한 시간을 등록해주세요."
+        />
         {recordGyms?.map((gym, index) => (
           <SignupFormWrap key={index}>
             <TrRegisItemWrap>

@@ -12,6 +12,7 @@ import workoutRecord from "./reducers/workoutRecordSlice";
 import storage from "redux-persist/lib/storage/session";
 import { persistReducer, persistStore } from "redux-persist";
 import createWebStorage from "redux-persist/es/storage/createWebStorage";
+import modal from "./reducers/trainer/modalSlice";
 
 // const createNoopStorage = () => {
 //   return {
@@ -46,6 +47,7 @@ const rootReducer = combineReducers({
   // workoutRecord,
   trainer,
   trainerSignup,
+  modal,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

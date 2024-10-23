@@ -26,6 +26,13 @@ export const Button = styled.button<ButtonProps>`
       color: var(--font-secondary);
     `}
 
+    ${props =>
+    props.$variant === "ghostPurple" &&
+    css`
+      background-color: var(--purple75);
+      color: var(--white);
+    `}
+
   ${props =>
     props.$variant === "ghost" &&
     css`
@@ -60,13 +67,13 @@ export const IconButton = styled.button<ButtonProps>`
   background-size: contain;
 
   ${props =>
-    props.variant === "ghost" &&
+    props.$variant === "ghost" &&
     css`
       background: #b1b1b1;
       color: var(--white);
     `}
   ${props =>
-    props.variant === "color" &&
+    props.$variant === "color" &&
     css`
       background-color: var(--primary);
       color: var(--white);

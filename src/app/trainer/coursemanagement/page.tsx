@@ -295,7 +295,7 @@ export default function ManageMain() {
 
   return (
     <Container>
-      <ContentHeader title={title} variant="center"></ContentHeader>
+      <ContentHeader title={title} variant="center" />
       <ColorContentBody>
         <MainTopContent>
           <ButtonRegionWrap>

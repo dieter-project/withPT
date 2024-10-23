@@ -13,7 +13,7 @@ import { MakeStore, createWrapper } from "next-redux-wrapper";
 
 const persistConfig = {
   key: "root",
-  storage,
+  storage: typeof window !== "undefined" ? storage : null,
   // whitelist: ['auth'],
   timeout: 5000,
 };

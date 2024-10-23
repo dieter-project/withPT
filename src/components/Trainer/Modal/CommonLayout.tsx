@@ -1,6 +1,9 @@
 import React from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { CloseBtn } from "@/styles/TrainerButton";
 import { styled } from "styled-components";
+import { openModal, closeModal } from "@/redux/reducers/trainer/modalSlice";
+import { useModalEffect } from "@/hooks/trainer/modal/useModalEffect";
 
 const ModalContainer = styled.div`
   position: fixed;
@@ -11,18 +14,29 @@ const ModalContainer = styled.div`
   z-index: 999;
 `;
 
-const ModalInnerWrap = styled.div<{ showModalContent: boolean }>`
+const ModalInnerWrap = styled.div.attrs<{ showModalContent: boolean }>(
+  ({ showModalContent }) => ({
+    style: {
+      bottom: showModalContent ? "0" : "-100%",
+    },
+  }),
+)`
   position: absolute;
-  bottom: ${({ showModalContent }) => (showModalContent ? "0" : "-100%")};
   width: 100%;
-  max-height: 90%;
+  height: 95%;
   background-color: white;
   padding: 1rem;
   border-radius: 1rem 1rem 0 0;
   transition: 0.3s;
 `;
 
-const ModalDimmed = styled.div<{ showModalContent: boolean }>`
+const ModalDimmed = styled.div.attrs<{ showModalContent: boolean }>(
+  ({ showModalContent }) => ({
+    style: {
+      opacity: showModalContent ? "1" : "0",
+    },
+  }),
+)`
   position: fixed;
   z-index: -1;
   top: 0;
@@ -30,7 +44,6 @@ const ModalDimmed = styled.div<{ showModalContent: boolean }>`
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.7);
-  opacity: ${({ showModalContent }) => (showModalContent ? "1" : "0")};
   transition: opacity 0.3s ease;
 `;
 
@@ -55,27 +68,20 @@ const ModalContent = styled.div`
 
 interface ModalProps {
   title: string;
-  isModalOpen: boolean;
-  setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  content?: React.ReactNode;
-  showModalContent: boolean;
+  content: React.ReactNode;
 }
 
-export const TrainerModalLayout = ({
-  title,
-  isModalOpen,
-  setIsModalOpen,
-  content,
-  showModalContent,
-}: ModalProps) => {
+export const TrainerModalLayout = ({ title, content }: ModalProps) => {
+  const dispatch = useDispatch();
+  const isModalOpen = useSelector((state: RootState) => state.modal.isOpen);
   if (!isModalOpen) return null;
-
+  const showModalContent = useModalEffect(isModalOpen);
   return (
     <ModalContainer>
       <ModalInnerWrap showModalContent={showModalContent}>
         <ModalHeader>
           {title}
-          <ModalCloseXButton onClick={() => setIsModalOpen(false)} />
+          <ModalCloseXButton onClick={() => dispatch(closeModal())} />
         </ModalHeader>
         <ModalBody>
           <ModalContent>{content}</ModalContent>
