@@ -113,8 +113,8 @@ const page = () => {
     if (todayBodyInfos) {
       setWeightInput(prev => ({
         ...prev,
-        weight: todayBodyInfos.weights[0].weight,
-        uploadDate: todayBodyInfos.weights[0].recentUploadDate
+        weight: todayBodyInfos.weights[0]?.weight,
+        uploadDate: todayBodyInfos.weights[0]?.recentUploadDate
       }))
       setBodyInfoInput(prev => ({
         ...prev,
@@ -156,9 +156,8 @@ const page = () => {
         </ContentSection>
         <ContentSection>
           <TitleWrap>
-            <LabelTitle>체중</LabelTitle>
             {todayBodyInfos
-              ? <div className='recent-date'>최근기록 {format(new Date(todayBodyInfos.weights[0].recentUploadDate), 'MM월 dd일')}</div>
+              ? <div className='recent-date'>최근기록 {todayBodyInfos.weights[0]?.recentUploadDate && format(new Date(todayBodyInfos.weights[0].recentUploadDate), 'MM월 dd일')}</div>
               : <div className='recent-date'>최근기록이 없습니다</div>}
           </TitleWrap>
           <WeightBox variant='purple'>
