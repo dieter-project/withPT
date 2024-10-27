@@ -1,7 +1,8 @@
 "use client";
+
 import ContentHeader from "@/components/TrainerPageTitle";
 import { useState, useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Image from "next/image";
 import styled from "styled-components";
 import Link from "next/link";
@@ -10,8 +11,8 @@ import {
   ContentBody,
   ButtonAreaFixed,
 } from "@/styles/TrainerLayout";
-import { TitleWrapper } from "@/components/Trainer/Signup/TitleWrapper";
-import JoinStep from "@/components/Trainer/TrSignUpStep";
+import { TitleWrapper } from "@/components/trainer/signup/TitleWrapper";
+import JoinStep from "@/components/trainer/TrSignUpStep";
 import checkIconPurple from "../../../../../public/Trainer/checkIconPurple.png";
 import checkIconGray from "../../../../../public/Trainer/checkIconGray.png";
 import ModalCloseXButtonImg from "../../../../../public/Trainer/Modal/close-line.png";
@@ -26,9 +27,13 @@ import {
 } from "@/styles/SignupForm";
 import { Button } from "@/styles/TrainerButton";
 import { signupActions } from "@/redux/reducers/trainerSignupSlice";
-import { TrainerModalLayout } from "@/components/Trainer/Modal/CommonLayout";
-import { EnterCenterSchedule } from "@/components/Trainer/Modal/EnterCenterSchedule";
+import { SearchModal } from "@/components/trainer/modal/Modal";
+import { EnterCenterSchedule } from "@/components/trainer/modal/EnterCenterSchedule";
 import { changeDayFormatEnglish } from "@/utils/Trainer/changeDayFormatEnglish";
+import { GymsInfo } from "@/model/trainer/signUp";
+import { openModal, closeModal } from "@/redux/reducers/trainer/modalSlice";
+import { Signup3 } from "@/hooks/trainer/signup/signup";
+import { NextButtonArea } from "@/components/trainer/signup/ButtonAreaFixed";
 
 const SignupFormWrap = styled.div`
   margin-bottom: 1rem;
@@ -143,24 +148,27 @@ export default function step3() {
   const title = "센터일정 등록";
   const dispatch = useDispatch();
   const saveStates = useAppSelector(state => state.trainerSignup);
-
+  const isModalOpen = useSelector(state => state.modal.isOpen);
   //처음 화면을 그릴때 정된 헬스장 리스트 가져오기
-  const [recordGyms, setRecordGyms] = useState(null);
+  const [recordGyms, setRecordGyms] = useState<GymsInfo[] | []>([]);
 
   const [openModalNum, setOpenModalNum] = useState<number | null>(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalTitle, setModalTitle] = useState<string>("");
-  const [showModalContent, setShowModalContent] = useState(false);
-  const [selectedDays, setSelectedDays] = useState<string[]>([]);
-  const [selectedStartTime, setSelectedStartTime] = useState<string>("");
-  const [selectedEndTime, setSelectedEndTime] = useState<string>("");
-  const [selectedSchedules, setSelectedSchedules] = useState<
-    Array<{ days: string[]; startTime: string; endTime: string }>
-  >([]);
-  const [overlapError, setOverlapError] = useState<boolean>(false);
-  const [allSchedules, setAllSchedules] = useState<
-    Array<{ days: string[]; startTime: string; endTime: string }>
-  >([]);
+
+  const {
+    selectedDays,
+    setSelectedDays,
+    selectedStartTime,
+    setSelectedStartTime,
+    selectedEndTime,
+    setSelectedEndTime,
+    selectedSchedules,
+    setSelectedSchedules,
+    overlapError,
+    setOverlapError,
+    allSchedules,
+    setAllSchedules,
+  } = Signup3();
 
   //조건에 따라 다음버튼 비활성화 시키기
   const [isDisabled, setIsDisabled] = useState(true);
@@ -207,23 +215,9 @@ export default function step3() {
   };
 
   const toggleModal = (centername: string, index: number) => {
-    setIsModalOpen(!isModalOpen);
+    dispatch(openModal());
     setModalTitle(centername);
     setOpenModalNum(index);
-  };
-
-  useEffect(() => {
-    if (isModalOpen) {
-      setTimeout(() => {
-        setShowModalContent(true);
-      }, 10);
-    } else {
-      setShowModalContent(false);
-    }
-  }, [isModalOpen]);
-
-  const modalClose = () => {
-    setIsModalOpen(false);
   };
 
   //조건에 따라 버튼 비활성화 시키기
@@ -241,14 +235,6 @@ export default function step3() {
   // && selectedSchedules[0].days?.length > 0
 
   console.log("selectedSchedules", selectedSchedules[0]?.days?.length);
-
-  useEffect(() => {
-    if (!showModalContent) {
-      setTimeout(() => {
-        setShowModalContent(false);
-      }, 300); // 모달 전환 시간에 따라 timeout 기간을 조절하세요
-    }
-  }, [showModalContent]);
 
   const handleRemoveSchedule = index => {
     const newSelectedSchedules = [...selectedSchedules];
@@ -280,24 +266,6 @@ export default function step3() {
       },
     ]);
   }, []);
-
-  // const changeDayFormatEnglish = (day: string) => {
-  //   if (day === "월") {
-  //     return "MON";
-  //   } else if (day === "화") {
-  //     return "TUE";
-  //   } else if (day === "수") {
-  //     return "WED";
-  //   } else if (day === "목") {
-  //     return "THU";
-  //   } else if (day === "금") {
-  //     return "FRI";
-  //   } else if (day === "토") {
-  //     return "SAT";
-  //   } else if (day === "일") {
-  //     return "SUN";
-  //   }
-  // };
 
   const gyms = saveStates.gyms || [];
 
@@ -384,24 +352,15 @@ export default function step3() {
             )}
           </SignupFormWrap>
         ))}
-        <ButtonAreaFixed>
-          <Link href="/trainer/signup/step4">
-            <Button
-              $variant={isDisabled ? "ghost" : "primary"}
-              onClick={handleNext}
-              disabled={isDisabled}
-            >
-              다음
-            </Button>
-          </Link>
-        </ButtonAreaFixed>
+        <NextButtonArea
+          $variant={isDisabled ? "ghost" : "primary"}
+          onClick={handleNext}
+          nextStepUrl="/trainer/signup/step4"
+        />
       </ContentBody>
       {isModalOpen && (
-        <TrainerModalLayout
+        <SearchModal
           title={modalTitle}
-          isModalOpen={isModalOpen}
-          setIsModalOpen={setIsModalOpen}
-          showModalContent={showModalContent}
           content={
             <EnterCenterSchedule
               handleConfirm={handleConfirm}

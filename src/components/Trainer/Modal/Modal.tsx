@@ -4,6 +4,7 @@ import { CloseBtn } from "@/styles/TrainerButton";
 import { styled } from "styled-components";
 import { openModal, closeModal } from "@/redux/reducers/trainer/modalSlice";
 import { useModalEffect } from "@/hooks/trainer/modal/useModalEffect";
+import { RootState } from "@/redux/store";
 
 const ModalContainer = styled.div`
   position: fixed;
@@ -13,11 +14,10 @@ const ModalContainer = styled.div`
   left: 0;
   z-index: 999;
 `;
-
-const ModalInnerWrap = styled.div.attrs<{ showModalContent: boolean }>(
-  ({ showModalContent }) => ({
+const ModalInnerWrap = styled.div.attrs<{ $showModalContent: boolean }>(
+  ({ $showModalContent }) => ({
     style: {
-      bottom: showModalContent ? "0" : "-100%",
+      bottom: $showModalContent ? "0" : "-100%",
     },
   }),
 )`
@@ -28,12 +28,13 @@ const ModalInnerWrap = styled.div.attrs<{ showModalContent: boolean }>(
   padding: 1rem;
   border-radius: 1rem 1rem 0 0;
   transition: 0.3s;
+  ${props => props.$showModalContent && ""}
 `;
 
-const ModalDimmed = styled.div.attrs<{ showModalContent: boolean }>(
-  ({ showModalContent }) => ({
+const ModalDimmed = styled.div.attrs<{ $showModalContent: boolean }>(
+  ({ $showModalContent }) => ({
     style: {
-      opacity: showModalContent ? "1" : "0",
+      opacity: $showModalContent ? "1" : "0",
     },
   }),
 )`
@@ -71,14 +72,14 @@ interface ModalProps {
   content: React.ReactNode;
 }
 
-export const TrainerModalLayout = ({ title, content }: ModalProps) => {
+export const SearchModal = ({ title, content }: ModalProps) => {
   const dispatch = useDispatch();
   const isModalOpen = useSelector((state: RootState) => state.modal.isOpen);
   if (!isModalOpen) return null;
   const showModalContent = useModalEffect(isModalOpen);
   return (
     <ModalContainer>
-      <ModalInnerWrap showModalContent={showModalContent}>
+      <ModalInnerWrap $showModalContent={showModalContent}>
         <ModalHeader>
           {title}
           <ModalCloseXButton onClick={() => dispatch(closeModal())} />
@@ -87,7 +88,7 @@ export const TrainerModalLayout = ({ title, content }: ModalProps) => {
           <ModalContent>{content}</ModalContent>
         </ModalBody>
       </ModalInnerWrap>
-      <ModalDimmed showModalContent={showModalContent}></ModalDimmed>
+      <ModalDimmed $showModalContent={showModalContent}></ModalDimmed>
     </ModalContainer>
   );
 };

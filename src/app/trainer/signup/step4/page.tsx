@@ -4,7 +4,7 @@ import { useAppSelector } from "@/redux/hooks";
 import { useDispatch } from "react-redux";
 import Link from "next/link";
 import ContentHeader from "@/components/TrainerPageTitle";
-import JoinStep from "@/components/Trainer/TrSignUpStep";
+import JoinStep from "@/components/trainer/TrSignUpStep";
 import Image from "next/image";
 import styled from "styled-components";
 import {
@@ -12,7 +12,7 @@ import {
   ContentBody,
   ButtonAreaFixed,
 } from "@/styles/TrainerLayout";
-import { TitleWrapper } from "@/components/Trainer/Signup/TitleWrapper";
+import { TitleWrapper } from "@/components/trainer/signup/TitleWrapper";
 import {
   FormTitle,
   SignUpInputContainer,

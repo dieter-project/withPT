@@ -1,72 +1,42 @@
 "use client";
 
-import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import { Container, ContentBody } from "@/styles/TrainerLayout";
-import { TitleWrapper } from "@/components/Trainer/Signup/TitleWrapper";
+import { TitleWrapper } from "@/components/trainer/signup/TitleWrapper";
+import { ButtonAreaFixed } from "@/components/trainer/signup/ButtonAreaFixed";
 import ContentHeader from "@/components/TrainerPageTitle";
-import JoinStep from "@/components/Trainer/TrSignUpStep";
+import JoinStep from "@/components/trainer/TrSignUpStep";
 import { signupActions } from "@/redux/reducers/trainerSignupSlice";
 import { useAppSelector } from "@/redux/hooks";
-import { TrainerModalLayout } from "@/components/Trainer/Modal/CommonLayout";
-import { SearchCenter } from "@/components/Trainer/Modal/SearchCenter";
-import { PurpleEventButton } from "@/components/Trainer/Button/PurpleEventButton";
+import { SearchModal } from "@/components/trainer/modal/Modal";
+import { SearchCenter } from "@/components/trainer/modal/searchCenter/SearchCenter";
+import { EventButton } from "@/components/trainer/button/EventButton";
 import { openModal, closeModal } from "@/redux/reducers/trainer/modalSlice";
-import { useModalEffect } from "@/hooks/trainer/modal/useModalEffect";
-import { NextButtonArea } from "@/components/Trainer/Signup/NextButtonArea";
-import { PlaceInfo } from "@/model/trainer/signUp";
+import { Signup2 } from "@/hooks/trainer/signup/signup";
 
 export default function step2() {
   const title = "센터 등록";
   const dispatch = useDispatch();
   const states = useAppSelector(state => state.trainerSignup);
-  const [workingCenter, setWorkingCenter] = useState<PlaceInfo[]>([]);
-  const [isButtonDisabled, setIsButtonDisabled] = useState(true);
   const isModalOpen = useSelector(state => state.modal.isOpen);
-  const showModalContent = useModalEffect(isModalOpen);
+  const { workingCenter, isButtonDisabled, handlePlaceSelect } = Signup2();
 
   console.log("workingCenter", workingCenter);
-
-  const handlePlaceSelect = (place: PlaceInfo) => {
-    if (!workingCenter || workingCenter.length === 0) {
-      setWorkingCenter([place]);
-    } else if (!workingCenter.some(p => p.id === place.id)) {
-      setWorkingCenter([...workingCenter, place]);
-    }
-    dispatch(closeModal());
-  };
-
-  //조건에 따라 버튼 비활성화 시키기
-  useEffect(() => {
-    const isAnyFieldEmpty = () => {
-      if (workingCenter && workingCenter !== null) {
-        setIsButtonDisabled(false);
-      } else {
-        setIsButtonDisabled(true);
-      }
-    };
-    isAnyFieldEmpty();
-  }, [workingCenter]);
-
-  console.log("workingCenter", workingCenter ? workingCenter : "exmaplenno");
 
   const handleNext = () => {
     dispatch(
       signupActions.saveSignupState({
-        gyms: [
-          {
-            name: workingCenter.content,
-            address: workingCenter.roadAddress,
-            latitude: Number(workingCenter.position?.x),
-            longitude: Number(workingCenter.position?.y),
-          },
-        ],
+        gyms: workingCenter.map(center => ({
+          name: center.content,
+          address: center.roadAddress,
+          latitude: Number(center.position?.x),
+          longitude: Number(center.position?.y),
+        })),
       }),
     );
     console.log("states: ", states);
   };
-
   return (
     <Container>
       <ContentHeader title={title}></ContentHeader>
@@ -79,31 +49,52 @@ export default function step2() {
         {workingCenter.length > 0 ? (
           <ul>
             {workingCenter.map((center, index) => (
-              <CenterSearchList key={index}>
-                <div>{center.place_name}</div>
-              </CenterSearchList>
+              <EventButton
+                key={index}
+                hasXButton={true}
+                // xButtonEvent={() => dispatch(closeModal())}
+                isIconVisible={false}
+                event={() => dispatch(openModal())}
+                eventButtonType="purple"
+                height="3.5rem"
+                justifyContent="space-between"
+                content={center.place_name}
+                color="var(--black)"
+              ></EventButton>
             ))}
           </ul>
         ) : (
-          <PurpleEventButton
+          <EventButton
             event={() => dispatch(openModal())}
             isIconVisible={true}
-            message="등록할 센터를 검색해 주세요."
+            iconType="plusCircleMono"
+            content="등록할 센터를 검색해 주세요."
+            eventButtonType="purple"
+            height="7rem"
+            justifyContent="center"
+            color="var(--font-secondary)"
           />
         )}
+
         {workingCenter.length > 0 && (
-          <CenterRegisterButton onClick={() => dispatch(openModal())}>
-            +
-          </CenterRegisterButton>
+          <EventButton
+            event={() => dispatch(openModal())}
+            isIconVisible={true}
+            iconType="plusGray"
+            eventButtonType="gray"
+            height="3.5rem"
+            justifyContent="center"
+          />
         )}
-        <NextButtonArea
+        <ButtonAreaFixed
           isButtonDisabled={isButtonDisabled}
           onClick={handleNext}
           nextStepUrl="/trainer/signup/step3"
+          label="다음"
         />
       </ContentBody>
       {isModalOpen && (
-        <TrainerModalLayout
+        <SearchModal
           title={title}
           content={<SearchCenter handlePlaceSelect={handlePlaceSelect} />}
         />

@@ -6,9 +6,22 @@ export interface PlaceInfo {
   category_name: string;
   distance: string;
   phone: string;
+  name: string;
   place_name: string;
   place_url: string;
-  road_address_name: string;
+  content: string;
+  roadAddress: string;
+  position: Position[];
+}
+
+export interface Position {
   x: string;
   y: string;
+}
+
+export interface GymsInfo {
+  name: string;
+  address: string;
+  latitude: number;
+  longtitude: number;
 }

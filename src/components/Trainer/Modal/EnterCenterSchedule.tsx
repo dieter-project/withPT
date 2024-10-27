@@ -1,7 +1,8 @@
 import React from "react";
 import { styled } from "styled-components";
 import { Button } from "@/styles/TrainerButton";
-import { useState, useEffect } from "react";
+import { Signup3 } from "@/hooks/trainer/signup/signup";
+import { generateTimeOptions } from "@/utils/Trainer/timeOptions";
 
 const FlexWrap = styled.div`
   width: 100%;
@@ -35,7 +36,6 @@ const ModalCheckBox = styled.input`
   -moz-appearance: none;
   appearance: none;
 
-  /* 기본 스타일 없애기 */
   border: none;
   padding: 0;
   margin: 0;
@@ -84,31 +84,22 @@ const SelectedScheduleWrap = styled.div`
   margin-top: 1rem;
 `;
 
-interface EnterCenterScheduleProps {
-  selectedStartTime: string;
-  setSelectedStartTime: React.Dispatch<React.SetStateAction<string>>;
-  selectedEndTime: string;
-  setSelectedEndTime: React.Dispatch<React.SetStateAction<string>>;
-  selectedDays: string[];
-  setSelectedDays: React.Dispatch<React.SetStateAction<string[]>>;
-  handleConfirm: React.MouseEventHandler<HTMLButtonElement>;
-  selectedSchedules: Array<{
-    days: string[];
-    startTime: string;
-    endTime: string;
-  }>;
-}
+export const EnterCenterSchedule: React.FC<EnterCenterScheduleProps> = () => {
+  const {
+    selectedDays,
+    setSelectedDays,
+    selectedStartTime,
+    setSelectedStartTime,
+    selectedEndTime,
+    setSelectedEndTime,
+    selectedSchedules,
+    setSelectedSchedules,
+    overlapError,
+    setOverlapError,
+    allSchedules,
+    setAllSchedules,
+  } = Signup3();
 
-export const EnterCenterSchedule: React.FC<EnterCenterScheduleProps> = ({
-  selectedSchedules,
-  selectedStartTime,
-  setSelectedStartTime,
-  selectedEndTime,
-  setSelectedEndTime,
-  selectedDays,
-  setSelectedDays,
-  handleConfirm,
-}: EnterCenterScheduleProps) => {
   const handleDayClick = (day: string) => {
     if (selectedDays.includes(day)) {
       setSelectedDays(selectedDays.filter(d => d !== day));
@@ -127,18 +118,6 @@ export const EnterCenterSchedule: React.FC<EnterCenterScheduleProps> = ({
 
   const handleEndTimeChange = (time: string) => {
     setSelectedEndTime(time);
-  };
-
-  const generateTimeOptions = () => {
-    const timeOptions = [];
-    for (let hour = 0; hour <= 24; hour++) {
-      for (let minute = 0; minute < 60; minute += 30) {
-        const formattedHour = hour.toString().padStart(2, "0");
-        const formattedMinute = minute.toString().padStart(2, "0");
-        timeOptions.push(`${formattedHour}:${formattedMinute}`);
-      }
-    }
-    return timeOptions;
   };
 
   const timeOptions = generateTimeOptions();
@@ -190,7 +169,7 @@ export const EnterCenterSchedule: React.FC<EnterCenterScheduleProps> = ({
       </FlexWrap>
       <div>
         <RegisterSchedule
-          onClick={handleConfirm}
+          // onClick={handleConfirm}
           disabled={
             selectedDays.length === 0 || !selectedStartTime || !selectedEndTime
           }

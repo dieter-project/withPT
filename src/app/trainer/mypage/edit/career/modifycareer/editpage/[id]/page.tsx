@@ -4,13 +4,13 @@ import Image from "next/image";
 import styled from "styled-components";
 import Link from "next/link";
 import ContentHeader from "@/components/TrainerPageTitle";
-import JoinStep from "@/components/Trainer/TrSignUpStep";
+import JoinStep from "@/components/trainer/TrSignUpStep";
 import { DeleteInputXbutton } from "@/styles/TrainerInput";
 import { Container, ContentBody } from "@/styles/TrainerLayout";
 import { NoIconInput } from "@/styles/TrainerInput";
 import { Button } from "@/styles/TrainerButton";
 import Footer from "@/components/TrainerFooter";
-import CareerTimeSelector from "@/components/Trainer/Selector/CareerTimeSelector";
+import CareerTimeSelector from "@/components/trainer/selector/CareerTimeSelector";
 
 const ContentInnerBody = styled.div``;
 

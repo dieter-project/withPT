@@ -14,7 +14,7 @@ export const ContentBody = styled.div`
   padding: 5rem 1.3rem 3.2rem 1.3rem;
 `;
 
-export const ButtonAreaFixed = styled.div`
+export const ButtonAreaLayout = styled.div`
   position: fixed;
   bottom: 0;
   left: 0;

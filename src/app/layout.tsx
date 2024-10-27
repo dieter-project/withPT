@@ -1,11 +1,15 @@
-import AuthContext from "@/components/AuthContext";
-import ReactQueryProviders from "@/utils/react-query-provider";
+import React from "react";
 import Script from "next/script";
-import "./globals.css";
-import { Providers } from "../redux/provider";
-import StyledComponentsRegistry from "@/lib/StyledComponentsRegistry";
 import type { Metadata } from "next";
+import { QueryErrorResetBoundary } from "@tanstack/react-query";
+import AuthContext from "@/components/AuthContext";
+import RetryErrorBoundary from "@/components/common/error/RetryErrorBoundary";
+import GlobalSpinner from "@/components/common/spinner/GlobalSpinner";
+import StyledComponentsRegistry from "@/lib/StyledComponentsRegistry";
+import { Providers } from "../redux/provider";
 import { BaseContainer } from "@/styles/Layout";
+import "./globals.css";
+import ReactQueryProviders from "@/utils/react-query-provider";
 
 export const metadata: Metadata = {
   title: "WithPT",
@@ -27,19 +31,23 @@ export default function RootLayout({
     <html lang="ko">
       <body>
         <ReactQueryProviders>
-          <Providers>
-            {/* <AuthContext> */}
-            <StyledComponentsRegistry>
-              <BaseContainer>{children}</BaseContainer>
-            </StyledComponentsRegistry>
-            {/* </AuthContext> */}
-          </Providers>
+          {/* <React.Suspense fallback={<GlobalSpinner />}> */}
+          <QueryErrorResetBoundary>
+            <Providers>
+              {/* <AuthContext> */}
+              <StyledComponentsRegistry>
+                <BaseContainer>{children}</BaseContainer>
+              </StyledComponentsRegistry>
+              {/* </AuthContext> */}
+            </Providers>
+          </QueryErrorResetBoundary>
+          {/* </React.Suspense> */}
         </ReactQueryProviders>
       </body>
       <Script src="https://developers.kakao.com/sdk/js/kakao.js" async />
       <Script
         type="text/javascript"
-        src={`//dapi.kakao.com/v2/maps/sdk.js?appkey=11d459617712987784be79ee1fe519de&autoload=false&libraries=services`}
+        src={`//dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.NEXT_PUBLIC_KAKAO_APP_KEY}&autoload=false&libraries=services`}
       />
       <Script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></Script>
     </html>

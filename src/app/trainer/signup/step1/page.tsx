@@ -8,13 +8,13 @@ import {
   ContentBody,
   ButtonAreaFixed,
 } from "@/styles/TrainerLayout";
-import { TitleWrapper } from "@/components/Trainer/Signup/TitleWrapper";
+import { TitleWrapper } from "@/components/trainer/signup/TitleWrapper";
 import ContentHeader from "@/components/TrainerPageTitle";
 import { Button } from "@/styles/TrainerButton";
 import { NoIconInput } from "@/styles/TrainerInput";
 import { signupActions } from "@/redux/reducers/trainerSignupSlice";
 import { useAppSelector } from "@/redux/hooks";
-import JoinStep from "@/components/Trainer/TrSignUpStep";
+import JoinStep from "@/components/trainer/TrSignUpStep";
 import {
   FormTitle,
   SignUpInputContainer,
