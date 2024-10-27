@@ -13,6 +13,8 @@ import { MemberInfo } from "@/types/member/member";
 import { getRecord } from "@/services/member/record";
 import { WeeklyCalendar } from "@/components/member/common/WeeklyCalendar";
 import { format } from "date-fns";
+import PageHeader from "@/components/PageHeader";
+import { CalendarIcon } from "@/styles/components/Header";
 type WeeklyRecord = {
   [date: string]: {
     diet: {
@@ -51,6 +53,7 @@ const page = () => {
   const [weekly, setWeekly] = useState<WeeklyRecord | null>(null);
   const [targetDate, setTargetDate] = useState(new Date());
   const [memberInfo, setMemberInfo] = useState<MemberInfo>();
+  const [showModal, setShowModal] = useState(false);
   const router = useRouter();
 
   const dietSubText = useMemo(() => {
@@ -101,7 +104,14 @@ const page = () => {
 
   return (
     <>
-      <Header back={true} bookmark={true} calendar={true} />
+      {/* <Header back={true} bookmark={true} calendar={true} /> */}
+      <PageHeader
+        back={false}
+        title="나의 기록"
+        rightElement={
+          <CalendarIcon onClick={() => setShowModal(true)}></CalendarIcon>
+        }
+      />
       <BaseContentWrap>
         <WeeklyCalendar weekly={weekly} onChange={handleDateChange} />
         <ContentSection>
