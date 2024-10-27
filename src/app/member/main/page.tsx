@@ -137,7 +137,7 @@ const page = () => {
   }, []);
 
   useEffect(() => {
-    handleGetTrainers(memberInfo.id);
+    if (memberInfo.id) handleGetTrainers(memberInfo.id);
   }, [memberInfo]);
 
   return (

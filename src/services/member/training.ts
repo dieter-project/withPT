@@ -1,9 +1,8 @@
 import { api } from "@/utils/axios"
 
-
 //personal trainers info
 export const getPersonalTrainers = async (id: number) => {
-  return await api.get(`/api/v1/gyms/personal-trainings/members/${id}/trainers`)
+  return await api.get(`/api/v1/personal-trainings/members/${id}/trainers`)
 }
 
 export const getPersonalTrainerAwards = async (id: number, page: number, size: number, sort: string) => {
