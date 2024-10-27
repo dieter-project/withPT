@@ -14,14 +14,11 @@ const page = () => {
   const role = window.sessionStorage.getItem('role')
   
   const handleStart = () => {
+    window.sessionStorage.removeItem('role')
     if (role === 'MEMBER') {
-      window.localStorage.setItem('role', 'MEMBER')
-      window.sessionStorage.removeItem('role')
       router.replace('/member/main')
     }
     if (role === 'TRAINER') {
-      window.localStorage.setItem('role', 'TRAINER')
-      window.sessionStorage.removeItem('role')
       router.replace('/trainer/main')
     }
   };
