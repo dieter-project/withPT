@@ -24,22 +24,22 @@ export default function page () {
       })
       // console.log('response: ', data);
       
-      if (data.accessToken && data.refreshToken) {
-        setCookie('access', data.accessToken, { path: "/" })
-        setCookie('refreshToken', data.refreshToken, { path: "/" })
+      if (data.loginInfo.accessToken && data.loginInfo.refreshToken) {
+        setCookie('access', data.loginInfo.accessToken, { path: "/" })
+        setCookie('refreshToken', data.loginInfo.refreshToken, { path: "/" })
         router.replace('/member/main')
       } else {
         dispatch(signupActions.saveSignupState({
-          email: data.email,
-          authProvider: data.authProvider,
-          role: data.role,
+          email: data.loginInfo.email,
+          authProvider: data.loginInfo.authProvider,
+          role: data.loginInfo.role,
         }))
         router.replace('/member/signup/step1')
       }
 
       dispatch(memberActions.isLogin({
-        id: data.id,
-        name: data.name,
+        id: data.loginInfo.id,
+        name: data.loginInfo.name,
       }))
       // dispatch(memberActions.getToken('token'))
     } catch (error) {
