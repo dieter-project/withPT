@@ -6,12 +6,17 @@ import { BaseContentWrap, ContentSection } from '@/styles/Layout';
 import { LabelTitle } from '@/styles/Text';
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react'
-import { GraphWrap, DietList, MyGoal, NutritionProgress, ProgressWrap, TrainerFeedback } from './style';
+import { GraphWrap, DietList, MyGoal, NutritionProgress, ProgressWrap, TrainerFeedback, DietSectionTitle } from './style';
 import { getDietByDate } from '@/services/member/diet';
 import { format } from 'date-fns';
 import dynamic from 'next/dynamic';
 import { DietRecord } from '@/types/member/record';
 import { DIET_CATEGORY } from '@/constants/record';
+import { FlexRowBetween } from '@/styles/components/Flex';
+import PageHeader from '@/components/PageHeader';
+import { CalendarIcon } from '@/styles/components/Header';
+import { PlusButton } from '@/styles/Button';
+
 const ReactApexChart = dynamic(() => import('react-apexcharts'), { ssr: false })
 
 const page = () => {
@@ -27,6 +32,7 @@ const page = () => {
     uploadDate: '',
   }
   const [todayDiet, setTodayDiet] = useState<DietRecord>(todayDietInit);
+  const [showModal, setShowModal] = useState(false)
   const router = useRouter();
   const cobMax = 160;
   const proMax = 80;
@@ -50,6 +56,11 @@ const page = () => {
   return (
     <>
       <Header title={"식단"} back={true} calendar={true} />
+      <PageHeader
+        back
+        title="식단"
+        rightElement={<CalendarIcon onClick={() => setShowModal(true)} />}
+      />
       <BaseContentWrap>
         <section>
           달력
@@ -139,13 +150,18 @@ const page = () => {
           }
         </ContentSection>
         <ContentSection>
-          <LabelTitle>식단</LabelTitle>
+          <DietSectionTitle>
+            <FlexRowBetween>
+              <LabelTitle>식단</LabelTitle>
+              <PlusButton onClick={() => router.push('/member/record/diet/register')} />
+            </FlexRowBetween>
+          </DietSectionTitle>
           {todayDiet && Object.keys(todayDiet).length > 0
             ? <div>
               <ul>
                 {todayDiet?.dietInfos?.map((diet, idx) => {
                   return (
-                    <DietList key={diet.id}>
+                    <DietList key={diet.id} onClick={() => router.push(`/member/record/diet/${diet.id}`)}>
                       <div className='diet-img'>
                         <img src="" alt="" />
                       </div>

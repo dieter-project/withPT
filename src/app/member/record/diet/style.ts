@@ -84,9 +84,19 @@ export const ProgressWrap = styled.div<ProgressProps>`
   }
 `
 
+export const DietSectionTitle = styled.div`
+  border-bottom: 1px solid var(--border-gray);
+`
 
 export const DietList = styled.li`
   display: flex;
+  padding: 1rem;
+  cursor: pointer;
+  
+  &:not(:last-child) {
+    border-bottom: 1px solid var(--border-gray);
+  }
+
   .diet-img {
     width: 140px;
     height: 140px;
