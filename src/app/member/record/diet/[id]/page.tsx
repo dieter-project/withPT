@@ -3,20 +3,19 @@
 import PageHeader from "@/components/PageHeader";
 import { BaseContentWrap, ContentSection } from "@/styles/Layout";
 import { LabelTitle } from "@/styles/Text";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { DateText, DietList, GraphWrap, ImgContainer } from "./style";
-import { getDiets } from "@/services/member/diet";
+import { deleteDiets, getDiets } from "@/services/member/diet";
 import { DietInfos } from "@/types/member/record";
 import { format } from "date-fns";
 import { ko } from "date-fns/locale";
 import { SettingIcon } from "@/styles/components/Header";
 import { DIET_CATEGORY } from "@/constants/record";
+import SettingMenu from "@/components/SettingMenu";
 
 const page = ({ params }: { params: { id: number } }) => {
-  const searchParams = useSearchParams();
-  const dietId = searchParams.get("dietId");
-  const dietInfoId = params.id;
+  const [isOpen, setIsOpen] = useState(false);
   const [diets, setDiets] = useState<DietInfos>({
     id: 0,
     dietFoods: [],
@@ -28,6 +27,10 @@ const page = ({ params }: { params: { id: number } }) => {
     totalFat: 0,
     images: [],
   });
+  const searchParams = useSearchParams();
+  const dietId = searchParams.get("dietId");
+  const dietInfoId = params.id;
+  const router = useRouter();
 
   const getDiet = async () => {
     const { data } = await getDiets(Number(dietId), dietInfoId);
@@ -39,8 +42,22 @@ const page = ({ params }: { params: { id: number } }) => {
     return hours < 12 ? "am" : "pm";
   }
 
+  const handleDeleteDiet = async () => {
+    const response = await deleteDiets(Number(dietId), dietInfoId);
+    if (response.status === 200) router.replace('/member/record/diet')
+  };
+
   const dietCategory =
     DIET_CATEGORY.find(cate => cate.value === diets.dietCategory)?.title || "";
+
+  const menu = (
+    <>
+      <div onClick={() => router.push("/member/record/diet/register")}>
+        식단 수정하기
+      </div>
+      <div onClick={handleDeleteDiet}>식단 삭제하기</div>
+    </>
+  );
 
   useEffect(() => {
     if (dietId && dietInfoId) getDiet();
@@ -48,10 +65,11 @@ const page = ({ params }: { params: { id: number } }) => {
 
   return (
     <>
+      {isOpen && <SettingMenu contents={menu} />}
       <PageHeader
         title={`${dietCategory} 식단`}
         back={true}
-        rightElement={<SettingIcon onClick={() => {}} />}
+        rightElement={<SettingIcon onClick={() => setIsOpen(!isOpen)} />}
       />
       <BaseContentWrap>
         <ContentSection>
