@@ -3,11 +3,8 @@
 import PageHeader from "@/components/PageHeader";
 import { BaseContentWrap, ContentSection } from "@/styles/Layout";
 import { LabelTitle } from "@/styles/Text";
-import { api } from "@/utils/axios";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
-import ReactApexChart from "react-apexcharts";
-import { styled } from "styled-components";
 import { DateText, DietList, GraphWrap, ImgContainer } from "./style";
 import { getDiets } from "@/services/member/diet";
 import { DietInfos } from "@/types/member/record";
@@ -59,7 +56,9 @@ const page = ({ params }: { params: { id: number } }) => {
       <BaseContentWrap>
         <ContentSection>
           <DateText>
-            {format(new Date(diets.dietTime), "yyyy년 MM월 dd일 (EE) hh:mm")}{" "}
+            {format(new Date(diets.dietTime), "yyyy년 MM월 dd일 (EE) hh:mm", {
+              locale: ko,
+            })}{" "}
             {getMeridiem(new Date(diets.dietTime))}
           </DateText>
           <ImgContainer>
