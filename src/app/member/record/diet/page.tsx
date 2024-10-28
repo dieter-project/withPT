@@ -193,7 +193,9 @@ const page = () => {
                     <DietList
                       key={diet.id}
                       onClick={() =>
-                        router.push(`/member/record/diet/${diet.id}`)
+                        router.push(
+                          `/member/record/diet/${diet.id}?dietId=${todayDiet.id}`,
+                        )
                       }
                     >
                       <div className="diet-img">

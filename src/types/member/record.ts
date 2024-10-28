@@ -72,7 +72,7 @@ export interface DietRecord {
   totalProtein: number,
 }
 
-interface DietInfos {
+export interface DietInfos {
   dietCategory: string
   dietFoods: DietFoodItems[]
   dietTime: string
