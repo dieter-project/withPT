@@ -34,7 +34,7 @@ export const PlusButton = styled.button`
   &::before {
     display: block;
     content: '';
-    width: 1px;
+    width: 2px;
     height: 1rem;
     position: absolute;
     left: 50%;
@@ -42,12 +42,12 @@ export const PlusButton = styled.button`
     transform: translate(-50%, -50%);
     background-color: var(--font-gray700);
   }
-
+  
   &::after {
     display: block;
     content: '';
     width: 1rem;
-    height: 1px;
+    height: 2px;
     position: absolute;
     left: 50%;
     top: 50%;

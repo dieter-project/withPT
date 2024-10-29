@@ -1,27 +1,26 @@
 'use client';
 
-import Header from '@/components/Header';
-import { WorkoutPayload } from '@/redux/reducers/workoutRecordSlice';
 import { AddRecordButton } from '@/styles/AddButton';
 import { BaseContentWrap, ContentSection } from '@/styles/Layout';
 import { GoalBox } from '@/styles/RecordPage';
 import { LabelTitle } from '@/styles/Text';
-import { api } from '@/utils/axios';
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react'
-import Plus from '../../../../../public/svgs/icon_plus.svg'
-import { TitleWrap, WorkoutImg, WorkoutImgGrid, WorkoutList, WorkoutListDetail, WorkoutListTitle } from './style';
+import { TitleWrap, WorkoutIcon, WorkoutImg, WorkoutImgGrid, WorkoutList, WorkoutListDetail, WorkoutListTitle } from './style';
 import { format } from 'date-fns';
 import { useAppSelector } from '@/redux/hooks';
 import PageHeader from '@/components/PageHeader';
-import { SettingIcon } from '@/styles/components/Header';
+import { BookmarkIcon, CalendarIcon, SettingIcon } from '@/styles/components/Header';
 import SettingMenu from '@/components/SettingMenu';
 import { getExerciseByDate } from '@/services/member/exercise';
-import { BODY_PART } from '@/constants/record';
+import { BODY_PART, EXERCISE_TYPE } from '@/constants/record';
+import { WorkoutType } from '@/types/member/record';
+import { FlexRowEnd } from '@/styles/components/Flex';
+import { PlusButton } from '@/styles/Button';
 
 
 const page = () => {
-  const [workout, setWorkout] = useState<WorkoutPayload[]>([])
+  const [workout, setWorkout] = useState<WorkoutType[]>([])
   const [isOpen, setIsOpen] = useState(false)
   const router = useRouter()
   const today = format(new Date(), 'yyyy-MM-dd')
@@ -42,11 +41,10 @@ const page = () => {
     handleGetWorkoutGoal()
   }, [])
 
-  const headerRight =
-  {
-    path: "/record",
-    component: <SettingIcon onClick={() => setIsOpen(!isOpen)} />,
-  }
+  const rightElement = <FlexRowEnd>
+    <BookmarkIcon onClick={() => router.push('/member/record/workout/bookmark')}/>
+    <CalendarIcon onClick={() => {}} />
+  </FlexRowEnd>
 
   const menu = <>
     <div onClick={() => { }}>운동 수정하기</div>
@@ -59,7 +57,7 @@ const page = () => {
 
   return (
     <>
-      <PageHeader back={true} title='운동기록' rightElement={headerRight} />
+      <PageHeader back={true} title='운동기록' rightElement={rightElement} />
       <BaseContentWrap>
         <section>
           달력
@@ -80,7 +78,7 @@ const page = () => {
         <ContentSection>
           <TitleWrap>
             <LabelTitle>운동</LabelTitle>
-            {workout?.length > 0 && <Plus fill="#444444" width="1rem" height="1rem" />}
+            {workout?.length > 0 && <PlusButton onClick={() => router.push('/member/record/workout/register')} />}
           </TitleWrap>
           {workout?.length > 0
             ? <>
@@ -90,16 +88,21 @@ const page = () => {
                     return (
                       <li key={index}>
                         <WorkoutList variant='purple'>
-                          <div>이미지</div>
+                          <WorkoutIcon>
+                            <img
+                              src={
+                                EXERCISE_TYPE.find(
+                                  type => type.value === workout.exerciseType,
+                                )?.src
+                              }
+                              alt=""
+                            />
+                          </WorkoutIcon>
                           <div>
                             <WorkoutListTitle>{workout.title}</WorkoutListTitle>
                             <WorkoutListDetail>
                               {workout.bodyParts &&
-                                (workout.bodyParts.map((part, index) => {
-                                  return (
-                                    <div key={index}>{convertPart(part)},&nbsp;</div>
-                                  )
-                                }))
+                                <div key={index}>{convertPart(workout.bodyParts)},&nbsp;</div>
                               }
                               {workout.weight > 0 && <div>{workout.weight}kg&nbsp;</div>}
                               {workout.exerciseTime > 0 && <div>x {workout.exerciseTime}분&nbsp;</div>}
@@ -123,7 +126,7 @@ const page = () => {
             <div>
               <TitleWrap>
                 <LabelTitle>운동 사진</LabelTitle>
-                <Plus fill="#444444" width="1rem" height="1rem" />
+                <PlusButton />
               </TitleWrap>
               <WorkoutImgGrid>
                 <ul>
