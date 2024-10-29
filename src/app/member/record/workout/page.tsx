@@ -27,8 +27,9 @@ import SettingMenu from "@/components/SettingMenu";
 import { getExerciseByDate } from "@/services/member/exercise";
 import { BODY_PART, EXERCISE_TYPE } from "@/constants/record";
 import { WorkoutType } from "@/types/member/record";
-import { FlexRowEnd } from "@/styles/components/Flex";
+import { FlexRowBetween, FlexRowEnd, FlexRowStart } from "@/styles/components/Flex";
 import { PlusButton } from "@/styles/Button";
+import { NextArrow } from "../../mypage/styles";
 
 const page = () => {
   const [workout, setWorkout] = useState<WorkoutType[]>([]);
@@ -109,38 +110,43 @@ const page = () => {
                     return (
                       <li key={index}>
                         <WorkoutList variant="purple">
-                          <WorkoutIcon>
-                            <img
-                              src={
-                                EXERCISE_TYPE.find(
-                                  type => type.value === workout.exerciseType,
-                                )?.src
-                              }
-                              alt=""
-                            />
-                          </WorkoutIcon>
-                          <div>
-                            <WorkoutListTitle>{workout.title}</WorkoutListTitle>
-                            <WorkoutListDetail>
-                              {workout.bodyParts && (
-                                <div key={index}>
-                                  {convertPart(workout.bodyParts)},&nbsp;
-                                </div>
-                              )}
-                              {workout.weight > 0 && (
-                                <div>{workout.weight}kg&nbsp;</div>
-                              )}
-                              {workout.exerciseTime > 0 && (
-                                <div>x {workout.exerciseTime}분&nbsp;</div>
-                              )}
-                              {workout.exerciseSet > 0 && (
-                                <div>x {workout.exerciseSet}set&nbsp;</div>
-                              )}
-                              {workout.times > 0 && (
-                                <div>{workout.times}분</div>
-                              )}
-                            </WorkoutListDetail>
-                          </div>
+                          <FlexRowBetween>
+                            <FlexRowStart>
+                              <WorkoutIcon>
+                                <img
+                                  src={
+                                    EXERCISE_TYPE.find(
+                                      type => type.value === workout.exerciseType,
+                                    )?.src
+                                  }
+                                  alt=""
+                                />
+                              </WorkoutIcon>
+                              <div>
+                                <WorkoutListTitle>{workout.title}</WorkoutListTitle>
+                                <WorkoutListDetail>
+                                  {workout.bodyParts && (
+                                    <div key={index}>
+                                      {convertPart(workout.bodyParts)},&nbsp;
+                                    </div>
+                                  )}
+                                  {workout.weight > 0 && (
+                                    <div>{workout.weight}kg&nbsp;</div>
+                                  )}
+                                  {workout.exerciseTime > 0 && (
+                                    <div>x {workout.exerciseTime}분&nbsp;</div>
+                                  )}
+                                  {workout.exerciseSet > 0 && (
+                                    <div>x {workout.exerciseSet}set&nbsp;</div>
+                                  )}
+                                  {workout.times > 0 && (
+                                    <div>{workout.times}분</div>
+                                  )}
+                                </WorkoutListDetail>
+                              </div>
+                            </FlexRowStart>
+                            <NextArrow />
+                          </FlexRowBetween>
                         </WorkoutList>
                       </li>
                     );

@@ -18,20 +18,12 @@ export const WorkoutImgGrid = styled.div`
 `
 
 export const WorkoutList = styled(RoundBox)`
-    display: flex;
-    background-color: var(--purple50);
-    padding: 0.625rem;
-    margin-bottom: 0.625rem;
-    border-radius: 0.5rem;
-    >div {
-      &:first-child {
-        width: 40px;
-        height: 40px;
-        /* background-color: #a3a3a3; */
-        border-radius: 0.5rem;
-        margin-right: 0.625rem;
-      }
-    }
+  display: flex;
+  align-items: center;
+  background-color: var(--purple50);
+  padding: 0.625rem;
+  margin-bottom: 0.625rem;
+  border-radius: 0.5rem;
 `
 
 export const WorkoutListTitle = styled.div`
