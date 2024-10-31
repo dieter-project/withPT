@@ -4,8 +4,8 @@ export const getExerciseByDate = async (params: string) => {
   return await api.get(`/api/v1/members/record/exercises?uploadDate=${params}`)
 }
 
-export const getExercise = async (exerciseId: number) => {
-  return await api.get(`/api/v1/members/record/exercises/${exerciseId}`)
+export const getExercise = async (exerciseId: number, exerciseInfoId: number) => {
+  return await api.get(`/api/v1/members/record/exercises/${exerciseId}/exercise-info/${exerciseInfoId}`)
 }
 
 export const getExerciseNameCheck = async (params: number) => {

@@ -53,6 +53,12 @@ export interface WorkoutRecord {
   exerciseInfos: WorkoutType[]
 }
 
+export interface WorkoutInfo {
+  id: number;
+  uploadDate: string;
+  exerciseInfo: WorkoutType
+}
+
 export interface DietRquestDate {
   uploadDate: string,
   dietCategory: string,
