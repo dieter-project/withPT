@@ -24,8 +24,8 @@ export const postExercise = async (data: FormData) => {
   })
 }
 
-export const deleteExercise = async (exerciseId: number) => {
-  return await api.delete(`/api/v1/members/record/exercises/${exerciseId}`)
+export const deleteExercise = async (exerciseId: number, exerciseInfoId: number) => {
+  return await api.delete(`/api/v1/members/record/exercises/${exerciseId}/exercise-info/${exerciseInfoId}`)
 }
 
 export const deleteExerciseImage = async (url: number) => {
