@@ -46,3 +46,12 @@ export const ModalBody = styled.div``;
 export const ModalContent = styled.div`
   margin: 3vh 0 2vh 0;
 `;
+
+export const ModalContentTit = styled.div`
+  margin-right: 1rem;
+`;
+
+export const ModalErrorMessage = styled.div`
+  color: var(--coral);
+  text-align: center;
+`;

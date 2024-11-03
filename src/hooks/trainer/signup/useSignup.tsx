@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { PlaceInfo } from "@/model/trainer/signUp";
 import { openModal, closeModal } from "@/redux/reducers/trainer/modalSlice";
+import { useHandleCenterSchedule } from "@/hooks/trainer/modal/useEnterCenterSchedule";
 
 export const Signup2 = () => {
   const dispatch = useDispatch();
@@ -39,29 +40,19 @@ export const Signup2 = () => {
 };
 
 export const Signup3 = () => {
-  const [selectedDays, setSelectedDays] = useState<string[]>([]);
-  const [selectedStartTime, setSelectedStartTime] = useState<string>("");
-  const [selectedEndTime, setSelectedEndTime] = useState<string>("");
-  const [selectedSchedules, setSelectedSchedules] = useState<
-    Array<{ days: string[]; startTime: string; endTime: string }>
-  >([]);
-  const [overlapError, setOverlapError] = useState<boolean>(false);
-  const [allSchedules, setAllSchedules] = useState<
-    Array<{ days: string[]; startTime: string; endTime: string }>
-  >([]);
+  const { selectedSchedules, setIsButtonDisabled } = useHandleCenterSchedule();
 
-  return {
-    selectedDays,
-    setSelectedDays,
-    selectedStartTime,
-    setSelectedStartTime,
-    selectedEndTime,
-    setSelectedEndTime,
-    selectedSchedules,
-    setSelectedSchedules,
-    overlapError,
-    setOverlapError,
-    allSchedules,
-    setAllSchedules,
-  };
+  //조건에 따라 버튼 비활성화 시키기
+  useEffect(() => {
+    const isAnyFieldEmpty = () => {
+      if (selectedSchedules[0]?.days?.length > 0) {
+        setIsButtonDisabled(false);
+      } else {
+        setIsButtonDisabled(true);
+      }
+    };
+    isAnyFieldEmpty();
+  }, [selectedSchedules]);
+
+  return {};
 };

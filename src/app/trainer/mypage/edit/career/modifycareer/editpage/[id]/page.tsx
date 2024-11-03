@@ -8,9 +8,9 @@ import JoinStep from "@/components/trainer/TrSignUpStep";
 import { DeleteInputXbutton } from "@/styles/TrainerInput";
 import { Container, ContentBody } from "@/styles/TrainerLayout";
 import { NoIconInput } from "@/styles/TrainerInput";
-import { Button } from "@/styles/TrainerButton";
+import { Button } from "@/styles/Trainer/TrainerButton";
 import Footer from "@/components/TrainerFooter";
-import CareerTimeSelector from "@/components/trainer/selector/CareerTimeSelector";
+import TimeSelector from "@/components/trainer/molecules/TimeSelector/TimeSelector";
 
 const ContentInnerBody = styled.div``;
 
@@ -215,12 +215,12 @@ export default function EditPage() {
             </RegisterItemWrap>
             <FlexWrap>
               <RegisterContentTitle>기간</RegisterContentTitle>
-              <CareerTimeSelector
+              <TimeSelector
                 selectedYear={selectedYear}
                 handleYearChange={handleYearChange}
                 selectedMonth={selectedMonth}
                 handleMonthChange={handleMonthChange}
-              ></CareerTimeSelector>
+              ></TimeSelector>
             </FlexWrap>
           </RegisterAllWrap>
         </ContentInnerBody>

@@ -3,7 +3,6 @@ import Script from "next/script";
 import type { Metadata } from "next";
 import { QueryErrorResetBoundary } from "@tanstack/react-query";
 import AuthContext from "@/components/AuthContext";
-import RetryErrorBoundary from "@/components/common/error/RetryErrorBoundary";
 import GlobalSpinner from "@/components/common/spinner/GlobalSpinner";
 import StyledComponentsRegistry from "@/lib/StyledComponentsRegistry";
 import { Providers } from "../redux/provider";

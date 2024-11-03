@@ -5,7 +5,7 @@ import Image from "next/image";
 import styled from "styled-components";
 import Link from "next/link";
 import beforePage from "../../../../../public/icons/beforePage.png";
-import { Button } from "@/styles/TrainerButton";
+import { Button } from "@/styles/Trainer/TrainerButton";
 import { NoIconInput } from "@/styles/TrainerInput";
 import { useDispatch } from "react-redux";
 import { useAppSelector } from "@/redux/hooks";

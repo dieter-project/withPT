@@ -1,6 +1,6 @@
 import Link from "next/link";
-import { ButtonAreaLayout } from "@/styles/TrainerLayout";
-import { Button } from "@/styles/TrainerButton";
+import { ButtonAreaLayout } from "@/styles/Trainer/TrainerLayout";
+import { Button } from "@/styles/Trainer/TrainerButton";
 
 interface NextButtonProps {
   label: string;

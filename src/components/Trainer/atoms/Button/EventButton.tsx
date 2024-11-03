@@ -1,8 +1,9 @@
 import { styled } from "styled-components";
 import Image from "next/image";
 import CloseIcon from "/public/svgs/icon_close.svg";
-import PlusGrayIcon from "/public/svgs/icon_plus_gray.svg";
 import PlusCircleMonoIcon from "/public/svgs/icon_plus_circle_mono.svg";
+import PlusGrayIcon from "/public/svgs/icon_plus_gray.svg";
+import { CheckRegisterItem } from "@/components/trainer/atoms/Button/CheckRegisterItem";
 
 interface EventButtonProps {
   key?: number;
@@ -12,6 +13,7 @@ interface EventButtonProps {
   iconType?: "plusCircleMono" | "plusGray";
   isIconVisible: boolean;
   content?: string;
+  rightContent?: React.ReactNode;
   eventButtonType: "purple" | "gray";
   height?: string;
   justifyContent?: string;
@@ -29,6 +31,7 @@ export const EventButton = ({
   isIconVisible,
   iconType,
   content,
+  rightContent,
   color,
 }: EventButtonProps) => {
   return (
@@ -37,8 +40,8 @@ export const EventButton = ({
         $height={height}
         $justifyContent={justifyContent}
         $eventButtonType={eventButtonType}
-        onClick={event}
         $color={color}
+        onClick={event}
       >
         <div>
           {isIconVisible && (
@@ -53,7 +56,11 @@ export const EventButton = ({
           )}
           {content}
         </div>
-        {hasXButton && (
+
+        {rightContent === "checkRegister" && (
+          <CheckRegisterItem status="gray" label="등록 전" />
+        )}
+        {rightContent === "xButton" && (
           <button type="button" onClick={xButtonEvent}>
             <CloseIcon width="13" height="13" />
           </button>

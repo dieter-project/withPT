@@ -2,18 +2,18 @@
 
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
-import { Container, ContentBody } from "@/styles/TrainerLayout";
+import { Container, ContentBody } from "@/styles/Trainer/TrainerLayout";
 import { TitleWrapper } from "@/components/trainer/signup/TitleWrapper";
 import { ButtonAreaFixed } from "@/components/trainer/signup/ButtonAreaFixed";
 import ContentHeader from "@/components/TrainerPageTitle";
 import JoinStep from "@/components/trainer/TrSignUpStep";
 import { signupActions } from "@/redux/reducers/trainerSignupSlice";
 import { useAppSelector } from "@/redux/hooks";
-import { SearchModal } from "@/components/trainer/modal/Modal";
-import { SearchCenter } from "@/components/trainer/modal/searchCenter/SearchCenter";
-import { EventButton } from "@/components/trainer/button/EventButton";
-import { openModal, closeModal } from "@/redux/reducers/trainer/modalSlice";
-import { Signup2 } from "@/hooks/trainer/signup/signup";
+import { SearchModal } from "@/components/trainer/molecules/Modal/Modal";
+import { SearchCenter } from "@/components/trainer/molecules/Modal/searchCenter/SearchCenter";
+import { EventButton } from "@/components/trainer/atoms/Button/EventButton";
+import { openModal } from "@/redux/reducers/trainer/modalSlice";
+import { Signup2 } from "@/hooks/trainer/signup/useSignup";
 
 export default function step2() {
   const title = "센터 등록";
@@ -28,15 +28,16 @@ export default function step2() {
     dispatch(
       signupActions.saveSignupState({
         gyms: workingCenter.map(center => ({
-          name: center.content,
-          address: center.roadAddress,
-          latitude: Number(center.position?.x),
-          longitude: Number(center.position?.y),
+          name: center.place_name,
+          address: center.address_name,
+          latitude: Number(center.x),
+          longitude: Number(center.y),
         })),
       }),
     );
     console.log("states: ", states);
   };
+
   return (
     <Container>
       <ContentHeader title={title}></ContentHeader>
@@ -51,16 +52,15 @@ export default function step2() {
             {workingCenter.map((center, index) => (
               <EventButton
                 key={index}
-                hasXButton={true}
-                // xButtonEvent={() => dispatch(closeModal())}
                 isIconVisible={false}
                 event={() => dispatch(openModal())}
                 eventButtonType="purple"
                 height="3.5rem"
                 justifyContent="space-between"
                 content={center.place_name}
+                rightContent="xButton"
                 color="var(--black)"
-              ></EventButton>
+              />
             ))}
           </ul>
         ) : (
@@ -102,31 +102,3 @@ export default function step2() {
     </Container>
   );
 }
-
-const CenterSearchList = styled.li`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-  height: 3.5rem;
-  background-color: var(--purple50);
-  padding: 0.5rem 0.62rem;
-  margin-bottom: 0.75rem;
-`;
-
-const CenterRegisterButton = styled.button`
-  width: 100%;
-  border: 1px solid var(--font-gray400);
-  border-radius: 0.5rem;
-  font-weight: 400;
-  font-size: 3.5vh;
-`;
-
-const RecentSearchList = styled.li`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0.5rem;
-  border-bottom: 1px solid var(--border-gray);
-  font-size: var(--font-s);
-`;

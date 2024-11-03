@@ -1,8 +1,11 @@
 import React, { SetStateAction } from "react";
-import { CloseBtn } from "@/styles/TrainerButton";
+import { CloseBtn } from "@/styles/Trainer/TrainerButton";
 import { Input } from "@/styles/Input";
 import Image from "next/image";
-import { SearchBarWrap, SearchBarInput } from "@/styles/TrainerSearchBar";
+import {
+  SearchBarWrap,
+  SearchBarInput,
+} from "@/styles//Trainer/TrainerSearchBar";
 import searchIcon from "../../public/Trainer/icons/searchLightGray.png";
 // /Trainer/icons/searchLightGray.png";
 import { styled } from "styled-components";

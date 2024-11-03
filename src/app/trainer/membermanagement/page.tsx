@@ -5,8 +5,8 @@ import styled from "styled-components";
 import Link from "next/link";
 import { Container, ContentBody } from "@/styles/TrainerLayout";
 import ContentHeader from "@/components/TrainerPageTitle";
-import { Button } from "@/styles/TrainerButton";
-import { ListButton } from "@/styles/TrainerButton";
+import { Button } from "@/styles/Trainer/TrainerButton";
+import { ListButton } from "@/styles/Trainer/TrainerButton";
 import { startOfWeek, addDays, format } from "date-fns";
 import Footer from "@/components/TrainerFooter";
 

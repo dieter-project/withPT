@@ -8,7 +8,7 @@ import {
   SearchBarWrap,
   SearchIcon,
   SearchBarInput,
-} from "@/styles/TrainerSearchBar";
+} from "@/styles//Trainer/TrainerSearchBar";
 import searchIcon from "../../../../../public/Trainer/icons/searchLightGray.png";
 import beforePage from "../../../../../public/icons/beforePage.png";
 import settingTabBeforeImg from "../../../../../public/Trainer/Header/settingTabBeforeRegion.png";

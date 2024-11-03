@@ -23,3 +23,10 @@ export const ButtonAreaLayout = styled.div`
   z-index: 100;
   background-color: transparent;
 `;
+
+export const FlexWrapper = styled.li`
+  width: 100%;
+  display: flex;
+  align-items: center;
+  padding: 0.5rem 0;
+`;

@@ -1,17 +1,12 @@
 "use client";
 import React, { useEffect, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
-import { useRouter } from "next/navigation";
 import Link from "next/link";
-import {
-  Container,
-  ContentBody,
-  ButtonAreaFixed,
-} from "@/styles/TrainerLayout";
+import { Container, ContentBody } from "@/styles/Trainer/TrainerLayout";
 import { TitleWrapper } from "@/components/trainer/signup/TitleWrapper";
 import ContentHeader from "@/components/TrainerPageTitle";
-import { Button } from "@/styles/TrainerButton";
-import { NoIconInput } from "@/styles/TrainerInput";
+import { Button } from "@/styles/Trainer/TrainerButton";
+import { NoIconInput } from "@/styles/Trainer/TrainerInput";
 import { signupActions } from "@/redux/reducers/trainerSignupSlice";
 import { useAppSelector } from "@/redux/hooks";
 import JoinStep from "@/components/trainer/TrSignUpStep";
@@ -21,6 +16,7 @@ import {
   SignupInputInnerContainer,
 } from "@/styles/SignupForm";
 import { FormRadio, Slash, StyledLabel } from "./style";
+import { ButtonAreaFixed } from "@/components/trainer/signup/ButtonAreaFixed";
 
 interface Trbirth {
   year: string;
@@ -53,7 +49,7 @@ export default function step1() {
   const birthRef = useRef<(null | HTMLInputElement)[]>([]);
   const sexRef = useRef<null | HTMLInputElement>(null);
   const inputRef = useRef<(null | HTMLInputElement)[]>([]);
-  const [isDisabled, setIsDisabled] = useState(true);
+  const [isButtonDisabled, setIsButtonDisabled] = useState(true);
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
@@ -88,9 +84,9 @@ export default function step1() {
             inputData.birth.date.length === 0)) ||
         inputData.sex.length === 0
       ) {
-        setIsDisabled(true);
+        setIsButtonDisabled(true);
       } else {
-        setIsDisabled(false);
+        setIsButtonDisabled(false);
       }
     };
     isAnyFieldEmpty();
@@ -264,17 +260,12 @@ export default function step1() {
             </SignupInputInnerContainer>
           </SignUpInputContainer>
         </div>
-        <ButtonAreaFixed>
-          <Link href="/trainer/signup/step2">
-            <Button
-              $variant={isDisabled ? "ghost" : "primary"}
-              onClick={handleNext}
-              disabled={isDisabled}
-            >
-              다음
-            </Button>
-          </Link>
-        </ButtonAreaFixed>
+        <ButtonAreaFixed
+          isButtonDisabled={isButtonDisabled}
+          onClick={handleNext}
+          nextStepUrl="/trainer/signup/step2"
+          label="다음"
+        />
       </ContentBody>
     </Container>
   );

@@ -7,7 +7,7 @@ import { startOfWeek, addDays, format } from "date-fns";
 import Image from "next/image";
 import arrowRightIcon from "../../../../../../public/Trainer/icons/arrowRightGray.png";
 import ContentHeader from "@/components/TrainerPageTitle";
-import { ListButton } from "@/styles/TrainerButton";
+import { ListButton } from "@/styles/Trainer/TrainerButton";
 import Footer from "@/components/TrainerFooter";
 
 const MainContainer = styled.div`

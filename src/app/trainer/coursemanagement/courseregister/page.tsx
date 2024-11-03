@@ -4,13 +4,13 @@ import styled from "styled-components";
 import Link from "next/link";
 import Image from "next/image";
 import moment from "moment";
-import { Button, IconButton } from "@/styles/TrainerButton";
-import { ListButton } from "@/styles/TrainerButton";
+import { Button, IconButton } from "@/styles/Trainer/TrainerButton";
+import { ListButton } from "@/styles/Trainer/TrainerButton";
 import {
   SearchBarWrap,
   SearchIcon,
   SearchBarInput,
-} from "@/styles/TrainerSearchBar";
+} from "@/styles/Trainer/TrainerSearchBar";
 import Footer from "@/components/TrainerFooter";
 import { startOfWeek, addDays, format } from "date-fns";
 import "react-calendar/dist/Calendar.css";

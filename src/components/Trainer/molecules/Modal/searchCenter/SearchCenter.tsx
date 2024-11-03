@@ -7,7 +7,7 @@ import {
   SearchBarWrap,
   SearchBarInput,
   SearchIcon,
-} from "@/styles/TrainerSearchBar";
+} from "@/styles//Trainer/TrainerSearchBar";
 import PlaceList from "./PlaceList";
 import NoResultMessage from "./NoResultMessage";
 

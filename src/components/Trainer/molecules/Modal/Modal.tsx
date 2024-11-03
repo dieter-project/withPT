@@ -1,6 +1,6 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { CloseBtn } from "@/styles/TrainerButton";
+import { CloseBtn } from "@/styles/Trainer/TrainerButton";
 import { styled } from "styled-components";
 import { openModal, closeModal } from "@/redux/reducers/trainer/modalSlice";
 import { useModalEffect } from "@/hooks/trainer/modal/useModalEffect";

@@ -1,7 +1,7 @@
 import React from "react";
 import { NoIconSelect } from "@/styles/TrainerInput";
 import styled from "styled-components";
-interface CareerTimeSelectorProps {
+interface TimeSelectorProps {
   selectedMonth: number;
   handleMonthChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
   selectedYear: number;
@@ -13,7 +13,7 @@ const SelectIconWrap = styled.div`
   margin-bottom: "1rem";
 `;
 
-const CareerTimeSelector: React.FC<CareerTimeSelectorProps> = ({
+const TimeSelector: React.FC<TimeSelectorProps> = ({
   selectedMonth,
   handleMonthChange,
   selectedYear,
@@ -88,4 +88,4 @@ const CareerTimeSelector: React.FC<CareerTimeSelectorProps> = ({
   );
 };
 
-export default CareerTimeSelector;
+export default TimeSelector;

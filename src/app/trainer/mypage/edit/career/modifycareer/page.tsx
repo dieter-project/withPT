@@ -9,7 +9,7 @@ import JoinStep from "@/components/trainer/TrSignUpStep";
 import { DeleteInputXbutton } from "@/styles/TrainerInput";
 import { Container, ContentBody } from "@/styles/TrainerLayout";
 import { NoIconInput } from "@/styles/TrainerInput";
-import { Button } from "@/styles/TrainerButton";
+import { Button } from "@/styles/Trainer/TrainerButton";
 import Footer from "@/components/TrainerFooter";
 import { FlexDivWrap, Purpl50Div } from "@/styles/TrainerStyledDiv";
 
