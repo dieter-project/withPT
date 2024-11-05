@@ -5,22 +5,12 @@ import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Image from "next/image";
 import styled from "styled-components";
-import { Container, ContentBody } from "@/styles/Trainer/TrainerLayout";
+import { Container, ContentBody } from "@/styles/trainer/TrainerLayout";
 import { ButtonAreaFixed } from "@/components/trainer/signup/ButtonAreaFixed";
 import { TitleWrapper } from "@/components/trainer/signup/TitleWrapper";
 import JoinStep from "@/components/trainer/TrSignUpStep";
-import { EventButtonItem } from "@/components/trainer/atoms/Button/CheckRegisterItem";
 import { EventButton } from "@/components/trainer/atoms/Button/EventButton";
-
 import { useAppSelector } from "@/redux/hooks";
-import {
-  FormTitle,
-  SignUpInputContainer,
-  SignUpTitleWrap,
-  SignupStepInfo,
-  SignupStepInfoSub,
-  SignupInputInnerContainer,
-} from "@/styles/SignupForm";
 import { Button } from "@/styles/Trainer/TrainerButton";
 import { signupActions } from "@/redux/reducers/trainerSignupSlice";
 import { SearchModal } from "@/components/trainer/molecules/Modal/Modal";
@@ -40,6 +30,7 @@ export default function step3() {
   const saveStates = useSelector(
     (state: RootState) => state.trainerSignup.gyms,
   );
+
   const [recordGyms, setRecordGyms] = useState<GymsInfo[] | []>(saveStates);
 
   const [openModalNum, setOpenModalNum] = useState<number | null>(null);
@@ -56,8 +47,6 @@ export default function step3() {
     setSelectedSchedules,
     overlapError,
     setOverlapError,
-    allSchedules,
-    setAllSchedules,
     isButtonDisabled,
   } = useHandleCenterSchedule();
 
@@ -207,67 +196,6 @@ export default function step3() {
     </Container>
   );
 }
-
-const SignupFormWrap = styled.div`
-  margin-bottom: 1rem;
-`;
-
-const TrRegisItemWrap = styled.div`
-  color: var(--font-gray400);
-`;
-
-const SignupButton = styled.button`
-  width: 100%;
-  border: none;
-  border-radius: 0.2rem;
-  margin-bottom: 1rem;
-  line-height: 1.18rem;
-  background-color: var(--purple50);
-  padding: 1rem 0.88rem;
-  font-size: var(--font-m);
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-`;
-
-const CenterName = styled.div`
-  width: 60%;
-  text-align: left;
-  color: black;
-`;
-
-const RegisterStatus = styled.div`
-  display: flex;
-  align-items: center;
-`;
-
-const RegisterMessage = styled.span`
-  color: var(--primary);
-`;
-
-const RegisterBeforeMessage = styled.span`
-  color: var(--font-gray400);
-`;
-
-const OverLapErrorMessage = styled.div``;
-
-const ScheduleFlexWrap = styled.div`
-  position: relative;
-  border: 1px solid var(--font-gray400);
-  border-radius: 0.5rem;
-  padding: 1rem 1.19rem;
-`;
-
-const ScheduleFlex = styled.div`
-  display: flex;
-  justify-content: space-between;
-`;
-
-const CheckIcon = styled(Image)`
-  width: 1.5rem;
-  height: 1.5rem;
-  margin-right: 0.38rem;
-`;
 
 const OverLapWrap = styled.div`
   display: flex;

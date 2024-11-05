@@ -368,7 +368,7 @@ export default function step4() {
     }
   }, [showModalContent]);
 
-  const timeOptions = generateTimeOptions();
+  const timeOptions = generateTimeOptions(6, 24);
 
   const handleSubmit = async () => {
     const dataToSend = {
@@ -603,27 +603,15 @@ export default function step4() {
               <ModalContent>
                 <ModalContentTit>일정</ModalContentTit>
                 <TimeSelect
-                  value={selectedStartTime}
-                  onChange={e => handleStartTimeChange(e.target.value)}
-                >
-                  <option value="">06:00</option>
-                  {timeOptions.map((timeOption, index) => (
-                    <option key={index} value={timeOption}>
-                      {timeOption}
-                    </option>
-                  ))}
-                </TimeSelect>
+                  selectedStartTime="6"
+                  selectedEndTime="24"
+                  event={e => handleStartTimeChange(e.target.value)}
+                ></TimeSelect>
                 <TimeSelect
-                  value={selectedEndTime}
-                  onChange={e => handleEndTimeChange(e.target.value)}
-                >
-                  <option value="">24:00</option>
-                  {timeOptions.map((timeOption, index) => (
-                    <option key={index} value={timeOption}>
-                      {timeOption}
-                    </option>
-                  ))}
-                </TimeSelect>
+                  selectedStartTime="6"
+                  selectedEndTime="24"
+                  event={e => handleEndTimeChange(e.target.value)}
+                ></TimeSelect>
               </ModalContent>
               <ModalContent>
                 <RegisterSchedule onClick={handleConfirm}>+</RegisterSchedule>

@@ -36,7 +36,7 @@ export const useHandleCenterSchedule = () => {
     setSelectedEndTime(time);
   };
 
-  const timeOptions = generateTimeOptions();
+  const timeOptions = generateTimeOptions(6, 24);
 
   const days = ["월", "화", "수", "목", "금", "토", "일"];
 
