@@ -1,7 +1,9 @@
 import { useState } from "react";
-import { generateTimeOptions } from "@/utils/Trainer/timeOptions";
+import dayjs from "dayjs";
+import isBetween from "dayjs/plugin/isBetween";
 
 export const useHandleCenterSchedule = () => {
+  dayjs.extend(isBetween);
   const [selectedDays, setSelectedDays] = useState<string[]>([]);
   const [selectedStartTime, setSelectedStartTime] = useState<string | null>(
     null,
@@ -10,103 +12,92 @@ export const useHandleCenterSchedule = () => {
   const [selectedSchedules, setSelectedSchedules] = useState<
     Array<{ days: string[]; startTime: string; endTime: string }>
   >([]);
-  const [overlapError, setOverlapError] = useState<boolean>(false);
+  const [overlapError, setOverlapError] = useState(false);
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
-  const [errorMessage, setErrorMessage] = useState<string>("");
+  const [errorMessage, setErrorMessage] = useState("");
 
-  // 요일을 클릭했을 때 선택된 요일을 추가 (월~일 순서대로 정렬)
-  const handleDayClick = (day: string) => {
-    if (selectedDays.includes(day)) {
-      setSelectedDays(selectedDays.filter(d => d !== day));
-    } else {
-      const updatedDays = [...selectedDays, day].sort((a, b) => {
-        const daysOrder = ["월", "화", "수", "목", "금", "토", "일"];
-        return daysOrder.indexOf(a) - daysOrder.indexOf(b);
-      });
-      setSelectedDays(updatedDays);
-    }
-  };
-
-  // 시작 시간 선택
-  const handleStartTimeChange = (time: string) => {
-    setSelectedStartTime(time);
-  };
-  // 종료 시간 선택
-  const handleEndTimeChange = (time: string) => {
-    setSelectedEndTime(time);
-  };
-
-  const timeOptions = generateTimeOptions(6, 24);
-
+  // Constants
   const days = ["월", "화", "수", "목", "금", "토", "일"];
+
+  const handleDayClick = (day: string) => {
+    setSelectedDays(prevDays =>
+      prevDays.includes(day)
+        ? prevDays.filter(d => d !== day)
+        : [...prevDays, day].sort((a, b) => days.indexOf(a) - days.indexOf(b)),
+    );
+  };
+
+  const handleStartTimeChange = (time: string) => setSelectedStartTime(time);
+  const handleEndTimeChange = (time: string) => setSelectedEndTime(time);
 
   // 1) 날짜, 시작 시간, 종료 시간이 선택 되었는지
   // 2) 시작 시간이 종료 시간보다 먼저인지 검사
   // 3) 등록해 놓은 시간이랑 비교해서 겹치는 시간이 있는지 확인
   // 4) 등록 후에는 select state 초기화
   const handleConfirm = () => {
-    const isOverlap = selectedSchedules.some(schedule => {
-      const selectedStart = new Date(`2023-01-01 ${selectedStartTime}`);
-      const selectedEnd = new Date(`2023-01-01 ${selectedEndTime}`);
-      const existingStart = new Date(`2023-01-01 ${schedule.startTime}`);
-      const existingEnd = new Date(`2023-01-01 ${schedule.endTime}`);
-
-      const isDayOverlap = selectedDays.some(day =>
-        schedule.days.includes(day),
-      );
-
-      const isTimeOverlap =
-        (selectedStart >= existingStart && selectedStart < existingEnd) ||
-        (selectedEnd > existingStart && selectedEnd <= existingEnd) ||
-        (selectedStart <= existingStart && selectedEnd >= existingEnd);
-
-      return isDayOverlap && isTimeOverlap;
-    });
-
-    if (selectedDays.length === 0 || !selectedStartTime || !selectedEndTime) {
+    if (!selectedDays.length || !selectedStartTime || !selectedEndTime) {
       setErrorMessage("스케줄의 모든 옵션을 선택해주세요");
       return;
     }
 
+    const isOverlap = selectedSchedules.some(schedule => {
+      const selectedStart = dayjs(selectedStartTime, "HH:mm");
+      const selectedEnd = dayjs(selectedEndTime, "HH:mm");
+      const existingStart = dayjs(schedule.startTime, "HH:mm");
+      const existingEnd = dayjs(schedule.endTime, "HH:mm");
+      const isDayOverlap = selectedDays.some(day =>
+        schedule.days.includes(day),
+      );
+      const isTimeOverlap =
+        selectedStart.isBetween(existingStart, existingEnd, null, "[)") ||
+        selectedEnd.isBetween(existingStart, existingEnd, null, "(]") ||
+        existingStart.isBetween(selectedStart, selectedEnd, null, "[)") ||
+        existingEnd.isBetween(selectedStart, selectedEnd, null, "(]");
+
+      return isDayOverlap && isTimeOverlap;
+    });
+
     if (isOverlap) {
-      // setOverlapError("날짜와 시간이 겹칩니다.");
-    } else {
-      setOverlapError(false);
-
-      // 선택한 일정 정보를 저장
-      const schedule = {
-        days: selectedDays,
-        startTime: selectedStartTime,
-        endTime: selectedEndTime,
-      };
-
-      setSelectedSchedules([...selectedSchedules, schedule]);
-      // 선택한 일정 초기화
-      setSelectedDays([]);
-      setSelectedStartTime("");
-      setSelectedEndTime("");
+      setOverlapError(true);
+      setErrorMessage("날짜와 시간이 겹칩니다.");
+      return;
     }
+
+    // 스케줄 추가 및 초기화
+    const newSchedule = {
+      days: selectedDays,
+      startTime: selectedStartTime,
+      endTime: selectedEndTime,
+    };
+
+    setSelectedSchedules([...selectedSchedules, newSchedule]);
+    setSelectedDays([]);
+    setSelectedStartTime(null);
+    setSelectedEndTime(null);
+    setOverlapError(false);
+    setErrorMessage("");
+  };
+
+  const handleRemoveSchedule = (index: number) => {
+    setSelectedSchedules(prevSchedules =>
+      prevSchedules.filter((_, i) => i !== index),
+    );
   };
 
   return {
     selectedDays,
-    setSelectedDays,
     selectedStartTime,
-    setSelectedStartTime,
     selectedEndTime,
-    setSelectedEndTime,
     selectedSchedules,
-    setSelectedSchedules,
     overlapError,
-    setOverlapError,
     isButtonDisabled,
-    setIsButtonDisabled,
+    errorMessage,
     handleDayClick,
     handleStartTimeChange,
     handleEndTimeChange,
-    timeOptions,
     days,
     handleConfirm,
-    errorMessage,
+    handleRemoveSchedule,
+    setIsButtonDisabled,
   };
 };

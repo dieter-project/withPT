@@ -16,21 +16,21 @@
   --gray: #8a8a8a;
   --white: #ffffff;
   --black: #222222;
-  --tab: #4D4BA9;
-  --carbohydrate: #342EB8;
-  --protein: #AE9AFF;;
-  --fat: #7BCEFC;
-  
-  --block-orange: #FC8E0D;
-  --block-red: #FF5E5E;
-  --block-green: #05AF68;
-  --border-gray300: #EAEAEA;
-  --border-gray400: #CCCCCC;
-  
-  --font-secondary: #7D7BB7;
+  --tab: #4d4ba9;
+  --carbohydrate: #342eb8;
+  --protein: #ae9aff;
+  --fat: #7bcefc;
+
+  --block-orange: #fc8e0d;
+  --block-red: #ff5e5e;
+  --block-green: #05af68;
+  --border-gray300: #eaeaea;
+  --border-gray400: #cccccc;
+
+  --font-secondary: #7d7bb7;
   --font-gray700: #444444;
-  --font-gray500: #A2A2A5;
-  --font-gray400: #B1B0BB;
+  --font-gray500: #a2a2a5;
+  --font-gray400: #b1b0bb;
 
   --border-gray: #eaeaea;
   --border-darkgray: #cccccc;

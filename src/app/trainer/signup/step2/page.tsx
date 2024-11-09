@@ -1,59 +1,48 @@
 "use client";
 
+import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import styled from "styled-components";
 import { Container, ContentBody } from "@/styles/Trainer/TrainerLayout";
 import { TitleWrapper } from "@/components/trainer/signup/TitleWrapper";
 import { ButtonAreaFixed } from "@/components/trainer/signup/ButtonAreaFixed";
 import ContentHeader from "@/components/TrainerPageTitle";
 import JoinStep from "@/components/trainer/TrSignUpStep";
-import { signupActions } from "@/redux/reducers/trainerSignupSlice";
 import { useAppSelector } from "@/redux/hooks";
 import { SearchModal } from "@/components/trainer/molecules/Modal/Modal";
 import { SearchCenter } from "@/components/trainer/molecules/Modal/searchCenter/SearchCenter";
 import { EventButton } from "@/components/trainer/atoms/Button/EventButton";
 import { openModal } from "@/redux/reducers/trainer/modalSlice";
-import { Signup2 } from "@/hooks/trainer/signup/useSignup";
+import { signup2 } from "@/services/trainer/signup/signup2";
 
-export default function step2() {
-  const title = "센터 등록";
+export default function Step2() {
   const dispatch = useDispatch();
-  const states = useAppSelector(state => state.trainerSignup);
+  const title = "센터 등록";
   const isModalOpen = useSelector(state => state.modal.isOpen);
-  const { workingCenter, isButtonDisabled, handlePlaceSelect } = Signup2();
 
-  console.log("workingCenter", workingCenter);
+  const { workingCenter, isButtonDisabled, handlePlaceSelect, handleNext } =
+    signup2();
 
-  const handleNext = () => {
-    dispatch(
-      signupActions.saveSignupState({
-        gyms: workingCenter.map(center => ({
-          name: center.place_name,
-          address: center.address_name,
-          latitude: Number(center.x),
-          longitude: Number(center.y),
-        })),
-      }),
-    );
-    console.log("states: ", states);
+  const openSearchModal = () => {
+    dispatch(openModal());
   };
 
   return (
     <Container>
-      <ContentHeader title={title}></ContentHeader>
+      <ContentHeader title={title} />
       <ContentBody>
-        <JoinStep active={"2"} />
+        <JoinStep active="2" />
         <TitleWrapper
           topTitle="센터를 등록해주세요."
           underTitle="재직 중인 센터를 등록해주세요."
         />
+
         {workingCenter.length > 0 ? (
           <ul>
             {workingCenter.map((center, index) => (
               <EventButton
                 key={index}
                 isIconVisible={false}
-                event={() => dispatch(openModal())}
+                event={openSearchModal}
                 eventButtonType="purple"
                 height="3.5rem"
                 justifyContent="space-between"
@@ -65,7 +54,7 @@ export default function step2() {
           </ul>
         ) : (
           <EventButton
-            event={() => dispatch(openModal())}
+            event={openSearchModal}
             isIconVisible={true}
             iconType="plusCircleMono"
             content="등록할 센터를 검색해 주세요."
@@ -78,7 +67,7 @@ export default function step2() {
 
         {workingCenter.length > 0 && (
           <EventButton
-            event={() => dispatch(openModal())}
+            event={openSearchModal}
             isIconVisible={true}
             iconType="plusGray"
             eventButtonType="gray"
@@ -86,6 +75,7 @@ export default function step2() {
             justifyContent="center"
           />
         )}
+
         <ButtonAreaFixed
           isButtonDisabled={isButtonDisabled}
           onClick={handleNext}
@@ -93,6 +83,7 @@ export default function step2() {
           label="다음"
         />
       </ContentBody>
+
       {isModalOpen && (
         <SearchModal
           title={title}

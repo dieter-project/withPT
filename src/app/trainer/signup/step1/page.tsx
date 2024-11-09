@@ -1,265 +1,92 @@
 "use client";
-import React, { useEffect, useRef, useState } from "react";
-import { useDispatch } from "react-redux";
-import Link from "next/link";
+import React from "react";
 import { Container, ContentBody } from "@/styles/Trainer/TrainerLayout";
 import { TitleWrapper } from "@/components/trainer/signup/TitleWrapper";
 import ContentHeader from "@/components/TrainerPageTitle";
-import { Button } from "@/styles/Trainer/TrainerButton";
 import { NoIconInput } from "@/styles/Trainer/TrainerInput";
-import { signupActions } from "@/redux/reducers/trainerSignupSlice";
-import { useAppSelector } from "@/redux/hooks";
 import JoinStep from "@/components/trainer/TrSignUpStep";
-import {
-  FormTitle,
-  SignUpInputContainer,
-  SignupInputInnerContainer,
-} from "@/styles/SignupForm";
 import { FormRadio, Slash, StyledLabel } from "./style";
+import LabelField from "@/components/trainer/molecules/LabelField/LabelField";
 import { ButtonAreaFixed } from "@/components/trainer/signup/ButtonAreaFixed";
+import { signup1 } from "@/services/trainer/signup/signup1";
 
-interface Trbirth {
-  year: string;
-  month: string;
-  date: string;
-}
-
-interface TrInfo {
-  name: string;
-  birth: Trbirth | string;
-  sex: string;
-}
-
-export default function step1() {
-  const dispatch = useDispatch();
-  const states = useAppSelector(state => state.trainerSignup);
-  const title = "회원가입";
-
-  const [inputData, setInputData] = useState<TrInfo>({
-    name: "",
-    birth: {
-      year: "",
-      month: "",
-      date: "",
-    },
-    sex: "",
-  });
-
-  const nameRef = useRef<null | HTMLInputElement>(null);
-  const birthRef = useRef<(null | HTMLInputElement)[]>([]);
-  const sexRef = useRef<null | HTMLInputElement>(null);
-  const inputRef = useRef<(null | HTMLInputElement)[]>([]);
-  const [isButtonDisabled, setIsButtonDisabled] = useState(true);
-
-  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = event.target;
-    if (name === "name" || name === "sex") {
-      setInputData(prevState => ({
-        ...prevState,
-        [name]: value,
-      }));
-    }
-    if (name === "year" || name === "month" || name === "date") {
-      setInputData(prevState => ({
-        ...prevState,
-        birth:
-          typeof prevState.birth !== "string"
-            ? {
-                ...prevState.birth,
-                [name]: value.replace(/[^0-9.]/g, ""),
-              }
-            : { year: "", month: "", date: "" },
-      }));
-    }
-  };
-
-  //조건에 따라 버튼 비활성화 시키기
-  useEffect(() => {
-    const isAnyFieldEmpty = () => {
-      if (
-        inputData.name.length === 0 ||
-        (typeof inputData.birth !== "string" &&
-          (inputData.birth.year.length === 0 ||
-            inputData.birth.month.length === 0 ||
-            inputData.birth.date.length === 0)) ||
-        inputData.sex.length === 0
-      ) {
-        setIsButtonDisabled(true);
-      } else {
-        setIsButtonDisabled(false);
-      }
-    };
-    isAnyFieldEmpty();
-  }, [inputData]);
-
-  console.log("inputData", inputData.sex.length);
-
-  const handleNext = () => {
-    const birthJoin =
-      typeof inputData.birth !== "string"
-        ? `${inputData.birth.year}-${inputData.birth.month.padStart(
-            2,
-            "0",
-          )}-${inputData.birth.date.padStart(2, "0")}`
-        : "";
-
-    if (
-      inputData.name.length <= 0 &&
-      inputRef.current[0] !== null &&
-      inputRef.current[0] !== undefined
-    ) {
-      //해당 필드가 누락되었을 때 포커스 이동으로 사용자에게 정보 입력 안내하기
-      inputRef.current[0].focus();
-      return false;
-    }
-    if (
-      typeof inputData.birth !== "string" &&
-      inputData.birth.year.length <= 0 &&
-      inputRef.current[1] !== null &&
-      inputRef.current[1] !== undefined
-    ) {
-      inputRef.current[1].focus();
-      return false;
-    }
-    if (
-      typeof inputData.birth !== "string" &&
-      inputData.birth.month.length <= 0 &&
-      inputRef.current[2] !== null
-    ) {
-      inputRef.current[2].focus();
-      return false;
-    }
-    if (
-      typeof inputData.birth !== "string" &&
-      inputData.birth.date.length <= 0 &&
-      inputRef.current[3] !== null
-    ) {
-      inputRef.current[3].focus();
-      return false;
-    }
-    if (inputData.sex.length <= 0 && inputRef.current[4] !== null) {
-      inputRef.current[4].focus();
-      return false;
-    }
-
-    dispatch(
-      signupActions.saveSignupState({
-        name: inputData.name.trim(),
-        birth: birthJoin,
-        sex: inputData.sex,
-      }),
-    );
-
-    console.log("states: ", states);
-  };
+export default function Step1() {
+  const { inputData, handleInputChange, handleNext, isButtonDisabled, errors } =
+    signup1();
 
   return (
     <Container>
-      <ContentHeader title={title}></ContentHeader>
+      <ContentHeader title="회원가입" />
       <ContentBody>
-        <JoinStep active={"1"} />
+        <JoinStep active="1" />
         <TitleWrapper
           topTitle="안녕하세요. 트레이너님!"
           underTitle="아래 정보가 맞는지 확인해주세요."
         />
-        <div>
-          <SignUpInputContainer>
-            <FormTitle>이름</FormTitle>
-            <SignupInputInnerContainer>
-              <NoIconInput
-                type="text"
-                name="name"
-                value={inputData.name}
-                onChange={handleInputChange}
-                ref={nameRef}
-              ></NoIconInput>
-            </SignupInputInnerContainer>
-          </SignUpInputContainer>
-          <SignUpInputContainer>
-            <FormTitle>생년월일</FormTitle>
-            <SignupInputInnerContainer>
-              <NoIconInput
-                type="text"
-                name="year"
-                value={
-                  typeof inputData.birth !== "string"
-                    ? inputData.birth.year
-                    : ""
-                }
-                maxLength={4}
-                onChange={handleInputChange}
-                ref={(element: HTMLInputElement | null) =>
-                  (birthRef.current[0] = element)
-                }
-                inputMode="decimal"
-              ></NoIconInput>
-              <Slash>/</Slash>
-              <NoIconInput
-                type="text"
-                name="month"
-                maxLength={2}
-                value={
-                  typeof inputData.birth !== "string"
-                    ? inputData.birth.month
-                    : ""
-                }
-                onChange={handleInputChange}
-                ref={(element: HTMLInputElement | null) =>
-                  (birthRef.current[1] = element)
-                }
-                inputMode="decimal"
-                //  required
-              ></NoIconInput>
-              <Slash>/</Slash>
-              <NoIconInput
-                type="text"
-                name="date"
-                maxLength={2}
-                value={
-                  typeof inputData.birth !== "string"
-                    ? inputData.birth.date
-                    : ""
-                }
-                onChange={handleInputChange}
-                ref={(element: HTMLInputElement | null) =>
-                  (inputRef.current[3] = element)
-                }
-                inputMode="decimal"
-                style={{ textAlign: "center" }}
-                required
-              ></NoIconInput>
-            </SignupInputInnerContainer>
-          </SignUpInputContainer>
-          <SignUpInputContainer>
-            <FormTitle>성별</FormTitle>
-            <SignupInputInnerContainer>
-              <FormRadio>
-                <input
-                  id="gender-1"
-                  type="radio"
-                  name="sex"
-                  value="MAN"
-                  onChange={handleInputChange}
-                  ref={sexRef}
-                  checked={inputData.sex === "MAN"}
-                />
-                <StyledLabel htmlFor="gender-1">남자</StyledLabel>
-              </FormRadio>
-              <FormRadio>
-                <input
-                  id="gender-2"
-                  type="radio"
-                  name="sex"
-                  value="WOMAN"
-                  onChange={handleInputChange}
-                  ref={sexRef}
-                  checked={inputData.sex === "WOMAN"}
-                />
-                <StyledLabel htmlFor="gender-2">여자</StyledLabel>
-              </FormRadio>
-            </SignupInputInnerContainer>
-          </SignUpInputContainer>
-        </div>
+        {/* 이름 입력 */}
+        <LabelField type="column" label="이름">
+          <NoIconInput
+            type="text"
+            name="name"
+            value={inputData.name}
+            onChange={handleInputChange}
+          />
+        </LabelField>
+        {/* 생년월일 입력 */}
+        <LabelField type="column" innertype="spaceBetween" label="생년월일">
+          <NoIconInput
+            type="text"
+            name="year"
+            value={inputData.birth.year}
+            onChange={handleInputChange}
+            maxLength={4}
+            inputMode="decimal"
+          />
+          <Slash>/</Slash>
+          <NoIconInput
+            type="text"
+            name="month"
+            value={inputData.birth.month}
+            onChange={handleInputChange}
+            maxLength={2}
+            inputMode="decimal"
+          />
+          <Slash>/</Slash>
+          <NoIconInput
+            type="text"
+            name="date"
+            value={inputData.birth.date}
+            onChange={handleInputChange}
+            maxLength={2}
+            inputMode="decimal"
+          />
+        </LabelField>
+        {/* 성별 선택 */}
+        <LabelField type="column" innertype="spaceBetween" label="성별">
+          <FormRadio>
+            <input
+              id="gender-male"
+              type="radio"
+              name="sex"
+              value="MAN"
+              onChange={handleInputChange}
+              checked={inputData.sex === "MAN"}
+            />
+            <StyledLabel htmlFor="gender-male">남자</StyledLabel>
+          </FormRadio>
+          <FormRadio>
+            <input
+              id="gender-female"
+              type="radio"
+              name="sex"
+              value="WOMAN"
+              onChange={handleInputChange}
+              checked={inputData.sex === "WOMAN"}
+            />
+            <StyledLabel htmlFor="gender-female">여자</StyledLabel>
+          </FormRadio>
+        </LabelField>
+        {/* 다음 버튼 */}
         <ButtonAreaFixed
           isButtonDisabled={isButtonDisabled}
           onClick={handleNext}

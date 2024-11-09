@@ -1,7 +1,7 @@
 import { styled } from "styled-components";
 import { generateTimeOptions } from "@/utils/Trainer/timeOptions";
 
-interface TimeSelectProps {
+interface TimeDropdownProps {
   selectedTime: string;
   startTime: string;
   endTime: string;
@@ -9,13 +9,13 @@ interface TimeSelectProps {
   onTimeChange: (time: string) => void;
 }
 
-export const TimeSelect = ({
+export const TimeDropdown = ({
   selectedTime,
   startTime,
   endTime,
   placeholderTime,
   onTimeChange,
-}: TimeSelectProps) => {
+}: TimeDropdownProps) => {
   const timeOptions = generateTimeOptions(startTime, endTime);
 
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -24,9 +24,9 @@ export const TimeSelect = ({
 
   return (
     <StyledSelect
-      value={selectedTime}
+      value={selectedTime ?? ""}
       onChange={handleChange}
-      isSelected={!!selectedTime}
+      $isSelected={!!selectedTime}
     >
       <option value="" disabled>
         {placeholderTime}
@@ -40,9 +40,12 @@ export const TimeSelect = ({
   );
 };
 
-const StyledSelect = styled.select<{ isSelected: boolean }>`
+const StyledSelect = styled.select<{ $isSelected: boolean }>`
   background-color: var(--purple50);
-  color: ${props => (props.isSelected ? "black" : "var(--font-gray400)")};
+  color: ${props => (props.$isSelected ? "black" : "var(--font-gray400)")};
   margin-right: 1.81rem;
   padding: 0.62rem;
+  &:focus {
+    outline: none;
+  }
 `;

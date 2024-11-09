@@ -38,21 +38,3 @@ export const Signup2 = () => {
     handlePlaceSelect,
   };
 };
-
-export const Signup3 = () => {
-  const { selectedSchedules, setIsButtonDisabled } = useHandleCenterSchedule();
-
-  //조건에 따라 버튼 비활성화 시키기
-  useEffect(() => {
-    const isAnyFieldEmpty = () => {
-      if (selectedSchedules[0]?.days?.length > 0) {
-        setIsButtonDisabled(false);
-      } else {
-        setIsButtonDisabled(true);
-      }
-    };
-    isAnyFieldEmpty();
-  }, [selectedSchedules]);
-
-  return {};
-};

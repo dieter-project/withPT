@@ -17,13 +17,10 @@ const page = () => {
 
   const handleGetAuthCode = async () => {
     try {
-      const response = await api.post(
-        "http://43.200.45.234/api/v1/oauth/google",
-        {
-          authorizationCode: code,
-          role: "TRAINER",
-        },
-      );
+      const response = await api.post("/api/v1/oauth/google", {
+        authorizationCode: code,
+        role: "TRAINER",
+      });
 
       if (response.data.accessToken) {
         setCookie("access", response.data.accessToken, { path: "/" });

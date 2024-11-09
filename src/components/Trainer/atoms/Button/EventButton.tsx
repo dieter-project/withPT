@@ -1,15 +1,12 @@
 import { styled } from "styled-components";
-import Image from "next/image";
 import CloseIcon from "/public/svgs/icon_close.svg";
 import PlusCircleMonoIcon from "/public/svgs/icon_plus_circle_mono.svg";
 import PlusGrayIcon from "/public/svgs/icon_plus_gray.svg";
 import { CheckRegisterItem } from "@/components/trainer/atoms/Button/CheckRegisterItem";
 
 interface EventButtonProps {
-  key?: number;
   event: (e: React.MouseEvent<HTMLButtonElement>) => void;
-  hasXButton?: boolean;
-  xButtonEvent?: (e: React.MouseEvent<HTMLButtonElement>) => void;
+  xButtonEvent?: (e: React.MouseEvent<HTMLDivElement>) => void;
   iconType?: "plusCircleMono" | "plusGray";
   isIconVisible: boolean;
   content?: string;
@@ -21,12 +18,10 @@ interface EventButtonProps {
 }
 
 export const EventButton = ({
-  key,
   height,
   justifyContent,
   event,
   eventButtonType,
-  hasXButton,
   xButtonEvent,
   isIconVisible,
   iconType,
@@ -61,9 +56,9 @@ export const EventButton = ({
           <CheckRegisterItem status="gray" label="등록 전" />
         )}
         {rightContent === "xButton" && (
-          <button type="button" onClick={xButtonEvent}>
+          <div onClick={xButtonEvent}>
             <CloseIcon width="13" height="13" />
-          </button>
+          </div>
         )}
       </ButtonLayout>
     </>

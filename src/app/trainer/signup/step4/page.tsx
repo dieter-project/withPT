@@ -7,11 +7,7 @@ import ContentHeader from "@/components/TrainerPageTitle";
 import JoinStep from "@/components/trainer/TrSignUpStep";
 import Image from "next/image";
 import styled from "styled-components";
-import {
-  Container,
-  ContentBody,
-  ButtonAreaFixed,
-} from "@/styles/TrainerLayout";
+import { Container, ContentBody } from "@/styles/trainer/TrainerLayout";
 import { TitleWrapper } from "@/components/trainer/signup/TitleWrapper";
 import {
   FormTitle,
@@ -29,12 +25,13 @@ import {
   ModalHeader,
   ModalBody,
   ModalContent,
-} from "@/styles/TrainerModal";
-import ModalCloseXButtonImg from "../../../../../public/Trainer/Modal/close-line.png";
-import searchIconImg from "../../../../../public/searchLight.png";
-import checkIconPurple from "../../../../../public/Trainer/checkIconPurple.png";
+} from "@/styles/trainer/TrainerModal";
+import ModalCloseXButtonImg from "/public/Trainer/Modal/close-line.png";
+import searchIconImg from "/public/searchLight.png";
+import checkIconPurple from "/public/Trainer/checkIconPurple.png";
 import { api } from "@/utils/axios";
 import { setCookie } from "@/utils/cookie";
+import { ButtonAreaFixed } from "@/components/trainer/signup/ButtonAreaFixed";
 
 const SignupFormWrap = styled.div`
   margin-bottom: 1.5rem;
@@ -372,11 +369,12 @@ export default function step4() {
 
   const handleSubmit = async () => {
     const dataToSend = {
-      email: "yellowbutter0327@gmail.com",
+      email: "trainer@test.com",
+      password: "trainer1234",
       name: "조은혜",
       birth: "2024-01-07",
       sex: "MAN",
-      oauthProvider: "GOOGLE",
+      authProvider: "EMAIL",
       careers: [
         {
           centerName: "우당탕헬스장",
@@ -393,8 +391,8 @@ export default function step4() {
           major: "위피티",
           degree: "HIGH_SCHOOL_DIPLOMA",
           country: "서울",
-          enrollmentYear: "2020",
-          graduationYear: "2023",
+          enrollmentYearMonth: "2020-03",
+          graduationYearMonth: "2023-03",
         },
       ],
       certificates: [
@@ -408,7 +406,7 @@ export default function step4() {
         {
           name: "위피티수상",
           institution: "위피티대학교",
-          acquisitionYear: "2020",
+          acquisitionYearMonth: "2020-12",
         },
       ],
       educations: [
@@ -436,11 +434,15 @@ export default function step4() {
     };
 
     try {
-      const response = await api.post("/api/v1/trainers/sign-up", dataToSend, {
-        headers: {
-          "Content-Type": "application/json",
+      const response = await api.post(
+        "http://13.124.80.64/api/v1/trainers/sign-up",
+        dataToSend,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
         },
-      });
+      );
       console.log("data: ", response);
 
       if (response.data) {
@@ -556,21 +558,16 @@ export default function step4() {
             ""
           )}
         </SignupFormWrap>
-
-        <ButtonAreaFixed>
-          <AlertMessage>
-            <img src="/svgs/icon_alert.svg" alt="" />
-            등록된 트레이너 이력은 회원페이지에 노출이 됩니다.
-          </AlertMessage>
-          <StepButtonWrap>
-            <NextTime rel="preload" href="/trainer/register/step5">
-              넘어가기
-            </NextTime>
-            <Link href="/trainer/signup/finished">
-              <NextStep onClick={handleSubmit}>다음</NextStep>
-            </Link>
-          </StepButtonWrap>
-        </ButtonAreaFixed>
+        <AlertMessage>
+          <img src="/svgs/icon_alert.svg" alt="" />
+          등록된 트레이너 이력은 회원페이지에 노출이 됩니다.
+        </AlertMessage>
+        <ButtonAreaFixed
+          // isButtonDisabled={isButtonDisabled}
+          onClick={handleSubmit}
+          nextStepUrl="/trainer/signup/finished"
+          label="다음"
+        />
       </ContentBody>
       {isModalOpen && (
         <Modal>
@@ -602,11 +599,11 @@ export default function step4() {
 
               <ModalContent>
                 <ModalContentTit>일정</ModalContentTit>
-                <TimeSelect
+                <TimeSelector
                   selectedStartTime="6"
                   selectedEndTime="24"
                   event={e => handleStartTimeChange(e.target.value)}
-                ></TimeSelect>
+                ></TimeSelector>
                 <TimeSelect
                   selectedStartTime="6"
                   selectedEndTime="24"

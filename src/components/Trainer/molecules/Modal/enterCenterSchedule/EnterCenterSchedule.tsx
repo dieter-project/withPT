@@ -11,8 +11,10 @@ import { openModal } from "@/redux/reducers/trainer/modalSlice";
 import { ModalErrorMessage } from "@/styles/Trainer/TrainerModal";
 import { SelectedScheduleList } from "../enterCenterSchedule/SelectedScheduleList";
 import { DateAndTimeSelector } from "../dateAndTimeSelector/DateAndTimeSelector";
+import { closeModal } from "@/redux/reducers/trainer/modalSlice";
 
-export const EnterCenterSchedule: React.FC<EnterCenterScheduleProps> = () => {
+export const EnterCenterSchedule: React.FC = () => {
+  const dispatch = useDispatch();
   const {
     selectedDays,
     selectedStartTime,
@@ -22,9 +24,9 @@ export const EnterCenterSchedule: React.FC<EnterCenterScheduleProps> = () => {
     handleStartTimeChange,
     handleEndTimeChange,
     handleConfirm,
-    timeOptions,
     days,
     errorMessage,
+    handleRemoveSchedule,
   } = useHandleCenterSchedule();
 
   return (
@@ -33,11 +35,10 @@ export const EnterCenterSchedule: React.FC<EnterCenterScheduleProps> = () => {
         days={days}
         selectedDays={selectedDays}
         handleDayClick={handleDayClick}
-        selectedStartTime={selectedStartTime}
-        selectedEndTime={selectedEndTime}
+        selectedStartTime={selectedStartTime || null}
+        selectedEndTime={selectedEndTime || null}
         handleStartTimeChange={handleStartTimeChange}
         handleEndTimeChange={handleEndTimeChange}
-        timeOptions={timeOptions}
       />
       <div>
         <EventButton
@@ -50,11 +51,14 @@ export const EnterCenterSchedule: React.FC<EnterCenterScheduleProps> = () => {
         />
         <ModalErrorMessage>{errorMessage}</ModalErrorMessage>
       </div>
-      <SelectedScheduleList selectedSchedules={selectedSchedules} />
+      <SelectedScheduleList
+        selectedSchedules={selectedSchedules}
+        handleRemoveSchedule={handleRemoveSchedule}
+      />
       <Button
         $variant={selectedSchedules.length === 0 ? "ghost" : "primary"}
-        //   onClick={modalClose}
         disabled={selectedSchedules.length === 0}
+        onClick={() => dispatch(closeModal())}
       >
         저장하기
       </Button>

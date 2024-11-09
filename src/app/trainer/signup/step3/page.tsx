@@ -107,7 +107,7 @@ export default function step3() {
     setSelectedSchedules(newSelectedSchedules);
   };
 
-  const gyms = saveStates.gyms || [];
+  const gyms = saveStates?.gyms || [];
 
   // const updatedGyms = {
   //   workSchedules: [
@@ -144,7 +144,6 @@ export default function step3() {
         {recordGyms?.map((gym, index) => (
           <EventButton
             key={index}
-            hasXButton={false}
             isIconVisible={false}
             event={() => toggleModal(gym.name, index)}
             eventButtonType="purple"
@@ -163,21 +162,7 @@ export default function step3() {
         />
       </ContentBody>
       {isModalOpen && (
-        <SearchModal
-          title={modalTitle}
-          content={
-            <EnterCenterSchedule
-              handleConfirm={handleConfirm}
-              selectedSchedules={selectedSchedules}
-              selectedStartTime={selectedStartTime}
-              setSelectedStartTime={setSelectedStartTime}
-              selectedEndTime={selectedEndTime}
-              setSelectedEndTime={setSelectedEndTime}
-              selectedDays={selectedDays}
-              setSelectedDays={setSelectedDays}
-            />
-          }
-        />
+        <SearchModal title={modalTitle} content={<EnterCenterSchedule />} />
       )}
       {overlapError && (
         <OverLapWrap>

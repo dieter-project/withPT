@@ -1,14 +1,14 @@
 import React from "react";
 import styled from "styled-components";
 import { FlexWrapper } from "@/styles/trainer/TrainerLayout";
-import { TimeSelect } from "@/components/trainer/atoms/Select/TimeSelect";
+import { TimeDropdown } from "@/components/trainer/atoms/Select/TimeDropdown";
 
 interface DateAndTimeSelectorProps {
   days: string[];
   selectedDays: string[];
   handleDayClick: (day: string) => void;
-  selectedStartTime: string;
-  selectedEndTime: string;
+  selectedStartTime: string | null;
+  selectedEndTime: string | null;
   handleStartTimeChange: (time: string) => void;
   handleEndTimeChange: (time: string) => void;
 }
@@ -41,21 +41,21 @@ export const DateAndTimeSelector: React.FC<DateAndTimeSelectorProps> = ({
       </FlexWrapper>
       <FlexWrapper>
         <ModalSubTitle>시작</ModalSubTitle>
-        <TimeSelect
-          selectedTime={selectedStartTime}
+        <TimeDropdown
+          selectedTime={selectedStartTime ?? ""}
           startTime="6"
           endTime="24"
           placeholderTime="6:00"
           onTimeChange={handleStartTimeChange}
-        ></TimeSelect>
+        ></TimeDropdown>
         <ModalSubTitle>종료</ModalSubTitle>
-        <TimeSelect
-          selectedTime={selectedEndTime}
+        <TimeDropdown
+          selectedTime={selectedEndTime ?? ""}
           startTime="6"
           endTime="24"
           placeholderTime="24:00"
           onTimeChange={handleEndTimeChange}
-        ></TimeSelect>
+        ></TimeDropdown>
       </FlexWrapper>
     </ul>
   );

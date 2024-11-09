@@ -9,25 +9,26 @@ interface Schedule {
 
 interface SelectedScheduleListProps {
   selectedSchedules: Schedule[];
+  handleRemoveSchedule: (index: number) => void;
 }
 
 export const SelectedScheduleList: React.FC<SelectedScheduleListProps> = ({
   selectedSchedules,
+  handleRemoveSchedule,
 }) => {
   return (
     <SelectedScheduleWrap>
-      <div>
-        <h4>일정</h4>
-      </div>
+      <h4>일정</h4>
       <ScheduleWrap>
         {selectedSchedules?.map((schedule, index) => (
           <SelectedItem key={index}>
             <SelectedItemDay>
               <span>{schedule.days.join("/")}</span>
             </SelectedItemDay>
-            <SelectedItemTime>
+            <div>
               {schedule.startTime} ~ {schedule.endTime}
-            </SelectedItemTime>
+            </div>
+            <button onClick={() => handleRemoveSchedule(index)}>X</button>
           </SelectedItem>
         ))}
       </ScheduleWrap>
@@ -35,7 +36,6 @@ export const SelectedScheduleList: React.FC<SelectedScheduleListProps> = ({
   );
 };
 
-// Styled components
 const SelectedScheduleWrap = styled.div`
   margin-top: 1rem;
 `;
@@ -58,5 +58,3 @@ const SelectedItemDay = styled.div`
   display: flex;
   justify-content: space-between;
 `;
-
-const SelectedItemTime = styled.div``;
