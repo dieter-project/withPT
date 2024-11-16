@@ -11,7 +11,7 @@ import { CheckAnimation, CheckWrap, FinishedPageWrap } from './styles';
 const page = () => {
   const title = '가입 완료'
   const router = useRouter()
-  const role = window.sessionStorage.getItem('role')
+  const role = window.localStorage.getItem('role')
   
   const handleStart = () => {
     window.sessionStorage.removeItem('role')
