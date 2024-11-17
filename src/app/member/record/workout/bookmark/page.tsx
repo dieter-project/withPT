@@ -11,6 +11,8 @@ import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { styled } from "styled-components";
 import { BookmarkList, DetailText, EmptyBookmark, NameText } from "./style";
+import { useDispatch } from "react-redux";
+import { workoutRecordActions } from "@/redux/reducers/workoutRecordSlice";
 
 type BookmarkPayload = {
   title: string | null;
@@ -29,6 +31,7 @@ const page = () => {
   const settingOption = ["운동 추가하기", "운동 삭제하기"];
 
   const router = useRouter();
+  const dispatch = useDispatch();
 
   const handleGetBookmark = async () => {
     try {
@@ -39,6 +42,13 @@ const page = () => {
     } catch (error) {
       console.log("error: ", error);
     }
+  };
+
+  const handleSelectBookmark = (bookmark: BookmarkPayload) => {
+    dispatch(
+      workoutRecordActions.addWorkoutState({ ...bookmark, bookmarkYn: false }),
+    );
+    router.push("/member/record/workout/register");
   };
 
   useEffect(() => {
@@ -57,7 +67,10 @@ const page = () => {
               <ul>
                 {bookmarks?.map((bookmark, index) => {
                   return (
-                    <li key={index}>
+                    <li
+                      key={index}
+                      onClick={() => handleSelectBookmark(bookmark)}
+                    >
                       {deleteMode && (
                         <Checkbox>
                           <input type="checkbox" />

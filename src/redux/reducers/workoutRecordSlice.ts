@@ -13,6 +13,9 @@ const workoutRecordSlice = createSlice({
       state.push(action.payload)
       // return [ ...state, { ...action.payload } ]
     },
+    deleteWorkoutState: (state, action) => {
+      return state.filter((workout, index) => action.payload !== index)
+    },
     workoutStateReset: (state) => {
       return state = []
     }

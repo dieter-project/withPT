@@ -99,6 +99,10 @@ const page = () => {
     }
   };
 
+  const handleDeleteWorkout = (idx: number) => {
+    dispatch(workoutRecordActions.deleteWorkoutState(idx))
+  }
+
   useEffect(() => {
     dateType();
   }, [activeDate]);
@@ -134,7 +138,7 @@ const page = () => {
             </AddRecordButton>
           ) : (
             <>
-              <WorkoutList workout={todayWorkout} />
+              <WorkoutList workout={todayWorkout} onDelete={handleDeleteWorkout}/>
               <AddRecordButton
                 onClick={handleAddWorkout}
                 style={{
