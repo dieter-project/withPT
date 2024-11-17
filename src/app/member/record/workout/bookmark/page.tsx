@@ -32,10 +32,12 @@ const page = () => {
 
   const handleGetBookmark = async () => {
     try {
-      const { data: { data } } = await getBookmarks();
-      setBookmarks(data)
+      const {
+        data: { data },
+      } = await getBookmarks();
+      setBookmarks(data);
     } catch (error) {
-      console.log('error: ', error);
+      console.log("error: ", error);
     }
   };
 
@@ -81,17 +83,25 @@ const page = () => {
             <ExclamationMark>!</ExclamationMark>
             <div>북마크에 등록된 운동이 없어요.</div>
             <div>
-              회원님께서 자주 하는 운동을<br /> 
+              회원님께서 자주 하는 운동을
+              <br />
               하단 추가하기를 통해 직접 등록해 주세요!
             </div>
           </EmptyBookmark>
         )}
       </BaseContentWrap>
-      {bookmarks.length < 1 &&
+      {bookmarks.length < 1 && (
         <ButtonAreaFixed $nav>
-          <Button $variant='primary' onClick={() => router.push('/member/record/workout/bookmark/register')}>북마크 등록하기</Button>
+          <Button
+            $variant="primary"
+            onClick={() =>
+              router.push("/member/record/workout/bookmark/register")
+            }
+          >
+            북마크 등록하기
+          </Button>
         </ButtonAreaFixed>
-      }
+      )}
     </>
   );
 };

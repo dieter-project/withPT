@@ -29,9 +29,7 @@ export const DetailText = styled.div`
 
 export const EmptyBookmark = styled.div`
   width: 100%;
-  height: calc(
-    100vh - (4.375rem + 3rem + 5.1rem)
-  ); 
+  height: calc(100vh - (4.375rem + 3rem + 5.1rem));
   display: flex;
   flex-direction: column;
   align-items: center;

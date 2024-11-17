@@ -41,7 +41,7 @@ const page = ({ params }: { params: { id: number } }) => {
 
   const handleDeleteWorkout = async () => {
     const response = await deleteExercise(Number(workoutId), workoutInfoId);
-    if (response.status === 200) router.replace('/member/record/workout')
+    if (response.status === 200) router.replace("/member/record/workout");
   };
 
   const menu = (
