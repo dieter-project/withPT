@@ -14,6 +14,7 @@ import React, { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux';
 import { BookmarkButton, BookmarkSaveToggle } from './style';
 import { WorkoutPayload } from '@/types/member/record';
+import { getBodyBookmarkCheck } from '@/services/member/bookmark';
 
 const page = () => {
   const [inputData, setInputData] = useState<WorkoutPayload>({
@@ -83,7 +84,14 @@ const page = () => {
     }
   };
 
-  const handleAddRecord = () => {
+  const handleAddRecord = async () => {
+    if (inputData.bookmarkYn) {
+      const { data: {data} } = await getBodyBookmarkCheck({title: inputData.title})
+      if (data.duplicated) {
+        alert(data.message)
+        return
+      }
+    } 
     dispatch(workoutRecordActions.addWorkoutState(inputData));
     router.push("/member/record/workout/register");
   };
@@ -103,9 +111,9 @@ const page = () => {
     }
   }
 
-  useEffect(() => {
-    console.log("inputData: ", inputData);
-  }, [inputData]);
+  // useEffect(() => {
+  //   console.log("inputData: ", inputData);
+  // }, [inputData]);
 
   useEffect(() => {
     const date = searchParams.get("date");

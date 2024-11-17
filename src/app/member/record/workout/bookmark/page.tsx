@@ -41,27 +41,6 @@ const page = () => {
 
   useEffect(() => {
     handleGetBookmark();
-    // setBookmarks([
-    //   ...bookmarks,
-    //   {
-    //     title: "레그프레스",
-    //     weight: 35,
-    //     set: 3,
-    //     times: 12,
-    //     hour: null,
-    //     bodyPart: null,
-    //     exerciseType: null,
-    //   },
-    //   {
-    //     title: "힙 어브덕션",
-    //     weight: 35,
-    //     set: 3,
-    //     times: 12,
-    //     hour: null,
-    //     bodyPart: null,
-    //     exerciseType: null,
-    //   },
-    // ]);
   }, []);
 
   return (

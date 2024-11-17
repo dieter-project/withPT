@@ -20,9 +20,9 @@ export const postBookmark = async (data: {}) => {
   return await api.post(`/api/v1/members/record/bookmarks`, data);
 };
 
-export const patchBookmarkCheck = async (data: {}) => {
-  return await api.post(
-    `/api/v1/members/record/bookmarks/check-duplicate-title`,
-    data,
+export const getBodyBookmarkCheck = async (params: {}) => {
+  const query = new URLSearchParams(params).toString()
+  return await api.get(
+    `/api/v1/members/record/bookmarks/check-duplicate-title?${query}`,
   );
 };
