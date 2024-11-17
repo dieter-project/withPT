@@ -14,6 +14,7 @@ import {
   ProgressWrap,
   TrainerFeedback,
   DietSectionTitle,
+  ImageWrap,
 } from "./style";
 import { getDietByDate } from "@/services/member/diet";
 import { format } from "date-fns";
@@ -24,6 +25,7 @@ import { FlexRowBetween } from "@/styles/components/Flex";
 import PageHeader from "@/components/PageHeader";
 import { CalendarIcon } from "@/styles/components/Header";
 import { PlusButton } from "@/styles/Button";
+import { EmptyImg } from "@/components/style/common/EmptyImg";
 
 const ReactApexChart = dynamic(() => import("react-apexcharts"), {
   ssr: false,
@@ -198,9 +200,14 @@ const page = () => {
                         )
                       }
                     >
-                      <div className="diet-img">
-                        <img src="" alt="" />
-                      </div>
+                      <ImageWrap>
+                        {diet.images.length > 0 ? (
+                          <img src="" alt="" />
+                        ) : (
+                          <EmptyImg />
+                        )}
+                      </ImageWrap>
+
                       <div className="diet-detail">
                         <div>
                           <div className="time">

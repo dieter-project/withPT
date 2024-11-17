@@ -13,6 +13,7 @@ import { ko } from "date-fns/locale";
 import { SettingIcon } from "@/styles/components/Header";
 import { DIET_CATEGORY } from "@/constants/record";
 import SettingMenu from "@/components/SettingMenu";
+import { EmptyImg } from "@/components/style/common/EmptyImg";
 
 const page = ({ params }: { params: { id: number } }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -44,7 +45,7 @@ const page = ({ params }: { params: { id: number } }) => {
 
   const handleDeleteDiet = async () => {
     const response = await deleteDiets(Number(dietId), dietInfoId);
-    if (response.status === 200) router.replace('/member/record/diet')
+    if (response.status === 200) router.replace("/member/record/diet");
   };
 
   const dietCategory =
@@ -80,9 +81,19 @@ const page = ({ params }: { params: { id: number } }) => {
             {getMeridiem(new Date(diets.dietTime))}
           </DateText>
           <ImgContainer>
-            <div>
-              <img src="" alt="" />
-            </div>
+            {diets.images.length > 0 ? (
+              diets.images.map(image => {
+                return (
+                  <div>
+                    <img src="" alt="" />
+                  </div>
+                );
+              })
+            ) : (
+              <div>
+                <EmptyImg />
+              </div>
+            )}
           </ImgContainer>
         </ContentSection>
         <ContentSection>
