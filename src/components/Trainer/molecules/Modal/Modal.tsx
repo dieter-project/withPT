@@ -2,9 +2,10 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { CloseBtn } from "@/styles/Trainer/TrainerButton";
 import { styled } from "styled-components";
-import { openModal, closeModal } from "@/redux/reducers/trainer/modalSlice";
+import { closeModal } from "@/redux/reducers/trainer/modalSlice";
 import { useModalEffect } from "@/hooks/trainer/modal/useModalEffect";
 import { RootState } from "@/redux/store";
+import ReactDOM from "react-dom";
 
 const ModalContainer = styled.div`
   position: fixed;
@@ -12,8 +13,9 @@ const ModalContainer = styled.div`
   height: 100vh;
   top: 0;
   left: 0;
-  z-index: 999;
+  z-index: var(--z-index-modal);
 `;
+
 const ModalInnerWrap = styled.div.attrs<{ $showModalContent: boolean }>(
   ({ $showModalContent }) => ({
     style: {
@@ -28,7 +30,6 @@ const ModalInnerWrap = styled.div.attrs<{ $showModalContent: boolean }>(
   padding: 1rem;
   border-radius: 1rem 1rem 0 0;
   transition: 0.3s;
-  ${props => props.$showModalContent && ""}
 `;
 
 const ModalDimmed = styled.div.attrs<{ $showModalContent: boolean }>(
@@ -70,25 +71,32 @@ const ModalContent = styled.div`
 interface ModalProps {
   title: string;
   content: React.ReactNode;
+  overlapError?: boolean;
+  onClose?: () => void;
 }
 
-export const SearchModal = ({ title, content }: ModalProps) => {
+export const Modal = ({ title, content }: ModalProps) => {
   const dispatch = useDispatch();
   const isModalOpen = useSelector((state: RootState) => state.modal.isOpen);
-  if (!isModalOpen) return null;
   const showModalContent = useModalEffect(isModalOpen);
-  return (
-    <ModalContainer>
-      <ModalInnerWrap $showModalContent={showModalContent}>
-        <ModalHeader>
-          {title}
-          <ModalCloseXButton onClick={() => dispatch(closeModal())} />
-        </ModalHeader>
-        <ModalBody>
-          <ModalContent>{content}</ModalContent>
-        </ModalBody>
-      </ModalInnerWrap>
-      <ModalDimmed $showModalContent={showModalContent}></ModalDimmed>
-    </ModalContainer>
+
+  if (!isModalOpen) return null;
+
+  return ReactDOM.createPortal(
+    <>
+      <ModalContainer>
+        <ModalInnerWrap $showModalContent={showModalContent}>
+          <ModalHeader>
+            {title}
+            <ModalCloseXButton onClick={() => dispatch(closeModal())} />
+          </ModalHeader>
+          <ModalBody>
+            <ModalContent>{content}</ModalContent>
+          </ModalBody>
+        </ModalInnerWrap>
+        <ModalDimmed $showModalContent={showModalContent}></ModalDimmed>
+      </ModalContainer>
+    </>,
+    document.getElementById("modal-root") as HTMLElement,
   );
 };

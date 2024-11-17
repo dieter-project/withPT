@@ -3,6 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   isOpen: false,
+  isOverlap: false,
 };
 
 const modalSlice = createSlice({
@@ -15,8 +16,15 @@ const modalSlice = createSlice({
     closeModal: state => {
       state.isOpen = false;
     },
+    setOverlap: (state, action) => {
+      state.isOverlap = action.payload;
+    },
+    resetOverlap: state => {
+      state.isOverlap = false;
+    },
   },
 });
 
-export const { openModal, closeModal } = modalSlice.actions;
+export const { openModal, closeModal, setOverlap, resetOverlap } =
+  modalSlice.actions;
 export default modalSlice.reducer;

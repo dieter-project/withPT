@@ -7,8 +7,7 @@ import { TitleWrapper } from "@/components/trainer/signup/TitleWrapper";
 import { ButtonAreaFixed } from "@/components/trainer/signup/ButtonAreaFixed";
 import ContentHeader from "@/components/TrainerPageTitle";
 import JoinStep from "@/components/trainer/TrSignUpStep";
-import { useAppSelector } from "@/redux/hooks";
-import { SearchModal } from "@/components/trainer/molecules/Modal/Modal";
+import { Modal } from "@/components/trainer/molecules/Modal/Modal";
 import { SearchCenter } from "@/components/trainer/molecules/Modal/searchCenter/SearchCenter";
 import { EventButton } from "@/components/trainer/atoms/Button/EventButton";
 import { openModal } from "@/redux/reducers/trainer/modalSlice";
@@ -85,7 +84,7 @@ export default function Step2() {
       </ContentBody>
 
       {isModalOpen && (
-        <SearchModal
+        <Modal
           title={title}
           content={<SearchCenter handlePlaceSelect={handlePlaceSelect} />}
         />

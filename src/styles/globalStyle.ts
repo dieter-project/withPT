@@ -56,6 +56,10 @@ export const GlobalStyles = createGlobalStyle`
     --font-semibold: 600;
     --font-medium: 500;
     --font-regular: 400;
+    
+    --z-index-modal: 500;
+    --z-index-overlay: 999;
+
   }
 
   *, *:before, *:after {

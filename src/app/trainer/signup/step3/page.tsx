@@ -3,22 +3,24 @@
 import ContentHeader from "@/components/TrainerPageTitle";
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import Image from "next/image";
 import styled from "styled-components";
-import { Container, ContentBody } from "@/styles/trainer/TrainerLayout";
+import { Container, ContentBody } from "@/styles/Trainer/TrainerLayout";
 import { ButtonAreaFixed } from "@/components/trainer/signup/ButtonAreaFixed";
 import { TitleWrapper } from "@/components/trainer/signup/TitleWrapper";
 import JoinStep from "@/components/trainer/TrSignUpStep";
 import { EventButton } from "@/components/trainer/atoms/Button/EventButton";
-import { useAppSelector } from "@/redux/hooks";
-import { Button } from "@/styles/Trainer/TrainerButton";
-import { signupActions } from "@/redux/reducers/trainerSignupSlice";
-import { SearchModal } from "@/components/trainer/molecules/Modal/Modal";
+import { Modal } from "@/components/trainer/molecules/Modal/Modal";
+import { OverlapModal } from "@/components/trainer/molecules/Modal/overlapModal/OverLapModal";
 import { EnterCenterSchedule } from "@/components/trainer/molecules/Modal/enterCenterSchedule/EnterCenterSchedule";
 import { changeDayFormatEnglish } from "@/utils/Trainer/changeDayFormatEnglish";
 import { GymsInfo } from "@/model/trainer/signUp";
-import { openModal, closeModal } from "@/redux/reducers/trainer/modalSlice";
-import { Signup3 } from "@/hooks/trainer/signup/useSignup";
+import { RootState } from "@/redux/store";
+import {
+  openModal,
+  closeModal,
+  setOverlap,
+  resetOverlap,
+} from "@/redux/reducers/trainer/modalSlice";
 import { useHandleCenterSchedule } from "@/hooks/trainer/modal/useEnterCenterSchedule";
 
 export default function step3() {
@@ -26,6 +28,7 @@ export default function step3() {
   const dispatch = useDispatch();
 
   const isModalOpen = useSelector(state => state.modal.isOpen);
+  const isOverlap = useSelector((state: RootState) => state.modal.isOverlap);
   //처음 화면을 그릴때 정된 헬스장 리스트 가져오기
   const saveStates = useSelector(
     (state: RootState) => state.trainerSignup.gyms,
@@ -36,60 +39,8 @@ export default function step3() {
   const [openModalNum, setOpenModalNum] = useState<number | null>(null);
   const [modalTitle, setModalTitle] = useState<string>("");
 
-  const {
-    selectedDays,
-    setSelectedDays,
-    selectedStartTime,
-    setSelectedStartTime,
-    selectedEndTime,
-    setSelectedEndTime,
-    selectedSchedules,
-    setSelectedSchedules,
-    overlapError,
-    setOverlapError,
-    isButtonDisabled,
-  } = useHandleCenterSchedule();
-
-  const handleConfirm = () => {
-    // 최종 확인 시에는 모든 일정들과 비교하여 겹치는지 확인
-    const isOverlap = allSchedules.some(schedule => {
-      const selectedStart = new Date(`2023-01-01 ${selectedStartTime}`);
-      const selectedEnd = new Date(`2023-01-01 ${selectedEndTime}`);
-      const existingStart = new Date(`2023-01-01 ${schedule.startTime}`);
-      const existingEnd = new Date(`2023-01-01 ${schedule.endTime}`);
-
-      const isDayOverlap = selectedDays.some(day =>
-        schedule.days.includes(day),
-      );
-
-      const isTimeOverlap =
-        (selectedStart >= existingStart && selectedStart < existingEnd) ||
-        (selectedEnd > existingStart && selectedEnd <= existingEnd) ||
-        (selectedStart <= existingStart && selectedEnd >= existingEnd);
-
-      return isDayOverlap && isTimeOverlap;
-    });
-
-    if (isOverlap) {
-      setOverlapError(true);
-    } else {
-      setOverlapError(false);
-
-      // 선택한 일정 정보를 저장
-      const schedule = {
-        days: selectedDays,
-        startTime: selectedStartTime,
-        endTime: selectedEndTime,
-      };
-      setSelectedSchedules([...selectedSchedules, schedule]);
-      setAllSchedules([...allSchedules, schedule]);
-
-      // 선택한 일정 초기화
-      setSelectedDays([]);
-      setSelectedStartTime("");
-      setSelectedEndTime("");
-    }
-  };
+  const { selectedSchedules, overlapError, isButtonDisabled } =
+    useHandleCenterSchedule();
 
   const toggleModal = (centername: string, index: number) => {
     dispatch(openModal());
@@ -108,6 +59,10 @@ export default function step3() {
   };
 
   const gyms = saveStates?.gyms || [];
+
+  const handleCloseOverlap = () => {
+    dispatch(resetOverlap());
+  };
 
   // const updatedGyms = {
   //   workSchedules: [
@@ -131,6 +86,10 @@ export default function step3() {
   // };
 
   // console.log(selectedDays.length, "selectedDays");
+
+  useEffect(() => {
+    console.log("overlapError", overlapError);
+  }, [overlapError]);
 
   return (
     <Container>
@@ -162,70 +121,9 @@ export default function step3() {
         />
       </ContentBody>
       {isModalOpen && (
-        <SearchModal title={modalTitle} content={<EnterCenterSchedule />} />
+        <Modal title={modalTitle} content={<EnterCenterSchedule />} />
       )}
-      {overlapError && (
-        <OverLapWrap>
-          <OverLapModal>
-            <OverLapTitle>일정 중복</OverLapTitle>
-            <OverLapMessage>
-              {" "}
-              기존 일정과 중복된 시간이 있어
-              <br />
-              등록을 할 수 없습니다.
-            </OverLapMessage>
-            <OverLapClose>확인</OverLapClose>
-          </OverLapModal>
-        </OverLapWrap>
-      )}
+      {overlapError && <OverlapModal />}
     </Container>
   );
 }
-
-const OverLapWrap = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-  z-index: 300;
-  border-radius: 0.5rem;
-`;
-
-const OverLapModal = styled.div`
-  font-family: var(--font);
-  width: 18.125rem;
-  height: 9.5rem;
-  padding-top: 1.19rem;
-  text-align: center;
-  background-color: white;
-  border-radius: 0.5rem;
-  color: black;
-  font-size: 3vh;
-`;
-
-const OverLapTitle = styled.h4`
-  text-align: center;
-  font-weight: 600;
-  font-size: 17px;
-`;
-
-const OverLapMessage = styled.div`
-  font-size: var(--font-m);
-  color: rgba(0, 0, 0, 0.5);
-  margin-bottom: 1.06rem;
-`;
-
-const OverLapClose = styled.button`
-  all: unset;
-  width: 100%;
-  font-size: var(--font-m);
-  padding-top: 0.62rem;
-  border-top: 1px solid rgba(0, 0, 0, 0.3);
-`;
-
-const ModalCloseXButton = styled.button``;

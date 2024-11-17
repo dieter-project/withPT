@@ -1,9 +1,17 @@
 import { useState } from "react";
 import dayjs from "dayjs";
 import isBetween from "dayjs/plugin/isBetween";
+import {
+  openModal,
+  closeModal,
+  setOverlap,
+  resetOverlap,
+} from "@/redux/reducers/trainer/modalSlice";
 
 export const useHandleCenterSchedule = () => {
   dayjs.extend(isBetween);
+
+  const days = ["월", "화", "수", "목", "금", "토", "일"];
   const [selectedDays, setSelectedDays] = useState<string[]>([]);
   const [selectedStartTime, setSelectedStartTime] = useState<string | null>(
     null,
@@ -16,9 +24,6 @@ export const useHandleCenterSchedule = () => {
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
   const [errorMessage, setErrorMessage] = useState("");
 
-  // Constants
-  const days = ["월", "화", "수", "목", "금", "토", "일"];
-
   const handleDayClick = (day: string) => {
     setSelectedDays(prevDays =>
       prevDays.includes(day)
@@ -30,29 +35,42 @@ export const useHandleCenterSchedule = () => {
   const handleStartTimeChange = (time: string) => setSelectedStartTime(time);
   const handleEndTimeChange = (time: string) => setSelectedEndTime(time);
 
-  // 1) 날짜, 시작 시간, 종료 시간이 선택 되었는지
-  // 2) 시작 시간이 종료 시간보다 먼저인지 검사
-  // 3) 등록해 놓은 시간이랑 비교해서 겹치는 시간이 있는지 확인
-  // 4) 등록 후에는 select state 초기화
+  // 시간을 분 단위로 변환하는 함수
+  const convertTimeToMinutes = (time: string) => {
+    const [hours, minutes] = time.split(":").map(Number);
+    return hours * 60 + minutes;
+  };
+
+  // 스케줄 확인 및 추가 함수
   const handleConfirm = () => {
     if (!selectedDays.length || !selectedStartTime || !selectedEndTime) {
       setErrorMessage("스케줄의 모든 옵션을 선택해주세요");
       return;
     }
 
+    const selectedStartMinutes = convertTimeToMinutes(selectedStartTime);
+    const selectedEndMinutes = convertTimeToMinutes(selectedEndTime);
+
+    if (selectedEndMinutes <= selectedStartMinutes) {
+      setErrorMessage("종료 시간이 시작 시간보다 빠를 수 없습니다.");
+      return;
+    }
+
+    // 기존 스케줄과 겹치는지 확인
     const isOverlap = selectedSchedules.some(schedule => {
-      const selectedStart = dayjs(selectedStartTime, "HH:mm");
-      const selectedEnd = dayjs(selectedEndTime, "HH:mm");
-      const existingStart = dayjs(schedule.startTime, "HH:mm");
-      const existingEnd = dayjs(schedule.endTime, "HH:mm");
+      const existingStartMinutes = convertTimeToMinutes(schedule.startTime);
+      const existingEndMinutes = convertTimeToMinutes(schedule.endTime);
       const isDayOverlap = selectedDays.some(day =>
         schedule.days.includes(day),
       );
+
       const isTimeOverlap =
-        selectedStart.isBetween(existingStart, existingEnd, null, "[)") ||
-        selectedEnd.isBetween(existingStart, existingEnd, null, "(]") ||
-        existingStart.isBetween(selectedStart, selectedEnd, null, "[)") ||
-        existingEnd.isBetween(selectedStart, selectedEnd, null, "(]");
+        (selectedStartMinutes >= existingStartMinutes &&
+          selectedStartMinutes < existingEndMinutes) ||
+        (selectedEndMinutes > existingStartMinutes &&
+          selectedEndMinutes <= existingEndMinutes) ||
+        (selectedStartMinutes <= existingStartMinutes &&
+          selectedEndMinutes >= existingEndMinutes);
 
       return isDayOverlap && isTimeOverlap;
     });

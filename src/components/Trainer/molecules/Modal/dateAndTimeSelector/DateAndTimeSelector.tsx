@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { FlexWrapper } from "@/styles/trainer/TrainerLayout";
+import { FlexWrapper } from "@/styles/Trainer/TrainerLayout";
 import { TimeDropdown } from "@/components/trainer/atoms/Select/TimeDropdown";
 
 interface DateAndTimeSelectorProps {
@@ -26,7 +26,7 @@ export const DateAndTimeSelector: React.FC<DateAndTimeSelectorProps> = ({
     <ul>
       <FlexWrapper>
         <ModalSubTitle>날짜</ModalSubTitle>
-        {days.map((day, index) => (
+        {days?.map((day, index) => (
           <DaySelector
             key={index}
             className={selectedDays.includes(day) ? "selected" : ""}
