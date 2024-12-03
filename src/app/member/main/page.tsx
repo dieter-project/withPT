@@ -90,7 +90,7 @@ const page = () => {
       const {
         data: { data },
       } = await getMemberInfo();
-      setMemberInfo(data);
+      setMemberInfo(data.memberInfo);
     } catch (error) {
       console.log("error: ", error);
     }
@@ -150,7 +150,7 @@ const page = () => {
             <GoalContents>
               <div>
                 <span></span>
-                <div>{convertGoal("diet", memberInfo.dietType)}식단</div>
+                <div>{convertGoal("diet", memberInfo.dietType)} 식단</div>
               </div>
               <div>
                 <span></span>
@@ -212,7 +212,9 @@ const page = () => {
                     <EmptyData
                       text="아직 등록된 식단이 없어요."
                       subText="눌러서 오늘의 식단을 입력해 주세요"
-                      onClick={() => router.push('/member/record/diet/register')}
+                      onClick={() =>
+                        router.push("/member/record/diet/register")
+                      }
                     />
                   )}
                 </>

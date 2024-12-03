@@ -47,7 +47,7 @@ const WorkoutListContent = styled.div`
 
 interface Props {
   workout: WorkoutType[] | WorkoutPayload[] | undefined;
-  onDelete: (idx: number) => void;
+  onDelete?: (idx: number) => void;
 }
 
 const WorkoutList = ({ workout, onDelete }: Props) => {
@@ -86,7 +86,11 @@ const WorkoutList = ({ workout, onDelete }: Props) => {
                         </div>
                       </WorkoutListContent>
                     </div>
-                    <CloseBtn onClick={() => {onDelete(index)}} />
+                    <CloseBtn
+                      onClick={() => {
+                        onDelete && onDelete(index);
+                      }}
+                    />
                   </li>
                 );
               })}
