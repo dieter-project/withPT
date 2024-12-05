@@ -9,10 +9,13 @@ import { FormRadio, Slash, StyledLabel } from "./style";
 import LabelField from "@/components/trainer/molecules/LabelField/LabelField";
 import { ButtonAreaFixed } from "@/components/trainer/signup/ButtonAreaFixed";
 import { signup1 } from "@/services/trainer/signup/signup1";
+import useHeaderFooter from "@/hooks/trainer/common/useHeaderFooter";
 
 export default function Step1() {
   const { inputData, handleInputChange, handleNext, isButtonDisabled, errors } =
     signup1();
+
+  useHeaderFooter(true, false, "step1-action");
 
   return (
     <Container>

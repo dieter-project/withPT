@@ -42,7 +42,7 @@ const PlusButton = styled.button`
 interface Props {
   title: string;
   variant?: "iconBack" | "center" | "plus";
-  onPlusClick?: () => void; // plus 버튼 클릭 시 실행될 함수 추가
+  onPlusClick?: () => void;
 }
 
 const PageTitle: React.FC<Props> = ({

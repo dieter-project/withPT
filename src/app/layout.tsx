@@ -1,12 +1,9 @@
 import React from "react";
-import Script from "next/script";
 import type { Metadata } from "next";
 import { QueryErrorResetBoundary } from "@tanstack/react-query";
 import AuthContext from "@/components/AuthContext";
-import GlobalSpinner from "@/components/common/spinner/GlobalSpinner";
-import StyledComponentsRegistry from "@/lib/StyledComponentsRegistry";
+import StyledComponentsRegistry from "@/lib/styledComponentsRegistry";
 import { Providers } from "../redux/provider";
-import { BaseContainer } from "@/styles/Layout";
 import "./globals.css";
 import ReactQueryProviders from "@/utils/react-query-provider";
 
@@ -27,9 +24,7 @@ export default function RootLayout({
           <QueryErrorResetBoundary>
             <Providers>
               <AuthContext>
-                <StyledComponentsRegistry>
-                  <BaseContainer>{children}</BaseContainer>
-                </StyledComponentsRegistry>
+                <StyledComponentsRegistry>{children}</StyledComponentsRegistry>
               </AuthContext>
             </Providers>
           </QueryErrorResetBoundary>
