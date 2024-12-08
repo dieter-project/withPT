@@ -180,7 +180,7 @@ export default function EditPage() {
 
   return (
     <Container>
-      <ContentHeader title={title} variant="iconBack"></ContentHeader>
+      <ContentHeader title={title} variant="withBack"></ContentHeader>
       <ContentBody>
         <ContentInnerBody>
           {/* 경력 */}

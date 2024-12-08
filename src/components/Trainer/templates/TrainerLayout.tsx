@@ -11,7 +11,7 @@ interface TrainerLayoutProps {
   title: string;
   hasHeader?: boolean;
   hasFooter?: boolean;
-  variant?: "iconBack" | "center" | "plus";
+  variant?: "withBack" | "center" | "plus";
   onPlusClick?: () => void;
   action?: string;
 }
@@ -21,7 +21,7 @@ const TrainerLayout: React.FC<TrainerLayoutProps> = ({
   title,
   hasHeader = true,
   hasFooter = true,
-  variant = "iconBack",
+  variant = "withBack",
   onPlusClick,
   action = "",
 }) => {

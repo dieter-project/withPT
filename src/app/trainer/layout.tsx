@@ -1,8 +1,6 @@
-// app/trainer/layout.tsx
 "use client";
 
 import React from "react";
-import styled from "styled-components";
 import PageTitle from "@/components/TrainerPageTitle";
 import Footer from "@/components/TrainerFooter";
 import { LayoutProvider, useLayout } from "@/context/TrainerLayoutContext";
@@ -14,12 +12,11 @@ interface TrainerLayoutProps {
   title: string;
   hasHeader?: boolean;
   hasFooter?: boolean;
-  variant?: "iconBack" | "center" | "plus";
+  variant?: "withBack" | "center" | "plus" | "logo";
   onPlusClick?: () => void;
   action?: string;
 }
 
-// 실제 레이아웃을 담당하는 컴포넌트
 const TrainerLayout: React.FC<TrainerLayoutProps> = props => {
   const { layoutConfig } = useLayout();
   const {
@@ -27,7 +24,7 @@ const TrainerLayout: React.FC<TrainerLayoutProps> = props => {
     title,
     hasHeader = true,
     hasFooter = true,
-    variant = "iconBack",
+    variant = "withBack",
     onPlusClick,
     action = "",
   } = props;
@@ -51,7 +48,6 @@ const TrainerLayout: React.FC<TrainerLayoutProps> = props => {
   );
 };
 
-// Next.js app router를 위한 레이아웃
 export default function RootTrainerLayout({
   children,
 }: {

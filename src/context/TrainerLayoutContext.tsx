@@ -6,7 +6,7 @@ interface LayoutConfig {
   showHeader: boolean;
   showFooter: boolean;
   title: string;
-  variant: "iconBack" | "center" | "plus";
+  variant: "withBack" | "center" | "plus";
   selectedAction: string;
   onPlusClick?: () => void;
 }
@@ -24,7 +24,7 @@ const defaultConfig: LayoutConfig = {
   showHeader: true,
   showFooter: true,
   title: "",
-  variant: "iconBack",
+  variant: "withBack",
   selectedAction: "",
   onPlusClick: undefined,
 };
@@ -72,7 +72,7 @@ export const useLayout = () => {
       dispatch({ type: "UPDATE_LAYOUT", payload: { showFooter: value } }),
     setTitle: (value: string) =>
       dispatch({ type: "UPDATE_LAYOUT", payload: { title: value } }),
-    setVariant: (value: "iconBack" | "center" | "plus") =>
+    setVariant: (value: "withBack" | "center" | "plus") =>
       dispatch({ type: "UPDATE_LAYOUT", payload: { variant: value } }),
     setSelectedAction: (action: string) =>
       dispatch({ type: "UPDATE_LAYOUT", payload: { selectedAction: action } }),

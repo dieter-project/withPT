@@ -252,7 +252,7 @@ export default function myinfo() {
 
   return (
     <MainContainer>
-      <ContentHeader title={title} variant="iconBack"></ContentHeader>
+      <ContentHeader title={title} variant="withBack"></ContentHeader>
       <MainContentWrap>
         <ProfileInputWrap>
           <ProfileLabel className="input-file-button" htmlFor="input-file">

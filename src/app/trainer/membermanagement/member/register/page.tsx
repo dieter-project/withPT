@@ -79,7 +79,7 @@ export default function MemberRegist() {
 
   return (
     <MainContainer>
-      <ContentHeader title={title} variant="iconBack"></ContentHeader>
+      <ContentHeader title={title} variant="withBack"></ContentHeader>
       <ManageContentWrap>
         <ManageMemberWrap>
           <ManageTitleWrap>

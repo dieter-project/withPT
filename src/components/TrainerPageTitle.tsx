@@ -1,74 +1,135 @@
 import { useRouter } from "next/navigation";
-import React from "react";
-import { styled } from "styled-components";
-import beforePage from "../../public/icons/beforePage.png";
-import plusGray from "../../public/Trainer/icons/plusGray.png";
 import Image from "next/image";
+import Link from "next/link";
+import { styled } from "styled-components";
 
-const ContentHeader = styled.div<{ variant?: Props["variant"] }>`
-  background-color: white;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 4.4rem;
-  padding: 0 1.3rem;
-  align-items: center;
-  z-index: 100;
-  display: flex;
-  justify-content: ${props =>
-    props.variant === "center" ? "center" : "space-between"};
-`;
+// Assets
+import beforePage from "/public/icons/beforePage.png";
+import plusGray from "/public/Trainer/icons/plusGray.png";
+import wePTLogo from "/public/Trainer/wePTLogo.png";
+import alert from "/public/Trainer/Main/bell-solid.png";
 
-const ButtonHistoryBack = styled.button`
-  width: 1.5rem;
-  height: 1.5rem;
-`;
+// Types
+type HeaderVariant = "default" | "withBack" | "center" | "plus" | "logo";
 
-const SignupTitle = styled.h4`
-  line-height: 3rem;
-  color: #222;
-  font-size: 1.25rem;
-  font-weight: 700;
-  letter-spacing: -0;
-`;
-
-const Transparent = styled.div`
-  color: transparent;
-`;
-
-const PlusButton = styled.button`
-  font-size: var(--font-xl);
-`;
-
-interface Props {
+interface PageHeaderProps {
   title: string;
-  variant?: "iconBack" | "center" | "plus";
+  variant?: HeaderVariant;
   onPlusClick?: () => void;
 }
 
-const PageTitle: React.FC<Props> = ({
+// Styled Components
+const StyledHeader = styled.header<{ $variant?: HeaderVariant }>`
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 100;
+  width: 100%;
+  height: 4.4rem;
+  padding: 0 1.3rem;
+  background-color: white;
+  display: flex;
+  align-items: center;
+  justify-content: ${({ $variant }) =>
+    $variant === "center" ? "center" : "space-between"};
+`;
+
+const BackButton = styled.button`
+  width: 1.5rem;
+  height: 1.5rem;
+  padding: 0;
+  background: none;
+  border: none;
+  cursor: pointer;
+`;
+
+const Title = styled.h1`
+  color: #222;
+  font-size: 1.25rem;
+  font-weight: 700;
+  line-height: 3rem;
+  letter-spacing: -0.02em;
+`;
+
+const Spacer = styled.div`
+  width: 1.5rem;
+  visibility: hidden;
+`;
+
+const PlusButton = styled.button`
+  padding: 0;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: var(--font-xl);
+`;
+
+const LogoContainer = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+`;
+
+export const PageHeader = ({
   title,
-  variant = "iconBack" || "center" || "plus",
+  variant = "default",
   onPlusClick,
-}) => {
+}: PageHeaderProps) => {
   const router = useRouter();
-  return (
-    <ContentHeader variant={variant}>
-      {(variant === "iconBack" || variant === "plus") && (
-        <ButtonHistoryBack onClick={() => router.back()}>
-          <Image src={beforePage} alt="이전 페이지 이미지" />
-        </ButtonHistoryBack>
-      )}
-      <SignupTitle>{title}</SignupTitle>
-      {variant === "iconBack" && <Transparent>투명</Transparent>}
-      {variant === "plus" && (
+
+  const handleBack = () => {
+    router.back();
+  };
+
+  const renderLeft = () => {
+    if (variant === "withBack" || variant === "plus") {
+      return (
+        <BackButton onClick={handleBack}>
+          <Image src={beforePage} alt="뒤로 가기" width={24} height={24} />
+        </BackButton>
+      );
+    }
+    if (variant === "logo") {
+      return <Image src={wePTLogo} alt="WePT 로고" width={70} height={30} />;
+    }
+    return null;
+  };
+
+  const renderCenter = () => {
+    if (variant !== "logo") {
+      return <Title>{title}</Title>;
+    }
+    return null;
+  };
+
+  const renderRight = () => {
+    if (variant === "withBack") {
+      return <Spacer />;
+    }
+    if (variant === "plus") {
+      return (
         <PlusButton onClick={onPlusClick}>
-          <Image src={plusGray} alt="추가하는 뜻의 +버튼" />
+          <Image src={plusGray} alt="추가" width={24} height={24} />
         </PlusButton>
-      )}
-    </ContentHeader>
+      );
+    }
+    if (variant === "logo") {
+      return (
+        <Link href="/main/alert">
+          <Image src={alert} alt="알림" width={24} height={24} />
+        </Link>
+      );
+    }
+    return null;
+  };
+
+  return (
+    <StyledHeader $variant={variant}>
+      {renderLeft()}
+      {renderCenter()}
+      {renderRight()}
+    </StyledHeader>
   );
 };
 
-export default PageTitle;
+export default PageHeader;

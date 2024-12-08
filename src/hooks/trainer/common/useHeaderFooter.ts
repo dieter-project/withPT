@@ -6,7 +6,7 @@ export const useHeaderFooter = (
   hasHeader: boolean,
   hasFooter: boolean,
   title: string,
-  variant: "iconBack" | "center" | "plus",
+  variant: "withBack" | "center" | "plus" | "logo",
   action: string = "",
   onPlusClick?: () => void,
 ) => {

@@ -1,9 +1,7 @@
 "use client";
 import React from "react";
 import { TrainerLayout } from "@/app/trainer/layout";
-import { Container, ContentBody } from "@/styles/Trainer/TrainerLayout";
 import { TitleWrapper } from "@/components/trainer/signup/TitleWrapper";
-import ContentHeader from "@/components/TrainerPageTitle";
 import { NoIconInput } from "@/styles/Trainer/TrainerInput";
 import JoinStep from "@/components/trainer/TrSignUpStep";
 import { FormRadio, Slash, StyledLabel } from "./style";
@@ -21,7 +19,7 @@ export default function Step1() {
       title={title}
       hasHeader={true}
       hasFooter={false}
-      variant="iconBack"
+      variant="withBack"
     >
       <JoinStep active="1" />
       <TitleWrapper

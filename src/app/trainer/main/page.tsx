@@ -1,5 +1,6 @@
 "use client";
 import { format } from "date-fns";
+import { TrainerLayout } from "@/app/trainer/layout";
 import ko from "date-fns/locale/ko";
 import ReactApexChart from "react-apexcharts";
 import { useState, useEffect } from "react";
@@ -7,36 +8,13 @@ import styled from "styled-components";
 import Image from "next/image";
 import Link from "next/link";
 import { ApexOptions } from "apexcharts";
-
+import { Typography } from "@/components/trainer/atoms/Typography/TypoGraphy.styles";
 import Footer from "@/components/TrainerFooter";
 import { api } from "@/utils/axios";
 
-import alert from "/public/Trainer/Main/bell-solid.png";
 import changeClassImg from "/public/Trainer/Main/changeClass.png";
 import foodFeedbackImg from "/public/Trainer/Main/foodFeedback.png";
 import newClassImg from "/public/Trainer/Main/newClass.png";
-import wePTLogo from "/public/Trainer/wePTLogo.png";
-
-const MainContainer = styled.div`
-  background-color: var(--purple50);
-  min-height: 100vh;
-`;
-
-const MainHeader = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background-color: white;
-  position: fixed;
-  width: 100%;
-  height: 3.62rem;
-  z-index: 100;
-  padding: 0 1.25rem;
-`;
-
-const MainContentWrap = styled.div`
-  padding: 5rem 1.5rem 6.2rem;
-`;
 
 const MainTitle = styled.h4`
   font-weight: 600;
@@ -162,6 +140,7 @@ const MemberTime = styled.span`
 `;
 
 export default function Main() {
+  const title = "";
   const [currentTime, setCurrentTime] = useState(new Date());
   const [activeTab, setActiveTab] = useState<"firstTab" | "secondTab">(
     "firstTab",
@@ -244,135 +223,136 @@ export default function Main() {
   }, []);
 
   return (
-    <MainContainer>
-      <MainHeader>
-        <Image src={wePTLogo} alt="메인 로고 이미지"></Image>
-        <Link href="main/alert ">
-          <Image src={alert} alt="알림 탭 로고"></Image>
-        </Link>
-      </MainHeader>
-      <MainContentWrap>
-        <MainTitle>{formattedDate}</MainTitle>
-        <TrainerMainWrap>
-          <TrainerScheduleTap>
-            <IsTapActive className={activeTab === "firstTab" ? "isActive" : ""}>
-              <TrainerScheduleItem
-                onClick={() => setActiveTab("firstTab")}
-                style={{ borderRight: "1px solid var(--gray)" }}
-              >
-                오늘의 일정
-              </TrainerScheduleItem>
-            </IsTapActive>
-            <IsTapActive
-              className={activeTab === "secondTab" ? "isActive" : ""}
+    <TrainerLayout
+      title={title}
+      hasHeader={true}
+      hasFooter={true}
+      variant="logo"
+    >
+      <Typography variant="title2" fw={600}>
+        {formattedDate}
+      </Typography>
+      <TrainerMainWrap>
+        <TrainerScheduleTap>
+          <IsTapActive className={activeTab === "firstTab" ? "isActive" : ""}>
+            <TrainerScheduleItem
+              onClick={() => setActiveTab("firstTab")}
+              style={{ borderRight: "1px solid var(--gray)" }}
             >
-              <TrainerScheduleItem onClick={() => setActiveTab("secondTab")}>
-                도착한 알림
-              </TrainerScheduleItem>
-            </IsTapActive>
-          </TrainerScheduleTap>
-          <TrainerScheduleContentWrap>
-            {activeTab === "firstTab" ? (
-              <Link href="coursemanagement ">
-                <div className="trainer-schedule-content">
-                  <ScheduleContentItem>
-                    <span>10:00 ~ 10:50</span> <span>김땡땡 회원님</span>
-                  </ScheduleContentItem>
-                  <ScheduleContentItem>
-                    <span>12:00 ~ 12:50</span> <span>맥도날드 회원님</span>
-                  </ScheduleContentItem>
-                  <ScheduleContentItem>
-                    <span>13:00 ~ 13:50</span> <span>배고파요 회원님</span>
-                  </ScheduleContentItem>
-                  <ScheduleContentItem style={{ borderBottom: "none" }}>
-                    <span>16:00 ~ 16:50</span> <span>사보리노 회원님</span>
-                  </ScheduleContentItem>
-                </div>
-              </Link>
-            ) : (
-              /* "도착한 알림" 탭이 활성화되었을 때 */
+              오늘의 일정
+            </TrainerScheduleItem>
+          </IsTapActive>
+          <IsTapActive className={activeTab === "secondTab" ? "isActive" : ""}>
+            <TrainerScheduleItem onClick={() => setActiveTab("secondTab")}>
+              도착한 알림
+            </TrainerScheduleItem>
+          </IsTapActive>
+        </TrainerScheduleTap>
+        <TrainerScheduleContentWrap>
+          {activeTab === "firstTab" ? (
+            <Link href="coursemanagement ">
               <div className="trainer-schedule-content">
-                <Link href="/main/alert">
-                  <AlertContentItem>
-                    <div>
-                      <AlertTypeImg
-                        src={foodFeedbackImg}
-                        alt="식단 피드백 요청 이미지"
-                        width="20"
-                        height="20"
-                      />
-                      <AlertTypeTxt>식단피드백 요청</AlertTypeTxt>
-                      <MemberName>김땡땡 회원님</MemberName>
-                    </div>{" "}
-                    <MemberTime>9:45</MemberTime>
-                  </AlertContentItem>
-                  <AlertContentItem>
-                    <div>
-                      <AlertTypeImg
-                        src={changeClassImg}
-                        alt="수업변경 요청 이미지"
-                        width="20"
-                        height="20"
-                      />
-                      <AlertTypeTxt>수업변경 요청</AlertTypeTxt>
-                      <MemberName>맥도날드 회원님</MemberName>
-                    </div>
-                    <MemberTime>10:12</MemberTime>
-                  </AlertContentItem>
-                  <AlertContentItem>
-                    <div>
-                      <AlertTypeImg
-                        src={newClassImg}
-                        alt="신규 수업 요청 이미지"
-                        width="20"
-                        height="20"
-                      />
-                      <AlertTypeTxt>수업변경 요청</AlertTypeTxt>
-                      <MemberName>맥도날드 회원님</MemberName>
-                    </div>
-                    <MemberTime>10:12</MemberTime>
-                  </AlertContentItem>
-                  <AlertContentItem>
-                    <div>
-                      <AlertTypeImg
-                        src={foodFeedbackImg}
-                        alt="식단 피드백 요청 이미지"
-                        width="20"
-                        height="20"
-                      />
-                      <AlertTypeTxt>수업변경 요청</AlertTypeTxt>
-                      <MemberName>맥도날드 회원님</MemberName>
-                    </div>
-                    <MemberTime>10:12</MemberTime>
-                  </AlertContentItem>
-                </Link>
+                <ScheduleContentItem>
+                  <span>10:00 ~ 10:50</span> <span>김땡땡 회원님</span>
+                </ScheduleContentItem>
+                <ScheduleContentItem>
+                  <span>12:00 ~ 12:50</span> <span>맥도날드 회원님</span>
+                </ScheduleContentItem>
+                <ScheduleContentItem>
+                  <span>13:00 ~ 13:50</span> <span>배고파요 회원님</span>
+                </ScheduleContentItem>
+                <ScheduleContentItem style={{ borderBottom: "none" }}>
+                  <span>16:00 ~ 16:50</span> <span>사보리노 회원님</span>
+                </ScheduleContentItem>
               </div>
-            )}
-          </TrainerScheduleContentWrap>
-        </TrainerMainWrap>
-        <MainTitle>회원 통계</MainTitle>
-        <TrainerGraphWrap>
-          <MonthMemberWrap>
-            <MonthMemberMonth>{formattedDate2}월 회원수 </MonthMemberMonth>
-            <MonthMemberNum> 31명</MonthMemberNum>
-          </MonthMemberWrap>
-          <div>
-            {" "}
-            <ReactApexChart
-              options={options}
-              series={apexChartData.series}
-              type="line"
-              height="120%"
-            />
-          </div>
-          <MemberNumberWrap>
-            기존 회원 <MemberNumber>6</MemberNumber>명 | 재등록회원{" "}
-            <MemberNumber>5</MemberNumber>명 | 신규 회원{" "}
-            <MemberNumber>6</MemberNumber>명
-          </MemberNumberWrap>
-        </TrainerGraphWrap>
-      </MainContentWrap>
+            </Link>
+          ) : (
+            /* "도착한 알림" 탭이 활성화되었을 때 */
+            <div className="trainer-schedule-content">
+              <Link href="/main/alert">
+                <AlertContentItem>
+                  <div>
+                    <AlertTypeImg
+                      src={foodFeedbackImg}
+                      alt="식단 피드백 요청 이미지"
+                      width="20"
+                      height="20"
+                    />
+                    <AlertTypeTxt>식단피드백 요청</AlertTypeTxt>
+                    <Typography variant="title3" fw={600}>
+                      김땡땡 회원님
+                    </Typography>
+                  </div>{" "}
+                  <MemberTime>9:45</MemberTime>
+                </AlertContentItem>
+                <AlertContentItem>
+                  <div>
+                    <AlertTypeImg
+                      src={changeClassImg}
+                      alt="수업변경 요청 이미지"
+                      width="20"
+                      height="20"
+                    />
+                    <AlertTypeTxt>수업변경 요청</AlertTypeTxt>
+                    <MemberName>맥도날드 회원님</MemberName>
+                  </div>
+                  <MemberTime>10:12</MemberTime>
+                </AlertContentItem>
+                <AlertContentItem>
+                  <div>
+                    <AlertTypeImg
+                      src={newClassImg}
+                      alt="신규 수업 요청 이미지"
+                      width="20"
+                      height="20"
+                    />
+                    <AlertTypeTxt>수업변경 요청</AlertTypeTxt>
+                    <MemberName>맥도날드 회원님</MemberName>
+                  </div>
+                  <MemberTime>10:12</MemberTime>
+                </AlertContentItem>
+                <AlertContentItem>
+                  <div>
+                    <AlertTypeImg
+                      src={foodFeedbackImg}
+                      alt="식단 피드백 요청 이미지"
+                      width="20"
+                      height="20"
+                    />
+                    <AlertTypeTxt>수업변경 요청</AlertTypeTxt>
+                    <MemberName>맥도날드 회원님</MemberName>
+                  </div>
+                  <MemberTime>10:12</MemberTime>
+                </AlertContentItem>
+              </Link>
+            </div>
+          )}
+        </TrainerScheduleContentWrap>
+      </TrainerMainWrap>
+      <Typography variant="title2" fw={600}>
+        회원 통계
+      </Typography>
+      <TrainerGraphWrap>
+        <MonthMemberWrap>
+          <MonthMemberMonth>{formattedDate2}월 회원수 </MonthMemberMonth>
+          <MonthMemberNum> 31명</MonthMemberNum>
+        </MonthMemberWrap>
+        <div>
+          {" "}
+          <ReactApexChart
+            options={options}
+            series={apexChartData.series}
+            type="line"
+            height="120%"
+          />
+        </div>
+        <MemberNumberWrap>
+          기존 회원 <MemberNumber>6</MemberNumber>명 | 재등록회원{" "}
+          <MemberNumber>5</MemberNumber>명 | 신규 회원{" "}
+          <MemberNumber>6</MemberNumber>명
+        </MemberNumberWrap>
+      </TrainerGraphWrap>
       <Footer />
-    </MainContainer>
+    </TrainerLayout>
   );
 }
