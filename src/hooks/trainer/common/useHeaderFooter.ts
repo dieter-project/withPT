@@ -2,31 +2,27 @@
 import { useEffect } from "react";
 import { useLayout } from "@/context/TrainerLayoutContext";
 
-const useHeaderFooter = (
-  showHeader: boolean,
-  showFooter: boolean,
-  action: string,
+export const useHeaderFooter = (
+  hasHeader: boolean,
+  hasFooter: boolean,
+  title: string,
+  variant: "iconBack" | "center" | "plus",
+  action: string = "",
+  onPlusClick?: () => void,
 ) => {
-  const { setShowHeader, setShowFooter, setSelectedAction } = useLayout();
+  const { dispatch } = useLayout();
 
   useEffect(() => {
-    setShowHeader(showHeader);
-    setShowFooter(showFooter);
-    setSelectedAction(action);
-
-    return () => {
-      setShowHeader(true);
-      setShowFooter(true);
-      setSelectedAction("");
-    };
-  }, [
-    showHeader,
-    showFooter,
-    action,
-    setShowHeader,
-    setShowFooter,
-    setSelectedAction,
-  ]);
+    dispatch({
+      type: "UPDATE_LAYOUT",
+      payload: {
+        showHeader: hasHeader,
+        showFooter: hasFooter,
+        title,
+        variant,
+        selectedAction: action,
+        onPlusClick,
+      },
+    });
+  }, [hasHeader, hasFooter, title, variant, action, onPlusClick, dispatch]);
 };
-
-export default useHeaderFooter;

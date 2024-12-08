@@ -4,7 +4,7 @@ import React from "react";
 import ContentHeader from "@/components/TrainerPageTitle";
 import Footer from "@/components/TrainerFooter";
 import { useLayout } from "@/context/TrainerLayoutContext";
-import { usePathname } from "next/navigation";
+import { useHeaderFooter } from "@/hooks/trainer/common/useHeaderFooter";
 
 interface TrainerLayoutProps {
   children: React.ReactNode;
@@ -25,11 +25,20 @@ const TrainerLayout: React.FC<TrainerLayoutProps> = ({
   onPlusClick,
   action = "",
 }) => {
-  const { showHeader, showFooter } = useLayout();
+  const { layoutConfig } = useLayout();
+
+  useHeaderFooter(
+    hasHeader,
+    hasFooter,
+    title, // title 추가
+    variant, // variant 추가
+    action,
+    onPlusClick,
+  );
 
   return (
     <>
-      {showHeader && (
+      {layoutConfig.showHeader && (
         <ContentHeader
           title={title}
           variant={variant}
@@ -37,7 +46,7 @@ const TrainerLayout: React.FC<TrainerLayoutProps> = ({
         />
       )}
       <main>{children}</main>
-      {showFooter && <Footer />}
+      {layoutConfig.showFooter && <Footer />}
     </>
   );
 };

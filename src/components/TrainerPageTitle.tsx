@@ -8,6 +8,8 @@ import Image from "next/image";
 const ContentHeader = styled.div<{ variant?: Props["variant"] }>`
   background-color: white;
   position: fixed;
+  top: 0;
+  left: 0;
   width: 100%;
   height: 4.4rem;
   padding: 0 1.3rem;

@@ -4,14 +4,15 @@ export const Container = styled.div`
   position: relative;
   box-sizing: border-box;
   width: 100%;
-  height: auto;
+  min-height: 100vh;
   background-color: white;
   margin: 0;
   padding: 0;
 `;
 
 export const ContentBody = styled.div`
-  padding: 5rem 1.3rem 3.2rem 1.3rem;
+  position: relative;
+  padding: 4.5rem 1rem 4.7rem 1rem;
 `;
 
 export const ButtonAreaLayout = styled.div`
