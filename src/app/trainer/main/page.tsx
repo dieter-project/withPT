@@ -228,6 +228,7 @@ export default function Main() {
       hasHeader={true}
       hasFooter={true}
       variant="logo"
+      bgColor="primary"
     >
       <Typography variant="title2" fw={600}>
         {formattedDate}

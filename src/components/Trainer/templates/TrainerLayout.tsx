@@ -14,6 +14,7 @@ interface TrainerLayoutProps {
   variant?: "withBack" | "center" | "plus";
   onPlusClick?: () => void;
   action?: string;
+  bgColor?: "white" | "primary";
 }
 
 const TrainerLayout: React.FC<TrainerLayoutProps> = ({

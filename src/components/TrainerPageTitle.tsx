@@ -3,13 +3,11 @@ import Image from "next/image";
 import Link from "next/link";
 import { styled } from "styled-components";
 
-// Assets
 import beforePage from "/public/icons/beforePage.png";
 import plusGray from "/public/Trainer/icons/plusGray.png";
 import wePTLogo from "/public/Trainer/wePTLogo.png";
 import alert from "/public/Trainer/Main/bell-solid.png";
 
-// Types
 type HeaderVariant = "default" | "withBack" | "center" | "plus" | "logo";
 
 interface PageHeaderProps {

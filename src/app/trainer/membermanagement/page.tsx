@@ -115,8 +115,8 @@ export default function ManageMain() {
     <TrainerLayout
       title={title}
       hasHeader={true}
-      hasFooter={false}
-      variant="withBack"
+      hasFooter={true}
+      variant={undefined}
     >
       <Link href="/trainer/membermanagement/member/register">
         <Button $variant="primary" height="3.5rem">

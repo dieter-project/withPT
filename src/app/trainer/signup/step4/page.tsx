@@ -7,7 +7,7 @@ import ContentHeader from "@/components/TrainerPageTitle";
 import JoinStep from "@/components/trainer/TrSignUpStep";
 import Image from "next/image";
 import styled from "styled-components";
-import { Container, ContentBody } from "@/styles/trainer/TrainerLayout";
+import { TrainerLayout } from "@/app/trainer/layout";
 import { TitleWrapper } from "@/components/trainer/signup/TitleWrapper";
 import {
   FormTitle,
@@ -457,118 +457,120 @@ export default function step4() {
   };
 
   return (
-    <Container>
-      <ContentHeader title={title}></ContentHeader>
-      <ContentBody>
-        <JoinStep active={"4"} />
-        <TitleWrapper
-          topTitle="내 이력을 등록해주세요."
-          underTitle="회원가입 후 마이페이지에서도 입력이 가능해요."
-        />
-        <RegisterTitle>경력 입력</RegisterTitle>
-        <SignupFormWrap>
-          <TrRegisItemWrap>
-            <SignupButton onClick={toggleModal}>
-              {selectedSchedules[0] ? (
-                <RegisterStatus>
-                  <CheckIcon src={checkIconPurple} alt="등록 완료 이미지" />
-                  <RegisterMessage>등록 완료 </RegisterMessage>
-                </RegisterStatus>
-              ) : (
-                <>
-                  <PlusIcon>+</PlusIcon>
-                </>
-              )}
-            </SignupButton>
-          </TrRegisItemWrap>
-          {selectedSchedules[0] ? (
-            <ScheduleFlexWrap>
-              {selectedSchedules.map((schedule, index) => (
-                <ScheduleFlex key={index}>
-                  <span>{schedule.days.join("/")}</span>
-                  <span>
-                    {schedule.startTime} ~ {schedule.endTime}
-                  </span>
-                </ScheduleFlex>
-              ))}
-            </ScheduleFlexWrap>
-          ) : (
-            ""
-          )}
-        </SignupFormWrap>
-        <RegisterTitle>자격증/수상/교육 등록</RegisterTitle>
-        <SignupFormWrap>
-          <TrRegisItemWrap>
-            <SignupButton onClick={toggleModal}>
-              {selectedSchedules[0] ? (
-                <RegisterStatus>
-                  <CheckIcon src={checkIconPurple} alt="등록 완료 이미지" />
-                  <RegisterMessage>등록 완료 </RegisterMessage>
-                </RegisterStatus>
-              ) : (
-                <>
-                  <PlusIcon>+</PlusIcon>
-                </>
-              )}
-            </SignupButton>
-          </TrRegisItemWrap>
-          {selectedSchedules[0] ? (
-            <ScheduleFlexWrap>
-              {selectedSchedules.map((schedule, index) => (
-                <ScheduleFlex key={index}>
-                  <span>{schedule.days.join("/")}</span>
-                  <span>
-                    {schedule.startTime} ~ {schedule.endTime}
-                  </span>
-                </ScheduleFlex>
-              ))}
-            </ScheduleFlexWrap>
-          ) : (
-            ""
-          )}
-        </SignupFormWrap>
-        <RegisterTitle>학력사항 등록</RegisterTitle>
-        <SignupFormWrap>
-          <TrRegisItemWrap>
-            <SignupButton onClick={toggleModal}>
-              {selectedSchedules[0] ? (
-                <RegisterStatus>
-                  <CheckIcon src={checkIconPurple} alt="등록 완료 이미지" />
-                  <RegisterMessage>등록 완료 </RegisterMessage>
-                </RegisterStatus>
-              ) : (
-                <>
-                  <PlusIcon>+</PlusIcon>
-                </>
-              )}
-            </SignupButton>
-          </TrRegisItemWrap>
-          {selectedSchedules[0] ? (
-            <ScheduleFlexWrap>
-              {selectedSchedules.map((schedule, index) => (
-                <ScheduleFlex key={index}>
-                  <span>{schedule.days.join("/")}</span>
-                  <span>
-                    {schedule.startTime} ~ {schedule.endTime}
-                  </span>
-                </ScheduleFlex>
-              ))}
-            </ScheduleFlexWrap>
-          ) : (
-            ""
-          )}
-        </SignupFormWrap>
-        <AlertMessage>
-          <img src="/svgs/icon_alert.svg" alt="" />
-          등록된 트레이너 이력은 회원페이지에 노출이 됩니다.
-        </AlertMessage>
-        <ButtonAreaFixed
-          // isButtonDisabled={isButtonDisabled}
-          onClick={handleSubmit}
-          nextStepUrl="/trainer/signup/finished"
-          label="다음"
-        />
-      </ContentBody>
+    <TrainerLayout
+      title={title}
+      hasHeader={true}
+      hasFooter={false}
+      variant="withBack"
+    >
+      <JoinStep active={"4"} />
+      <TitleWrapper
+        topTitle="내 이력을 등록해주세요."
+        underTitle="회원가입 후 마이페이지에서도 입력이 가능해요."
+      />
+      <RegisterTitle>경력 입력</RegisterTitle>
+      <SignupFormWrap>
+        <TrRegisItemWrap>
+          <SignupButton onClick={toggleModal}>
+            {selectedSchedules[0] ? (
+              <RegisterStatus>
+                <CheckIcon src={checkIconPurple} alt="등록 완료 이미지" />
+                <RegisterMessage>등록 완료 </RegisterMessage>
+              </RegisterStatus>
+            ) : (
+              <>
+                <PlusIcon>+</PlusIcon>
+              </>
+            )}
+          </SignupButton>
+        </TrRegisItemWrap>
+        {selectedSchedules[0] ? (
+          <ScheduleFlexWrap>
+            {selectedSchedules.map((schedule, index) => (
+              <ScheduleFlex key={index}>
+                <span>{schedule.days.join("/")}</span>
+                <span>
+                  {schedule.startTime} ~ {schedule.endTime}
+                </span>
+              </ScheduleFlex>
+            ))}
+          </ScheduleFlexWrap>
+        ) : (
+          ""
+        )}
+      </SignupFormWrap>
+      <RegisterTitle>자격증/수상/교육 등록</RegisterTitle>
+      <SignupFormWrap>
+        <TrRegisItemWrap>
+          <SignupButton onClick={toggleModal}>
+            {selectedSchedules[0] ? (
+              <RegisterStatus>
+                <CheckIcon src={checkIconPurple} alt="등록 완료 이미지" />
+                <RegisterMessage>등록 완료 </RegisterMessage>
+              </RegisterStatus>
+            ) : (
+              <>
+                <PlusIcon>+</PlusIcon>
+              </>
+            )}
+          </SignupButton>
+        </TrRegisItemWrap>
+        {selectedSchedules[0] ? (
+          <ScheduleFlexWrap>
+            {selectedSchedules.map((schedule, index) => (
+              <ScheduleFlex key={index}>
+                <span>{schedule.days.join("/")}</span>
+                <span>
+                  {schedule.startTime} ~ {schedule.endTime}
+                </span>
+              </ScheduleFlex>
+            ))}
+          </ScheduleFlexWrap>
+        ) : (
+          ""
+        )}
+      </SignupFormWrap>
+      <RegisterTitle>학력사항 등록</RegisterTitle>
+      <SignupFormWrap>
+        <TrRegisItemWrap>
+          <SignupButton onClick={toggleModal}>
+            {selectedSchedules[0] ? (
+              <RegisterStatus>
+                <CheckIcon src={checkIconPurple} alt="등록 완료 이미지" />
+                <RegisterMessage>등록 완료 </RegisterMessage>
+              </RegisterStatus>
+            ) : (
+              <>
+                <PlusIcon>+</PlusIcon>
+              </>
+            )}
+          </SignupButton>
+        </TrRegisItemWrap>
+        {selectedSchedules[0] ? (
+          <ScheduleFlexWrap>
+            {selectedSchedules.map((schedule, index) => (
+              <ScheduleFlex key={index}>
+                <span>{schedule.days.join("/")}</span>
+                <span>
+                  {schedule.startTime} ~ {schedule.endTime}
+                </span>
+              </ScheduleFlex>
+            ))}
+          </ScheduleFlexWrap>
+        ) : (
+          ""
+        )}
+      </SignupFormWrap>
+      <AlertMessage>
+        <img src="/svgs/icon_alert.svg" alt="" />
+        등록된 트레이너 이력은 회원페이지에 노출이 됩니다.
+      </AlertMessage>
+      <ButtonAreaFixed
+        // isButtonDisabled={isButtonDisabled}
+        onClick={handleSubmit}
+        nextStepUrl="/trainer/signup/finished"
+        label="다음"
+      />
       {isModalOpen && (
         <Modal>
           <ModalWrap style={{ bottom: showModalContent ? "0" : "-100%" }}>
@@ -642,6 +644,6 @@ export default function step4() {
           <ModalDimmed></ModalDimmed>
         </Modal>
       )}
-    </Container>
+    </TrainerLayout>
   );
 }

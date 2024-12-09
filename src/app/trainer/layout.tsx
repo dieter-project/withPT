@@ -15,6 +15,7 @@ interface TrainerLayoutProps {
   variant?: "withBack" | "center" | "plus" | "logo";
   onPlusClick?: () => void;
   action?: string;
+  bgColor?: "white" | "primary";
 }
 
 const TrainerLayout: React.FC<TrainerLayoutProps> = props => {
@@ -24,15 +25,16 @@ const TrainerLayout: React.FC<TrainerLayoutProps> = props => {
     title,
     hasHeader = true,
     hasFooter = true,
-    variant = "withBack",
+    variant = undefined,
     onPlusClick,
     action = "",
+    bgColor = "white",
   } = props;
 
   useHeaderFooter(hasHeader, hasFooter, title, variant, action, onPlusClick);
 
   return (
-    <Container>
+    <Container $bgColor={bgColor}>
       <ContentBody>
         {layoutConfig.showHeader && (
           <PageTitle

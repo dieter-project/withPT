@@ -1,18 +1,23 @@
 import { styled } from "styled-components";
 
-export const Container = styled.div`
+interface ContainerProps {
+  $bgColor?: "white" | "primary";
+}
+
+export const Container = styled.div<ContainerProps>`
   position: relative;
   box-sizing: border-box;
   width: 100%;
   min-height: 100vh;
-  background-color: white;
+  background-color: ${({ $bgColor }) =>
+    $bgColor === "primary" ? "var(--purple50)" : "white"};
   margin: 0;
   padding: 0;
 `;
 
 export const ContentBody = styled.div`
   position: relative;
-  padding: 4.5rem 1rem 4.7rem 1rem;
+  padding: 5.5rem 1rem 4.7rem 1rem;
 `;
 
 export const ButtonAreaLayout = styled.div`
