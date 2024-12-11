@@ -1,37 +1,25 @@
 "use client";
+
 import { format } from "date-fns";
 import { TrainerLayout } from "@/app/trainer/layout";
 import ko from "date-fns/locale/ko";
-import ReactApexChart from "react-apexcharts";
 import { useState, useEffect } from "react";
 import styled from "styled-components";
 import Image from "next/image";
 import Link from "next/link";
-import { ApexOptions } from "apexcharts";
 import { Typography } from "@/components/trainer/atoms/Typography/TypoGraphy.styles";
 import Footer from "@/components/TrainerFooter";
-import { api } from "@/utils/axios";
-
 import changeClassImg from "/public/Trainer/Main/changeClass.png";
 import foodFeedbackImg from "/public/Trainer/Main/foodFeedback.png";
 import newClassImg from "/public/Trainer/Main/newClass.png";
-
-const MainTitle = styled.h4`
-  font-weight: 600;
-  font-size: var(--font-xl);
-`;
+import { useMontlyMemberStatics } from "@/hooks/trainer/main/useMain";
+import { MemberChart } from "@/components/trainer/molecules/Chart/MemberChart";
 
 const TrainerMainWrap = styled.div`
   background-color: #ffffff;
   padding: 0.94rem 1.25rem;
   margin: 1.3rem 0;
   height: 18rem;
-`;
-
-const TrainerGraphWrap = styled.div`
-  background-color: #ffffff;
-  padding: 0.94rem 0.8rem;
-  margin: 0.75rem 0;
 `;
 
 const TrainerScheduleContentWrap = styled.div``;
@@ -79,46 +67,6 @@ const AlertContentItem = styled.div`
   font-size: var(--font-m);
 `;
 
-const CheckAllScheduleBtn = styled.button`
-  width: 100%;
-  background-color: var(--primary);
-  color: var(--white);
-  border: none;
-  border-radius: 0.5rem;
-  padding: 0.7rem;
-  margin-top: 1rem;
-`;
-
-const MonthMemberWrap = styled.div`
-  display: flex;
-  justify-content: right;
-  align-items: center;
-`;
-
-const MonthMemberMonth = styled.span`
-  font-size: var(--font-xs);
-  font-weight: bold;
-  color: gray;
-  margin-right: 0.5rem;
-  padding-top: 0.3rem;
-`;
-
-const MonthMemberNum = styled.span`
-  color: var(--black);
-  font-size: var(--font-xxl);
-  font-weight: bold;
-`;
-
-const MemberNumberWrap = styled.div`
-  margin-top: 0.3rem;
-  font-size: var(--font-s);
-  text-align: center;
-`;
-
-const MemberNumber = styled.span`
-  color: var(--primary);
-`;
-
 const AlertTypeImg = styled(Image)`
   display: inline-block;
 `;
@@ -146,81 +94,29 @@ export default function Main() {
     "firstTab",
   );
 
-  //오늘 날짜, 요일 계산해서 보여주기 (date-fns 사용)
+  const apiDate = format(currentTime, "yyyy-MM-dd");
+  const displayDate = format(currentTime, "MM.dd EEEE", { locale: ko });
+  const monthOnly = format(currentTime, "M", { locale: ko });
+
+  // 시계 업데이트
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrentTime(new Date());
     }, 1000);
-
     return () => clearInterval(timer);
   }, []);
 
-  const formattedDate = format(currentTime, "MM.dd EEEE", { locale: ko });
-  const formattedDate2 = format(currentTime, "M", { locale: ko });
-
-  //chart 관련
-  // 현재 날짜 구하기
-  const currentDate = new Date();
-  const currentMonth = currentDate.getMonth() + 1; // 월은 0부터 시작하므로 1을 더합니다.
-
-  // x축 카테고리 생성
-  const categories: string[] = [];
-  for (let i = 5; i >= 0; i--) {
-    const date = new Date(currentDate);
-    date.setMonth(currentMonth - i);
-    const month = date.toLocaleString("default", { month: "short" });
-    categories.push(month);
-  }
-
-  const options: ApexOptions = {
-    chart: {
-      height: 350,
-      type: "line",
-      zoom: {
-        enabled: false,
-      },
-      toolbar: {
-        show: false,
-      },
-    },
-    dataLabels: {
-      enabled: true,
-      style: {
-        fontSize: "12px",
-        colors: ["var(--primary)"],
-      },
-    },
-  };
-
-  const apexChartData = {
-    series: [
-      {
-        name: "Members",
-        data: [10, 41, 35, 51, 49],
-        color: "var(--primary)",
-      },
-    ],
-  };
-
-  const getResponseTest = async () => {
-    try {
-      const response = await api.get(
-        `/api/v1/personal-trainings/members-statistics?date=${"2024-05-25"}`,
-      );
-      const responseStatus = response.data.status;
-      const responseData = response.data;
-      console.log("통신 결과", responseData);
-      if (responseStatus === "success") {
-        console.log(responseData);
-      }
-    } catch (error) {
-      console.log("error fetching", error);
-    }
-  };
+  const { data: statsData, isLoading } = useMontlyMemberStatics(apiDate);
 
   useEffect(() => {
-    getResponseTest();
-  }, []);
+    if (statsData) {
+      console.log("Monthly stats updated:", statsData);
+    }
+  }, [statsData]);
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <TrainerLayout
@@ -231,7 +127,7 @@ export default function Main() {
       bgColor="primary"
     >
       <Typography variant="title2" fw={600}>
-        {formattedDate}
+        {displayDate}
       </Typography>
       <TrainerMainWrap>
         <TrainerScheduleTap>
@@ -268,7 +164,6 @@ export default function Main() {
               </div>
             </Link>
           ) : (
-            /* "도착한 알림" 탭이 활성화되었을 때 */
             <div className="trainer-schedule-content">
               <Link href="/main/alert">
                 <AlertContentItem>
@@ -333,27 +228,7 @@ export default function Main() {
       <Typography variant="title2" fw={600}>
         회원 통계
       </Typography>
-      <TrainerGraphWrap>
-        <MonthMemberWrap>
-          <MonthMemberMonth>{formattedDate2}월 회원수 </MonthMemberMonth>
-          <MonthMemberNum> 31명</MonthMemberNum>
-        </MonthMemberWrap>
-        <div>
-          {" "}
-          <ReactApexChart
-            options={options}
-            series={apexChartData.series}
-            type="line"
-            height="120%"
-          />
-        </div>
-        <MemberNumberWrap>
-          기존 회원 <MemberNumber>6</MemberNumber>명 | 재등록회원{" "}
-          <MemberNumber>5</MemberNumber>명 | 신규 회원{" "}
-          <MemberNumber>6</MemberNumber>명
-        </MemberNumberWrap>
-      </TrainerGraphWrap>
-      <Footer />
+      <MemberChart monthOnly={monthOnly} statsData={statsData} />
     </TrainerLayout>
   );
 }

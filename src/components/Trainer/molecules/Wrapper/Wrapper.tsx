@@ -29,6 +29,7 @@ const StyledWrapper = styled.div<{
           align-items: center;
           justify-content: space-between;
         `;
+
       default:
         return css`
           /* background-color: var(--default-background);

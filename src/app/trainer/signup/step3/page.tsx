@@ -1,10 +1,8 @@
 "use client";
 
-import ContentHeader from "@/components/TrainerPageTitle";
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import styled from "styled-components";
-import { Container, ContentBody } from "@/styles/Trainer/TrainerLayout";
+import { TrainerLayout } from "@/app/trainer/layout";
 import { ButtonAreaFixed } from "@/components/trainer/signup/ButtonAreaFixed";
 import { TitleWrapper } from "@/components/trainer/signup/TitleWrapper";
 import JoinStep from "@/components/trainer/TrSignUpStep";
@@ -92,38 +90,40 @@ export default function step3() {
   }, [overlapError]);
 
   return (
-    <Container>
-      <ContentHeader title={title}></ContentHeader>
-      <ContentBody>
-        <JoinStep active={"3"} />
-        <TitleWrapper
-          topTitle="센터일정을 등록해 주세요."
-          underTitle="센터별로 수업이 가능한 시간을 등록해주세요."
+    <TrainerLayout
+      title={title}
+      hasHeader={true}
+      hasFooter={false}
+      variant="withBack"
+    >
+      <JoinStep active={"3"} />
+      <TitleWrapper
+        topTitle="센터일정을 등록해 주세요."
+        underTitle="센터별로 수업이 가능한 시간을 등록해주세요."
+      />
+      {recordGyms?.map((gym, index) => (
+        <EventButton
+          key={index}
+          isIconVisible={false}
+          event={() => toggleModal(gym.name, index)}
+          eventButtonType="purple"
+          height="3.5rem"
+          justifyContent="space-between"
+          content={gym.name}
+          rightContent="checkRegister"
+          color="var(--black)"
         />
-        {recordGyms?.map((gym, index) => (
-          <EventButton
-            key={index}
-            isIconVisible={false}
-            event={() => toggleModal(gym.name, index)}
-            eventButtonType="purple"
-            height="3.5rem"
-            justifyContent="space-between"
-            content={gym.name}
-            rightContent="checkRegister"
-            color="var(--black)"
-          />
-        ))}
-        <ButtonAreaFixed
-          isButtonDisabled={isButtonDisabled}
-          // onClick={handleNext}
-          nextStepUrl="/trainer/signup/step4"
-          label="다음"
-        />
-      </ContentBody>
+      ))}
+      <ButtonAreaFixed
+        isButtonDisabled={isButtonDisabled}
+        // onClick={handleNext}
+        nextStepUrl="/trainer/signup/step4"
+        label="다음"
+      />
       {isModalOpen && (
         <Modal title={modalTitle} content={<EnterCenterSchedule />} />
       )}
       {overlapError && <OverlapModal />}
-    </Container>
+    </TrainerLayout>
   );
 }

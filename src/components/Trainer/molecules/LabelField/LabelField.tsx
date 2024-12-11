@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import Wrapper from "@/components/trainer/atoms/Wrapper/Wrapper";
+import Wrapper from "@/components/trainer/molecules/Wrapper/Wrapper";
 
 interface LabelFieldProps {
   type: "default" | "column" | "spaceBetween";
