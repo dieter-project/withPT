@@ -83,4 +83,17 @@ export const GlobalStyles = createGlobalStyle`
   li {
     list-style: none;
   }
+
+  .icon-base {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    
+    svg {
+      width: 100%;
+      height: 100%;
+      fill: currentColor;
+      transition: fill 0.2s ease;
+    }
+  }
 `;
