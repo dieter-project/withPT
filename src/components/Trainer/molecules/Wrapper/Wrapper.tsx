@@ -4,24 +4,37 @@ import styled, { css } from "styled-components";
 interface WrapperProps {
   type?: "default" | "column" | "spaceBetween";
   children: React.ReactNode;
+  mt?: string;
+  mb?: string;
 }
 
-const Wrapper = ({ type = "default", children }: WrapperProps) => {
-  return <StyledWrapper $type={type}>{children}</StyledWrapper>;
+const Wrapper = ({ type = "default", children, mt, mb }: WrapperProps) => {
+  return (
+    <StyledWrapper $type={type} $mt={mt} $mb={mb}>
+      {children}
+    </StyledWrapper>
+  );
 };
 
 export default Wrapper;
 
 const StyledWrapper = styled.div<{
   $type: "default" | "column" | "spaceBetween";
+  $mt?: string;
+  $mb?: string;
 }>`
+  ${({ $mt, $mb }) => css`
+    margin-top: ${$mt || "0"};
+    margin-bottom: ${$mb || "0"};
+  `}
+
   ${({ $type }) => {
     switch ($type) {
       case "column":
         return css`
           display: flex;
           flex-direction: column;
-          margin-bottom: 1.5rem;
+          align-items: center;
         `;
       case "spaceBetween":
         return css`

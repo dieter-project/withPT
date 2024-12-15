@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React from "react";
 import { styled } from "styled-components";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
-import Image from "next/image";
+import { Icon } from "@/components/trainer/atoms/SvgIcon/SvgIcon";
 
 const MainFooter = styled.footer`
   position: fixed;
@@ -21,55 +21,59 @@ const MainFooter = styled.footer`
 const FooterCtgItem = styled(Link)`
   text-align: center;
   width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4rem;
 `;
 
 const FooterText = styled.div`
   color: var(--font-secondary);
 `;
 
+const footerRoutes = [
+  {
+    href: "main",
+    icon: "home",
+    activeIcon: "homeActive",
+    text: "홈",
+  },
+  {
+    href: "coursemanagement",
+    icon: "message",
+    activeIcon: "messageActive",
+    text: "수업관리",
+  },
+  {
+    href: "membermanagement",
+    icon: "memberManage",
+    activeIcon: "memberManageActive",
+    text: "회원관리",
+  },
+  {
+    href: "chat",
+    icon: "record",
+    activeIcon: "recordActive",
+    text: "채팅",
+  },
+  {
+    href: "mypage",
+    icon: "myPage",
+    activeIcon: "myPageActive",
+    text: "마이페이지",
+  },
+];
+
 const TrainerFooter = () => {
   const pathname = usePathname();
 
-  const footerRoutes = [
-    {
-      href: "main",
-      src: "/svgs/icon_nav_home",
-      text: "홈",
-    },
-    {
-      href: "coursemanagement",
-      src: "/svgs/icon_nav_message",
-      text: "수업관리",
-    },
-    {
-      href: "membermanagement",
-      src: "/svgs/icon_nav_membermanage",
-      text: "회원관리",
-    },
-    { href: "chat", src: "/svgs/icon_nav_record", text: "채팅" },
-    {
-      href: "mypage",
-      src: "/svgs/icon_nav_mypage",
-      text: "마이페이지",
-    },
-  ];
-
   return (
     <MainFooter>
-      {footerRoutes.map((route, index) => {
+      {footerRoutes.map(route => {
+        const isActive = pathname.includes(route.href);
         return (
-          <FooterCtgItem href={`/trainer/${route.href}`} key={index}>
-            <Image
-              src={
-                pathname.includes(route.href)
-                  ? `${route.src}_active.svg`
-                  : `${route.src}.svg`
-              }
-              alt="footer 아이콘"
-              style={{ display: "inline-block" }}
-              width={20}
-              height={20}
-            />
+          <FooterCtgItem href={`/trainer/${route.href}`} key={route.href}>
+            <Icon name={isActive ? route.activeIcon : route.icon} size={20} />
             <FooterText>{route.text}</FooterText>
           </FooterCtgItem>
         );

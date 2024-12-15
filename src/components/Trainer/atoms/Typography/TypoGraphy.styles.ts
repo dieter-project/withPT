@@ -28,7 +28,7 @@ interface TypographyStylesProps {
 
 const typographyStyles = {
   title1: `
-    font-size: var(--font-xl);
+    font-size: var(--font-xxxl);
   `,
   title2: `
     font-size: var(--font-l);
@@ -42,15 +42,10 @@ const typographyStyles = {
     letter-spacing: -0.44px;
   `,
   heading2: `
-    font-size: 20px;
-    line-height: 135%;
-    letter-spacing: -0.4px;
-    font-weight: 600;
+    font-size: var(--font-m);
   `,
   heading3: `
-    font-size: 18px;
-    line-height: 135%;
-    letter-spacing: -0.36px;
+   font-size: var(--font-s);
   `,
   body1: `
     font-size: 16px;

@@ -4,7 +4,7 @@ import { Button } from "@/styles/Trainer/TrainerButton";
 
 interface NextButtonProps {
   label: string;
-  onClick: () => void;
+  onClick?: () => void;
   isButtonDisabled?: boolean;
   nextStepUrl: string;
 }

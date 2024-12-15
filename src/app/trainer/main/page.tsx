@@ -8,7 +8,6 @@ import styled from "styled-components";
 import Image from "next/image";
 import Link from "next/link";
 import { Typography } from "@/components/trainer/atoms/Typography/TypoGraphy.styles";
-import Footer from "@/components/TrainerFooter";
 import changeClassImg from "/public/Trainer/Main/changeClass.png";
 import foodFeedbackImg from "/public/Trainer/Main/foodFeedback.png";
 import newClassImg from "/public/Trainer/Main/newClass.png";
