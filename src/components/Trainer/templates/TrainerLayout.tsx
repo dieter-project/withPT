@@ -3,7 +3,7 @@
 import React from "react";
 import ContentHeader from "@/components/TrainerPageTitle";
 import Footer from "@/components/TrainerFooter";
-import { useLayout } from "@/context/TrainerLayoutContext";
+import { useLayout } from "@/context/trainer/TrainerLayoutContext";
 import { useHeaderFooter } from "@/hooks/trainer/common/useHeaderFooter";
 
 interface TrainerLayoutProps {

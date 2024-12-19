@@ -29,7 +29,7 @@ export const StyledLabel = styled.label`
 `;
 
 export const FormRadio = styled.div`
-  width: 47%;
+  width: 100%;
   height: 48px;
   border: none;
   background-color: var(--purple50);

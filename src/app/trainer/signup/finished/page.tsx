@@ -14,7 +14,7 @@ export default function finished() {
       hasFooter={false}
       variant="withBack"
     >
-      <Wrapper type="column">
+      <Wrapper type="column" ai="center">
         <Icon name="IconCheckCirCircleActive" size={36} />
         <Typography variant="title1" fw={600}>
           회원가입이 완료되었어요!

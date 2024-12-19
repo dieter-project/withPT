@@ -9,11 +9,12 @@ import JoinStep from "@/components/trainer/TrSignUpStep";
 import { Modal } from "@/components/trainer/molecules/Modal/Modal";
 import { SearchCenter } from "@/components/trainer/molecules/Modal/searchCenter/SearchCenter";
 import { EventButton } from "@/components/trainer/atoms/Button/EventButton";
-import { openModal } from "@/redux/reducers/trainer/modalSlice";
+import { useModal } from "@/context/trainer/ModalContext";
 import { signup2 } from "@/services/trainer/signup/signup2";
 import { RootState } from "@/redux/store";
 
 export default function Step2() {
+  const { openModal, isOpen, closeModal } = useModal();
   const dispatch = useDispatch();
   const title = "센터 등록";
   const isModalOpen = useSelector((state: RootState) => state.modal.isOpen);
@@ -22,7 +23,14 @@ export default function Step2() {
     signup2();
 
   const openSearchModal = () => {
-    dispatch(openModal());
+    openModal(
+      <SearchCenter
+        handlePlaceSelect={place => {
+          handlePlaceSelect(place);
+          closeModal();
+        }}
+      />,
+    );
   };
 
   return (
@@ -85,7 +93,7 @@ export default function Step2() {
         label="다음"
       />
 
-      {isModalOpen && (
+      {isOpen && (
         <Modal
           title={title}
           content={<SearchCenter handlePlaceSelect={handlePlaceSelect} />}

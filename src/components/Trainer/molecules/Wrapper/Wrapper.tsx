@@ -6,11 +6,28 @@ interface WrapperProps {
   children: React.ReactNode;
   mt?: string;
   mb?: string;
+  gap?: string;
+  jc?:
+    | "flex-start"
+    | "flex-end"
+    | "center"
+    | "space-between"
+    | "space-around"
+    | "space-evenly";
+  ai?: "flex-start" | "flex-end" | "center" | "stretch" | "baseline";
 }
 
-const Wrapper = ({ type = "default", children, mt, mb }: WrapperProps) => {
+const Wrapper = ({
+  type = "default",
+  children,
+  mt,
+  mb,
+  gap,
+  jc,
+  ai,
+}: WrapperProps) => {
   return (
-    <StyledWrapper $type={type} $mt={mt} $mb={mb}>
+    <StyledWrapper $type={type} $mt={mt} $mb={mb} $gap={gap} $jc={jc} $ai={ai}>
       {children}
     </StyledWrapper>
   );
@@ -22,10 +39,17 @@ const StyledWrapper = styled.div<{
   $type: "default" | "column" | "spaceBetween";
   $mt?: string;
   $mb?: string;
+  $jc?: string;
+  $ai?: string;
+  $gap?: string;
 }>`
-  ${({ $mt, $mb }) => css`
+  width: 100%;
+  ${({ $mt, $mb, $gap, $jc, $ai }) => css`
     margin-top: ${$mt || "0"};
     margin-bottom: ${$mb || "0"};
+    gap: ${$gap || "0"};
+    justify-content: ${$jc || "flex-start"};
+    align-items: ${$ai || "flex-start"};
   `}
 
   ${({ $type }) => {
@@ -34,7 +58,6 @@ const StyledWrapper = styled.div<{
         return css`
           display: flex;
           flex-direction: column;
-          align-items: center;
         `;
       case "spaceBetween":
         return css`

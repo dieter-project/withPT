@@ -16,6 +16,7 @@ const LabelField = ({ type, innertype, label, children }: LabelFieldProps) => {
       <Wrapper type={innertype}> {children}</Wrapper>
     </Wrapper>
   );
+  x;
 };
 
 export default LabelField;

@@ -22,11 +22,11 @@ export const ButtonAreaFixed = ({
           {label}
         </Button>
       ) : (
-        <Link href={nextStepUrl} passHref>
-          <Button $variant="primary" onClick={onClick}>
-            {label}
-          </Button>
-        </Link>
+        // <Link href={nextStepUrl} passHref>
+        <Button $variant="primary" onClick={onClick}>
+          {label}
+        </Button>
+        // </Link>
       )}
     </ButtonAreaLayout>
   );

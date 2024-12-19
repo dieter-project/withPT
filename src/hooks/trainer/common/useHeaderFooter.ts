@@ -1,6 +1,6 @@
 "use client";
 import { useEffect } from "react";
-import { useLayout } from "@/context/TrainerLayoutContext";
+import { useLayout } from "@/context/trainer/TrainerLayoutContext";
 
 export const useHeaderFooter = (
   hasHeader: boolean,
