@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import PageTitle from "@/components/TrainerPageTitle";
+import PageTitle from "@/components/trainer/molecules/Header/Header";
 import Footer from "@/components/TrainerFooter";
 import {
   LayoutProvider,
@@ -21,18 +21,17 @@ interface TrainerLayoutProps {
   bgColor?: "white" | "primary";
 }
 
-const TrainerLayout: React.FC<TrainerLayoutProps> = props => {
+const TrainerLayout: React.FC<TrainerLayoutProps> = ({
+  children,
+  title,
+  hasHeader = true,
+  hasFooter = true,
+  variant = "withBack",
+  onPlusClick,
+  action = "",
+  bgColor = "white",
+}) => {
   const { layoutConfig } = useLayout();
-  const {
-    children,
-    title,
-    hasHeader = true,
-    hasFooter = true,
-    variant = undefined,
-    onPlusClick,
-    action = "",
-    bgColor = "white",
-  } = props;
 
   useHeaderFooter(hasHeader, hasFooter, title, variant, action, onPlusClick);
 
@@ -53,12 +52,11 @@ const TrainerLayout: React.FC<TrainerLayoutProps> = props => {
   );
 };
 
-export default function RootTrainerLayout({
+const RootTrainerLayout: React.FC<{ children: React.ReactNode }> = ({
   children,
-}: {
-  children: React.ReactNode;
-}) {
+}) => {
   return <LayoutProvider>{children}</LayoutProvider>;
-}
+};
 
+export default RootTrainerLayout;
 export { TrainerLayout };

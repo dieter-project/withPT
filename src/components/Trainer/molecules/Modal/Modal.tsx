@@ -1,10 +1,7 @@
-import React from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useEffect, useMemo } from "react";
 import { CloseBtn } from "@/styles/Trainer/TrainerButton";
 import { styled } from "styled-components";
-import { closeModal } from "@/redux/reducers/trainer/modalSlice";
 import { useModalEffect } from "@/hooks/trainer/modal/useModalEffect";
-import { RootState } from "@/redux/store";
 import ReactDOM from "react-dom";
 
 const ModalContainer = styled.div`
@@ -19,7 +16,7 @@ const ModalContainer = styled.div`
 const ModalInnerWrap = styled.div.attrs<{ $showModalContent: boolean }>(
   ({ $showModalContent }) => ({
     style: {
-      bottom: $showModalContent ? "0" : "-100%",
+      transform: `translateY(${$showModalContent ? "0" : "100%"})`,
     },
   }),
 )`
@@ -29,13 +26,15 @@ const ModalInnerWrap = styled.div.attrs<{ $showModalContent: boolean }>(
   background-color: white;
   padding: 1rem;
   border-radius: 1rem 1rem 0 0;
-  transition: 0.3s;
+  transition: transform 0.3s ease-out;
+  bottom: 0;
 `;
 
 const ModalDimmed = styled.div.attrs<{ $showModalContent: boolean }>(
   ({ $showModalContent }) => ({
     style: {
       opacity: $showModalContent ? "1" : "0",
+      visibility: $showModalContent ? "visible" : "hidden",
     },
   }),
 )`
@@ -45,10 +44,9 @@ const ModalDimmed = styled.div.attrs<{ $showModalContent: boolean }>(
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.7);
-  transition: opacity 0.3s ease;
+  background-color: rgba(0, 0, 0, 0.55);
+  transition: all 0.3s ease-out;
 `;
-
 const ModalHeader = styled.div`
   position: relative;
   text-align: center;
@@ -62,8 +60,6 @@ const ModalCloseXButton = styled(CloseBtn)`
   right: 2%;
 `;
 
-const ModalBody = styled.div``;
-
 const ModalContent = styled.div`
   margin: 3vh 0 2vh 0;
 `;
@@ -75,12 +71,16 @@ interface ModalProps {
   onClose?: () => void;
 }
 
-export const Modal = ({ title, content }: ModalProps) => {
-  const dispatch = useDispatch();
-  const isModalOpen = useSelector((state: RootState) => state.modal.isOpen);
-  const showModalContent = useModalEffect(isModalOpen);
+export const Modal = ({ title, content, onClose }: ModalProps) => {
+  const showModalContent = useModalEffect(true);
 
-  if (!isModalOpen) return null;
+  useEffect(() => {
+    document.body.style.overflow = "hidden";
+
+    return () => {
+      document.body.style.overflow = "unset";
+    };
+  }, []);
 
   return ReactDOM.createPortal(
     <>
@@ -88,15 +88,28 @@ export const Modal = ({ title, content }: ModalProps) => {
         <ModalInnerWrap $showModalContent={showModalContent}>
           <ModalHeader>
             {title}
-            <ModalCloseXButton onClick={() => dispatch(closeModal())} />
+            <ModalCloseXButton onClick={onClose} />
           </ModalHeader>
-          <ModalBody>
-            <ModalContent>{content}</ModalContent>
-          </ModalBody>
+          <div>
+            <ModalContent>
+              {React.useMemo(() => content, [content])}
+            </ModalContent>
+          </div>
         </ModalInnerWrap>
-        <ModalDimmed $showModalContent={showModalContent}></ModalDimmed>
+        <ModalDimmed
+          $showModalContent={showModalContent}
+          onClick={onClose}
+        ></ModalDimmed>
       </ModalContainer>
     </>,
     document.getElementById("modal-root") as HTMLElement,
   );
 };
+
+// modal-root가 없을 경우
+let modalRoot = document.getElementById("modal-root");
+if (!modalRoot) {
+  modalRoot = document.createElement("div");
+  modalRoot.id = "modal-root";
+  document.body.appendChild(modalRoot);
+}

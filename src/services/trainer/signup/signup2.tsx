@@ -1,3 +1,5 @@
+"use client";
+
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { PlaceInfo } from "@/model/trainer/signUp";
@@ -14,11 +16,17 @@ export const signup2 = () => {
     data => data.length > 0,
   );
 
+  // 장소 선택
   const handlePlaceSelect = (place: PlaceInfo) => {
     if (!workingCenter.some(center => center.id === place.id)) {
       setWorkingCenter(prev => [...prev, place]);
     }
     dispatch(closeModal());
+  };
+
+  // 장소 해제
+  const handleRemoveCenter = (index: number) => {
+    setWorkingCenter(prev => prev.filter((_, i) => i !== index));
   };
 
   const handleNext = () => {
@@ -39,5 +47,6 @@ export const signup2 = () => {
     isButtonDisabled,
     handlePlaceSelect,
     handleNext,
+    handleRemoveCenter,
   };
 };

@@ -10,7 +10,7 @@ import {
 } from "@/styles/Trainer/TrainerSearchBar";
 import PlaceList from "./PlaceList";
 import NoResultMessage from "./NoResultMessage";
-import KakaoMapLoader from "@/lib/kakaoMapLoader";
+import { useKakaoMap } from "@/context/trainer/KaKaoMapContext";
 
 interface LocationInfo {
   latitude: number;
@@ -21,69 +21,77 @@ interface SearchCenterProps {
   handlePlaceSelect: (place: PlaceInfo) => void;
 }
 
+const ListWrapper = styled.div`
+  height: 100%;
+  overflow: auto;
+`;
+
 export const SearchCenter: React.FC<SearchCenterProps> = ({
   handlePlaceSelect,
 }) => {
+  const { isLoaded } = useKakaoMap();
   const [keyword, setKeyword] = useState<string>("");
   const [places, setPlaces] = useState<PlaceInfo[]>([]);
   const [location, setLocation] = useState<LocationInfo | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
-  const [isMapLoaded, setIsMapLoaded] = useState(false); // 카카오맵 로드 상태
+  const [isLoading, setIsLoading] = useState(true);
 
-  // 위치 정보 불러오기
+  // 위치 정보 가져오기
   useEffect(() => {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        position => {
-          setLocation({
-            latitude: position.coords.latitude,
-            longitude: position.coords.longitude,
-          });
-          setIsLoading(false);
-        },
-        error => {
-          setErrorMsg(error.message);
-          setIsLoading(false);
-        },
-      );
-    } else {
+    if (!navigator.geolocation) {
       setErrorMsg("Geolocation을 지원하지 않는 브라우저입니다.");
       setIsLoading(false);
+      return;
     }
+
+    navigator.geolocation.getCurrentPosition(
+      position => {
+        setLocation({
+          latitude: position.coords.latitude,
+          longitude: position.coords.longitude,
+        });
+        setIsLoading(false);
+      },
+      error => {
+        setErrorMsg(error.message);
+        setIsLoading(false);
+      },
+    );
   }, []);
 
-  // 검색 함수
+  // 장소 검색
   const searchPlaces = useCallback(
     (searchTerm: string) => {
-      if (!isMapLoaded) return; // 지도 로드 여부 확인
-      if (searchTerm.trim().length === 0) {
+      if (!isLoaded || !location || !window.kakao) return;
+
+      if (!searchTerm.trim()) {
         setPlaces([]);
         setErrorMsg("검색어를 입력해주세요.");
         return;
       }
-      if (!location) return;
 
-      kakao.maps.load(() => {
-        const ps = new kakao.maps.services.Places();
+      window.kakao.maps.load(() => {
+        const ps = new window.kakao.maps.services.Places();
         const options = {
-          location: new kakao.maps.LatLng(
+          location: new window.kakao.maps.LatLng(
             location.latitude,
             location.longitude,
           ),
           radius: 5000,
-          sort: kakao.maps.services.SortBy.DISTANCE,
+          sort: window.kakao.maps.services.SortBy.DISTANCE,
         };
 
         ps.keywordSearch(
           searchTerm,
           (data, status) => {
-            if (status === kakao.maps.services.Status.OK) {
+            if (status === window.kakao.maps.services.Status.OK) {
               setPlaces(data);
               setErrorMsg(null);
-            } else if (status === kakao.maps.services.Status.ZERO_RESULT) {
-              setErrorMsg("검색 결과가 없습니다.");
+            } else if (
+              status === window.kakao.maps.services.Status.ZERO_RESULT
+            ) {
               setPlaces([]);
+              setErrorMsg("검색 결과가 없습니다.");
             } else {
               setErrorMsg("오류가 발생했습니다. 다시 시도해주세요.");
             }
@@ -92,31 +100,25 @@ export const SearchCenter: React.FC<SearchCenterProps> = ({
         );
       });
     },
-    [location, isMapLoaded],
+    [location, isLoaded],
   );
 
   const debouncedSearch = useCallback(_.debounce(searchPlaces, 300), [
-    location,
-    isMapLoaded,
+    searchPlaces,
   ]);
 
-  // 키워드 변경 핸들러 + 디바운스 적용
+  // 키워드 변경 핸들러
   const handleKeywordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setKeyword(e.target.value);
-    if (e.target.value.trim()) {
+    const value = e.target.value;
+    setKeyword(value);
+    if (value.trim()) {
       setErrorMsg(null);
-      debouncedSearch(e.target.value);
+      debouncedSearch(value);
     }
-  };
-
-  // KakaoMapLoader 로드 완료 핸들러
-  const handleMapLoad = () => {
-    setIsMapLoaded(true);
   };
 
   return (
     <>
-      <KakaoMapLoader onLoad={handleMapLoad} />
       <form
         onSubmit={e => {
           e.preventDefault();
@@ -136,7 +138,7 @@ export const SearchCenter: React.FC<SearchCenterProps> = ({
       <ListWrapper>
         {errorMsg ? (
           <NoResultMessage message={errorMsg} />
-        ) : keyword.length > 0 ? (
+        ) : keyword ? (
           <PlaceList places={places} handlePlaceSelect={handlePlaceSelect} />
         ) : (
           <NoResultMessage message="검색어를 입력해주세요." />
@@ -145,8 +147,3 @@ export const SearchCenter: React.FC<SearchCenterProps> = ({
     </>
   );
 };
-
-const ListWrapper = styled.div`
-  height: 100%;
-  overflow: auto;
-`;

@@ -4,14 +4,18 @@ import PlusCircleMonoIcon from "/public/svgs/icon_plus_circle_mono.svg";
 import PlusGrayIcon from "/public/svgs/icon_plus_gray.svg";
 import { CheckRegisterItem } from "@/components/trainer/atoms/Button/CheckRegisterItem";
 
+type ButtonVariant = "purple" | "gray";
+type IconType = "plusCircleMono" | "plusGray";
+type RightContentType = "checkRegister" | "xButton";
+
 interface EventButtonProps {
   event: (e: React.MouseEvent<HTMLButtonElement>) => void;
   xButtonEvent?: (e: React.MouseEvent<HTMLDivElement>) => void;
-  iconType?: "plusCircleMono" | "plusGray";
+  iconType?: IconType;
   isIconVisible: boolean;
   content?: string;
-  rightContent?: React.ReactNode;
-  eventButtonType: "purple" | "gray";
+  rightContent?: RightContentType;
+  eventButtonType: ButtonVariant;
   height?: string;
   justifyContent?: string;
   color?: string;

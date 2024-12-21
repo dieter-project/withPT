@@ -1,7 +1,7 @@
 "use client";
 import styled from "styled-components";
 import Link from "next/link";
-import ContentHeader from "@/components/TrainerPageTitle";
+import ContentHeader from "@/components/trainer/molecules/Header/Header";
 import { useState, useEffect } from "react";
 import beforePageImg from "../../../../../public/icons/beforePage.png";
 import Image from "next/image";

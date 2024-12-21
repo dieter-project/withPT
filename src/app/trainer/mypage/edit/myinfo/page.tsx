@@ -9,7 +9,7 @@ import { Button } from "@/styles/Trainer/TrainerButton";
 import { NoIconInput } from "@/styles/TrainerInput";
 import { useDispatch } from "react-redux";
 import { useAppSelector } from "@/redux/hooks";
-import ContentHeader from "@/components/TrainerPageTitle";
+import ContentHeader from "@/components/trainer/molecules/Header/Header";
 import profileNoImg from "../../../../../../public/Trainer/Mypage/profile-no-image.png";
 
 interface Trbirth {

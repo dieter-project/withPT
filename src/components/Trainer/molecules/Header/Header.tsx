@@ -1,12 +1,7 @@
 import { useRouter } from "next/navigation";
-import Image from "next/image";
 import Link from "next/link";
 import { styled } from "styled-components";
-
-import beforePage from "/public/icons/beforePage.png";
-import plusGray from "/public/Trainer/icons/plusGray.png";
-import wePTLogo from "/public/Trainer/wePTLogo.png";
-import alert from "/public/Trainer/Main/bell-solid.png";
+import { Icon } from "@/components/trainer/atoms/SvgIcon/SvgIcon";
 
 type HeaderVariant = "default" | "withBack" | "center" | "plus" | "logo";
 
@@ -16,7 +11,6 @@ interface PageHeaderProps {
   onPlusClick?: () => void;
 }
 
-// Styled Components
 const StyledHeader = styled.header<{ $variant?: HeaderVariant }>`
   position: fixed;
   top: 0;
@@ -62,12 +56,6 @@ const PlusButton = styled.button`
   font-size: var(--font-xl);
 `;
 
-const LogoContainer = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-`;
-
 export const PageHeader = ({
   title,
   variant = "default",
@@ -83,12 +71,12 @@ export const PageHeader = ({
     if (variant === "withBack" || variant === "plus") {
       return (
         <BackButton onClick={handleBack}>
-          <Image src={beforePage} alt="뒤로 가기" width={24} height={24} />
+          <Icon name="backArrow" size={20} />
         </BackButton>
       );
     }
     if (variant === "logo") {
-      return <Image src={wePTLogo} alt="WePT 로고" width={70} height={30} />;
+      return <Icon name="IconCheckCirCircleActive" size={36} />;
     }
     return null;
   };
@@ -107,14 +95,14 @@ export const PageHeader = ({
     if (variant === "plus") {
       return (
         <PlusButton onClick={onPlusClick}>
-          <Image src={plusGray} alt="추가" width={24} height={24} />
+          <Icon name="addGray" size={36} />
         </PlusButton>
       );
     }
     if (variant === "logo") {
       return (
         <Link href="/main/alert">
-          <Image src={alert} alt="알림" width={24} height={24} />
+          <Icon name="logoWePT" size={36} />
         </Link>
       );
     }

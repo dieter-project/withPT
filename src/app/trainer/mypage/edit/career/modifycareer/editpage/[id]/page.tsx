@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import Image from "next/image";
 import styled from "styled-components";
 import Link from "next/link";
-import ContentHeader from "@/components/TrainerPageTitle";
+import ContentHeader from "@/components/trainer/molecules/Header/Header";
 import JoinStep from "@/components/trainer/TrSignUpStep";
 import { DeleteInputXbutton } from "@/styles/Trainer/TrainerInput";
 import { Container, ContentBody } from "@/styles/Trainer/TrainerLayout";

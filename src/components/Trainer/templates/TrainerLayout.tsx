@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import ContentHeader from "@/components/TrainerPageTitle";
+import ContentHeader from "@/components/trainer/molecules/Header/Header";
 import Footer from "@/components/TrainerFooter";
 import { useLayout } from "@/context/trainer/TrainerLayoutContext";
 import { useHeaderFooter } from "@/hooks/trainer/common/useHeaderFooter";

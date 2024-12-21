@@ -32,6 +32,14 @@ const getLastDayOfMonth = (year: string, month: string): number => {
   return [4, 6, 9, 11].includes(m) ? 30 : 31;
 };
 
+const STEP_CONFIG = {
+  STEP: "1",
+  TITLE: "회원가입",
+  TOP_TITLE: "안녕하세요. 트레이너님!",
+  UNDER_TITLE: "아래 정보가 맞는지 확인해주세요.",
+  NEXT_STEP_URL: "/trainer/signup/step2",
+} as const;
+
 export default function Step1() {
   const router = useRouter();
   const {
@@ -118,18 +126,17 @@ export default function Step1() {
 
   return (
     <TrainerLayout
-      title="회원가입"
+      title={STEP_CONFIG.TITLE}
       hasHeader={true}
       hasFooter={false}
       variant="withBack"
     >
       <form onSubmit={handleSubmit(onSubmit)}>
-        <JoinStep active="1" />
+        <JoinStep active={STEP_CONFIG.STEP} />
         <TitleWrapper
-          topTitle="안녕하세요. 트레이너님!"
-          underTitle="아래 정보가 맞는지 확인해주세요."
+          topTitle={STEP_CONFIG.TOP_TITLE}
+          underTitle={STEP_CONFIG.UNDER_TITLE}
         />
-
         <LabelField type="column" label="이름">
           <NoIconInput
             {...register("name", {

@@ -4,8 +4,10 @@ import { QueryErrorResetBoundary } from "@tanstack/react-query";
 import AuthContext from "@/components/AuthContext";
 import StyledComponentsRegistry from "@/lib/styledComponentsRegistry";
 import { Providers } from "../redux/provider";
-import "./globals.css";
 import ReactQueryProviders from "@/utils/react-query-provider";
+import { ModalProvider } from "@/context/trainer/ModalContext";
+import { KakaoMapProvider } from "@/context/trainer/KaKaoMapContext";
+import "./globals.css";
 
 export const metadata: Metadata = {
   title: "WithPT",
@@ -24,7 +26,11 @@ export default function RootLayout({
           <QueryErrorResetBoundary>
             <Providers>
               <AuthContext>
-                <StyledComponentsRegistry>{children}</StyledComponentsRegistry>
+                <StyledComponentsRegistry>
+                  <KakaoMapProvider>
+                    <ModalProvider>{children}</ModalProvider>
+                  </KakaoMapProvider>
+                </StyledComponentsRegistry>
               </AuthContext>
             </Providers>
           </QueryErrorResetBoundary>

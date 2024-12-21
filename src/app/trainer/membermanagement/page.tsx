@@ -6,7 +6,7 @@ import { useState, useEffect } from "react";
 import { api } from "@/utils/axios";
 import styled from "styled-components";
 import Link from "next/link";
-import ContentHeader from "@/components/TrainerPageTitle";
+import ContentHeader from "@/components/trainer/molecules/Header/Header";
 import { Button } from "@/styles/Trainer/TrainerButton";
 import { ListButton } from "@/styles/Trainer/TrainerButton";
 import { startOfWeek, addDays, format } from "date-fns";

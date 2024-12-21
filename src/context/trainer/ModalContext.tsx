@@ -1,53 +1,37 @@
-// contexts/ModalContext.tsx
 "use client";
-import { createContext, useContext, useState } from "react";
-import { createPortal } from "react-dom";
+
+import React, { createContext, useContext, useCallback, useState } from "react";
+import { ModalPortal } from "@/components/trainer/molecules/Modal/ModalPortal";
+import { ModalProps, ModalType } from "@/types/trainer/modal";
 
 interface ModalContextType {
-  openModal: (content: React.ReactNode) => void;
+  modals: ModalProps[];
+  openModal: (modal: Omit<ModalProps, "onClose">) => void;
   closeModal: () => void;
-  isOpen: boolean;
 }
 
-const ModalContext = createContext<ModalContextType>({
-  openModal: () => {},
-  closeModal: () => {},
-  isOpen: false,
-});
+const ModalContext = createContext<ModalContextType | null>(null);
 
 export function ModalProvider({ children }: { children: React.ReactNode }) {
-  const [modalContent, setModalContent] = useState<React.ReactNode | null>(
-    null,
-  );
-  const [isOpen, setIsOpen] = useState(false);
+  const [modals, setModals] = useState<ModalProps[]>([]);
 
-  const openModal = (content: React.ReactNode) => {
-    setModalContent(content);
-    setIsOpen(true);
-  };
+  const openModal = useCallback((modal: Omit<ModalProps, "onClose">) => {
+    setModals(prev => [...prev, { ...modal, onClose: () => closeModal() }]);
+  }, []);
 
-  const closeModal = () => {
-    setIsOpen(false);
-    setModalContent(null);
-  };
+  const closeModal = useCallback(() => {
+    setModals(prev => prev.slice(0, -1));
+  }, []);
 
   return (
-    <ModalContext.Provider value={{ openModal, closeModal, isOpen }}>
+    <ModalContext.Provider value={{ modals, openModal, closeModal }}>
       {children}
-      {modalContent &&
-        typeof window !== "undefined" &&
-        createPortal(
-          <div className="modal-overlay" onClick={closeModal}>
-            <div className="modal-content" onClick={e => e.stopPropagation()}>
-              {modalContent}
-            </div>
-          </div>,
-          document.getElementById("modal-root")!,
-        )}
+      {modals.map((modal, index) => (
+        <ModalPortal key={index} {...modal} />
+      ))}
     </ModalContext.Provider>
   );
 }
-
 export const useModal = () => {
   const context = useContext(ModalContext);
   if (!context) {

@@ -5,7 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { Container, ContentBody } from "@/styles/trainer/TrainerLayout";
 import { Button, IconButton } from "@/styles/Trainer/TrainerButton";
-import ContentHeader from "@/components/TrainerPageTitle";
+import ContentHeader from "@/components/trainer/molecules/Header/Header";
 import Footer from "@/components/TrainerFooter";
 import "react-calendar/dist/Calendar.css";
 import arrowCircleUnderGray from "public/Trainer/icons/arrowCircleUnderGray.png";

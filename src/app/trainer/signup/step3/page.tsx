@@ -1,129 +1,131 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import React, { useState, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useRouter } from "next/navigation";
 import { TrainerLayout } from "@/app/trainer/layout";
 import { ButtonAreaFixed } from "@/components/trainer/signup/ButtonAreaFixed";
 import { TitleWrapper } from "@/components/trainer/signup/TitleWrapper";
 import JoinStep from "@/components/trainer/TrSignUpStep";
 import { EventButton } from "@/components/trainer/atoms/Button/EventButton";
 import { Modal } from "@/components/trainer/molecules/Modal/Modal";
-import { OverlapModal } from "@/components/trainer/molecules/Modal/overlapModal/OverLapModal";
 import { EnterCenterSchedule } from "@/components/trainer/molecules/Modal/enterCenterSchedule/EnterCenterSchedule";
-import { changeDayFormatEnglish } from "@/utils/Trainer/changeDayFormatEnglish";
 import { GymsInfo } from "@/model/trainer/signUp";
 import { RootState } from "@/redux/store";
 import {
   openModal,
   closeModal,
-  setOverlap,
   resetOverlap,
 } from "@/redux/reducers/trainer/modalSlice";
 import { useHandleCenterSchedule } from "@/hooks/trainer/modal/useEnterCenterSchedule";
+import { useModal } from "@/context/trainer/ModalContext";
 
-export default function step3() {
-  const title = "센터일정 등록";
+export default function Step3() {
+  const router = useRouter();
   const dispatch = useDispatch();
+  const { openModal } = useModal();
 
+  const STEP_CONFIG = {
+    STEP: "3",
+    TITLE: "센터일정 등록",
+    TOP_TITLE: "센터일정을 등록해 주세요.",
+    UNDER_TITLE: "센터별로 수업이 가능한 시간을 등록해주세요.",
+    NEXT_STEP_URL: "/trainer/signup/finished",
+  } as const;
+
+  const BUTTON_CONFIG = {
+    CENTER_ITEM: {
+      isIconVisible: false,
+      eventButtonType: "purple" as const,
+      height: "3.5rem",
+      justifyContent: "space-between",
+      rightContent: "checkRegister" as const,
+      color: "var(--black)",
+    },
+  } as const;
+
+  // Redux Selectors
   const isModalOpen = useSelector(state => state.modal.isOpen);
-  const isOverlap = useSelector((state: RootState) => state.modal.isOverlap);
-  //처음 화면을 그릴때 정된 헬스장 리스트 가져오기
   const saveStates = useSelector(
     (state: RootState) => state.trainerSignup.gyms,
   );
 
-  const [recordGyms, setRecordGyms] = useState<GymsInfo[] | []>(saveStates);
-
-  const [openModalNum, setOpenModalNum] = useState<number | null>(null);
+  // Local State
+  const [recordGyms, setRecordGyms] = useState<GymsInfo[]>(saveStates);
   const [modalTitle, setModalTitle] = useState<string>("");
+  const [openModalNum, setOpenModalNum] = useState<number | null>(null);
 
-  const { selectedSchedules, overlapError, isButtonDisabled } =
+  // Custom Hook
+  const { selectedSchedules, overlapError, isButtonDisabled, handleNext } =
     useHandleCenterSchedule();
 
-  const toggleModal = (centername: string, index: number) => {
-    dispatch(openModal());
-    setModalTitle(centername);
-    setOpenModalNum(index);
-  };
+  // Event Handlers
+  const toggleModal = useCallback(
+    (centerName: string, index: number) => {
+      dispatch(openModal());
+      setModalTitle(centerName);
+      setOpenModalNum(index);
+    },
+    [dispatch],
+  );
 
-  // && selectedSchedules[0].days?.length > 0
+  const handleOpenScheduleModal = useCallback(
+    (centerName: string, index: number) => {
+      openModal({
+        type: "default",
+        title: centerName,
+        content: <EnterCenterSchedule />,
+      });
+    },
+    [openModal],
+  );
 
-  // console.log("selectedSchedules", selectedSchedules[0]?.days?.length);
-
-  const handleRemoveSchedule = index => {
-    const newSelectedSchedules = [...selectedSchedules];
-    newSelectedSchedules.splice(index, 1);
-    setSelectedSchedules(newSelectedSchedules);
-  };
-
-  const gyms = saveStates?.gyms || [];
-
-  const handleCloseOverlap = () => {
+  const handleModalClose = useCallback(() => {
+    dispatch(closeModal());
     dispatch(resetOverlap());
-  };
+  }, [dispatch]);
 
-  // const updatedGyms = {
-  //   workSchedules: [
-  //     {
-  //       day: selectedSchedules[0]?.days[0]
-  //         ? changeDayFormatEnglish(selectedSchedules[0]?.days[0])
-  //         : "",
-  //       inTime: selectedSchedules[0]?.startTime,
-  //       outTime: selectedSchedules[0]?.endTime,
-  //     },
-  //   ],
-  // };
-
-  // const handleNext = () => {
-  //   dispatch(
-  //     signupActions.saveSignupState({
-  //       gyms: updatedGyms,
-  //     }),
-  //   );
-  //   console.log("states: ", saveStates);
-  // };
-
-  // console.log(selectedDays.length, "selectedDays");
-
-  useEffect(() => {
-    console.log("overlapError", overlapError);
-  }, [overlapError]);
+  const handleNextStep = useCallback(() => {
+    handleNext();
+    router.push(STEP_CONFIG.NEXT_STEP_URL);
+  }, [handleNext, router]);
 
   return (
     <TrainerLayout
-      title={title}
+      title={STEP_CONFIG.TITLE}
       hasHeader={true}
       hasFooter={false}
       variant="withBack"
     >
-      <JoinStep active={"3"} />
+      <JoinStep active={STEP_CONFIG.STEP} />
       <TitleWrapper
-        topTitle="센터일정을 등록해 주세요."
-        underTitle="센터별로 수업이 가능한 시간을 등록해주세요."
+        topTitle={STEP_CONFIG.TOP_TITLE}
+        underTitle={STEP_CONFIG.UNDER_TITLE}
       />
+
       {recordGyms?.map((gym, index) => (
         <EventButton
-          key={index}
-          isIconVisible={false}
-          event={() => toggleModal(gym.name, index)}
-          eventButtonType="purple"
-          height="3.5rem"
-          justifyContent="space-between"
+          key={`${gym.name}-${index}`}
+          // event={() => handleOpenScheduleModal(gym.name)}
+          event={() => handleOpenScheduleModal(gym.name, index)}
           content={gym.name}
-          rightContent="checkRegister"
-          color="var(--black)"
+          {...BUTTON_CONFIG.CENTER_ITEM}
         />
       ))}
+
       <ButtonAreaFixed
         isButtonDisabled={isButtonDisabled}
-        // onClick={handleNext}
-        nextStepUrl="/trainer/signup/step4"
+        onClick={handleNextStep}
         label="다음"
       />
+
       {isModalOpen && (
-        <Modal title={modalTitle} content={<EnterCenterSchedule />} />
+        <Modal
+          title={modalTitle}
+          content={<EnterCenterSchedule />}
+          onClose={handleModalClose}
+        />
       )}
-      {overlapError && <OverlapModal />}
     </TrainerLayout>
   );
 }
