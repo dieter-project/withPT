@@ -8,7 +8,7 @@ import { useRouter } from "next/navigation";
 import { ArrowWrap, RecordBoxWrap } from "./styles";
 import { NextArrow } from "../mypage/styles";
 import { thisMonth } from "@/constants/record";
-import { getMemberInfo } from "@/services/member/member";
+import { reqGetMemberInfo } from "@/services/member/member";
 import { MemberInfo } from "@/types/member/member";
 import { getRecord } from "@/services/member/record";
 import { WeeklyCalendar } from "@/components/member/common/WeeklyCalendar";
@@ -64,7 +64,7 @@ const page = () => {
     try {
       const {
         data: { data: memberInfo },
-      } = await getMemberInfo();
+      } = await reqGetMemberInfo();
       setMemberInfo(memberInfo);
     } catch (error) {
       console.log("error: ", error);

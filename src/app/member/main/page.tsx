@@ -28,7 +28,7 @@ import {
   getLessonsMonthly,
   getPersonalTrainers,
 } from "@/services/member/training";
-import { getMemberInfo } from "@/services/member/member";
+import { reqGetMemberInfo } from "@/services/member/member";
 import { getDietByDate } from "@/services/member/diet";
 import { MemberInfo } from "@/types/member/member";
 import { convertGoal } from "@/utils/convertGoal";
@@ -89,7 +89,7 @@ const page = () => {
     try {
       const {
         data: { data },
-      } = await getMemberInfo();
+      } = await reqGetMemberInfo();
       setMemberInfo(data.memberInfo);
     } catch (error) {
       console.log("error: ", error);
