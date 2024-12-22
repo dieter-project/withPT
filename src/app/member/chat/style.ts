@@ -23,7 +23,7 @@ export const ExclamationMark = styled.span`
 export const ChatTrainerListWrap = styled.div`
   width: 100%;
   height: 100%;
-  padding: 0 1rem;
+  /* padding: 0 1rem; */
 `
 
 export const ChatTrainerList = styled.li`

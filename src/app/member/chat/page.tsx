@@ -1,58 +1,78 @@
-'use client';
+"use client";
 
-import { LabelTitle } from '@/styles/Text';
-import React, { useEffect, useState } from 'react'
-import styled from 'styled-components';
-import Plus from '../../../../public/svgs/icon_plus.svg'
-import { useRouter } from 'next/navigation';
-import ChatHeader from '@/components/member/chat/ChatHeader';
-import { BaseContentWrap, ButtonAreaFixed } from '@/styles/Layout';
-import { Checkbox } from '@/styles/Input';
-import { Button } from '@/styles/Button';
-import { api } from '@/utils/axios';
-import { format } from 'date-fns';
-import { ko } from 'date-fns/locale';
-import { ChatDate, ChatTrainerList, ChatTrainerListInfo, ChatTrainerListWrap, EmptyChat, ExclamationMark, NewChatButton, ProfileCircle } from './style';
-import { getChatRooms } from '@/services/member/chat';
+import { LabelTitle } from "@/styles/Text";
+import React, { useEffect, useState } from "react";
+import styled from "styled-components";
+import Plus from "../../../../public/svgs/icon_plus.svg";
+import { useRouter } from "next/navigation";
+import ChatHeader from "@/components/member/chat/ChatHeader";
+import { BaseContentWrap, ButtonAreaFixed } from "@/styles/Layout";
+import { Checkbox } from "@/styles/Input";
+import { Button } from "@/styles/Button";
+import { api } from "@/utils/axios";
+import { format } from "date-fns";
+import { ko } from "date-fns/locale";
+import {
+  ChatDate,
+  ChatTrainerList,
+  ChatTrainerListInfo,
+  ChatTrainerListWrap,
+  EmptyChat,
+  ExclamationMark,
+  NewChatButton,
+  ProfileCircle,
+} from "./style";
+import { getChatRooms } from "@/services/member/chat";
+import { reqGetMemberInfo } from "@/services/member/member";
+import { PtInfos } from "@/types/member/member";
 
 interface ChatRooms {
-  roomId: number,
-  identifier: string,
-  roomType: string,
-  roomName: string,
-  notReadChat: number,
-  lastReadChatId: number,
-  lastChat: string,
-  lastModifiedDate: string
+  roomId: number;
+  identifier: string;
+  roomType: string;
+  roomName: string;
+  notReadChat: number;
+  lastReadChatId: number;
+  lastChat: string;
+  lastModifiedDate: string;
 }
 const page = () => {
   const [chatRooms, setChatRooms] = useState<ChatRooms[]>([]);
   const [exitMode, setExitMode] = useState(false);
+  const [ptInfos, setPtInfos] = useState<PtInfos[]>([]);
   const [deleteChatRooms, setDeleteChatRooms] = useState([]);
 
   const router = useRouter();
-  const title = '채팅'
+  const title = "채팅";
+
+  const getMemberInfo = async () => {
+    const {
+      data: { data },
+    } = await reqGetMemberInfo();
+    setPtInfos(data.ptInfos);
+  };
 
   const handleGetChats = async () => {
     try {
-      const response = await getChatRooms()
-      const { data: { data } } = response;
-      setChatRooms(data.roomList)
-    } catch (error) {
-
-    }
-  }
+      const response = await getChatRooms();
+      const {
+        data: { data },
+      } = response;
+      setChatRooms(data.roomList);
+    } catch (error) {}
+  };
 
   useEffect(() => {
     handleGetChats();
-  }, [])
+    getMemberInfo();
+  }, []);
 
   return (
     <>
       <ChatHeader title={title} back={false} />
       <BaseContentWrap>
-        {chatRooms.length <= 0
-          ? <>
+        {chatRooms.length <= 0 ? (
+          <>
             <section>
               <EmptyChat>
                 <ExclamationMark />
@@ -65,40 +85,53 @@ const page = () => {
                 <LabelTitle>트레이너 목록</LabelTitle>
                 <div>
                   <ul>
-                    <ChatTrainerList>
-                      <div>
-                        <ProfileCircle>
-                          <img src="" alt="" />
-                        </ProfileCircle>
-                        <ChatTrainerListInfo>
-                          <div>트레이너</div>
-                          <div>센터</div>
-                        </ChatTrainerListInfo>
-                      </div>
-                      <div>
-                        <NewChatButton>
-                          <Plus fill="#6C69FF" width="0.75rem" height="0.75rem" />
-                          <div>채팅</div>
-                        </NewChatButton>
-                      </div>
-                    </ChatTrainerList>
+                    {ptInfos?.map((pt, idx) => (
+                      <ChatTrainerList key={idx}>
+                        <div>
+                          <ProfileCircle>
+                            <img src={pt.trainer.imageUrl} alt="" />
+                          </ProfileCircle>
+                          <ChatTrainerListInfo>
+                            <div>{pt.trainer.name}트레이너</div>
+                            <div>{pt.gym.name}</div>
+                          </ChatTrainerListInfo>
+                        </div>
+                        <div>
+                          <NewChatButton>
+                            <Plus
+                              fill="#6C69FF"
+                              width="0.75rem"
+                              height="0.75rem"
+                            />
+                            <div>채팅</div>
+                          </NewChatButton>
+                        </div>
+                      </ChatTrainerList>
+                    ))}
                   </ul>
                 </div>
               </ChatTrainerListWrap>
             </section>
           </>
-          : <>
+        ) : (
+          <>
             <section>
               <div>
                 <ul>
                   {chatRooms?.map(room => {
                     return (
-                      <ChatTrainerList key={room.roomId} onClick={() => router.push(`/member/chat/room/${room.roomId}`)}>
+                      <ChatTrainerList
+                        key={room.roomId}
+                        onClick={() =>
+                          router.push(`/member/chat/room/${room.roomId}`)
+                        }
+                      >
                         <div>
-                          {exitMode &&
+                          {exitMode && (
                             <Checkbox>
                               <input type="checkbox" />
-                            </Checkbox>}
+                            </Checkbox>
+                          )}
                           <ProfileCircle>
                             <img src="" alt="" />
                           </ProfileCircle>
@@ -109,26 +142,31 @@ const page = () => {
                         </div>
                         <div>
                           <ChatDate>
-                            <div>{format(new Date(room.lastModifiedDate),"hh:mm", {locale: ko})}</div>
+                            <div>
+                              {format(
+                                new Date(room.lastModifiedDate),
+                                "hh:mm",
+                                { locale: ko },
+                              )}
+                            </div>
                           </ChatDate>
                         </div>
                       </ChatTrainerList>
-                    )
+                    );
                   })}
                 </ul>
               </div>
             </section>
-            {exitMode &&
-            <ButtonAreaFixed $nav>
-              <Button $variant='primary'>채팅방 나가기</Button>
-            </ButtonAreaFixed>
-            }
+            {exitMode && (
+              <ButtonAreaFixed $nav>
+                <Button $variant="primary">채팅방 나가기</Button>
+              </ButtonAreaFixed>
+            )}
           </>
-        }
-
+        )}
       </BaseContentWrap>
     </>
-  )
-}
+  );
+};
 
-export default page
+export default page;
