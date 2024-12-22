@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import PageTitle from "@/components/trainer/molecules/Header/Header";
+import PageHeader from "@/components/trainer/molecules/Header/Header";
 import Footer from "@/components/TrainerFooter";
 import {
   LayoutProvider,
@@ -39,7 +39,7 @@ const TrainerLayout: React.FC<TrainerLayoutProps> = ({
     <Container $bgColor={bgColor}>
       <ContentBody>
         {layoutConfig.showHeader && (
-          <PageTitle
+          <PageHeader
             title={layoutConfig.title}
             variant={layoutConfig.variant}
             onPlusClick={layoutConfig.onPlusClick}

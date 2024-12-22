@@ -7,9 +7,11 @@ export const DefaultModalComponent = ({
   title,
   content,
   onClose,
+  zIndex,
+  type = "default",
 }: DefaultModalProps) => (
-  <ModalOverlay>
-    <ModalContainer>
+  <ModalOverlay zIndex={zIndex} type={type}>
+    <ModalContainer zIndex={zIndex} type={type}>
       <ModalHeader>
         {title}
         <CloseButton onClick={onClose}>
@@ -21,25 +23,44 @@ export const DefaultModalComponent = ({
   </ModalOverlay>
 );
 
-const ModalOverlay = styled.div`
+const ModalOverlay = styled.div<{ zIndex: number; type: "default" | "alert" }>`
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.5);
-  z-index: 1000;
+  background: ${props =>
+    props.type === "alert" ? "rgba(0, 0, 0, 0.3)" : "rgba(0, 0, 0, 0.5)"};
+  z-index: ${props => props.zIndex};
 `;
 
-const ModalContainer = styled.div`
+const ModalContainer = styled.div<{
+  zIndex: number;
+  type: "default" | "alert";
+}>`
   position: fixed;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 95%;
-  background: white;
-  border-radius: 16px 16px 0 0;
-  animation: slideUp 0.3s ease-out;
+  ${props =>
+    props.type === "alert"
+      ? `
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 80%;
+    max-width: 320px;
+    background: white;
+    border-radius: 16px;
+  `
+      : `
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 95%;
+    background: white;
+    border-radius: 16px 16px 0 0;
+    transform: translateY(0);
+    animation: slideUp 0.3s ease-out;
+  `}
+  z-index: ${props => props.zIndex + 1};
 
   @keyframes slideUp {
     from {

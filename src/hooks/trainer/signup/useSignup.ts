@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { PlaceInfo } from "@/model/trainer/signUp";
 import { openModal, closeModal } from "@/redux/reducers/trainer/modalSlice";
-import { useHandleCenterSchedule } from "@/hooks/trainer/modal/useEnterCenterSchedule";
 
 export const Signup2 = () => {
   const dispatch = useDispatch();

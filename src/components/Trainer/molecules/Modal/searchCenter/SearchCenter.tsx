@@ -1,13 +1,8 @@
 import React, { useState, useEffect, useCallback } from "react";
 import _ from "lodash";
 import { styled } from "styled-components";
-import searchIcon from "public/Trainer/icons/searchLightGray.png";
 import { PlaceInfo } from "@/model/trainer/signUp";
-import {
-  SearchBarWrap,
-  SearchBarInput,
-  SearchIcon,
-} from "@/styles/Trainer/TrainerSearchBar";
+import SearchBar from "@/components/trainer/molecules/SearchBar/SearchBar";
 import PlaceList from "./PlaceList";
 import NoResultMessage from "./NoResultMessage";
 import { useKakaoMap } from "@/context/trainer/KaKaoMapContext";
@@ -119,22 +114,14 @@ export const SearchCenter: React.FC<SearchCenterProps> = ({
 
   return (
     <>
-      <form
+      <SearchBar
+        value={keyword}
+        onChange={handleKeywordChange}
         onSubmit={e => {
           e.preventDefault();
           searchPlaces(keyword);
         }}
-      >
-        <SearchBarWrap>
-          <SearchIcon src={searchIcon} alt="검색 회색 돋보기 아이콘" />
-          <SearchBarInput
-            type="text"
-            placeholder="검색"
-            value={keyword}
-            onChange={handleKeywordChange}
-          />
-        </SearchBarWrap>
-      </form>
+      />
       <ListWrapper>
         {errorMsg ? (
           <NoResultMessage message={errorMsg} />

@@ -2,36 +2,46 @@
 
 import React, { createContext, useContext, useCallback, useState } from "react";
 import { ModalPortal } from "@/components/trainer/molecules/Modal/ModalPortal";
-import { ModalProps, ModalType } from "@/types/trainer/modal";
+import { ModalProps } from "@/types/trainer/modal";
+import { nanoid } from "nanoid";
 
-interface ModalContextType {
-  modals: ModalProps[];
-  openModal: (modal: Omit<ModalProps, "onClose">) => void;
+interface ModalContextValue {
+  openModal: (modal: Omit<ModalProps, "onClose" | "zIndex">) => void;
   closeModal: () => void;
 }
 
-const ModalContext = createContext<ModalContextType | null>(null);
+// ModalContext 선언을 맨 위에 추가
+const ModalContext = createContext<ModalContextValue | null>(null);
 
 export function ModalProvider({ children }: { children: React.ReactNode }) {
-  const [modals, setModals] = useState<ModalProps[]>([]);
+  const [modals, setModals] = useState<(ModalProps & { id: string })[]>([]);
 
-  const openModal = useCallback((modal: Omit<ModalProps, "onClose">) => {
-    setModals(prev => [...prev, { ...modal, onClose: () => closeModal() }]);
-  }, []);
+  const openModal = useCallback(
+    (modal: Omit<ModalProps, "onClose" | "zIndex">) => {
+      const zIndex = 1000 + modals.length * 10;
+      const id = Math.random().toString(36).slice(2);
+      setModals(prev => [
+        ...prev,
+        { ...modal, id, zIndex, onClose: () => closeModal() },
+      ]);
+    },
+    [modals],
+  );
 
   const closeModal = useCallback(() => {
     setModals(prev => prev.slice(0, -1));
   }, []);
 
   return (
-    <ModalContext.Provider value={{ modals, openModal, closeModal }}>
+    <ModalContext.Provider value={{ openModal, closeModal }}>
       {children}
-      {modals.map((modal, index) => (
-        <ModalPortal key={index} {...modal} />
+      {modals.map(modal => (
+        <ModalPortal key={modal.id} {...modal} />
       ))}
     </ModalContext.Provider>
   );
 }
+
 export const useModal = () => {
   const context = useContext(ModalContext);
   if (!context) {

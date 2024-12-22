@@ -1,14 +1,16 @@
 export type ModalType = "default" | "alert";
 
 export interface BaseModalProps {
-  type: ModalType;
+  title: string;
   onClose: () => void;
+  zIndex: number;
+  type: ModalType;
 }
 
 export interface DefaultModalProps extends BaseModalProps {
   type: "default";
-  title: string;
   content: React.ReactNode;
+  message?: string;
 }
 
 export interface AlertModalProps extends BaseModalProps {

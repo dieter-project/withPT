@@ -6,7 +6,6 @@ import { TrainerLayout } from "@/app/trainer/layout";
 import { TitleWrapper } from "@/components/trainer/signup/TitleWrapper";
 import { ButtonAreaFixed } from "@/components/trainer/signup/ButtonAreaFixed";
 import JoinStep from "@/components/trainer/TrSignUpStep";
-import { Modal } from "@/components/trainer/molecules/Modal/Modal";
 import { SearchCenter } from "@/components/trainer/molecules/Modal/searchCenter/SearchCenter";
 import { EventButton } from "@/components/trainer/atoms/Button/EventButton";
 import { useModal } from "@/context/trainer/ModalContext";
@@ -14,7 +13,7 @@ import { signup2 } from "@/services/trainer/signup/signup2";
 
 export default function Step2() {
   const router = useRouter();
-  const { openModal, isOpen, closeModal } = useModal();
+  const { openModal, closeModal } = useModal();
   const {
     workingCenter,
     isButtonDisabled,
@@ -78,7 +77,11 @@ export default function Step2() {
   );
 
   const openSearchModal = React.useCallback(() => {
-    openModal(searchCenterContent, STEP_CONFIG.MODAL_TITLE);
+    openModal({
+      type: "default",
+      title: STEP_CONFIG.MODAL_TITLE,
+      content: searchCenterContent,
+    });
   }, [openModal, searchCenterContent]);
 
   const handleNextStep = useCallback(() => {
@@ -105,6 +108,7 @@ export default function Step2() {
             {workingCenter.map((center, index) => (
               <EventButton
                 key={`${center.place_name}-${index}`}
+                event={openSearchModal}
                 content={center.place_name}
                 {...BUTTON_CONFIG.CENTER_ITEM}
                 xButtonEvent={BUTTON_CONFIG.CENTER_ITEM.xButtonEvent(index)}
@@ -121,9 +125,6 @@ export default function Step2() {
         onClick={handleNextStep}
         label="다음"
       />
-      {isOpen && (
-        <Modal title={STEP_CONFIG.MODAL_TITLE} content={searchCenterContent} />
-      )}
     </TrainerLayout>
   );
 }

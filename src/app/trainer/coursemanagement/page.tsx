@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import styled from "styled-components";
 import Link from "next/link";
 import Image from "next/image";
-import { Container, ContentBody } from "@/styles/trainer/TrainerLayout";
+import { TrainerLayout } from "@/app/trainer/layout";
 import { Button, IconButton } from "@/styles/Trainer/TrainerButton";
 import ContentHeader from "@/components/trainer/molecules/Header/Header";
 import Footer from "@/components/TrainerFooter";
@@ -16,6 +16,7 @@ import redMinusIcon from "public/Trainer/icons/minusIconRed.png";
 import ModalCloseXButtonImg from "public/Trainer/Modal/close-line.png";
 import Calendar from "../coursemanagement/calendar/page";
 import { api } from "@/utils/axios";
+import { BaseContentWrap, ButtonAreaFixed } from "@/styles/Layout";
 
 const MainTopContent = styled.div`
   background-color: white;
@@ -76,14 +77,6 @@ const ModalWrap = styled.div`
   transition: 0.3s;
 `;
 
-const ModalCloseButton = styled.button`
-  background-color: var(--primary);
-  width: 100%;
-  color: var(--white);
-  border-radius: 0.5rem;
-  padding: 1.5vh 0;
-`;
-
 const ModalDimmed = styled.div`
   z-index: -1;
   width: 100%;
@@ -128,10 +121,6 @@ const CenterName = styled.div`
   font-size: var(--font-s);
   color: var(--font-gray400);
 `;
-
-const CourseMemberTopTxt = styled.div``;
-
-const CourseMemberBottomTxt = styled.div``;
 
 const CourseConfirmed = styled.div`
   display: flex;
@@ -178,10 +167,6 @@ const ArrowCircleUnderGray = styled(Image)`
   width: 1rem;
   line-height: 1rem;
   margin-left: 0.5rem;
-`;
-
-const ColorContentBody = styled(ContentBody)`
-  padding: 5rem 0rem 3.2rem 0rem;
 `;
 
 const CourseListRightWrap = styled.div`
@@ -294,43 +279,46 @@ export default function ManageMain() {
   }, []);
 
   return (
-    <Container>
-      <ContentHeader title={title} variant="center" />
-      <ColorContentBody>
-        <MainTopContent>
-          <ButtonRegionWrap>
-            <Button
-              $variant="primary"
-              height="3.5rem"
-              style={{ marginRight: "1rem" }}
-            >
-              <ButtonInnerRegion>
-                <Link href="/trainer/coursemanagement/courseregister">
-                  <ButtonIcon src={purplePlusIcon} alt="플러스 아이콘" />
-                  <span>신규수업 등록</span>
-                </Link>
-              </ButtonInnerRegion>
-            </Button>{" "}
-            <Button $variant="outlinepurple" height="3.5rem">
-              <ButtonInnerRegion>
-                <Link href="/trainer/membermanagement/member/regist">
-                  <ButtonIcon src={purpleExcalmiIcon} alt="플러스 아이콘" />
-                  <span>대기 수업</span> <span>5</span>
-                </Link>
-              </ButtonInnerRegion>
-            </Button>
-          </ButtonRegionWrap>
+    <TrainerLayout
+      title={title}
+      hasHeader={true}
+      hasFooter={true}
+      variant="withBack"
+      bgColor="primary"
+    >
+      <>
+        <ButtonRegionWrap>
+          <Button
+            $variant="primary"
+            height="3.5rem"
+            style={{ marginRight: "1rem" }}
+          >
+            <ButtonInnerRegion>
+              <Link href="/trainer/coursemanagement/courseregister">
+                <ButtonIcon src={purplePlusIcon} alt="플러스 아이콘" />
+                <span>신규수업 등록</span>
+              </Link>
+            </ButtonInnerRegion>
+          </Button>{" "}
+          <Button $variant="outlinepurple" height="3.5rem">
+            <ButtonInnerRegion>
+              <Link href="/trainer/membermanagement/member/regist">
+                <ButtonIcon src={purpleExcalmiIcon} alt="플러스 아이콘" />
+                <span>대기 수업</span> <span>5</span>
+              </Link>
+            </ButtonInnerRegion>
+          </Button>
+        </ButtonRegionWrap>
 
-          <PickedCenterButton onClick={toggleModal}>
-            <span>{pickedCenter}</span>
-            <ArrowCircleUnderGray
-              src={arrowCircleUnderGray}
-              alt="리스트 선택하는 아래 화살표 아이콘"
-            />
-          </PickedCenterButton>
-          <Calendar onChange={onChange} value={value} />
-        </MainTopContent>
-        <ManageCourseWrap>
+        <PickedCenterButton onClick={toggleModal}>
+          <span>{pickedCenter}</span>
+          <ArrowCircleUnderGray
+            src={arrowCircleUnderGray}
+            alt="리스트 선택하는 아래 화살표 아이콘"
+          />
+        </PickedCenterButton>
+        <Calendar onChange={onChange} value={value} />
+        <div>
           <ManageTitleWrap>
             <div>
               <ManageTitle>11월 15일 (수)</ManageTitle>
@@ -395,9 +383,8 @@ export default function ManageMain() {
               </CenterList>
             </Link>
           </ul>
-        </ManageCourseWrap>
-      </ColorContentBody>
-      <Footer />
+        </div>
+      </>
       {isModalOpen && (
         <Modal>
           <ModalWrap style={{ bottom: showModalContent ? "-30%" : "-100%" }}>
@@ -427,6 +414,6 @@ export default function ManageMain() {
           <ModalDimmed></ModalDimmed>
         </Modal>
       )}
-    </Container>
+    </TrainerLayout>
   );
 }

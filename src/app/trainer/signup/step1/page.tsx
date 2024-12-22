@@ -221,7 +221,6 @@ export default function Step1() {
             </FormRadio>
           </Wrapper>
         </LabelField>
-
         <ButtonAreaFixed
           isButtonDisabled={!isValid}
           onClick={handleSubmit(onSubmit)}

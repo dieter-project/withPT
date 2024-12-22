@@ -13,6 +13,7 @@ import IconCheckCirCircleMono from "@/assets/svgs/icon_check_circle_mono.svg";
 import IconCheckCirCircleActive from "@/assets/svgs/icon_check_circle_active.svg";
 import AddIconGray from "@/assets/svgs/icon_plus_gray.svg";
 import LogoWePT from "@/assets/svgs/logo.svg";
+import AlertBellIcon from "@/assets/svgs/icon_alert_bell.svg";
 // import NotificationIcon from "@/assets/svgs/icon_notification.svg";
 
 export const icons = {
@@ -31,4 +32,5 @@ export const icons = {
   IconCheckCirCircleActive: IconCheckCirCircleActive,
   addGray: AddIconGray,
   logoWePT: LogoWePT,
+  alert: AlertBellIcon,
 } as const;

@@ -10,6 +10,7 @@ import { Container, ContentBody } from "@/styles/Trainer/TrainerLayout";
 import { NoIconInput } from "@/styles/Trainer/TrainerInput";
 import { Button } from "@/styles/Trainer/TrainerButton";
 import Footer from "@/components/TrainerFooter";
+import { ButtonAreaFixed } from "@/components/trainer/signup/ButtonAreaFixed";
 import TimeSelector from "@/components/trainer/molecules/TimeSelector/TimeSelector";
 
 const ContentInnerBody = styled.div``;

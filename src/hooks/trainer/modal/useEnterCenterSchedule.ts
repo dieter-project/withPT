@@ -1,12 +1,6 @@
 import { useState } from "react";
 import dayjs from "dayjs";
 import isBetween from "dayjs/plugin/isBetween";
-import {
-  openModal,
-  closeModal,
-  setOverlap,
-  resetOverlap,
-} from "@/redux/reducers/trainer/modalSlice";
 
 export const useHandleCenterSchedule = () => {
   dayjs.extend(isBetween);
@@ -57,45 +51,44 @@ export const useHandleCenterSchedule = () => {
     }
 
     // 기존 스케줄과 겹치는지 확인
-    const isOverlap = selectedSchedules.some(schedule => {
-      const existingStartMinutes = convertTimeToMinutes(schedule.startTime);
-      const existingEndMinutes = convertTimeToMinutes(schedule.endTime);
-      const isDayOverlap = selectedDays.some(day =>
+    const hasOverlap = selectedSchedules.some(schedule => {
+      const scheduleStartMinutes = convertTimeToMinutes(schedule.startTime);
+      const scheduleEndMinutes = convertTimeToMinutes(schedule.endTime);
+      const hasDayOverlap = selectedDays.some(day =>
         schedule.days.includes(day),
       );
 
-      const isTimeOverlap =
-        (selectedStartMinutes >= existingStartMinutes &&
-          selectedStartMinutes < existingEndMinutes) ||
-        (selectedEndMinutes > existingStartMinutes &&
-          selectedEndMinutes <= existingEndMinutes) ||
-        (selectedStartMinutes <= existingStartMinutes &&
-          selectedEndMinutes >= existingEndMinutes);
-
-      return isDayOverlap && isTimeOverlap;
+      return (
+        hasDayOverlap &&
+        ((selectedStartMinutes >= scheduleStartMinutes &&
+          selectedStartMinutes < scheduleEndMinutes) ||
+          (selectedEndMinutes > scheduleStartMinutes &&
+            selectedEndMinutes <= scheduleEndMinutes) ||
+          (selectedStartMinutes <= scheduleStartMinutes &&
+            selectedEndMinutes >= scheduleEndMinutes))
+      );
     });
 
-    if (isOverlap) {
+    if (hasOverlap) {
       setOverlapError(true);
       setErrorMessage("날짜와 시간이 겹칩니다.");
       return;
     }
 
-    // 스케줄 추가 및 초기화
+    // 여기가 핵심 변경 부분: 모든 선택된 요일을 하나의 스케줄로 그룹화
     const newSchedule = {
-      days: selectedDays,
+      days: selectedDays, // 선택된 모든 요일을 배열로 유지
       startTime: selectedStartTime,
       endTime: selectedEndTime,
     };
 
-    setSelectedSchedules([...selectedSchedules, newSchedule]);
+    setSelectedSchedules(prev => [...prev, newSchedule]);
     setSelectedDays([]);
     setSelectedStartTime(null);
     setSelectedEndTime(null);
     setOverlapError(false);
     setErrorMessage("");
   };
-
   const handleRemoveSchedule = (index: number) => {
     setSelectedSchedules(prevSchedules =>
       prevSchedules.filter((_, i) => i !== index),
@@ -104,8 +97,11 @@ export const useHandleCenterSchedule = () => {
 
   return {
     selectedDays,
+    setSelectedDays,
     selectedStartTime,
+    setSelectedStartTime,
     selectedEndTime,
+    setSelectedEndTime,
     selectedSchedules,
     overlapError,
     isButtonDisabled,

@@ -76,7 +76,7 @@ export const PageHeader = ({
       );
     }
     if (variant === "logo") {
-      return <Icon name="IconCheckCirCircleActive" size={36} />;
+      return <Icon name="logoWePT" size={80} />;
     }
     return null;
   };
@@ -101,8 +101,8 @@ export const PageHeader = ({
     }
     if (variant === "logo") {
       return (
-        <Link href="/main/alert">
-          <Icon name="logoWePT" size={36} />
+        <Link href="/trainer/main/alert">
+          <Icon name="alert" size={25} />
         </Link>
       );
     }
