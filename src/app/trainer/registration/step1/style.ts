@@ -5,10 +5,6 @@ export const TrGenderRadio = styled.input`
   background-color: var(--purple50);
 `;
 
-export const Slash = styled.span`
-  padding: 0 0.75rem;
-`;
-
 export const TrGenderLabel = styled.label`
   width: 100%;
   height: 3rem;

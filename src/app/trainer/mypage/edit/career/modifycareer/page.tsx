@@ -5,12 +5,11 @@ import styled from "styled-components";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import ContentHeader from "@/components/trainer/molecules/Header/Header";
-import JoinStep from "@/components/trainer/TrSignUpStep";
 import { DeleteInputXbutton } from "@/styles/TrainerInput";
 import { Container, ContentBody } from "@/styles/TrainerLayout";
 import { NoIconInput } from "@/styles/TrainerInput";
 import { Button } from "@/styles/Trainer/TrainerButton";
-import Footer from "@/components/TrainerFooter";
+import Footer from "@/components/trainer/organisms/footer/TrainerFooter";
 import { FlexDivWrap, Purpl50Div } from "@/styles/TrainerStyledDiv";
 
 const ContentInnerBody = styled.div``;

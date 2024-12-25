@@ -5,11 +5,11 @@ import { useRouter } from "next/navigation";
 import { TrainerLayout } from "@/app/trainer/layout";
 import { TitleWrapper } from "@/components/trainer/signup/TitleWrapper";
 import { ButtonAreaFixed } from "@/components/trainer/signup/ButtonAreaFixed";
-import JoinStep from "@/components/trainer/TrSignUpStep";
+import JoinStep from "@/components/trainer/molecules/SignupStep/SignUpStep";
 import { SearchCenter } from "@/components/trainer/molecules/Modal/searchCenter/SearchCenter";
 import { EventButton } from "@/components/trainer/atoms/Button/EventButton";
 import { useModal } from "@/context/trainer/ModalContext";
-import { signup2 } from "@/services/trainer/signup/signup2";
+import { useStep2 } from "@/hooks/trainer/registration/useStep2";
 
 export default function Step2() {
   const router = useRouter();
@@ -20,7 +20,7 @@ export default function Step2() {
     handlePlaceSelect,
     handleRemoveCenter,
     handleNext,
-  } = signup2();
+  } = useStep2();
 
   const STEP_CONFIG = {
     STEP: "2",

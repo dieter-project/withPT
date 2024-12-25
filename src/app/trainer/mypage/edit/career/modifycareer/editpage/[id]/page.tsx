@@ -4,12 +4,11 @@ import Image from "next/image";
 import styled from "styled-components";
 import Link from "next/link";
 import ContentHeader from "@/components/trainer/molecules/Header/Header";
-import JoinStep from "@/components/trainer/TrSignUpStep";
 import { DeleteInputXbutton } from "@/styles/Trainer/TrainerInput";
 import { Container, ContentBody } from "@/styles/Trainer/TrainerLayout";
 import { NoIconInput } from "@/styles/Trainer/TrainerInput";
 import { Button } from "@/styles/Trainer/TrainerButton";
-import Footer from "@/components/TrainerFooter";
+import Footer from "@/components/trainer/organisms/footer/TrainerFooter";
 import { ButtonAreaFixed } from "@/components/trainer/signup/ButtonAreaFixed";
 import TimeSelector from "@/components/trainer/molecules/TimeSelector/TimeSelector";
 

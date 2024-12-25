@@ -2,7 +2,7 @@
 import styled from "styled-components";
 import Link from "next/link";
 import Image from "next/image";
-import Footer from "@/components/TrainerFooter";
+import Footer from "@/components/trainer/organisms/footer/TrainerFooter";
 import stepLigntIcon from "../../../../public/Trainer/Mypage/check-step-light.png";
 
 const MainContainer = styled.div``;

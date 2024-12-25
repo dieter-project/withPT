@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { TrainerLayout } from "@/app/trainer/layout";
 import { ButtonAreaFixed } from "@/components/trainer/signup/ButtonAreaFixed";
 import { TitleWrapper } from "@/components/trainer/signup/TitleWrapper";
-import JoinStep from "@/components/trainer/TrSignUpStep";
+import JoinStep from "@/components/trainer/molecules/SignupStep/SignUpStep";
 import { EventButton } from "@/components/trainer/atoms/Button/EventButton";
 import { EnterCenterSchedule } from "@/components/trainer/molecules/Modal/enterCenterSchedule/EnterCenterSchedule";
 import { GymsInfo, WorkSchedule } from "@/model/trainer/signUp";

@@ -4,7 +4,7 @@ import { useAppSelector } from "@/redux/hooks";
 import { useDispatch } from "react-redux";
 import Link from "next/link";
 import ContentHeader from "@/components/trainer/molecules/Header/Header";
-import JoinStep from "@/components/trainer/TrSignUpStep";
+import JoinStep from "@/components/trainer/molecules/SignupStep/SignUpStep";
 import Image from "next/image";
 import styled from "styled-components";
 import { TrainerLayout } from "@/app/trainer/layout";
@@ -369,7 +369,7 @@ export default function step4() {
 
   const handleSubmit = async () => {
     const dataToSend = {
-      email: "trainer@test.com",
+      email: "trainer2@test.com",
       password: "trainer1234",
       name: "조은혜",
       birth: "2024-01-07",

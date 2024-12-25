@@ -3,7 +3,6 @@
 import React, { createContext, useContext, useCallback, useState } from "react";
 import { ModalPortal } from "@/components/trainer/molecules/Modal/ModalPortal";
 import { ModalProps } from "@/types/trainer/modal";
-import { nanoid } from "nanoid";
 
 interface ModalContextValue {
   openModal: (modal: Omit<ModalProps, "onClose" | "zIndex">) => void;

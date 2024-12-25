@@ -1,6 +1,6 @@
 "use client";
 import styled from "styled-components";
-import Footer from "@/components/TrainerFooter";
+import Footer from "@/components/trainer/organisms/footer/TrainerFooter";
 
 const MainContainer = styled.div`
   background-color: #efefef;
