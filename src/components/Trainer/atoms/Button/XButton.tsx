@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import CheckedIconGray from "/public/svgs/icon_checked.svg";
 
 interface EventButtonItemProps {
   status: "gray" | "purple";
@@ -10,7 +9,6 @@ export const XButton = ({ status, label }: EventButtonItemProps) => {
   return (
     <>
       <CheckMessageWrapper>
-        {/* <CheckIcon widthz /> */}
         <Message $status={status}>{label}</Message>
       </CheckMessageWrapper>
     </>

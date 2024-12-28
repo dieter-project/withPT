@@ -25,3 +25,13 @@ export interface GymsInfo {
   latitude: number;
   longtitude: number;
 }
+
+export interface WorkSchedule {
+  days: string[];
+  startTime: string;
+  endTime: string;
+}
+
+export interface CenterSchedules {
+  [centerName: string]: WorkSchedule[];
+}

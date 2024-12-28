@@ -8,7 +8,11 @@ import { TitleWrapper } from "@/components/trainer/signup/TitleWrapper";
 import JoinStep from "@/components/trainer/molecules/SignupStep/SignUpStep";
 import { EventButton } from "@/components/trainer/atoms/Button/EventButton";
 import { EnterCenterSchedule } from "@/components/trainer/molecules/Modal/enterCenterSchedule/EnterCenterSchedule";
-import { GymsInfo, WorkSchedule } from "@/model/trainer/signUp";
+import {
+  GymsInfo,
+  WorkSchedule,
+  CenterSchedules,
+} from "@/model/trainer/signUp";
 import { RootState } from "@/redux/store";
 import { useModal } from "@/context/trainer/ModalContext";
 import { signupActions } from "@/redux/reducers/trainerSignupSlice";
@@ -38,18 +42,17 @@ export default function Step3() {
     },
   } as const;
 
-  // Redux 상태
   const saveStates = useSelector(
     (state: RootState) => state.trainerSignup.gyms,
   );
   const [recordGyms, setRecordGyms] = useState<GymsInfo[]>(saveStates);
+
   const [centerSchedules, setCenterSchedules] = useState<{
     [key: string]: WorkSchedule[];
   }>({});
 
-  // 센터 스케줄 모달 오픈
   const handleOpenScheduleModal = useCallback(
-    (centerName: string, index: number) => {
+    (centerName: string) => {
       openModal({
         type: "default",
         title: centerName,
@@ -69,7 +72,7 @@ export default function Step3() {
     },
     [openModal, centerSchedules],
   );
-  // 다음 단계로 이동
+
   const handleNextStep = useCallback(() => {
     const isAllSchedulesSet = recordGyms.every(
       gym => centerSchedules[gym.name] && centerSchedules[gym.name].length > 0,

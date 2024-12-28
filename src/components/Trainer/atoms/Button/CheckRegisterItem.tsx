@@ -1,22 +1,23 @@
 import styled from "styled-components";
-import CheckedIconGray from "/public/svgs/icon_check_circle_mono.svg";
+import { Icon } from "@/components/trainer/atoms/SvgIcon/SvgIcon";
 
 interface CheckRegisterItemProps {
-  status: "gray" | "purple";
+  status?: "gray" | "purple";
   label: string;
 }
 
 export const CheckRegisterItem = ({
-  status,
+  status = "gray",
   label,
 }: CheckRegisterItemProps) => {
   return (
-    <>
-      <CheckMessageWrapper>
-        <CheckedIconGray width="30" height="30" />
-        <Message $status={status}>{label}</Message>
-      </CheckMessageWrapper>
-    </>
+    <CheckMessageWrapper>
+      <Icon
+        name={status === "gray" ? "checkCirCircleMono" : "checkCirCircleActive"}
+        size={26}
+      />
+      <Message $status={status}>{label}</Message>
+    </CheckMessageWrapper>
   );
 };
 

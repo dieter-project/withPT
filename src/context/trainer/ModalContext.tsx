@@ -5,31 +5,35 @@ import { ModalPortal } from "@/components/trainer/molecules/Modal/ModalPortal";
 import { ModalProps } from "@/types/trainer/modal";
 
 interface ModalContextValue {
-  openModal: (modal: Omit<ModalProps, "onClose" | "zIndex">) => void;
+  openModal: (modal: ModalProps) => void;
   closeModal: () => void;
 }
 
-// ModalContext 선언을 맨 위에 추가
 const ModalContext = createContext<ModalContextValue | null>(null);
 
 export function ModalProvider({ children }: { children: React.ReactNode }) {
   const [modals, setModals] = useState<(ModalProps & { id: string })[]>([]);
 
+  const closeModal = useCallback(() => {
+    setModals(prev => prev.slice(0, -1));
+  }, []);
+
   const openModal = useCallback(
-    (modal: Omit<ModalProps, "onClose" | "zIndex">) => {
+    (modal: Omit<ModalProps, "onClose">) => {
       const zIndex = 1000 + modals.length * 10;
       const id = Math.random().toString(36).slice(2);
       setModals(prev => [
         ...prev,
-        { ...modal, id, zIndex, onClose: () => closeModal() },
+        {
+          ...modal,
+          id,
+          zIndex,
+          onClose: () => closeModal(),
+        } as ModalProps & { id: string },
       ]);
     },
-    [modals],
+    [modals, closeModal],
   );
-
-  const closeModal = useCallback(() => {
-    setModals(prev => prev.slice(0, -1));
-  }, []);
 
   return (
     <ModalContext.Provider value={{ openModal, closeModal }}>

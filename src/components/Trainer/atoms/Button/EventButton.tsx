@@ -55,9 +55,11 @@ export const EventButton = ({
           )}
           {content}
         </div>
-
         {rightContent === "checkRegister" && (
           <CheckRegisterItem status="gray" label="등록 전" />
+        )}
+        {rightContent === "done" && (
+          <CheckRegisterItem status="purple" label="등록 완료" />
         )}
         {rightContent === "xButton" && (
           <div onClick={xButtonEvent}>
