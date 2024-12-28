@@ -3,6 +3,7 @@ import { styled } from "styled-components";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { Icon } from "@/components/trainer/atoms/SvgIcon/SvgIcon";
+import { FooterIconProps } from "@/types/common/icon";
 
 const MainFooter = styled.footer`
   position: fixed;
@@ -31,7 +32,7 @@ const FooterText = styled.div`
   color: var(--font-secondary);
 `;
 
-const footerRoutes = [
+const footerRoutes: FooterIconProps[] = [
   {
     href: "main",
     icon: "home",

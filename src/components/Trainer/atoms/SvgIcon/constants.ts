@@ -14,7 +14,7 @@ import IconCheckCirCircleActive from "@/assets/svgs/icon_check_circle_active.svg
 import AddIconGray from "@/assets/svgs/icon_plus_gray.svg";
 import LogoWePT from "@/assets/svgs/logo.svg";
 import AlertBellIcon from "@/assets/svgs/icon_alert_bell.svg";
-// import NotificationIcon from "@/assets/svgs/icon_notification.svg";
+import SlashIcon from "@/assets/svgs/icon_slash.svg";
 
 export const icons = {
   backArrow: BackArrowIcon,
@@ -33,4 +33,5 @@ export const icons = {
   addGray: AddIconGray,
   logoWePT: LogoWePT,
   alert: AlertBellIcon,
+  slash: SlashIcon,
 } as const;

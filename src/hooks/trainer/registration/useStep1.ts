@@ -1,5 +1,6 @@
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
+import { getLastDayOfMonth } from "@/utils/Trainer/getLastDayOfMonth";
 
 interface Step1FormData {
   name: string;
@@ -74,7 +75,7 @@ export const useStep1 = () => {
   };
 
   const onSubmit = (data: Step1FormData) => {
-    router.push("/trainer/signup/step2");
+    router.push("/trainer/registration/step2");
   };
 
   return {

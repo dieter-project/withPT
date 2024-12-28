@@ -4,7 +4,7 @@ import { SvgIcon } from "./SvgIcon.styles";
 import type { IconProps } from "@/types/common/icon";
 
 export const Icon = forwardRef<SVGSVGElement, IconProps>(
-  ({ name, size = 24, color, className, ...props }, ref) => {
+  ({ name, size = 24, color, className, pd, ...props }, ref) => {
     const IconComponent = icons[name];
 
     if (!IconComponent) {
@@ -22,6 +22,7 @@ export const Icon = forwardRef<SVGSVGElement, IconProps>(
       <SvgIcon
         $size={size}
         $color={color}
+        $pd={pd}
         className={`icon-base ${className || ""}`}
       >
         <IconComponent
@@ -34,5 +35,4 @@ export const Icon = forwardRef<SVGSVGElement, IconProps>(
     );
   },
 );
-
 Icon.displayName = "Icon";

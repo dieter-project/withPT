@@ -7,4 +7,12 @@ export interface IconProps {
   size?: number | string;
   color?: string;
   className?: string;
+  pd?: string;
+}
+
+export interface FooterIconProps {
+  href: string;
+  icon: IconName;
+  activeIcon: IconName;
+  text: string;
 }

@@ -28,7 +28,7 @@ export default function Step2() {
     TOP_TITLE: "센터를 등록해주세요.",
     UNDER_TITLE: "재직 중인 센터를 등록해주세요.",
     MODAL_TITLE: "센터 검색",
-    NEXT_STEP_URL: "/trainer/signup/step3",
+    NEXT_STEP_URL: "/trainer/registration/step3",
   } as const;
 
   const BUTTON_CONFIG = {
