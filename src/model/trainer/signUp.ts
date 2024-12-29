@@ -12,6 +12,8 @@ export interface PlaceInfo {
   content: string;
   roadAddress: string;
   position: Position[];
+  x: string;
+  y: string;
 }
 
 export interface Position {

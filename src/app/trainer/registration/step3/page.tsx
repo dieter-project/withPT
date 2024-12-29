@@ -16,7 +16,7 @@ import {
 import { RootState } from "@/redux/store";
 import { useModal } from "@/context/trainer/ModalContext";
 import { signupActions } from "@/redux/reducers/trainerSignupSlice";
-import { CenterScheduleList } from "@/components/trainer/organisms/centerScheduleList/CenterScheduleList";
+import { CenterScheduleList } from "@/components/trainer/organisms/CenterScheduleList";
 
 export default function Step3() {
   const router = useRouter();
@@ -28,7 +28,7 @@ export default function Step3() {
     TITLE: "센터일정 등록",
     TOP_TITLE: "센터일정을 등록해 주세요.",
     UNDER_TITLE: "센터별로 수업이 가능한 시간을 등록해주세요.",
-    NEXT_STEP_URL: "/trainer/signup/step4",
+    NEXT_STEP_URL: "/trainer/registration/step4",
   } as const;
 
   const BUTTON_CONFIG = {
@@ -42,15 +42,23 @@ export default function Step3() {
     },
   } as const;
 
-  const saveStates = useSelector(
-    (state: RootState) => state.trainerSignup.gyms,
-  );
-  const [recordGyms, setRecordGyms] = useState<GymsInfo[]>(saveStates);
+  const savedGyms = useSelector((state: RootState) => state.trainerSignup.gyms);
+  const [recordGyms, setRecordGyms] = useState<GymsInfo[]>(savedGyms || []);
 
+  // centerSchedules도 null 체크 추가
   const [centerSchedules, setCenterSchedules] = useState<{
     [key: string]: WorkSchedule[];
-  }>({});
+  }>(() => {
+    if (!savedGyms) return {};
 
+    return savedGyms.reduce(
+      (acc, gym) => ({
+        ...acc,
+        [gym.name]: gym.workSchedules || [],
+      }),
+      {},
+    );
+  });
   const handleOpenScheduleModal = useCallback(
     (centerName: string) => {
       openModal({
@@ -92,7 +100,7 @@ export default function Step3() {
           name: gym.name,
           address: gym.address_name,
           latitude: Number(gym.x),
-          longitude: Number(gym.y),
+          longtitude: Number(gym.y),
           workSchedules: centerSchedules[gym.name],
         })),
       }),
@@ -102,7 +110,7 @@ export default function Step3() {
   }, [recordGyms, centerSchedules, dispatch, router]);
 
   const isAllCentersScheduled = useMemo(() => {
-    return recordGyms.every(
+    return recordGyms?.every(
       gym => centerSchedules[gym.name] && centerSchedules[gym.name].length > 0,
     );
   }, [recordGyms, centerSchedules]);
@@ -123,7 +131,7 @@ export default function Step3() {
       {recordGyms?.map((gym, index) => (
         <div key={`${gym.name}-${index}`}>
           <EventButton
-            event={() => handleOpenScheduleModal(gym.name, index)}
+            event={() => handleOpenScheduleModal(gym.name)}
             content={gym.name}
             {...BUTTON_CONFIG.CENTER_ITEM}
             rightContent={

@@ -8,7 +8,7 @@ import Image from "next/image";
 import arrowRightIcon from "../../../../../../public/Trainer/icons/arrowRightGray.png";
 import ContentHeader from "@/components/trainer/molecules/Header/Header";
 import { ListButton } from "@/styles/Trainer/TrainerButton";
-import Footer from "@/components/trainer/organisms/footer/TrainerFooter";
+import Footer from "@/components/trainer/organisms/Footer/TrainerFooter";
 
 const MainContainer = styled.div`
   background-color: #ffffff;

@@ -1,12 +1,10 @@
 import { styled } from "styled-components";
-import CloseIcon from "/public/svgs/icon_close.svg";
-import PlusCircleMonoIcon from "/public/svgs/icon_plus_circle_mono.svg";
-import PlusGrayIcon from "/public/svgs/icon_plus_gray.svg";
 import { CheckRegisterItem } from "@/components/trainer/atoms/Button/CheckRegisterItem";
+import { Icon } from "@/components/trainer/atoms/SvgIcon/SvgIcon";
 
 type ButtonVariant = "purple" | "gray";
-type IconType = "plusCircleMono" | "plusGray";
-type RightContentType = "checkRegister" | "xButton";
+type IconType = "plusCircleMono" | "plusGray" | "plusPurple";
+type RightContentType = "checkRegister" | "xButton" | "done";
 
 interface EventButtonProps {
   event: (e: React.MouseEvent<HTMLButtonElement>) => void;
@@ -46,10 +44,11 @@ export const EventButton = ({
           {isIconVisible && (
             <IconWrapper>
               {iconType === "plusCircleMono" && (
-                <PlusCircleMonoIcon width="25" height="25" />
+                <Icon name="plusCircleMono" size={25} />
               )}
-              {iconType === "plusGray" && (
-                <PlusGrayIcon width="30" height="30" />
+              {iconType === "plusGray" && <Icon name="plusGray" size={25} />}
+              {iconType === "plusPurple" && (
+                <Icon name="plusPurple" size={15} />
               )}
             </IconWrapper>
           )}
@@ -63,7 +62,7 @@ export const EventButton = ({
         )}
         {rightContent === "xButton" && (
           <div onClick={xButtonEvent}>
-            <CloseIcon width="13" height="13" />
+            <Icon name="closeXIcon" size={25} />
           </div>
         )}
       </ButtonLayout>

@@ -36,7 +36,7 @@ export const signup2 = () => {
           name: center.place_name,
           address: center.address_name,
           latitude: Number(center.x),
-          longitude: Number(center.y),
+          longtitude: Number(center.y),
         })),
       }),
     );

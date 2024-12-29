@@ -1,13 +1,13 @@
 import React from "react";
 import styled from "styled-components";
 import { DefaultModalProps } from "@/types/trainer/modal";
-import CloseIcon from "/public/svgs/icon_close.svg";
+import { Icon } from "@/components/trainer/atoms/SvgIcon/SvgIcon";
 
 export const DefaultModalComponent = ({
   title,
   content,
   onClose,
-  zIndex,
+  zIndex = 1000,
   type = "default",
 }: DefaultModalProps) => (
   <ModalOverlay zIndex={zIndex} type={type}>
@@ -15,7 +15,7 @@ export const DefaultModalComponent = ({
       <ModalHeader>
         {title}
         <CloseButton onClick={onClose}>
-          <CloseIcon width="24" height="24" />
+          <Icon name="closeXIcon" size={18} />
         </CloseButton>
       </ModalHeader>
       <ModalContent>{content}</ModalContent>

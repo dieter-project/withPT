@@ -68,8 +68,7 @@ const StyledWrapper = styled.div<{
 
       default:
         return css`
-          /* background-color: var(--default-background);
-          color: black; */
+          display: flex;
         `;
     }
   }}

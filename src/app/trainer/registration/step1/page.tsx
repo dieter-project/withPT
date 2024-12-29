@@ -1,15 +1,10 @@
 "use client";
 import React from "react";
-import { Controller } from "react-hook-form";
 import { TrainerLayout } from "@/app/trainer/layout";
 import { TitleWrapper } from "@/components/trainer/signup/TitleWrapper";
 import JoinStep from "@/components/trainer/molecules/SignupStep/SignUpStep";
-// import { FormRadio, StyledLabel } from "./style";
-import LabelField from "@/components/trainer/molecules/LabelField";
 import { ButtonAreaFixed } from "@/components/trainer/signup/ButtonAreaFixed";
-import Wrapper from "@/components/trainer/molecules/Wrapper/Wrapper";
 import { useStep1 } from "@/hooks/trainer/registration/useStep1";
-import { Icon } from "@/components/trainer/atoms/SvgIcon/SvgIcon";
 import { RegistrationFormFields } from "@/components/trainer/organisms/RegistrationFormFields";
 
 const STEP_CONFIG = {
@@ -42,7 +37,6 @@ export default function Step1() {
           topTitle={STEP_CONFIG.TOP_TITLE}
           underTitle={STEP_CONFIG.UNDER_TITLE}
         />
-
         <RegistrationFormFields
           form={{
             control,

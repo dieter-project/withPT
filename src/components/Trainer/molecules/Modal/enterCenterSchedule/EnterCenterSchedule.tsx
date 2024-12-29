@@ -6,6 +6,7 @@ import { DateAndTimeSelector } from "../dateAndTimeSelector/DateAndTimeSelector"
 import styled from "styled-components";
 import { isTimeOverlapping } from "@/utils/Trainer/time";
 import { useModal } from "@/context/trainer/ModalContext";
+import { CenterScheduleList } from "@/components/trainer/organisms/CenterScheduleList";
 
 interface EnterCenterScheduleProps {
   existingSchedules?: {
@@ -36,6 +37,18 @@ export const EnterCenterSchedule: React.FC<EnterCenterScheduleProps> = ({
   // 스케줄 추가
   const handleConfirm = () => {
     if (!selectedDays.length || !selectedStartTime || !selectedEndTime) {
+      return;
+    }
+
+    if (selectedEndTime < selectedStartTime) {
+      openModal({
+        type: "alert",
+        title: "시간 설정 오류",
+        content: (
+          <AlertContent>선택한 종료 시간이 시작 시간보다 빠릅니다</AlertContent>
+        ),
+        zIndex: 2000,
+      });
       return;
     }
 
@@ -77,26 +90,12 @@ export const EnterCenterSchedule: React.FC<EnterCenterScheduleProps> = ({
     setScheduleList(prev => [...prev, newSchedule]);
   };
 
-  // 스케줄 삭제
   const handleRemoveSchedule = (index: number) => {
     setScheduleList(prev => prev.filter((_, i) => i !== index));
   };
 
   const handleSave = () => {
     onSubmit(scheduleList);
-  };
-
-  const formatScheduleDisplay = (schedule: {
-    days: string[];
-    startTime: string;
-    endTime: string;
-  }) => {
-    const sortedDays = [...schedule.days].sort(
-      (a, b) => days.indexOf(a) - days.indexOf(b),
-    );
-    return `${sortedDays.join("/")} ${schedule.startTime} ~ ${
-      schedule.endTime
-    }`;
   };
 
   return (
@@ -121,19 +120,11 @@ export const EnterCenterSchedule: React.FC<EnterCenterScheduleProps> = ({
           justifyContent="center"
         />
       </div>
-
-      {/* 스케줄 리스트 */}
-      <ScheduleListContainer>
-        {scheduleList.map((schedule, index) => (
-          <ScheduleItem key={index}>
-            <ScheduleText>{formatScheduleDisplay(schedule)}</ScheduleText>
-            <DeleteButton onClick={() => handleRemoveSchedule(index)}>
-              ×
-            </DeleteButton>
-          </ScheduleItem>
-        ))}
-      </ScheduleListContainer>
-
+      <CenterScheduleList
+        schedules={scheduleList}
+        onDeleteSchedule={handleRemoveSchedule}
+        variant="list"
+      />
       <Button
         $variant={scheduleList.length === 0 ? "ghost" : "primary"}
         disabled={scheduleList.length === 0}
@@ -144,38 +135,6 @@ export const EnterCenterSchedule: React.FC<EnterCenterScheduleProps> = ({
     </>
   );
 };
-
-const ScheduleListContainer = styled.div`
-  margin-top: 16px;
-  padding: 0 16px;
-`;
-
-const ScheduleItem = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 12px 16px;
-  background: white;
-  border-radius: 8px;
-  margin-bottom: 8px;
-  position: relative;
-`;
-
-const ScheduleText = styled.span`
-  font-size: var(--font-m);
-`;
-const DeleteButton = styled.button`
-  position: absolute;
-  right: 8px;
-  top: 50%;
-  transform: translateY(-50%);
-  background: none;
-  border: none;
-  font-size: 20px;
-  cursor: pointer;
-  padding: 4px 8px;
-  color: var(--gray-400);
-`;
 
 const AlertContent = styled.div`
   text-align: center;

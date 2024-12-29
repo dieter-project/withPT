@@ -2,7 +2,7 @@
 
 import React from "react";
 import PageHeader from "@/components/trainer/molecules/Header/Header";
-import Footer from "@/components/trainer/organisms/footer/TrainerFooter";
+import Footer from "@/components/trainer/organisms/Footer/TrainerFooter";
 import {
   LayoutProvider,
   useLayout,

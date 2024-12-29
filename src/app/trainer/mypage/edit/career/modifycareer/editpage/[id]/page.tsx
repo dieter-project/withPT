@@ -8,7 +8,7 @@ import { DeleteInputXbutton } from "@/styles/Trainer/TrainerInput";
 import { Container, ContentBody } from "@/styles/Trainer/TrainerLayout";
 import { NoIconInput } from "@/styles/Trainer/TrainerInput";
 import { Button } from "@/styles/Trainer/TrainerButton";
-import Footer from "@/components/trainer/organisms/footer/TrainerFooter";
+import Footer from "@/components/trainer/organisms/Footer/TrainerFooter";
 import { ButtonAreaFixed } from "@/components/trainer/signup/ButtonAreaFixed";
 import TimeSelector from "@/components/trainer/molecules/TimeSelector/TimeSelector";
 

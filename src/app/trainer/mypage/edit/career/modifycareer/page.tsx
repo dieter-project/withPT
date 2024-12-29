@@ -9,7 +9,7 @@ import { DeleteInputXbutton } from "@/styles/TrainerInput";
 import { Container, ContentBody } from "@/styles/TrainerLayout";
 import { NoIconInput } from "@/styles/TrainerInput";
 import { Button } from "@/styles/Trainer/TrainerButton";
-import Footer from "@/components/trainer/organisms/footer/TrainerFooter";
+import Footer from "@/components/trainer/organisms/Footer/TrainerFooter";
 import { FlexDivWrap, Purpl50Div } from "@/styles/TrainerStyledDiv";
 
 const ContentInnerBody = styled.div``;

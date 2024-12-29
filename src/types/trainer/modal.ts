@@ -14,8 +14,8 @@ export interface DefaultModalProps extends BaseModalProps {
 
 export interface AlertModalProps extends BaseModalProps {
   type: "alert";
-  content?: never;
-  message: string;
+  message?: string;
+  content?: React.ReactNode;
 }
 
 export type ModalProps = DefaultModalProps | AlertModalProps;

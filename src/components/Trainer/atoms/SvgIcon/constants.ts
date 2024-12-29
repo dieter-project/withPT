@@ -11,10 +11,14 @@ import MyPageIcon from "@/assets/svgs/icon_nav_mypage.svg";
 import MyPageActiveIcon from "@/assets/svgs/icon_nav_mypage_active.svg";
 import IconCheckCirCircleMono from "@/assets/svgs/icon_check_circle_mono.svg";
 import IconCheckCirCircleActive from "@/assets/svgs/icon_check_circle_active.svg";
+import PlusCirlcleMono from "@/assets/svgs/icon_plus_circle_mono.svg";
+import PlusGray from "@/assets/svgs/icon_plus_gray.svg";
+import PlusPurple from "@/assets/svgs/icon_plus_purple.svg";
 import AddIconGray from "@/assets/svgs/icon_plus_gray.svg";
 import LogoWePT from "@/assets/svgs/logo.svg";
 import AlertBellIcon from "@/assets/svgs/icon_alert_bell.svg";
 import SlashIcon from "@/assets/svgs/icon_slash.svg";
+import CloseXIcon from "@/assets/svgs/icon_close.svg";
 
 export const icons = {
   backArrow: BackArrowIcon,
@@ -34,4 +38,8 @@ export const icons = {
   logoWePT: LogoWePT,
   alert: AlertBellIcon,
   slash: SlashIcon,
-} as const;
+  closeXIcon: CloseXIcon,
+  plusCircleMono: PlusCirlcleMono,
+  plusGray: PlusGray,
+  plusPurple: PlusPurple,
+};
