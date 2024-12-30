@@ -3,7 +3,9 @@ import { createPortal } from "react-dom";
 import { DefaultModalComponent } from "./DefaultModal";
 import { ModalProps } from "@/types/trainer/modal";
 
-export function ModalPortal(props: ModalProps) {
+export function ModalPortal(
+  props: ModalProps & { id: string; onBackdropClick?: () => void },
+) {
   if (!document) return null;
 
   if (props.type === "alert") {
@@ -14,7 +16,11 @@ export function ModalPortal(props: ModalProps) {
   }
 
   return createPortal(
-    <DefaultModalComponent {...props} type="default" />,
+    <DefaultModalComponent
+      {...props}
+      type="default"
+      onBackdropClick={props.onBackdropClick}
+    />,
     document.getElementById("modal-root")!,
   );
 }

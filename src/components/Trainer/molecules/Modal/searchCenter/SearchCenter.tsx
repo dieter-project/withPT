@@ -19,6 +19,7 @@ interface SearchCenterProps {
 const ListWrapper = styled.div`
   height: 100%;
   overflow: auto;
+  padding-bottom: 5rem;
 `;
 
 export const SearchCenter: React.FC<SearchCenterProps> = ({
@@ -29,13 +30,11 @@ export const SearchCenter: React.FC<SearchCenterProps> = ({
   const [places, setPlaces] = useState<PlaceInfo[]>([]);
   const [location, setLocation] = useState<LocationInfo | null>(null);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
 
   // 위치 정보 가져오기
   useEffect(() => {
     if (!navigator.geolocation) {
       setErrorMsg("Geolocation을 지원하지 않는 브라우저입니다.");
-      setIsLoading(false);
       return;
     }
 
@@ -45,11 +44,9 @@ export const SearchCenter: React.FC<SearchCenterProps> = ({
           latitude: position.coords.latitude,
           longitude: position.coords.longitude,
         });
-        setIsLoading(false);
       },
       error => {
         setErrorMsg(error.message);
-        setIsLoading(false);
       },
     );
   }, []);

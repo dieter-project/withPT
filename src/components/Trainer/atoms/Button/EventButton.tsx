@@ -62,7 +62,7 @@ export const EventButton = ({
         )}
         {rightContent === "xButton" && (
           <div onClick={xButtonEvent}>
-            <Icon name="closeXIcon" size={25} />
+            <Icon name="closeXIcon" size={13} />
           </div>
         )}
       </ButtonLayout>

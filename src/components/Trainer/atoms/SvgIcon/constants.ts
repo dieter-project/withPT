@@ -19,6 +19,8 @@ import LogoWePT from "@/assets/svgs/logo.svg";
 import AlertBellIcon from "@/assets/svgs/icon_alert_bell.svg";
 import SlashIcon from "@/assets/svgs/icon_slash.svg";
 import CloseXIcon from "@/assets/svgs/icon_close.svg";
+import SearchIcon from "@/assets/svgs/icon_search.svg";
+import IconXCirlceGray from "@/assets/svgs/icon_x_circle_mono.svg";
 
 export const icons = {
   backArrow: BackArrowIcon,
@@ -42,4 +44,6 @@ export const icons = {
   plusCircleMono: PlusCirlcleMono,
   plusGray: PlusGray,
   plusPurple: PlusPurple,
+  search: SearchIcon,
+  xCirlceGray: IconXCirlceGray,
 };

@@ -33,6 +33,6 @@ const PlaceList: React.FC<PlaceListProps> = ({ places, handlePlaceSelect }) => {
 export default PlaceList;
 
 const ListItem = styled.li`
-  padding: 1rem 0;
+  padding: 1rem 0.5rem;
   border-bottom: 1px solid var(--border-gray);
 `;

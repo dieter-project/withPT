@@ -9,7 +9,8 @@ export interface BaseModalProps {
 }
 
 export interface DefaultModalProps extends BaseModalProps {
-  type: "default";
+  id: string;
+  onBackdropClick?: () => void;
 }
 
 export interface AlertModalProps extends BaseModalProps {

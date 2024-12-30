@@ -7,6 +7,7 @@ interface WrapperProps {
   mt?: string;
   mb?: string;
   gap?: string;
+  pd?: string;
   jc?:
     | "flex-start"
     | "flex-end"
@@ -22,12 +23,21 @@ const Wrapper = ({
   children,
   mt,
   mb,
+  pd,
   gap,
   jc,
   ai,
 }: WrapperProps) => {
   return (
-    <StyledWrapper $type={type} $mt={mt} $mb={mb} $gap={gap} $jc={jc} $ai={ai}>
+    <StyledWrapper
+      $type={type}
+      $mt={mt}
+      $mb={mb}
+      $pd={pd}
+      $gap={gap}
+      $jc={jc}
+      $ai={ai}
+    >
       {children}
     </StyledWrapper>
   );
@@ -39,14 +49,16 @@ const StyledWrapper = styled.div<{
   $type: "default" | "column" | "spaceBetween";
   $mt?: string;
   $mb?: string;
+  $pd?: string;
   $jc?: string;
   $ai?: string;
   $gap?: string;
 }>`
   width: 100%;
-  ${({ $mt, $mb, $gap, $jc, $ai }) => css`
+  ${({ $mt, $mb, $pd, $gap, $jc, $ai }) => css`
     margin-top: ${$mt || "0"};
     margin-bottom: ${$mb || "0"};
+    padding: ${$pd || "0"};
     gap: ${$gap || "0"};
     justify-content: ${$jc || "flex-start"};
     align-items: ${$ai || "flex-start"};

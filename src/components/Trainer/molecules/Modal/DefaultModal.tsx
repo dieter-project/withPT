@@ -9,9 +9,14 @@ export const DefaultModalComponent = ({
   onClose,
   zIndex = 1000,
   type = "default",
+  onBackdropClick,
 }: DefaultModalProps) => (
-  <ModalOverlay zIndex={zIndex} type={type}>
-    <ModalContainer zIndex={zIndex} type={type}>
+  <ModalOverlay zIndex={zIndex} type={type} onClick={onBackdropClick}>
+    <ModalContainer
+      zIndex={zIndex}
+      type={type}
+      onClick={e => e.stopPropagation()}
+    >
       <ModalHeader>
         {title}
         <CloseButton onClick={onClose}>
@@ -92,7 +97,6 @@ const CloseButton = styled.button`
 `;
 
 const ModalContent = styled.div`
-  padding: 20px;
+  padding: 0 1rem;
   height: calc(100% - 60px);
-  overflow-y: auto;
 `;

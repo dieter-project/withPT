@@ -13,6 +13,7 @@ import { setCookie } from "@/utils/cookie";
 import { ButtonAreaFixed } from "@/components/trainer/signup/ButtonAreaFixed";
 import { useModal } from "@/context/trainer/ModalContext";
 import { Typography } from "@/components/trainer/atoms/Typography/TypoGraphy.styles";
+import { Icon } from "@/components/trainer/atoms/SvgIcon/SvgIcon";
 
 export default function step4() {
   const router = useRouter();
@@ -29,7 +30,6 @@ export default function step4() {
 
   const { openModal, closeModal } = useModal();
 
-  // const openCareerModal = React.useCallback(() => {
   //   openModal({
   //     type: "default",
   //     title: STEP_CONFIG.MODAL_CERTIFICATE_TITLE,
@@ -165,6 +165,41 @@ export default function step4() {
   //   }
   // };
 
+  // const openCareerModal = useCallback(() => {
+  //   const modalId = openModal({
+  //     type: "default",
+  //     title: "경력 입력",
+  //     content: (
+  //       <CareerInputModal
+  //         onSearchCenter={() => {
+  //           // 센터 검색 모달을 열 때 현재 모달의 ID를 전달
+  //           openSearchCenterModal(modalId);
+  //         }}
+  //       />
+  //     ),
+  //   });
+  // }, [openModal]);
+
+  // const openSearchCenterModal = useCallback(
+  //   (previousModalId: string) => {
+  //     const modalId = openModal({
+  //       type: "default",
+  //       title: "센터 검색",
+  //       content: (
+  //         <SearchCenter
+  //           handlePlaceSelect={place => {
+  //             // 센터 선택 후
+  //             handlePlaceSelect(place);
+  //             closeModal(modalId); // 현재 센터 검색 모달 닫기
+  //             closeModal(previousModalId); // 이전 경력 입력 모달도 닫기
+  //           }}
+  //         />
+  //       ),
+  //     });
+  //   },
+  //   [openModal, closeModal],
+  // );
+
   return (
     <TrainerLayout
       title={STEP_CONFIG.TITLE}
@@ -177,45 +212,51 @@ export default function step4() {
         topTitle={STEP_CONFIG.TOP_TITLE}
         underTitle={STEP_CONFIG.UNDER_TITLE}
       />
-      <Typography variant="heading2" fw={600}>
-        경력 입력
-      </Typography>
-      <EventButton
-        // event={handleConfirm}
-        isIconVisible={true}
-        iconType="plusPurple"
-        eventButtonType="purple"
-        height="4rem"
-        justifyContent="center"
-      />
-      <Typography variant="heading2" fw={600}>
-        자격증/수상/교육 등록
-      </Typography>
-      <EventButton
-        // event={handleConfirm}
-        isIconVisible={true}
-        iconType="plusPurple"
-        eventButtonType="purple"
-        height="4rem"
-        justifyContent="center"
-      />
-      <Typography variant="heading2" fw={600}>
-        학력사항 등록
-      </Typography>
-      <EventButton
-        // event={handleConfirm}
-        isIconVisible={true}
-        iconType="plusPurple"
-        eventButtonType="purple"
-        height="4rem"
-        justifyContent="center"
-      />
+      <Wrapper type="column" mb="20px">
+        <Typography variant="heading2" fw={600}>
+          경력 입력
+        </Typography>
+        <EventButton
+          // event={handleConfirm}
+          isIconVisible={true}
+          iconType="plusPurple"
+          eventButtonType="purple"
+          height="4rem"
+          justifyContent="center"
+        />
+      </Wrapper>
+      <Wrapper type="column" mb="20px">
+        <Typography variant="heading2" fw={600}>
+          자격증/수상/교육 등록
+        </Typography>
+        <EventButton
+          // event={handleConfirm}
+          isIconVisible={true}
+          iconType="plusPurple"
+          eventButtonType="purple"
+          height="4rem"
+          justifyContent="center"
+        />
+      </Wrapper>
+      <Wrapper type="column" mb="20px">
+        <Typography variant="heading2" fw={600}>
+          학력사항 등록
+        </Typography>
+        <EventButton
+          // event={handleConfirm}
+          isIconVisible={true}
+          iconType="plusPurple"
+          eventButtonType="purple"
+          height="4rem"
+          justifyContent="center"
+        />
+      </Wrapper>
       <Wrapper jc="center" ai="center">
         등록된 트레이너 이력은 회원페이지에 노출이 됩니다.
       </Wrapper>
       <ButtonAreaFixed
         // isButtonDisabled={isButtonDisabled}
-        onClick={handleSubmit}
+        // onClick={handleSubmit}
         label="다음"
       />
     </TrainerLayout>
