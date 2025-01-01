@@ -2,7 +2,7 @@ import React from "react";
 import styled, { css } from "styled-components";
 
 interface WrapperProps {
-  type?: "default" | "column" | "spaceBetween";
+  type?: "default" | "column" | "spaceBetween" | "alignCenter";
   children: React.ReactNode;
   mt?: string;
   mb?: string;
@@ -46,7 +46,7 @@ const Wrapper = ({
 export default Wrapper;
 
 const StyledWrapper = styled.div<{
-  $type: "default" | "column" | "spaceBetween";
+  $type: "default" | "column" | "spaceBetween" | "alignCenter";
   $mt?: string;
   $mb?: string;
   $pd?: string;
@@ -76,6 +76,12 @@ const StyledWrapper = styled.div<{
           display: flex;
           align-items: center;
           justify-content: space-between;
+        `;
+      case "alignCenter":
+        return css`
+          display: flex;
+          align-items: center;
+          justify-content: flex-start;
         `;
 
       default:

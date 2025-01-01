@@ -14,21 +14,32 @@ import { ButtonAreaFixed } from "@/components/trainer/signup/ButtonAreaFixed";
 import { useModal } from "@/context/trainer/ModalContext";
 import { Typography } from "@/components/trainer/atoms/Typography/TypoGraphy.styles";
 import { Icon } from "@/components/trainer/atoms/SvgIcon/SvgIcon";
+import { CareerModalContent } from "@/components/trainer/molecules/Modal/CareerModalContent/CareerModalContent";
 
-export default function step4() {
+export default function Step4() {
   const router = useRouter();
   const STEP_CONFIG = {
     STEP: "4",
     TITLE: "이력 등록",
     TOP_TITLE: "내 이력을 등록해주세요",
     UNDER_TITLE: "회원가입 후 마이페이지에서도 입력이 가능해요.",
-    MODAL_CAREER_TITLE: "센터 검색",
-    MODAL_CERTIFICATE_TITLE: "센터 검색",
-    MODAL_EDUCATION_TITLE: "센터 검색",
+    MODAL_CAREER_TITLE: "경력 입력",
+    MODAL_CERTIFICATE_TITLE: "자격증/수샹/교육 등록",
+    MODAL_EDUCATION_TITLE: "학력사항 등록",
     NEXT_STEP_URL: "/trainer/registration/finished",
   } as const;
 
   const { openModal, closeModal } = useModal();
+
+  const careerModalContent = React.useMemo(() => <CareerModalContent />, []);
+
+  const openSearchModal = React.useCallback(() => {
+    openModal({
+      type: "default",
+      title: STEP_CONFIG.MODAL_CAREER_TITLE,
+      content: careerModalContent,
+    });
+  }, [openModal, careerModalContent]);
 
   //   openModal({
   //     type: "default",
@@ -41,164 +52,6 @@ export default function step4() {
   // ]);
 
   // const searchCenterContent = React.useMemo(() => <SearchCenter />, []);
-
-  // const openCertificateModal = React.useCallback(() => {
-  //   openModal({
-  //     type: "default",
-  //     title: STEP_CONFIG.MODAL_EDUCATION_TITLE,
-  //     // content: searchCenterContent,
-  //   });
-  // }, [
-  //   openModal,
-  //   // searchCenterContent
-  // ]);
-
-  // const openEducationModal = React.useCallback(() => {
-  //   openModal({
-  //     type: "default",
-  //     title: STEP_CONFIG.MODAL_CAREER_TITLE,
-  //     // content: searchCenterContent,
-  //   });
-  // }, [
-  //   openModal,
-  //   // searchCenterContent
-  // ]);
-
-  // const handleNextStep = useCallback(() => {
-  //   // handleNext();
-  //   router.push(STEP_CONFIG.NEXT_STEP_URL);
-  // }, [
-  //   // handleNext,
-
-  //   router,
-  // ]);
-
-  // const dispatch = useDispatch();
-  // const saveStates = useAppSelector(state => state.trainerSignup);
-
-  // const handleSubmit = async () => {
-  //   const dataToSend = {
-  //     email: "trainer2@test.com",
-  //     password: "trainer1234",
-  //     name: "조은혜",
-  //     birth: "2024-01-07",
-  //     sex: "MAN",
-  //     authProvider: "EMAIL",
-  //     careers: [
-  //       {
-  //         centerName: "우당탕헬스장",
-  //         jobPosition: "트레이너",
-  //         status: "EMPLOYED",
-  //         startOfWorkYearMonth: "2022-01",
-  //         endOfWorkYearMonth: "2024-01",
-  //       },
-  //     ],
-  //     academics: [
-  //       {
-  //         institution: "FOUR_YEAR_UNIVERSITY",
-  //         name: "위피티대학교",
-  //         major: "위피티",
-  //         degree: "HIGH_SCHOOL_DIPLOMA",
-  //         country: "서울",
-  //         enrollmentYearMonth: "2020-03",
-  //         graduationYearMonth: "2023-03",
-  //       },
-  //     ],
-  //     certificates: [
-  //       {
-  //         name: "재활치료자격증",
-  //         institution: "재활치료협회",
-  //         acquisitionYearMonth: "2022-03",
-  //       },
-  //     ],
-  //     awards: [
-  //       {
-  //         name: "위피티수상",
-  //         institution: "위피티대학교",
-  //         acquisitionYearMonth: "2020-12",
-  //       },
-  //     ],
-  //     educations: [
-  //       {
-  //         name: "위피티학원",
-  //         institution: "위피티",
-  //         acquisitionYearMonth: "2020-03",
-  //       },
-  //     ],
-  //     gyms: [
-  //       {
-  //         name: "헬스장1",
-  //         address: "서울시 강동구 성내동",
-  //         latitude: 3.1413161,
-  //         longitude: 4.151771,
-  //         workSchedules: [
-  //           {
-  //             day: "MON",
-  //             inTime: "13:00",
-  //             outTime: "17:00",
-  //           },
-  //         ],
-  //       },
-  //     ],
-  //   };
-
-  //   try {
-  //     const response = await api.post(
-  //       "http://13.124.80.64/api/v1/trainers/sign-up",
-  //       dataToSend,
-  //       {
-  //         headers: {
-  //           "Content-Type": "application/json",
-  //         },
-  //       },
-  //     );
-  //     console.log("data: ", response);
-
-  //     if (response.data) {
-  //       setCookie("access", response.data.data.accessToken, { path: "/" });
-  //       setCookie("refreshToken", response.data.data.refreshToken, {
-  //         path: "/",
-  //       });
-  //     }
-  //   } catch (error) {
-  //     console.log("error: ", error);
-  //   }
-  // };
-
-  // const openCareerModal = useCallback(() => {
-  //   const modalId = openModal({
-  //     type: "default",
-  //     title: "경력 입력",
-  //     content: (
-  //       <CareerInputModal
-  //         onSearchCenter={() => {
-  //           // 센터 검색 모달을 열 때 현재 모달의 ID를 전달
-  //           openSearchCenterModal(modalId);
-  //         }}
-  //       />
-  //     ),
-  //   });
-  // }, [openModal]);
-
-  // const openSearchCenterModal = useCallback(
-  //   (previousModalId: string) => {
-  //     const modalId = openModal({
-  //       type: "default",
-  //       title: "센터 검색",
-  //       content: (
-  //         <SearchCenter
-  //           handlePlaceSelect={place => {
-  //             // 센터 선택 후
-  //             handlePlaceSelect(place);
-  //             closeModal(modalId); // 현재 센터 검색 모달 닫기
-  //             closeModal(previousModalId); // 이전 경력 입력 모달도 닫기
-  //           }}
-  //         />
-  //       ),
-  //     });
-  //   },
-  //   [openModal, closeModal],
-  // );
 
   return (
     <TrainerLayout
@@ -217,7 +70,7 @@ export default function step4() {
           경력 입력
         </Typography>
         <EventButton
-          // event={handleConfirm}
+          event={() => openSearchModal()}
           isIconVisible={true}
           iconType="plusPurple"
           eventButtonType="purple"
@@ -252,6 +105,7 @@ export default function step4() {
         />
       </Wrapper>
       <Wrapper jc="center" ai="center">
+        <Icon name="notification" size={24} />
         등록된 트레이너 이력은 회원페이지에 노출이 됩니다.
       </Wrapper>
       <ButtonAreaFixed

@@ -9,18 +9,18 @@ import RecordIcon from "@/assets/svgs/icon_nav_record.svg";
 import RecordActiveIcon from "@/assets/svgs/icon_nav_record_active.svg";
 import MyPageIcon from "@/assets/svgs/icon_nav_mypage.svg";
 import MyPageActiveIcon from "@/assets/svgs/icon_nav_mypage_active.svg";
-import IconCheckCirCircleMono from "@/assets/svgs/icon_check_circle_mono.svg";
-import IconCheckCirCircleActive from "@/assets/svgs/icon_check_circle_active.svg";
-import PlusCirlcleMono from "@/assets/svgs/icon_plus_circle_mono.svg";
-import PlusGray from "@/assets/svgs/icon_plus_gray.svg";
-import PlusPurple from "@/assets/svgs/icon_plus_purple.svg";
-import AddIconGray from "@/assets/svgs/icon_plus_gray.svg";
-import LogoWePT from "@/assets/svgs/logo.svg";
+import CheckCircleMonoIcon from "@/assets/svgs/icon_check_circle_mono.svg";
+import CheckCircleActiveIcon from "@/assets/svgs/icon_check_circle_active.svg";
+import PlusCircleMonoIcon from "@/assets/svgs/icon_plus_circle_mono.svg";
+import PlusGrayIcon from "@/assets/svgs/icon_plus_gray.svg";
+import PlusPurpleIcon from "@/assets/svgs/icon_plus_purple.svg";
+import LogoIcon from "@/assets/svgs/logo.svg";
 import AlertBellIcon from "@/assets/svgs/icon_alert_bell.svg";
 import SlashIcon from "@/assets/svgs/icon_slash.svg";
 import CloseXIcon from "@/assets/svgs/icon_close.svg";
 import SearchIcon from "@/assets/svgs/icon_search.svg";
-import IconXCirlceGray from "@/assets/svgs/icon_x_circle_mono.svg";
+import XCircleGrayIcon from "@/assets/svgs/icon_x_circle_mono.svg";
+import NotificationIcon from "@/assets/svgs/icon_notification.svg";
 
 export const icons = {
   backArrow: BackArrowIcon,
@@ -34,16 +34,16 @@ export const icons = {
   recordActive: RecordActiveIcon,
   myPage: MyPageIcon,
   myPageActive: MyPageActiveIcon,
-  checkCirCircleMono: IconCheckCirCircleMono,
-  checkCirCircleActive: IconCheckCirCircleActive,
-  addGray: AddIconGray,
-  logoWePT: LogoWePT,
-  alert: AlertBellIcon,
+  checkCircleMono: CheckCircleMonoIcon,
+  checkCircleActive: CheckCircleActiveIcon,
+  plusCircleMono: PlusCircleMonoIcon,
+  plusGray: PlusGrayIcon,
+  plusPurple: PlusPurpleIcon,
+  logo: LogoIcon,
+  alertBell: AlertBellIcon,
   slash: SlashIcon,
-  closeXIcon: CloseXIcon,
-  plusCircleMono: PlusCirlcleMono,
-  plusGray: PlusGray,
-  plusPurple: PlusPurple,
+  closeX: CloseXIcon,
   search: SearchIcon,
-  xCirlceGray: IconXCirlceGray,
+  xCircleGray: XCircleGrayIcon,
+  notification: NotificationIcon,
 };

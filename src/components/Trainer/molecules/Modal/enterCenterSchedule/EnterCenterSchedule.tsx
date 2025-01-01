@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Button } from "@/styles/Trainer/TrainerButton";
 import { useHandleCenterSchedule } from "@/hooks/trainer/modal/useEnterCenterSchedule";
 import { EventButton } from "@/components/trainer/atoms/Button/EventButton";
-import { DateAndTimeSelector } from "../dateAndTimeSelector";
+import { DateAndTimeSelector } from "../dateAndTimeSelector/DateAndTimeSelector";
 import styled from "styled-components";
 import { isTimeOverlapping } from "@/utils/Trainer/time";
 import { useModal } from "@/context/trainer/ModalContext";

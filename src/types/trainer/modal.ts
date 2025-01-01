@@ -9,7 +9,6 @@ export interface BaseModalProps {
 }
 
 export interface DefaultModalProps extends BaseModalProps {
-  id: string;
   onBackdropClick?: () => void;
 }
 

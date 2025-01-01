@@ -10,71 +10,74 @@ interface EventButtonProps {
   event: (e: React.MouseEvent<HTMLButtonElement>) => void;
   xButtonEvent?: (e: React.MouseEvent<HTMLDivElement>) => void;
   iconType?: IconType;
-  isIconVisible: boolean;
-  content?: string;
+  isIconVisible?: boolean;
+  content?: React.ReactNode;
   rightContent?: RightContentType;
   eventButtonType: ButtonVariant;
   height?: string;
   justifyContent?: string;
   color?: string;
+  padding?: string;
 }
 
+const ICON_CONFIG: Record<IconType, { name: string; size: number }> = {
+  plusCircleMono: { name: "plusCircleMono", size: 25 },
+  plusGray: { name: "plusGray", size: 25 },
+  plusPurple: { name: "plusPurple", size: 15 },
+};
+
 export const EventButton = ({
+  padding,
   height,
   justifyContent,
   event,
   eventButtonType,
   xButtonEvent,
-  isIconVisible,
+  isIconVisible = false,
   iconType,
   content,
   rightContent,
-  color,
+  color = "inherit",
 }: EventButtonProps) => {
   return (
-    <>
-      <ButtonLayout
-        $height={height}
-        $justifyContent={justifyContent}
-        $eventButtonType={eventButtonType}
-        $color={color}
-        onClick={event}
-      >
-        <div>
-          {isIconVisible && (
-            <IconWrapper>
-              {iconType === "plusCircleMono" && (
-                <Icon name="plusCircleMono" size={25} />
-              )}
-              {iconType === "plusGray" && <Icon name="plusGray" size={25} />}
-              {iconType === "plusPurple" && (
-                <Icon name="plusPurple" size={15} />
-              )}
-            </IconWrapper>
-          )}
-          {content}
+    <ButtonLayout
+      $color={color}
+      $height={height}
+      $padding={padding}
+      $justifyContent={justifyContent}
+      $eventButtonType={eventButtonType}
+      onClick={event}
+    >
+      {isIconVisible && iconType && (
+        <IconWrapper>
+          <Icon
+            name={ICON_CONFIG[iconType].name}
+            size={ICON_CONFIG[iconType].size}
+          />
+        </IconWrapper>
+      )}
+      {content}
+      {rightContent === "checkRegister" && (
+        <CheckRegisterItem status="gray" label="등록 전" />
+      )}
+      {rightContent === "done" && (
+        <CheckRegisterItem status="purple" label="등록 완료" />
+      )}
+      {rightContent === "xButton" && (
+        <div onClick={xButtonEvent}>
+          <Icon name="closeX" size={13} />
         </div>
-        {rightContent === "checkRegister" && (
-          <CheckRegisterItem status="gray" label="등록 전" />
-        )}
-        {rightContent === "done" && (
-          <CheckRegisterItem status="purple" label="등록 완료" />
-        )}
-        {rightContent === "xButton" && (
-          <div onClick={xButtonEvent}>
-            <Icon name="closeXIcon" size={13} />
-          </div>
-        )}
-      </ButtonLayout>
-    </>
+      )}
+    </ButtonLayout>
   );
 };
 
 const ButtonLayout = styled.button<{
-  $eventButtonType: "purple" | "gray";
+  $eventButtonType: ButtonVariant;
   $height?: string;
+  $padding?: string;
   $justifyContent?: string;
-  $color: string;
+  $color?: string;
 }>`
   display: flex;
   align-items: center;
@@ -82,7 +85,7 @@ const ButtonLayout = styled.button<{
   width: 100%;
   margin: 0 auto;
   margin-bottom: 0.5rem;
-  padding: 1.75rem 0.625rem;
+  padding: ${({ $padding }) => $padding || "1.75rem 0.625rem"};
   border: ${({ $eventButtonType }) =>
     $eventButtonType === "purple" ? "none" : "1px solid var(--font-gray400)"};
   border-radius: 0.5rem;
@@ -90,7 +93,7 @@ const ButtonLayout = styled.button<{
     $eventButtonType === "purple" ? "var(--purple50)" : "none"};
   height: ${({ $height }) => $height || "auto"};
   font-weight: 500;
-  color: ${({ $color }) => $color};
+  color: ${({ $color }) => $color || "inherit"};
   font-size: var(--font-m);
 `;
 

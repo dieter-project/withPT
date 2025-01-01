@@ -81,6 +81,12 @@ input {
   border-radius: 5px;
 }
 
+input:focus,
+button:focus {
+  outline: none;
+  box-shadow: none;
+}
+
 li {
   list-style: none;
 }

@@ -1,17 +1,21 @@
 import styled from "styled-components";
 
 export type InputProps = {
-  p?: string;
-  m?: string;
-  br?: string;
-  bg?: string;
+  padding?: string;
+  margin?: string;
+  borderRadius?: string;
+  backgroundColor?: string;
 };
 
 export const Input = styled.input<InputProps>`
-  padding: ${({ p }) => p || "1rem"};
-  margin: ${({ m }) => m || "0"};
-  border-radius: ${({ br }) => br || "0.5rem"};
-  background: ${({ bg }) => bg || "var(--purple50)"};
+  width: 100%;
+  border: none;
+  padding: ${({ padding }) => padding || "1rem"};
+  margin: ${({ margin }) => margin || "0"};
+  border-radius: ${({ borderRadius }) => borderRadius || "0.5rem"};
+  background: ${({ backgroundColor }) => backgroundColor || "var(--purple50)"};
 `;
 
-export const StyledInput = styled.input<InputProps>``;
+export const NoIconInput = styled(Input)`
+  height: 3rem;
+`;

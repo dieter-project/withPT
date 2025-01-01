@@ -20,7 +20,7 @@ export const DefaultModalComponent = ({
       <ModalHeader>
         {title}
         <CloseButton onClick={onClose}>
-          <Icon name="closeXIcon" size={18} />
+          <Icon name="closeX" size={18} />
         </CloseButton>
       </ModalHeader>
       <ModalContent>{content}</ModalContent>

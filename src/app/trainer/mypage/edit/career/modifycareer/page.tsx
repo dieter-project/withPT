@@ -5,7 +5,6 @@ import styled from "styled-components";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import ContentHeader from "@/components/trainer/molecules/Header/Header";
-import { DeleteInputXbutton } from "@/styles/TrainerInput";
 import { Container, ContentBody } from "@/styles/TrainerLayout";
 import { NoIconInput } from "@/styles/TrainerInput";
 import { Button } from "@/styles/Trainer/TrainerButton";

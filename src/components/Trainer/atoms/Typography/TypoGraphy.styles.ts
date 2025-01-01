@@ -22,6 +22,7 @@ interface TypographyStylesProps {
   ta?: "left" | "center" | "right";
   ls?: number;
   th?: boolean;
+  pd?: string;
   disabled?: boolean;
   wb?: "keep-all" | "normal" | "break-all";
 }
@@ -37,9 +38,7 @@ const typographyStyles = {
     font-size: var(--font-s);
   `,
   heading1: `
-    font-size: 22px;
-    line-height: 135%;
-    letter-spacing: -0.44px;
+    font-size: var(--font-l);
   `,
   heading2: `
     font-size: var(--font-m);
@@ -49,24 +48,19 @@ const typographyStyles = {
   `,
   body1: `
     font-size: 16px;
-    line-height: 140%;
   `,
   body2: `
     font-size: 15px;
-    line-height: 140%;
   `,
   body3: `
     font-size: 14px;
-    line-height: 140%;
   `,
   label1: `
     font-size: 14px;
-    line-height: 140%;
   `,
   label2: `
     font-size: 13px;
     line-height: 140%;
-    letter-spacing: 0.13px;
   `,
   label3: `
     font-size: 11px;
@@ -94,15 +88,14 @@ export const Typography = styled.span<TypographyStylesProps>`
   font-family: var(--font);
   font-style: normal;
   font-weight: ${({ fw = 400 }) => fw};
-
   color: ${({ theme, color, disabled }) =>
     disabled
       ? "var(--gray-80, #C7CBD1)"
       : color === "primary"
       ? theme.colors.primary
       : color || "var(--black)"};
-
   word-break: ${({ wb = "keep-all" }) => wb};
+  padding: ${({ pd = "0" }) => pd};
 
   ${({ th }) =>
     th &&

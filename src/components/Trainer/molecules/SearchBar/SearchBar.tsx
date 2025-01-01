@@ -41,7 +41,7 @@ const SearchBar: React.FC<SearchBarProps> = ({
         />
         {value && (
           <ClearButton type="button" onClick={handleClear}>
-            <Icon name="xCirlceGray" size={20} />
+            <Icon name="xCircleGray" size={20} />
           </ClearButton>
         )}
       </SearchBarWrap>
