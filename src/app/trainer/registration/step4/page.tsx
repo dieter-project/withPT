@@ -7,10 +7,10 @@ import { EventButton } from "@/components/trainer/atoms/Button/EventButton";
 import JoinStep from "@/components/trainer/molecules/SignupStep/SignUpStep";
 import Wrapper from "@/components/trainer/molecules/Wrapper/Wrapper";
 import { TrainerLayout } from "@/app/trainer/layout";
-import { TitleWrapper } from "@/components/trainer/signup/TitleWrapper";
+import { SignupTitleWrapper } from "@/components/trainer/molecules/Wrapper/SignupTitleWrapper";
 import { api } from "@/utils/axios";
 import { setCookie } from "@/utils/cookie";
-import { ButtonAreaFixed } from "@/components/trainer/signup/ButtonAreaFixed";
+import { ButtonAreaFixed } from "@/components/trainer/molecules/ButtonAreaFixed/ButtonAreaFixed";
 import { useModal } from "@/context/trainer/ModalContext";
 import { Typography } from "@/components/trainer/atoms/Typography/TypoGraphy.styles";
 import { Icon } from "@/components/trainer/atoms/SvgIcon/SvgIcon";
@@ -61,11 +61,11 @@ export default function Step4() {
       variant="withBack"
     >
       <JoinStep active={STEP_CONFIG.STEP} />
-      <TitleWrapper
+      <SignupTitleWrapper
         topTitle={STEP_CONFIG.TOP_TITLE}
         underTitle={STEP_CONFIG.UNDER_TITLE}
       />
-      <Wrapper type="column" mb="20px">
+      <Wrapper type="column" marginBottom="20px">
         <Typography variant="heading2" fw={600}>
           경력 입력
         </Typography>
@@ -78,7 +78,7 @@ export default function Step4() {
           justifyContent="center"
         />
       </Wrapper>
-      <Wrapper type="column" mb="20px">
+      <Wrapper type="column" marginBottom="20px">
         <Typography variant="heading2" fw={600}>
           자격증/수상/교육 등록
         </Typography>
@@ -91,7 +91,7 @@ export default function Step4() {
           justifyContent="center"
         />
       </Wrapper>
-      <Wrapper type="column" mb="20px">
+      <Wrapper type="column" marginBottom="20px">
         <Typography variant="heading2" fw={600}>
           학력사항 등록
         </Typography>
@@ -104,7 +104,7 @@ export default function Step4() {
           justifyContent="center"
         />
       </Wrapper>
-      <Wrapper jc="center" ai="center">
+      <Wrapper justifyContent="center" alignItems="center">
         <Icon name="notification" size={24} />
         등록된 트레이너 이력은 회원페이지에 노출이 됩니다.
       </Wrapper>

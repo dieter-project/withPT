@@ -8,9 +8,6 @@ const OverlapModal = () => {
         <OverLapMessage>
           기존 일정과 중복된 시간이 있어 등록할 수 없습니다.
         </OverLapMessage>
-        {/* <OverlapClose onClick={() => window.location.reload()}>
-          확인
-        </OverlapClose> */}
       </OverLapModal>
     </OverLapWrap>
   );

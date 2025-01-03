@@ -3,8 +3,8 @@
 import React, { useCallback } from "react";
 import { useRouter } from "next/navigation";
 import { TrainerLayout } from "@/app/trainer/layout";
-import { TitleWrapper } from "@/components/trainer/signup/TitleWrapper";
-import { ButtonAreaFixed } from "@/components/trainer/signup/ButtonAreaFixed";
+import { SignupTitleWrapper } from "@/components/trainer/molecules/Wrapper/SignupTitleWrapper";
+import { ButtonAreaFixed } from "@/components/trainer/molecules/ButtonAreaFixed/ButtonAreaFixed";
 import JoinStep from "@/components/trainer/molecules/SignupStep/SignUpStep";
 import { SearchCenter } from "@/components/trainer/molecules/Modal/searchCenter/SearchCenter";
 import { EventButton } from "@/components/trainer/atoms/Button/EventButton";
@@ -33,6 +33,7 @@ export default function Step2() {
 
   const BUTTON_CONFIG = {
     EMPTY_STATE: {
+      $display: "block",
       isIconVisible: true,
       iconType: "plusCircleMono" as const,
       content: "등록할 센터를 검색해 주세요.",
@@ -97,7 +98,7 @@ export default function Step2() {
       variant="withBack"
     >
       <JoinStep active={STEP_CONFIG.STEP} />
-      <TitleWrapper
+      <SignupTitleWrapper
         topTitle={STEP_CONFIG.TOP_TITLE}
         underTitle={STEP_CONFIG.UNDER_TITLE}
       />

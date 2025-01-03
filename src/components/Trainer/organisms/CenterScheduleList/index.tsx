@@ -1,4 +1,6 @@
 import styled, { css } from "styled-components";
+import Wrapper from "@/components/trainer/molecules/Wrapper/Wrapper";
+import { Icon } from "@/components/trainer/atoms/SvgIcon/SvgIcon";
 
 interface ScheduleItem {
   days: string[];
@@ -12,22 +14,39 @@ interface CenterScheduleListProps {
   onDeleteSchedule?: (index: number) => void;
 }
 
-const ScheduleContainer = styled.div<{ $variant: "list" | "grid" }>`
-  ${({ $variant }) =>
-    $variant === "list"
-      ? css`
-          margin-top: 8px;
-          background: white;
-          border-radius: 8px;
-          padding: 12px 16px;
-        `
-      : css`
-          display: flex;
-          flex-wrap: wrap;
-          gap: 12px;
-          padding: 8px 0;
-        `}
-`;
+export const CenterScheduleList = ({
+  schedules,
+  variant = "list",
+  onDeleteSchedule,
+}: CenterScheduleListProps) => {
+  if (!schedules || schedules.length === 0) return null;
+
+  const dayOrder = ["월", "화", "수", "목", "금", "토", "일"];
+
+  const formatDays = (days: string[]) => {
+    const sortedDays = [...days].sort(
+      (a, b) => dayOrder.indexOf(a) - dayOrder.indexOf(b),
+    );
+    return sortedDays.join("/");
+  };
+
+  return (
+    <Wrapper justifyContent="space-between" gap="2rem">
+      {schedules.map((schedule, index) => (
+        <StyledScheduleItem key={index} $variant={variant}>
+          <span>{formatDays(schedule.days)}</span>
+          <span>{`${schedule.startTime} ~ ${schedule.endTime}`}</span>
+          <DeleteButton
+            $variant={variant}
+            onClick={() => onDeleteSchedule?.(index)}
+          >
+            <Icon name="closeX" size={18} />
+          </DeleteButton>
+        </StyledScheduleItem>
+      ))}
+    </Wrapper>
+  );
+};
 
 const StyledScheduleItem = styled.div<{ $variant: "list" | "grid" }>`
   display: flex;
@@ -79,37 +98,3 @@ const DeleteButton = styled.button<{ $variant: "list" | "grid" }>`
           top: 8px;
         `}
 `;
-
-export const CenterScheduleList = ({
-  schedules,
-  variant = "list",
-  onDeleteSchedule,
-}: CenterScheduleListProps) => {
-  if (!schedules || schedules.length === 0) return null;
-
-  const dayOrder = ["월", "화", "수", "목", "금", "토", "일"];
-
-  const formatDays = (days: string[]) => {
-    const sortedDays = [...days].sort(
-      (a, b) => dayOrder.indexOf(a) - dayOrder.indexOf(b),
-    );
-    return sortedDays.join("/");
-  };
-
-  return (
-    <ScheduleContainer $variant={variant}>
-      {schedules.map((schedule, index) => (
-        <StyledScheduleItem key={index} $variant={variant}>
-          <span>{formatDays(schedule.days)}</span>
-          <span>{`${schedule.startTime} ~ ${schedule.endTime}`}</span>
-          <DeleteButton
-            $variant={variant}
-            onClick={() => onDeleteSchedule?.(index)}
-          >
-            ×
-          </DeleteButton>
-        </StyledScheduleItem>
-      ))}
-    </ScheduleContainer>
-  );
-};

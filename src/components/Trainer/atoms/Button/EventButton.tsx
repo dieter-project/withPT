@@ -38,7 +38,8 @@ export const EventButton = ({
   content,
   rightContent,
   color = "inherit",
-}: EventButtonProps) => {
+  $display = "flex",
+}: EventButtonProps & { $display?: string }) => {
   return (
     <ButtonLayout
       $color={color}
@@ -46,17 +47,16 @@ export const EventButton = ({
       $padding={padding}
       $justifyContent={justifyContent}
       $eventButtonType={eventButtonType}
+      $display={$display}
       onClick={event}
     >
       {isIconVisible && iconType && (
-        <IconWrapper>
-          <Icon
-            name={ICON_CONFIG[iconType].name}
-            size={ICON_CONFIG[iconType].size}
-          />
-        </IconWrapper>
+        <Icon
+          name={ICON_CONFIG[iconType].name}
+          size={ICON_CONFIG[iconType].size}
+        />
       )}
-      {content}
+      <div>{content}</div>
       {rightContent === "checkRegister" && (
         <CheckRegisterItem status="gray" label="등록 전" />
       )}
@@ -78,10 +78,13 @@ const ButtonLayout = styled.button<{
   $padding?: string;
   $justifyContent?: string;
   $color?: string;
+  $display?: string;
 }>`
-  display: flex;
-  align-items: center;
-  justify-content: ${({ $justifyContent }) => $justifyContent || "center"};
+  display: ${({ $display }) => $display || "flex"};
+  align-items: ${({ $display }) =>
+    $display === "flex" ? "center" : "initial"};
+  justify-content: ${({ $justifyContent, $display }) =>
+    $display === "flex" ? $justifyContent || "center" : "initial"};
   width: 100%;
   margin: 0 auto;
   margin-bottom: 0.5rem;
@@ -97,8 +100,7 @@ const ButtonLayout = styled.button<{
   font-size: var(--font-m);
 `;
 
-const IconWrapper = styled.div`
-  display: flex;
-  justify-content: center;
-  margin-bottom: 0.5rem;
-`;
+// const IconWrapper = styled.div`
+//   display: flex;
+//   justify-content: center;
+// `;

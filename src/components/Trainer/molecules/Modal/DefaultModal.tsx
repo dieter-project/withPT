@@ -11,9 +11,9 @@ export const DefaultModalComponent = ({
   type = "default",
   onBackdropClick,
 }: DefaultModalProps) => (
-  <ModalOverlay zIndex={zIndex} type={type} onClick={onBackdropClick}>
+  <ModalOverlay $zIndex={zIndex} type={type} onClick={onBackdropClick}>
     <ModalContainer
-      zIndex={zIndex}
+      $zIndex={zIndex}
       type={type}
       onClick={e => e.stopPropagation()}
     >
@@ -28,24 +28,24 @@ export const DefaultModalComponent = ({
   </ModalOverlay>
 );
 
-const ModalOverlay = styled.div<{ zIndex: number; type: "default" | "alert" }>`
+const ModalOverlay = styled.div<{ $zIndex: number; type: "default" | "alert" }>`
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background: ${props =>
-    props.type === "alert" ? "rgba(0, 0, 0, 0.3)" : "rgba(0, 0, 0, 0.5)"};
-  z-index: ${props => props.zIndex};
+  background: ${({ type }) =>
+    type === "alert" ? "rgba(0, 0, 0, 0.3)" : "rgba(0, 0, 0, 0.5)"};
+  z-index: ${({ $zIndex }) => $zIndex};
 `;
 
 const ModalContainer = styled.div<{
-  zIndex: number;
+  $zIndex: number;
   type: "default" | "alert";
 }>`
   position: fixed;
-  ${props =>
-    props.type === "alert"
+  ${({ type }) =>
+    type === "alert"
       ? `
     top: 50%;
     left: 50%;
@@ -65,7 +65,7 @@ const ModalContainer = styled.div<{
     transform: translateY(0);
     animation: slideUp 0.3s ease-out;
   `}
-  z-index: ${props => props.zIndex + 1};
+  z-index: ${({ $zIndex }) => $zIndex + 1};
 
   @keyframes slideUp {
     from {

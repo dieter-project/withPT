@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from "react";
+import React, { useEffect } from "react";
 import { CloseBtn } from "@/styles/Trainer/TrainerButton";
 import { styled } from "styled-components";
 import { useModalEffect } from "@/hooks/trainer/modal/useModalEffect";

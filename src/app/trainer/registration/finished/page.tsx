@@ -3,7 +3,7 @@
 import { TrainerLayout } from "@/app/trainer/layout";
 import { Typography } from "@/components/trainer/atoms/Typography/TypoGraphy.styles";
 import { Icon } from "@/components/trainer/atoms/SvgIcon/SvgIcon";
-import { ButtonAreaFixed } from "@/components/trainer/signup/ButtonAreaFixed";
+import { ButtonAreaFixed } from "@/components/trainer/molecules/ButtonAreaFixed/ButtonAreaFixed";
 import Wrapper from "@/components/trainer/molecules/Wrapper/Wrapper";
 import { useRouter } from "next/navigation";
 
@@ -22,7 +22,7 @@ export default function Finished() {
       hasFooter={false}
       variant="withBack"
     >
-      <Wrapper type="column" ai="center" pd="11rem 0 0 0">
+      <Wrapper type="column" alignItems="center" padding="11rem 0 0 0">
         <Icon name="checkCircleActive" size={36} />
         <Typography variant="title1" fw={600}>
           회원가입이 완료되었어요!

@@ -51,7 +51,7 @@ export const CareerModalContent = () => {
           <ul>
             {workingCenter.map((center, index) => (
               <React.Fragment key={`${center.place_name}-${index}`}>
-                <Wrapper type="alignCenter" mb="1rem">
+                <Wrapper type="alignCenter" marginBottom="1rem">
                   <div>
                     <Spacer mr={10}>
                       <Typography variant="title2">센터</Typography>
@@ -59,7 +59,7 @@ export const CareerModalContent = () => {
                   </div>
                   {center.place_name}
                 </Wrapper>
-                <Wrapper type="alignCenter" mb="1rem">
+                <Wrapper type="alignCenter" marginBottom="1rem">
                   <div>
                     <Spacer mr={10}>
                       <Typography variant="title2">직책</Typography>
@@ -67,20 +67,20 @@ export const CareerModalContent = () => {
                   </div>
                   <NoIconInput placeholder="직책을 입력해주세요" />
                 </Wrapper>
-                <Wrapper type="alignCenter" mb="1rem">
+                <Wrapper type="alignCenter" marginBottom="1rem">
                   <Spacer mr={10}>
                     <Typography variant="title2">기간</Typography>
                   </Spacer>
                   <NoIconInput placeholder="기간을 입력해주세요" />
                 </Wrapper>
-                <EventButton event={openSearchModal} />
+                <EventButton event={openCenterSearchModal} />
               </React.Fragment>
             ))}
           </ul>
         </>
       ) : (
         <>
-          <Wrapper type="alignCenter" mb="1rem">
+          <Wrapper type="alignCenter" marginBottom="1rem">
             <div>
               <Spacer mr={10}>
                 <Typography variant="title2">센터</Typography>
@@ -106,7 +106,7 @@ export const CareerModalContent = () => {
               }
             />
           </Wrapper>
-          <Wrapper type="alignCenter" mb="1rem">
+          <Wrapper type="alignCenter" marginBottom="1rem">
             <div>
               <Spacer mr={10}>
                 <Typography variant="title2">직책</Typography>
@@ -114,7 +114,7 @@ export const CareerModalContent = () => {
             </div>
             <NoIconInput placeholder="직책을 입력해주세요" />
           </Wrapper>
-          <Wrapper type="alignCenter" mb="1rem">
+          <Wrapper type="alignCenter" marginBottom="1rem">
             <Spacer mr={10}>
               <Typography variant="title2">기간</Typography>
             </Spacer>

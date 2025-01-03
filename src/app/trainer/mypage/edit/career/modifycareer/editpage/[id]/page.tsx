@@ -9,8 +9,7 @@ import { Container, ContentBody } from "@/styles/Trainer/TrainerLayout";
 import { NoIconInput } from "@/styles/Trainer/TrainerInput";
 import { Button } from "@/styles/Trainer/TrainerButton";
 import Footer from "@/components/trainer/organisms/Footer/TrainerFooter";
-import { ButtonAreaFixed } from "@/components/trainer/signup/ButtonAreaFixed";
-import TimeSelector from "@/components/trainer/molecules/TimeSelector/TimeSelector";
+import { ButtonAreaFixed } from "@/components/trainer/molecules/ButtonAreaFixed/ButtonAreaFixed";
 
 const ContentInnerBody = styled.div``;
 
@@ -215,12 +214,6 @@ export default function EditPage() {
             </RegisterItemWrap>
             <FlexWrap>
               <RegisterContentTitle>기간</RegisterContentTitle>
-              <TimeSelector
-                selectedYear={selectedYear}
-                handleYearChange={handleYearChange}
-                selectedMonth={selectedMonth}
-                handleMonthChange={handleMonthChange}
-              ></TimeSelector>
             </FlexWrap>
           </RegisterAllWrap>
         </ContentInnerBody>

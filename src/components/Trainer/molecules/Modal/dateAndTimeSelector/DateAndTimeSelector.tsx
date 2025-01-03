@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
-import { FlexWrapper } from "@/styles/Trainer/TrainerLayout";
+import Wrapper from "@/components/trainer/molecules/Wrapper/Wrapper";
+import { Typography } from "@/components/trainer/atoms/Typography/TypoGraphy.styles";
 import { TimeDropdown } from "@/components/trainer/atoms/Select/TimeDropdown";
 
 interface DateAndTimeSelectorProps {
@@ -24,46 +25,62 @@ export const DateAndTimeSelector: React.FC<DateAndTimeSelectorProps> = ({
 }) => {
   return (
     <ul>
-      <FlexWrapper>
-        <ModalSubTitle>날짜</ModalSubTitle>
-        {days?.map((day, index) => (
-          <DaySelector
-            key={index}
-            className={selectedDays.includes(day) ? "selected" : ""}
-          >
-            <DaySelectorInput
-              type="checkbox"
-              onChange={() => handleDayClick(day)}
-            />
-            {day}
-          </DaySelector>
-        ))}
-      </FlexWrapper>
-      <FlexWrapper>
-        <ModalSubTitle>시작</ModalSubTitle>
-        <TimeDropdown
-          selectedTime={selectedStartTime ?? ""}
-          startTime="6"
-          endTime="24"
-          placeholderTime="6:00"
-          onTimeChange={handleStartTimeChange}
-        ></TimeDropdown>
-        <ModalSubTitle>종료</ModalSubTitle>
-        <TimeDropdown
-          selectedTime={selectedEndTime ?? ""}
-          startTime="6"
-          endTime="24"
-          placeholderTime="24:00"
-          onTimeChange={handleEndTimeChange}
-        ></TimeDropdown>
-      </FlexWrapper>
+      <Wrapper
+        justify-content="space-between"
+        alignItems="center"
+        marginBottom="1rem"
+        gap="1rem"
+      >
+        <Typography variant="heading2">날짜</Typography>
+        <Wrapper
+          justify-content="space-between"
+          alignItems="center"
+          gap="0.5rem"
+        >
+          {days?.map((day, index) => (
+            <DaySelector
+              key={index}
+              className={selectedDays.includes(day) ? "selected" : ""}
+            >
+              <DaySelectorInput
+                type="checkbox"
+                onChange={() => handleDayClick(day)}
+              />
+              {day}
+            </DaySelector>
+          ))}
+        </Wrapper>
+      </Wrapper>
+      <Wrapper
+        justify-content="space-between"
+        alignItems="center"
+        marginBottom="0.75rem"
+        gap="1.5rem"
+      >
+        <Wrapper justify-content="space-between" alignItems="center" gap="1rem">
+          <Typography variant="heading2">시작</Typography>
+          <TimeDropdown
+            selectedTime={selectedStartTime ?? ""}
+            startTime="6"
+            endTime="24"
+            placeholderTime="6:00"
+            onTimeChange={handleStartTimeChange}
+          ></TimeDropdown>
+        </Wrapper>
+        <Wrapper justify-content="space-between" alignItems="center" gap="1rem">
+          <Typography variant="heading2">종료</Typography>
+          <TimeDropdown
+            selectedTime={selectedEndTime ?? ""}
+            startTime="6"
+            endTime="24"
+            placeholderTime="24:00"
+            onTimeChange={handleEndTimeChange}
+          ></TimeDropdown>
+        </Wrapper>
+      </Wrapper>
     </ul>
   );
 };
-
-const ModalSubTitle = styled.h4`
-  width: 3rem;
-`;
 
 const DaySelector = styled.label`
   display: flex;
@@ -74,7 +91,6 @@ const DaySelector = styled.label`
   height: 2.25rem;
   border: 1px solid var(--border-darkgray);
   border-radius: 0.5rem;
-  margin-right: 0.5rem;
   font-size: var(--font-m);
   cursor: pointer;
   &.selected {

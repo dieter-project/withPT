@@ -3,8 +3,8 @@ import React, { useState, useCallback, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
 import { TrainerLayout } from "@/app/trainer/layout";
-import { ButtonAreaFixed } from "@/components/trainer/signup/ButtonAreaFixed";
-import { TitleWrapper } from "@/components/trainer/signup/TitleWrapper";
+import { ButtonAreaFixed } from "@/components/trainer/molecules/ButtonAreaFixed/ButtonAreaFixed";
+import { SignupTitleWrapper } from "@/components/trainer/molecules/Wrapper/SignupTitleWrapper";
 import JoinStep from "@/components/trainer/molecules/SignupStep/SignUpStep";
 import { EventButton } from "@/components/trainer/atoms/Button/EventButton";
 import { EnterCenterSchedule } from "@/components/trainer/molecules/Modal/enterCenterSchedule/EnterCenterSchedule";
@@ -43,13 +43,14 @@ export default function Step3() {
   } as const;
 
   const savedGyms = useSelector((state: RootState) => state.trainerSignup.gyms);
-  const [recordGyms, setRecordGyms] = useState<GymsInfo[]>(savedGyms || []);
+  const [recordGyms] = useState<GymsInfo[]>(savedGyms || []);
 
-  // centerSchedules도 null 체크 추가
   const [centerSchedules, setCenterSchedules] = useState<{
     [key: string]: WorkSchedule[];
   }>(() => {
     if (!savedGyms) return {};
+
+    console.log(savedGyms, "savedGyms");
 
     return savedGyms.reduce(
       (acc, gym) => ({
@@ -59,6 +60,7 @@ export default function Step3() {
       {},
     );
   });
+
   const handleOpenScheduleModal = useCallback(
     (centerName: string) => {
       openModal({
@@ -123,7 +125,7 @@ export default function Step3() {
       variant="withBack"
     >
       <JoinStep active={STEP_CONFIG.STEP} />
-      <TitleWrapper
+      <SignupTitleWrapper
         topTitle={STEP_CONFIG.TOP_TITLE}
         underTitle={STEP_CONFIG.UNDER_TITLE}
       />

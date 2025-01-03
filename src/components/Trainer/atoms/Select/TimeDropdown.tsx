@@ -41,9 +41,9 @@ export const TimeDropdown = ({
 };
 
 const StyledSelect = styled.select<{ $isSelected: boolean }>`
+  width: 100%;
   background-color: var(--purple50);
   color: ${props => (props.$isSelected ? "black" : "var(--font-gray400)")};
-  margin-right: 1.81rem;
   padding: 0.62rem;
   &:focus {
     outline: none;

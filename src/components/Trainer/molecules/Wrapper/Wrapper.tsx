@@ -2,41 +2,47 @@ import React from "react";
 import styled, { css } from "styled-components";
 
 interface WrapperProps {
-  type?: "default" | "column" | "spaceBetween" | "alignCenter";
+  type?: "default" | "column" | "spaceBetween" | "alignCenter" | "card";
   children: React.ReactNode;
-  mt?: string;
-  mb?: string;
+  marginTop?: string;
+  marginBottom?: string;
   gap?: string;
-  pd?: string;
-  jc?:
+  padding?: string;
+  justifyContent?:
     | "flex-start"
     | "flex-end"
     | "center"
     | "space-between"
     | "space-around"
     | "space-evenly";
-  ai?: "flex-start" | "flex-end" | "center" | "stretch" | "baseline";
+  alignItems?: "flex-start" | "flex-end" | "center" | "stretch" | "baseline";
+  borderRadius?: string;
+  border?: string;
 }
 
 const Wrapper = ({
   type = "default",
   children,
-  mt,
-  mb,
-  pd,
+  marginTop,
+  marginBottom,
+  padding,
   gap,
-  jc,
-  ai,
+  justifyContent,
+  alignItems,
+  borderRadius,
+  border,
 }: WrapperProps) => {
   return (
     <StyledWrapper
       $type={type}
-      $mt={mt}
-      $mb={mb}
-      $pd={pd}
+      $marginTop={marginTop}
+      $marginBottom={marginBottom}
+      $padding={padding}
       $gap={gap}
-      $jc={jc}
-      $ai={ai}
+      $justifyContent={justifyContent}
+      $alignItems={alignItems}
+      $borderRadius={borderRadius}
+      $border={border}
     >
       {children}
     </StyledWrapper>
@@ -46,48 +52,67 @@ const Wrapper = ({
 export default Wrapper;
 
 const StyledWrapper = styled.div<{
-  $type: "default" | "column" | "spaceBetween" | "alignCenter";
-  $mt?: string;
-  $mb?: string;
-  $pd?: string;
-  $jc?: string;
-  $ai?: string;
+  $type: "default" | "column" | "spaceBetween" | "alignCenter" | "card";
+  $marginTop?: string;
+  $marginBottom?: string;
+  $padding?: string;
   $gap?: string;
+  $justifyContent?: string;
+  $alignItems?: string;
+  $borderRadius?: string;
+  $border?: string;
 }>`
   width: 100%;
-  ${({ $mt, $mb, $pd, $gap, $jc, $ai }) => css`
-    margin-top: ${$mt || "0"};
-    margin-bottom: ${$mb || "0"};
-    padding: ${$pd || "0"};
+  display: flex;
+
+  ${({
+    $marginTop,
+    $marginBottom,
+    $padding,
+    $gap,
+    $justifyContent,
+    $alignItems,
+  }) => css`
+    margin-top: ${$marginTop || "0"};
+    margin-bottom: ${$marginBottom || "0"};
+    padding: ${$padding || "0"};
     gap: ${$gap || "0"};
-    justify-content: ${$jc || "flex-start"};
-    align-items: ${$ai || "flex-start"};
+    justify-content: ${$justifyContent || "flex-start"};
+    align-items: ${$alignItems || "flex-start"};
   `}
 
   ${({ $type }) => {
     switch ($type) {
       case "column":
         return css`
-          display: flex;
           flex-direction: column;
         `;
       case "spaceBetween":
         return css`
-          display: flex;
-          align-items: center;
           justify-content: space-between;
+          align-items: center;
         `;
       case "alignCenter":
         return css`
-          display: flex;
-          align-items: center;
           justify-content: flex-start;
+          align-items: center;
         `;
-
-      default:
+      case "card":
         return css`
-          display: flex;
+          flex-direction: column;
+          background: var(--white);
+          border-radius: var(--radius-md, 12px);
+          border: 1px solid var(--border-gray300);
+          padding: 1rem;
+          box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
         `;
+      default:
+        return "";
     }
   }}
+
+  ${({ $borderRadius, $border }) => css`
+    border-radius: ${$borderRadius || "0"};
+    border: ${$border || "none"};
+  `}
 `;

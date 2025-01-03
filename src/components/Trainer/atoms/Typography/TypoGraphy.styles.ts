@@ -32,10 +32,10 @@ const typographyStyles = {
     font-size: var(--font-xxxl);
   `,
   title2: `
-    font-size: var(--font-l);
+    font-size: var(--font-xxl);
   `,
   title3: `
-    font-size: var(--font-s);
+    font-size: var(--font-xl);
   `,
   heading1: `
     font-size: var(--font-l);

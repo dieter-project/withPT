@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import { styled } from "styled-components";
 import PageHeader from "@/components/trainer/molecules/Header/Header";
 import Footer from "@/components/trainer/organisms/Footer/TrainerFooter";
 import {
@@ -8,7 +9,6 @@ import {
   useLayout,
 } from "@/context/trainer/TrainerLayoutContext";
 import { useHeaderFooter } from "@/hooks/trainer/common/useHeaderFooter";
-import { Container, ContentBody } from "@/styles/Trainer/TrainerLayout";
 
 interface TrainerLayoutProps {
   children: React.ReactNode;
@@ -19,6 +19,7 @@ interface TrainerLayoutProps {
   onPlusClick?: () => void;
   action?: string;
   bgColor?: "white" | "primary";
+  padding?: string;
 }
 
 const TrainerLayout: React.FC<TrainerLayoutProps> = ({
@@ -30,6 +31,7 @@ const TrainerLayout: React.FC<TrainerLayoutProps> = ({
   onPlusClick,
   action = "",
   bgColor = "white",
+  padding,
 }) => {
   const { layoutConfig } = useLayout();
 
@@ -37,7 +39,7 @@ const TrainerLayout: React.FC<TrainerLayoutProps> = ({
 
   return (
     <Container $bgColor={bgColor}>
-      <ContentBody>
+      <ContentBody $padding={padding}>
         {layoutConfig.showHeader && (
           <PageHeader
             title={layoutConfig.title}
@@ -60,3 +62,27 @@ const RootTrainerLayout: React.FC<{ children: React.ReactNode }> = ({
 
 export default RootTrainerLayout;
 export { TrainerLayout };
+
+interface ContainerProps {
+  $bgColor?: "white" | "primary";
+}
+
+export const Container = styled.div<ContainerProps>`
+  position: relative;
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 100vh;
+  background-color: ${({ $bgColor }) =>
+    $bgColor === "primary" ? "var(--purple50)" : "white"};
+  margin: 0;
+  padding: 0;
+`;
+
+interface ContentBodyProps {
+  $padding?: string;
+}
+
+export const ContentBody = styled.div<ContentBodyProps>`
+  position: relative;
+  padding: ${({ $padding }) => $padding || "5.5rem 1rem 4.7rem 1rem"};
+`;

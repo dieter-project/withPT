@@ -1,9 +1,9 @@
 "use client";
 import React from "react";
 import { TrainerLayout } from "@/app/trainer/layout";
-import { TitleWrapper } from "@/components/trainer/signup/TitleWrapper";
+import { SignupTitleWrapper } from "@/components/trainer/molecules/Wrapper/SignupTitleWrapper";
 import JoinStep from "@/components/trainer/molecules/SignupStep/SignUpStep";
-import { ButtonAreaFixed } from "@/components/trainer/signup/ButtonAreaFixed";
+import { ButtonAreaFixed } from "@/components/trainer/molecules/ButtonAreaFixed/ButtonAreaFixed";
 import { useStep1 } from "@/hooks/trainer/registration/useStep1";
 import { RegistrationFormFields } from "@/components/trainer/organisms/RegistrationFormFields";
 
@@ -33,7 +33,7 @@ export default function Step1() {
     >
       <form onSubmit={handleSubmit(onSubmit)}>
         <JoinStep active={STEP_CONFIG.STEP} />
-        <TitleWrapper
+        <SignupTitleWrapper
           topTitle={STEP_CONFIG.TOP_TITLE}
           underTitle={STEP_CONFIG.UNDER_TITLE}
         />

@@ -2,6 +2,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { styled } from "styled-components";
 import { Icon } from "@/components/trainer/atoms/SvgIcon/SvgIcon";
+import { Typography } from "@/components/trainer/atoms/Typography/TypoGraphy.styles";
 
 type HeaderVariant = "default" | "withBack" | "center" | "plus" | "logo";
 
@@ -35,14 +36,6 @@ const BackButton = styled.button`
   cursor: pointer;
 `;
 
-const Title = styled.h1`
-  color: #222;
-  font-size: 1.25rem;
-  font-weight: 700;
-  line-height: 3rem;
-  letter-spacing: -0.02em;
-`;
-
 const Spacer = styled.div`
   width: 1.5rem;
   visibility: hidden;
@@ -70,20 +63,20 @@ export const PageHeader = ({
   const renderLeft = () => {
     if (variant === "withBack" || variant === "plus") {
       return (
-        <BackButton onClick={handleBack}>
+        <button onClick={handleBack}>
           <Icon name="backArrow" size={20} />
-        </BackButton>
+        </button>
       );
     }
     if (variant === "logo") {
-      return <Icon name="logoWePT" size={80} />;
+      return <Icon name="logo" size={80} />;
     }
     return null;
   };
 
   const renderCenter = () => {
     if (variant !== "logo") {
-      return <Title>{title}</Title>;
+      return <Typography variant="title2">{title}</Typography>;
     }
     return null;
   };
@@ -95,14 +88,14 @@ export const PageHeader = ({
     if (variant === "plus") {
       return (
         <PlusButton onClick={onPlusClick}>
-          <Icon name="addGray" size={36} />
+          <Icon name="plusGray" size={36} />
         </PlusButton>
       );
     }
     if (variant === "logo") {
       return (
         <Link href="/trainer/main/alert">
-          <Icon name="alert" size={25} />
+          <Icon name="alertBell" size={25} />
         </Link>
       );
     }

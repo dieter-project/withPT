@@ -13,7 +13,7 @@ export const CheckRegisterItem = ({
   return (
     <CheckMessageWrapper>
       <Icon
-        name={status === "gray" ? "checkCirCircleMono" : "checkCirCircleActive"}
+        name={status === "gray" ? "checkCircleMono" : "checkCircleActive"}
         size={26}
       />
       <Message $status={status}>{label}</Message>

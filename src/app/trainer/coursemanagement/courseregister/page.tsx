@@ -11,7 +11,7 @@ import {
   SearchIcon,
   SearchBarInput,
 } from "@/styles/Trainer/TrainerSearchBar";
-import { ButtonAreaFixed } from "@/components/trainer/signup/ButtonAreaFixed";
+import { ButtonAreaFixed } from "@/components/trainer/molecules/ButtonAreaFixed/ButtonAreaFixed";
 import { startOfWeek, addDays, format } from "date-fns";
 import "react-calendar/dist/Calendar.css";
 import searchIcon from "../../../../../public/Trainer/icons/searchLightGray.png";
