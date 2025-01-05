@@ -16,7 +16,7 @@ import {
 import { RootState } from "@/redux/store";
 import { useModal } from "@/context/trainer/ModalContext";
 import { signupActions } from "@/redux/reducers/trainerSignupSlice";
-import { CenterScheduleList } from "@/components/trainer/organisms/CenterScheduleList";
+import { CenterScheduleList } from "@/components/trainer/organisms/CenterScheduleList/CenterSchduleList";
 
 export default function Step3() {
   const router = useRouter();

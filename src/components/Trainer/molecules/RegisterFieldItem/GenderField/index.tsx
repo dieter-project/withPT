@@ -9,7 +9,7 @@ interface GenderFieldProps {
 }
 
 export const GenderField = ({ register }: GenderFieldProps) => (
-  <LabelField type="column" label="성별">
+  <LabelField type="columnDefault" label="성별">
     <Wrapper type="spaceBetween" gap="10px">
       <OptionWrapper>
         <input id="gender-male" type="radio" value="MAN" {...register("sex")} />

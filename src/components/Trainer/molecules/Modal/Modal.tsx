@@ -47,6 +47,7 @@ const ModalDimmed = styled.div.attrs<{ $showModalContent: boolean }>(
   background-color: rgba(0, 0, 0, 0.55);
   transition: all 0.3s ease-out;
 `;
+
 const ModalHeader = styled.div`
   position: relative;
   text-align: center;

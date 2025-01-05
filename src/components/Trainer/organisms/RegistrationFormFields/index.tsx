@@ -35,7 +35,7 @@ export const RegistrationFormFields = ({
   } = form;
 
   return (
-    <Wrapper type="column" gap="20px">
+    <Wrapper type="columnDefault" gap="20px">
       <NameField
         register={register}
         errors={{ name: errors.name as FieldError | undefined }}

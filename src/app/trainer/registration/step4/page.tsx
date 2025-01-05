@@ -65,7 +65,7 @@ export default function Step4() {
         topTitle={STEP_CONFIG.TOP_TITLE}
         underTitle={STEP_CONFIG.UNDER_TITLE}
       />
-      <Wrapper type="column" marginBottom="20px">
+      <Wrapper type="columnDefault" marginBottom="20px">
         <Typography variant="heading2" fw={600}>
           경력 입력
         </Typography>
@@ -78,7 +78,7 @@ export default function Step4() {
           justifyContent="center"
         />
       </Wrapper>
-      <Wrapper type="column" marginBottom="20px">
+      <Wrapper type="columnDefault" marginBottom="20px">
         <Typography variant="heading2" fw={600}>
           자격증/수상/교육 등록
         </Typography>
@@ -91,7 +91,7 @@ export default function Step4() {
           justifyContent="center"
         />
       </Wrapper>
-      <Wrapper type="column" marginBottom="20px">
+      <Wrapper type="columnDefault" marginBottom="20px">
         <Typography variant="heading2" fw={600}>
           학력사항 등록
         </Typography>
@@ -104,7 +104,7 @@ export default function Step4() {
           justifyContent="center"
         />
       </Wrapper>
-      <Wrapper justifyContent="center" alignItems="center">
+      <Wrapper type="spaceBetween">
         <Icon name="notification" size={24} />
         등록된 트레이너 이력은 회원페이지에 노출이 됩니다.
       </Wrapper>

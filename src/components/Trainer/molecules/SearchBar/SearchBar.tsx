@@ -22,6 +22,7 @@ const SearchBar: React.FC<SearchBarProps> = ({
       inputRef.current.focus();
     }
   }, []);
+
   const handleClear = () => {
     const event = {
       target: { value: "" },

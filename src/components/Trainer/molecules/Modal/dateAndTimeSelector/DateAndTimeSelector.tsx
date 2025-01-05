@@ -25,18 +25,9 @@ export const DateAndTimeSelector: React.FC<DateAndTimeSelectorProps> = ({
 }) => {
   return (
     <ul>
-      <Wrapper
-        justify-content="space-between"
-        alignItems="center"
-        marginBottom="1rem"
-        gap="1rem"
-      >
+      <Wrapper type="spaceBetween" marginBottom="1rem" gap="1rem">
         <Typography variant="heading2">날짜</Typography>
-        <Wrapper
-          justify-content="space-between"
-          alignItems="center"
-          gap="0.5rem"
-        >
+        <Wrapper type="spaceBetween" gap="0.5rem">
           {days?.map((day, index) => (
             <DaySelector
               key={index}
@@ -51,13 +42,8 @@ export const DateAndTimeSelector: React.FC<DateAndTimeSelectorProps> = ({
           ))}
         </Wrapper>
       </Wrapper>
-      <Wrapper
-        justify-content="space-between"
-        alignItems="center"
-        marginBottom="0.75rem"
-        gap="1.5rem"
-      >
-        <Wrapper justify-content="space-between" alignItems="center" gap="1rem">
+      <Wrapper type="spaceBetween" marginBottom="0.75rem" gap="1.5rem">
+        <Wrapper type="spaceBetween" gap="1rem">
           <Typography variant="heading2">시작</Typography>
           <TimeDropdown
             selectedTime={selectedStartTime ?? ""}
@@ -67,7 +53,7 @@ export const DateAndTimeSelector: React.FC<DateAndTimeSelectorProps> = ({
             onTimeChange={handleStartTimeChange}
           ></TimeDropdown>
         </Wrapper>
-        <Wrapper justify-content="space-between" alignItems="center" gap="1rem">
+        <Wrapper type="spaceBetween" gap="1rem">
           <Typography variant="heading2">종료</Typography>
           <TimeDropdown
             selectedTime={selectedEndTime ?? ""}

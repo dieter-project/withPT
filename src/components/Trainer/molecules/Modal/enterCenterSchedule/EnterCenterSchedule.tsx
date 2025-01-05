@@ -1,12 +1,12 @@
 import React, { useState } from "react";
-import { Button } from "@/styles/Trainer/TrainerButton";
+import Wrapper from "@/components/trainer/molecules/Wrapper/Wrapper";
 import { useHandleCenterSchedule } from "@/hooks/trainer/modal/useEnterCenterSchedule";
 import { EventButton } from "@/components/trainer/atoms/Button/EventButton";
 import { DateAndTimeSelector } from "../dateAndTimeSelector/DateAndTimeSelector";
-import styled from "styled-components";
 import { isTimeOverlapping } from "@/utils/Trainer/time";
 import { useModal } from "@/context/trainer/ModalContext";
-import { CenterScheduleList } from "@/components/trainer/organisms/CenterScheduleList";
+import { CenterScheduleList } from "@/components/trainer/organisms/CenterScheduleList/CenterSchduleList";
+import { ButtonAreaFixed } from "@/components/trainer/molecules/ButtonAreaFixed/ButtonAreaFixed";
 
 interface EnterCenterScheduleProps {
   existingSchedules?: {
@@ -44,9 +44,7 @@ export const EnterCenterSchedule: React.FC<EnterCenterScheduleProps> = ({
       openModal({
         type: "alert",
         title: "시간 설정 오류",
-        content: (
-          <AlertContent>선택한 종료 시간이 시작 시간보다 빠릅니다</AlertContent>
-        ),
+        content: <Wrapper>선택한 종료 시간이 시작 시간보다 빠릅니다</Wrapper>,
         zIndex: 2000,
       });
       return;
@@ -72,9 +70,7 @@ export const EnterCenterSchedule: React.FC<EnterCenterScheduleProps> = ({
         type: "alert",
         title: "일정 중복",
         content: (
-          <AlertContent>
-            기존 일정과 중복된 시간이어서 등록할 수 없습니다
-          </AlertContent>
+          <Wrapper>기존 일정과 중복된 시간이어서 등록할 수 없습니다</Wrapper>
         ),
         zIndex: 2000,
       });
@@ -109,7 +105,6 @@ export const EnterCenterSchedule: React.FC<EnterCenterScheduleProps> = ({
         handleStartTimeChange={handleStartTimeChange}
         handleEndTimeChange={handleEndTimeChange}
       />
-
       <div>
         <EventButton
           event={handleConfirm}
@@ -125,21 +120,11 @@ export const EnterCenterSchedule: React.FC<EnterCenterScheduleProps> = ({
         onDeleteSchedule={handleRemoveSchedule}
         variant="list"
       />
-      <Button
-        $variant={scheduleList.length === 0 ? "ghost" : "primary"}
-        disabled={scheduleList.length === 0}
+      <ButtonAreaFixed
+        label="저장하기"
+        isButtonDisabled={scheduleList.length === 0}
         onClick={handleSave}
-      >
-        저장하기
-      </Button>
+      />
     </>
   );
 };
-
-const AlertContent = styled.div`
-  text-align: center;
-  white-space: pre-line;
-  color: var(--font-primary);
-  font-size: var(--font-m);
-  line-height: 1.5;
-`;

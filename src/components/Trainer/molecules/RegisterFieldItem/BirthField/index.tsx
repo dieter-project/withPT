@@ -13,7 +13,7 @@ interface BirthFieldProps {
 }
 
 export const BirthField = ({ control, handleInputChange }: BirthFieldProps) => (
-  <LabelField type="column" innertype="spaceBetween" label="생년월일">
+  <LabelField type="columnDefault" innertype="spaceBetween" label="생년월일">
     <Controller
       name="birth.year"
       control={control}

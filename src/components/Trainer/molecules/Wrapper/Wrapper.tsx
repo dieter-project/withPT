@@ -2,22 +2,21 @@ import React from "react";
 import styled, { css } from "styled-components";
 
 interface WrapperProps {
-  type?: "default" | "column" | "spaceBetween" | "alignCenter" | "card";
+  type?:
+    | "default"
+    | "columnDefault"
+    | "columnCenter"
+    | "spaceBetween"
+    | "flexStartCenter"
+    | "card";
   children: React.ReactNode;
   marginTop?: string;
   marginBottom?: string;
-  gap?: string;
   padding?: string;
-  justifyContent?:
-    | "flex-start"
-    | "flex-end"
-    | "center"
-    | "space-between"
-    | "space-around"
-    | "space-evenly";
-  alignItems?: "flex-start" | "flex-end" | "center" | "stretch" | "baseline";
+  gap?: string;
   borderRadius?: string;
   border?: string;
+  width?: string; // 추가된 width prop
 }
 
 const Wrapper = ({
@@ -27,10 +26,9 @@ const Wrapper = ({
   marginBottom,
   padding,
   gap,
-  justifyContent,
-  alignItems,
   borderRadius,
   border,
+  width = "100%",
 }: WrapperProps) => {
   return (
     <StyledWrapper
@@ -39,10 +37,9 @@ const Wrapper = ({
       $marginBottom={marginBottom}
       $padding={padding}
       $gap={gap}
-      $justifyContent={justifyContent}
-      $alignItems={alignItems}
       $borderRadius={borderRadius}
       $border={border}
+      $width={width}
     >
       {children}
     </StyledWrapper>
@@ -52,47 +49,50 @@ const Wrapper = ({
 export default Wrapper;
 
 const StyledWrapper = styled.div<{
-  $type: "default" | "column" | "spaceBetween" | "alignCenter" | "card";
+  $type:
+    | "default"
+    | "columnDefault"
+    | "columnCenter"
+    | "spaceBetween"
+    | "flexStartCenter"
+    | "card";
   $marginTop?: string;
   $marginBottom?: string;
   $padding?: string;
   $gap?: string;
-  $justifyContent?: string;
-  $alignItems?: string;
   $borderRadius?: string;
   $border?: string;
+  $width?: string;
 }>`
-  width: 100%;
   display: flex;
+  width: ${({ $width }) => $width || "100%"};
 
-  ${({
-    $marginTop,
-    $marginBottom,
-    $padding,
-    $gap,
-    $justifyContent,
-    $alignItems,
-  }) => css`
+  /* 공통 스타일 */
+  ${({ $marginTop, $marginBottom, $padding, $gap }) => css`
     margin-top: ${$marginTop || "0"};
     margin-bottom: ${$marginBottom || "0"};
     padding: ${$padding || "0"};
     gap: ${$gap || "0"};
-    justify-content: ${$justifyContent || "flex-start"};
-    align-items: ${$alignItems || "flex-start"};
   `}
 
+  /* 타입별 스타일 */
   ${({ $type }) => {
     switch ($type) {
-      case "column":
+      case "columnDefault":
         return css`
           flex-direction: column;
+        `;
+      case "columnCenter":
+        return css`
+          flex-direction: column;
+          align-items: center;
         `;
       case "spaceBetween":
         return css`
           justify-content: space-between;
           align-items: center;
         `;
-      case "alignCenter":
+      case "flexStartCenter":
         return css`
           justify-content: flex-start;
           align-items: center;
@@ -107,10 +107,14 @@ const StyledWrapper = styled.div<{
           box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
         `;
       default:
-        return "";
+        return css`
+          justify-content: flex-start;
+          align-items: flex-start;
+        `;
     }
   }}
 
+  /* 추가 스타일 */
   ${({ $borderRadius, $border }) => css`
     border-radius: ${$borderRadius || "0"};
     border: ${$border || "none"};

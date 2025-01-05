@@ -10,7 +10,7 @@ interface NameFieldProps {
 }
 
 export const NameField = ({ register, errors }: NameFieldProps) => (
-  <LabelField type="column" label="이름">
+  <LabelField type="columnDefault" label="이름">
     <NoIconInput
       {...register("name", {
         required: "이름을 입력해주세요",

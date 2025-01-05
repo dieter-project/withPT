@@ -18,12 +18,33 @@ interface EventButtonProps {
   justifyContent?: string;
   color?: string;
   padding?: string;
+  $display?: string;
 }
 
 const ICON_CONFIG: Record<IconType, { name: string; size: number }> = {
   plusCircleMono: { name: "plusCircleMono", size: 25 },
   plusGray: { name: "plusGray", size: 25 },
   plusPurple: { name: "plusPurple", size: 15 },
+};
+
+const renderRightContent = (
+  rightContent: RightContentType | undefined,
+  xButtonEvent?: (e: React.MouseEvent<HTMLDivElement>) => void,
+) => {
+  switch (rightContent) {
+    case "checkRegister":
+      return <CheckRegisterItem status="gray" label="등록 전" />;
+    case "done":
+      return <CheckRegisterItem status="purple" label="등록 완료" />;
+    case "xButton":
+      return (
+        <div onClick={xButtonEvent}>
+          <Icon name="closeX" size={13} />
+        </div>
+      );
+    default:
+      return null;
+  }
 };
 
 export const EventButton = ({
@@ -39,7 +60,7 @@ export const EventButton = ({
   rightContent,
   color = "inherit",
   $display = "flex",
-}: EventButtonProps & { $display?: string }) => {
+}: EventButtonProps) => {
   return (
     <ButtonLayout
       $color={color}
@@ -50,28 +71,24 @@ export const EventButton = ({
       $display={$display}
       onClick={event}
     >
+      {/* 아이콘 표시 */}
       {isIconVisible && iconType && (
         <Icon
           name={ICON_CONFIG[iconType].name}
           size={ICON_CONFIG[iconType].size}
         />
       )}
+
+      {/* 컨텐츠 */}
       <div>{content}</div>
-      {rightContent === "checkRegister" && (
-        <CheckRegisterItem status="gray" label="등록 전" />
-      )}
-      {rightContent === "done" && (
-        <CheckRegisterItem status="purple" label="등록 완료" />
-      )}
-      {rightContent === "xButton" && (
-        <div onClick={xButtonEvent}>
-          <Icon name="closeX" size={13} />
-        </div>
-      )}
+
+      {/* 오른쪽 콘텐츠 */}
+      {renderRightContent(rightContent, xButtonEvent)}
     </ButtonLayout>
   );
 };
 
+// 스타일 정의
 const ButtonLayout = styled.button<{
   $eventButtonType: ButtonVariant;
   $height?: string;
@@ -99,8 +116,3 @@ const ButtonLayout = styled.button<{
   color: ${({ $color }) => $color || "inherit"};
   font-size: var(--font-m);
 `;
-
-// const IconWrapper = styled.div`
-//   display: flex;
-//   justify-content: center;
-// `;

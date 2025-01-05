@@ -22,7 +22,7 @@ export default function Finished() {
       hasFooter={false}
       variant="withBack"
     >
-      <Wrapper type="column" alignItems="center" padding="11rem 0 0 0">
+      <Wrapper type="columnCenter" padding="11rem 0 0 0">
         <Icon name="checkCircleActive" size={36} />
         <Typography variant="title1" fw={600}>
           회원가입이 완료되었어요!
