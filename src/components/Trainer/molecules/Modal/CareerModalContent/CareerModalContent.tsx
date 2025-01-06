@@ -89,7 +89,7 @@ export const CareerModalContent = () => {
             <EventButton
               padding="0 1rem"
               height="3rem"
-              eventButtonType="purple"
+              $eventButtonType="primary"
               justifyContent="flex-start"
               event={openCenterSearchModal}
               content={

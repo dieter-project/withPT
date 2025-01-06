@@ -1,9 +1,9 @@
-import { Button } from "@/styles/Trainer/TrainerButton";
+import { EventButton } from "@/components/trainer/atoms/Button/EventButton";
 import styled from "styled-components";
 
 interface NextButtonProps {
   label: string;
-  onClick?: () => void;
+  onClick: () => void;
   isButtonDisabled?: boolean;
 }
 
@@ -22,17 +22,20 @@ export const ButtonAreaFixed = ({
   onClick,
   isButtonDisabled,
 }: NextButtonProps) => {
+  const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    if (!isButtonDisabled) {
+      onClick();
+    }
+  };
+
   return (
     <ButtonAreaLayout>
-      {isButtonDisabled ? (
-        <Button $variant="ghostPurple" onClick={onClick} disabled>
-          {label}
-        </Button>
-      ) : (
-        <Button $variant="primary" onClick={onClick}>
-          {label}
-        </Button>
-      )}
+      <EventButton
+        $eventButtonType={isButtonDisabled ? "purple75" : "primary"}
+        height="3.5rem"
+        event={handleClick}
+        content={label}
+      />
     </ButtonAreaLayout>
   );
 };

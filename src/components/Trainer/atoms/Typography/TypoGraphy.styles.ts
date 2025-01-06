@@ -99,8 +99,7 @@ export const Typography = styled.span<TypographyStylesProps>`
 
   ${({ th }) =>
     th &&
-    `
-      overflow: hidden;
+    ` overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
     `}

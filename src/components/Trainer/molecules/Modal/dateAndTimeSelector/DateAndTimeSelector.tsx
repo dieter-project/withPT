@@ -26,7 +26,9 @@ export const DateAndTimeSelector: React.FC<DateAndTimeSelectorProps> = ({
   return (
     <ul>
       <Wrapper type="spaceBetween" marginBottom="1rem" gap="1rem">
-        <Typography variant="heading2">날짜</Typography>
+        <Typography variant="heading2" fw={600}>
+          날짜
+        </Typography>
         <Wrapper type="spaceBetween" gap="0.5rem">
           {days?.map((day, index) => (
             <DaySelector
@@ -44,7 +46,9 @@ export const DateAndTimeSelector: React.FC<DateAndTimeSelectorProps> = ({
       </Wrapper>
       <Wrapper type="spaceBetween" marginBottom="0.75rem" gap="1.5rem">
         <Wrapper type="spaceBetween" gap="1rem">
-          <Typography variant="heading2">시작</Typography>
+          <Typography variant="heading2" fw={600}>
+            시작
+          </Typography>
           <TimeDropdown
             selectedTime={selectedStartTime ?? ""}
             startTime="6"

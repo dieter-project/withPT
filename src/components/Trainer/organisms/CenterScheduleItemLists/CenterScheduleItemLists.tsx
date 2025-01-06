@@ -1,7 +1,6 @@
-import styled, { css } from "styled-components";
 import Wrapper from "@/components/trainer/molecules/Wrapper/Wrapper";
-import { Icon } from "@/components/trainer/atoms/SvgIcon/SvgIcon";
-import { Typography } from "../../atoms/Typography/TypoGraphy.styles";
+import { Typography } from "@/components/trainer/atoms/Typography/TypoGraphy.styles";
+import { ScheduleItemCard } from "@/components/trainer/atoms/Card/ScheduleItemCard";
 
 interface ScheduleItem {
   days: string[];
@@ -14,7 +13,7 @@ interface CenterScheduleListProps {
   onDeleteSchedule?: (index: number) => void;
 }
 
-export const CenterScheduleList = ({
+export const CenterScheduleItemLists = ({
   schedules,
   onDeleteSchedule,
 }: CenterScheduleListProps) => {
@@ -31,20 +30,25 @@ export const CenterScheduleList = ({
 
   return (
     <>
-      <div>{schedules && <Typography variant="heading2">일정</Typography>}</div>
-      <Wrapper type="spaceBetween" gap="2rem">
+      <div>
+        {schedules && (
+          <Typography variant="heading2" fw={600}>
+            일정
+          </Typography>
+        )}
+      </div>
+      <Wrapper noWrap={false} type="spaceBetween" gap="1rem">
         {schedules.map((schedule, index) => (
-          <Wrapper
-            width="50%"
-            border="1px solid var(--border-darkgray)"
+          <ScheduleItemCard
             key={index}
-          >
-            <div>{formatDays(schedule.days)}</div>
-            <div>{`${schedule.startTime} ~ ${schedule.endTime}`}</div>
-            <button onClick={() => onDeleteSchedule?.(index)}>
-              <Icon name="closeX" size={18} />
-            </button>
-          </Wrapper>
+            day={formatDays(schedule.days)}
+            time={`${schedule.startTime} ~ ${schedule.endTime}`}
+            onDelete={() => {
+              if (onDeleteSchedule) {
+                onDeleteSchedule(index);
+              }
+            }}
+          />
         ))}
       </Wrapper>
     </>

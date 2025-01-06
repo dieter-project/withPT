@@ -7,16 +7,12 @@ import { ButtonAreaFixed } from "@/components/trainer/molecules/ButtonAreaFixed/
 import { SignupTitleWrapper } from "@/components/trainer/molecules/Wrapper/SignupTitleWrapper";
 import JoinStep from "@/components/trainer/molecules/SignupStep/SignUpStep";
 import { EventButton } from "@/components/trainer/atoms/Button/EventButton";
-import { EnterCenterSchedule } from "@/components/trainer/molecules/Modal/enterCenterSchedule/EnterCenterSchedule";
-import {
-  GymsInfo,
-  WorkSchedule,
-  CenterSchedules,
-} from "@/model/trainer/signUp";
+import { EnterCenterSchedule } from "@/components/trainer/molecules/Modal/EnterCenterSchedule/EnterCenterSchedule";
+import { GymsInfo, WorkSchedule } from "@/model/trainer/signUp";
 import { RootState } from "@/redux/store";
 import { useModal } from "@/context/trainer/ModalContext";
 import { signupActions } from "@/redux/reducers/trainerSignupSlice";
-import { CenterScheduleList } from "@/components/trainer/organisms/CenterScheduleList/CenterSchduleList";
+import { TotalCenterSchedules } from "@/components/trainer/organisms/TotalCenterSchedules/TotalCenterSchedules";
 
 export default function Step3() {
   const router = useRouter();
@@ -34,7 +30,7 @@ export default function Step3() {
   const BUTTON_CONFIG = {
     CENTER_ITEM: {
       isIconVisible: false,
-      eventButtonType: "purple" as const,
+      $eventButtonType: "purple75" as const,
       height: "3.5rem",
       justifyContent: "space-between",
       rightContent: "checkRegister" as const,
@@ -49,8 +45,6 @@ export default function Step3() {
     [key: string]: WorkSchedule[];
   }>(() => {
     if (!savedGyms) return {};
-
-    console.log(savedGyms, "savedGyms");
 
     return savedGyms.reduce(
       (acc, gym) => ({
@@ -130,8 +124,8 @@ export default function Step3() {
         underTitle={STEP_CONFIG.UNDER_TITLE}
       />
 
-      {recordGyms?.map((gym, index) => (
-        <div key={`${gym.name}-${index}`}>
+      {recordGyms?.map(gym => (
+        <div key={`${gym.name}`}>
           <EventButton
             event={() => handleOpenScheduleModal(gym.name)}
             content={gym.name}
@@ -141,7 +135,10 @@ export default function Step3() {
             }
           />
           {centerSchedules[gym.name]?.length > 0 && (
-            <CenterScheduleList schedules={centerSchedules[gym.name]} />
+            <TotalCenterSchedules
+              schedules={centerSchedules[gym.name]}
+              onDeleteSchedule={() => console.log(1)}
+            />
           )}
         </div>
       ))}

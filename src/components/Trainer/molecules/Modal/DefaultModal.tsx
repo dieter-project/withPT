@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { DefaultModalProps } from "@/types/trainer/modal";
-import { Icon } from "@/components/trainer/atoms/SvgIcon/SvgIcon";
+import CloseXButton from "@/components/trainer/atoms/Button/CloseXButton";
 
 export const DefaultModalComponent = ({
   title,
@@ -19,9 +19,7 @@ export const DefaultModalComponent = ({
     >
       <ModalHeader>
         {title}
-        <CloseButton onClick={onClose}>
-          <Icon name="closeX" size={18} />
-        </CloseButton>
+        <CloseButton onClick={onClose} size="1rem" top="35%" right="3%" />
       </ModalHeader>
       <ModalContent>{content}</ModalContent>
     </ModalContainer>
@@ -59,7 +57,7 @@ const ModalContainer = styled.div<{
     bottom: 0;
     left: 0;
     width: 100%;
-    height: 95%;
+    height: 100%;
     background: white;
     border-radius: 16px 16px 0 0;
     transform: translateY(0);
@@ -86,14 +84,8 @@ const ModalHeader = styled.div`
   position: relative;
 `;
 
-const CloseButton = styled.button`
-  position: absolute;
-  right: 16px;
-  top: 50%;
+const CloseButton = styled(CloseXButton)`
   transform: translateY(-50%);
-  background: none;
-  border: none;
-  cursor: pointer;
 `;
 
 const ModalContent = styled.div`

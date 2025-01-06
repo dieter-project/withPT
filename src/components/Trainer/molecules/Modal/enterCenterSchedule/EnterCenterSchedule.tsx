@@ -2,10 +2,10 @@ import React, { useState } from "react";
 import Wrapper from "@/components/trainer/molecules/Wrapper/Wrapper";
 import { useHandleCenterSchedule } from "@/hooks/trainer/modal/useEnterCenterSchedule";
 import { EventButton } from "@/components/trainer/atoms/Button/EventButton";
-import { DateAndTimeSelector } from "../dateAndTimeSelector/DateAndTimeSelector";
+import { DateAndTimeSelector } from "../DateAndTimeSelector/DateAndTimeSelector";
 import { isTimeOverlapping } from "@/utils/Trainer/time";
 import { useModal } from "@/context/trainer/ModalContext";
-import { CenterScheduleList } from "@/components/trainer/organisms/CenterScheduleList/CenterSchduleList";
+import { CenterScheduleItemLists } from "@/components/trainer/organisms/CenterScheduleItemLists/CenterScheduleItemLists";
 import { ButtonAreaFixed } from "@/components/trainer/molecules/ButtonAreaFixed/ButtonAreaFixed";
 
 interface EnterCenterScheduleProps {
@@ -110,15 +110,13 @@ export const EnterCenterSchedule: React.FC<EnterCenterScheduleProps> = ({
           event={handleConfirm}
           isIconVisible={true}
           iconType="plusGray"
-          eventButtonType="gray"
           height="3rem"
           justifyContent="center"
         />
       </div>
-      <CenterScheduleList
+      <CenterScheduleItemLists
         schedules={scheduleList}
         onDeleteSchedule={handleRemoveSchedule}
-        variant="list"
       />
       <ButtonAreaFixed
         label="저장하기"

@@ -2,7 +2,7 @@ import { styled } from "styled-components";
 import { CheckRegisterItem } from "@/components/trainer/atoms/Button/CheckRegisterItem";
 import { Icon } from "@/components/trainer/atoms/SvgIcon/SvgIcon";
 
-type ButtonVariant = "purple" | "gray";
+type ButtonVariant = "primary" | "purple75" | "default";
 type IconType = "plusCircleMono" | "plusGray" | "plusPurple";
 type RightContentType = "checkRegister" | "xButton" | "done";
 
@@ -13,7 +13,7 @@ interface EventButtonProps {
   isIconVisible?: boolean;
   content?: React.ReactNode;
   rightContent?: RightContentType;
-  eventButtonType: ButtonVariant;
+  $eventButtonType?: ButtonVariant;
   height?: string;
   justifyContent?: string;
   color?: string;
@@ -52,7 +52,7 @@ export const EventButton = ({
   height,
   justifyContent,
   event,
-  eventButtonType,
+  $eventButtonType = "default",
   xButtonEvent,
   isIconVisible = false,
   iconType,
@@ -67,9 +67,9 @@ export const EventButton = ({
       $height={height}
       $padding={padding}
       $justifyContent={justifyContent}
-      $eventButtonType={eventButtonType}
+      $eventButtonType={$eventButtonType}
       $display={$display}
-      onClick={event}
+      onClick={e => event && event(e)}
     >
       {/* 아이콘 표시 */}
       {isIconVisible && iconType && (
@@ -107,12 +107,25 @@ const ButtonLayout = styled.button<{
   margin-bottom: 0.5rem;
   padding: ${({ $padding }) => $padding || "1.75rem 0.625rem"};
   border: ${({ $eventButtonType }) =>
-    $eventButtonType === "purple" ? "none" : "1px solid var(--font-gray400)"};
+    $eventButtonType === "default" ? "1px solid var(--font-gray400)" : "none"};
   border-radius: 0.5rem;
-  background-color: ${({ $eventButtonType }) =>
-    $eventButtonType === "purple" ? "var(--purple50)" : "none"};
+  background-color: ${({ $eventButtonType }) => {
+    switch ($eventButtonType) {
+      case "primary":
+        return "var(--primary)";
+      case "purple75":
+        return "var(--purple75)";
+      default:
+        return "none";
+    }
+  }};
   height: ${({ $height }) => $height || "auto"};
   font-weight: 500;
-  color: ${({ $color }) => $color || "inherit"};
+  color: ${({ $eventButtonType, $color }) =>
+    $color !== "inherit"
+      ? $color
+      : $eventButtonType === "primary" || $eventButtonType === "purple75"
+      ? "var(--white)"
+      : "var(--font-gray800)"};
   font-size: var(--font-m);
 `;

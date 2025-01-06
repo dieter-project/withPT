@@ -73,7 +73,7 @@ export default function Step4() {
           event={() => openSearchModal()}
           isIconVisible={true}
           iconType="plusPurple"
-          eventButtonType="purple"
+          $eventButtonType="primary"
           height="4rem"
           justifyContent="center"
         />
@@ -86,7 +86,7 @@ export default function Step4() {
           // event={handleConfirm}
           isIconVisible={true}
           iconType="plusPurple"
-          eventButtonType="purple"
+          $eventButtonType="primary"
           height="4rem"
           justifyContent="center"
         />
@@ -99,7 +99,7 @@ export default function Step4() {
           // event={handleConfirm}
           isIconVisible={true}
           iconType="plusPurple"
-          eventButtonType="purple"
+          $eventButtonType="primary"
           height="4rem"
           justifyContent="center"
         />

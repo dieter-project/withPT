@@ -26,6 +26,7 @@ export interface GymsInfo {
   address: string;
   latitude: number;
   longitude: number;
+  address_name?: string;
 }
 
 export interface WorkSchedule {

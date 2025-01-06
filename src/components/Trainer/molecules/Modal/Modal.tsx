@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
-import { CloseBtn } from "@/styles/Trainer/TrainerButton";
 import { styled } from "styled-components";
 import { useModalEffect } from "@/hooks/trainer/modal/useModalEffect";
+import CloseXButton from "@/components/trainer/atoms/Button/CloseXButton";
 import ReactDOM from "react-dom";
 
 const ModalContainer = styled.div`
@@ -22,7 +22,7 @@ const ModalInnerWrap = styled.div.attrs<{ $showModalContent: boolean }>(
 )`
   position: absolute;
   width: 100%;
-  height: 95%;
+  height: 100%;
   background-color: white;
   padding: 1rem;
   border-radius: 1rem 1rem 0 0;
@@ -55,12 +55,6 @@ const ModalHeader = styled.div`
   font-weight: 700;
 `;
 
-const ModalCloseXButton = styled(CloseBtn)`
-  position: absolute;
-  top: 1%;
-  right: 2%;
-`;
-
 const ModalContent = styled.div`
   margin: 3vh 0 2vh 0;
 `;
@@ -89,7 +83,7 @@ export const Modal = ({ title, content, onClose }: ModalProps) => {
         <ModalInnerWrap $showModalContent={showModalContent}>
           <ModalHeader>
             {title}
-            <ModalCloseXButton onClick={onClose} />
+            <CloseXButton onClick={onClose} />
           </ModalHeader>
           <div>
             <ModalContent>

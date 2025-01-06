@@ -8,7 +8,8 @@ interface WrapperProps {
     | "columnCenter"
     | "spaceBetween"
     | "flexStartCenter"
-    | "card";
+    | "card"
+    | "block";
   children: React.ReactNode;
   marginTop?: string;
   marginBottom?: string;
@@ -16,7 +17,8 @@ interface WrapperProps {
   gap?: string;
   borderRadius?: string;
   border?: string;
-  width?: string; // 추가된 width prop
+  width?: string;
+  noWrap?: boolean;
 }
 
 const Wrapper = ({
@@ -29,6 +31,7 @@ const Wrapper = ({
   borderRadius,
   border,
   width = "100%",
+  noWrap = true,
 }: WrapperProps) => {
   return (
     <StyledWrapper
@@ -40,6 +43,7 @@ const Wrapper = ({
       $borderRadius={borderRadius}
       $border={border}
       $width={width}
+      $noWrap={noWrap}
     >
       {children}
     </StyledWrapper>
@@ -55,7 +59,8 @@ const StyledWrapper = styled.div<{
     | "columnCenter"
     | "spaceBetween"
     | "flexStartCenter"
-    | "card";
+    | "card"
+    | "block";
   $marginTop?: string;
   $marginBottom?: string;
   $padding?: string;
@@ -63,8 +68,11 @@ const StyledWrapper = styled.div<{
   $borderRadius?: string;
   $border?: string;
   $width?: string;
+  $noWrap?: boolean;
 }>`
-  display: flex;
+  display: ${({ $type }) => ($type === "block" ? "block" : "flex")};
+  flex-wrap: ${({ $noWrap, $type }) =>
+    $type === "block" || $noWrap ? "nowrap" : "wrap"};
   width: ${({ $width }) => $width || "100%"};
 
   /* 공통 스타일 */
@@ -75,7 +83,6 @@ const StyledWrapper = styled.div<{
     gap: ${$gap || "0"};
   `}
 
-  /* 타입별 스타일 */
   ${({ $type }) => {
     switch ($type) {
       case "columnDefault":
@@ -106,6 +113,10 @@ const StyledWrapper = styled.div<{
           padding: 1rem;
           box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
         `;
+      case "block":
+        return css`
+          display: block;
+        `;
       default:
         return css`
           justify-content: flex-start;
@@ -114,7 +125,6 @@ const StyledWrapper = styled.div<{
     }
   }}
 
-  /* 추가 스타일 */
   ${({ $borderRadius, $border }) => css`
     border-radius: ${$borderRadius || "0"};
     border: ${$border || "none"};
