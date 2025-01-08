@@ -11,8 +11,9 @@ import {
   LogoWrap,
 } from "./style";
 import Image from "next/image";
-import { api } from "@/utils/axios";
 import { useRouter } from "next/navigation";
+import axios from "axios";
+import { setCookie } from "@/utils/cookie";
 
 const page = () => {
   const route = useRouter();
@@ -26,12 +27,29 @@ const page = () => {
 
   const handleEmailLogin = async () => {
     try {
-      const response = await api.post("/api/v1/auth/login", {
-        email: "member@test.com",
-        password: "member1234",
-        role: "MEMBER",
-      });
-      if (response.status === 200) route.replace("/member/main");
+      const response = await axios.post(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/v1/auth/login`,
+        {
+          email: "member@test.com",
+          password: "member1234",
+          role: "MEMBER",
+        },
+        {
+          headers: {
+            "Cache-Control": "no-cache",
+            "Content-Type": "application/json",
+            "Access-Control-Allow-Origin": "*",
+            withCredentials: true,
+          },
+        },
+      );
+      if (response.status === 200) {
+        const accessToken = response.data.data.loginInfo.accessToken;
+        const refreshToken = response.data.data.loginInfo.refreshToken;
+        setCookie('access',accessToken)
+        setCookie('refreshToken',refreshToken)
+        route.replace("/member/main");
+      }
     } catch (err) {}
   };
 
