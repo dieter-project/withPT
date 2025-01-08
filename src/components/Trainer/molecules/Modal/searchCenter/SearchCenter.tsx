@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback } from "react";
 import _ from "lodash";
 import { styled } from "styled-components";
 import { PlaceInfo } from "@/model/trainer/signUp";
-import SearchBar from "@/components/trainer/molecules/SearchBar/SearchBar";
+import SearchBar from "@/components/trainer/molecules/SearchBar/SearchBarInput";
 import PlaceList from "./PlaceList";
 import NoResultMessage from "./NoResultMessage";
 import { useKakaoMap } from "@/context/trainer/KaKaoMapContext";

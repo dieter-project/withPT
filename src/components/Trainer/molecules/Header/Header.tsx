@@ -13,6 +13,10 @@ interface PageHeaderProps {
 }
 
 const StyledHeader = styled.header<{ $variant?: HeaderVariant }>`
+  display: flex;
+  align-items: center;
+  justify-content: ${({ $variant }) =>
+    $variant === "center" ? "center" : "space-between"};
   position: fixed;
   top: 0;
   left: 0;
@@ -21,19 +25,6 @@ const StyledHeader = styled.header<{ $variant?: HeaderVariant }>`
   height: 4.4rem;
   padding: 0 1.3rem;
   background-color: white;
-  display: flex;
-  align-items: center;
-  justify-content: ${({ $variant }) =>
-    $variant === "center" ? "center" : "space-between"};
-`;
-
-const BackButton = styled.button`
-  width: 1.5rem;
-  height: 1.5rem;
-  padding: 0;
-  background: none;
-  border: none;
-  cursor: pointer;
 `;
 
 const Spacer = styled.div`
@@ -76,7 +67,11 @@ export const PageHeader = ({
 
   const renderCenter = () => {
     if (variant !== "logo") {
-      return <Typography variant="title2">{title}</Typography>;
+      return (
+        <Typography variant="title3" fw={600}>
+          {title}
+        </Typography>
+      );
     }
     return null;
   };

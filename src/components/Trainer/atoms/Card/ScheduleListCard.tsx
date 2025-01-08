@@ -1,10 +1,12 @@
 import React from "react";
 import styled from "styled-components";
 import { Typography } from "@/components/trainer/atoms/Typography/TypoGraphy.styles";
+import Wrapper from "@/components/trainer/molecules/Wrapper/Wrapper";
+import { formatDays } from "@/utils/Trainer/dateUtil";
 import CloseXButton from "@/components/trainer/atoms/Button/CloseXButton";
 
 interface ScheduleListCardProps {
-  days: string;
+  days: string[];
   startTime: string;
   endTime: string;
   onDelete: () => void;
@@ -17,25 +19,27 @@ export const ScheduleListCard = ({
   onDelete,
 }: ScheduleListCardProps) => {
   return (
-    <CardWrapper>
-      <div>
-        <Typography variant="heading2">{days}</Typography>
-      </div>
-      <div>
-        <Typography variant="heading2">
-          {startTime} ~ {endTime}
-        </Typography>
-      </div>
-      <CloseXButton onClick={onDelete} top="10%" right="3%" />
-    </CardWrapper>
+    <div style={{ position: "relative" }}>
+      <Wrapper
+        type="flexStartCenter"
+        border="1px solid var(--border-darkgray)"
+        borderRadius="0.5rem"
+        padding="1rem"
+        gap="0.5rem"
+        marginBottom="1rem"
+      >
+        <div style={{ width: "50%" }}>
+          <Typography ls={1} variant="heading2">
+            {formatDays(days)}
+          </Typography>
+        </div>
+        <div>
+          <Typography variant="heading2">
+            {startTime} ~ {endTime}
+          </Typography>
+        </div>
+        <CloseXButton onClick={onDelete} size="1rem" top="12%" right="3%" />
+      </Wrapper>
+    </div>
   );
 };
-
-const CardWrapper = styled.div`
-  position: relative;
-  display: flex;
-  box-sizing: border-box;
-  border: 1px solid var(--border-darkgray);
-  border-radius: 0.5rem;
-  padding: 0.5rem;
-`;

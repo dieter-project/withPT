@@ -17,7 +17,9 @@ export const ScheduleItemCard = ({
   return (
     <CardWrapper>
       <div>
-        <Typography variant="heading2">{day}</Typography>
+        <Typography variant="heading2" ls={1}>
+          {day}
+        </Typography>
       </div>
       <div>
         <Typography variant="heading2">{time}</Typography>

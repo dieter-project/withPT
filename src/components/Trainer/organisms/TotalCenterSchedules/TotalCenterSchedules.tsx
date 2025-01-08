@@ -15,15 +15,16 @@ export const TotalCenterSchedules = ({
   onDeleteSchedule,
 }: ScheduleListProps) => {
   return (
-    <div>
+    <>
       {schedules.map((schedule, index) => (
         <ScheduleListCard
+          key={index}
           days={schedule.days}
           startTime={schedule.startTime}
           endTime={schedule.endTime}
           onDelete={() => onDeleteSchedule(index)}
         />
       ))}
-    </div>
+    </>
   );
 };

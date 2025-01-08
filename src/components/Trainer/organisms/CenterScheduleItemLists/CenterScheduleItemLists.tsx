@@ -1,6 +1,7 @@
 import Wrapper from "@/components/trainer/molecules/Wrapper/Wrapper";
 import { Typography } from "@/components/trainer/atoms/Typography/TypoGraphy.styles";
 import { ScheduleItemCard } from "@/components/trainer/atoms/Card/ScheduleItemCard";
+import { formatDays } from "@/utils/Trainer/dateUtil";
 
 interface ScheduleItem {
   days: string[];
@@ -18,15 +19,6 @@ export const CenterScheduleItemLists = ({
   onDeleteSchedule,
 }: CenterScheduleListProps) => {
   if (!schedules || schedules.length === 0) return null;
-
-  const dayOrder = ["월", "화", "수", "목", "금", "토", "일"];
-
-  const formatDays = (days: string[]) => {
-    const sortedDays = [...days].sort(
-      (a, b) => dayOrder.indexOf(a) - dayOrder.indexOf(b),
-    );
-    return sortedDays.join("/");
-  };
 
   return (
     <>

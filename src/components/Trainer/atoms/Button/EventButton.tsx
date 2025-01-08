@@ -2,7 +2,7 @@ import { styled } from "styled-components";
 import { CheckRegisterItem } from "@/components/trainer/atoms/Button/CheckRegisterItem";
 import { Icon } from "@/components/trainer/atoms/SvgIcon/SvgIcon";
 
-type ButtonVariant = "primary" | "purple75" | "default";
+type ButtonVariant = "primary" | "purple50" | "purple75" | "default";
 type IconType = "plusCircleMono" | "plusGray" | "plusPurple";
 type RightContentType = "checkRegister" | "xButton" | "done";
 
@@ -113,6 +113,8 @@ const ButtonLayout = styled.button<{
     switch ($eventButtonType) {
       case "primary":
         return "var(--primary)";
+      case "purple50":
+        return "var(--purple50)";
       case "purple75":
         return "var(--purple75)";
       default:
@@ -124,7 +126,9 @@ const ButtonLayout = styled.button<{
   color: ${({ $eventButtonType, $color }) =>
     $color !== "inherit"
       ? $color
-      : $eventButtonType === "primary" || $eventButtonType === "purple75"
+      : $eventButtonType === "primary" ||
+        $eventButtonType === "purple50" ||
+        $eventButtonType === "purple75"
       ? "var(--white)"
       : "var(--font-gray800)"};
   font-size: var(--font-m);

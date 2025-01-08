@@ -9,7 +9,7 @@ interface SearchBarProps {
   onSubmit?: (e: React.FormEvent<HTMLFormElement>) => void;
 }
 
-const SearchBar: React.FC<SearchBarProps> = ({
+const SearchBarInput: React.FC<SearchBarProps> = ({
   value,
   placeholder = "검색",
   onChange,
@@ -34,7 +34,7 @@ const SearchBar: React.FC<SearchBarProps> = ({
     <form onSubmit={onSubmit}>
       <SearchBarWrap>
         {!value && <Icon name="search" size={24} />}
-        <SearchBarInput
+        <SearchInput
           type="text"
           placeholder={placeholder}
           value={value}
@@ -50,7 +50,7 @@ const SearchBar: React.FC<SearchBarProps> = ({
   );
 };
 
-export default SearchBar;
+export default SearchBarInput;
 
 const SearchBarWrap = styled.div`
   width: 100%;
@@ -63,7 +63,7 @@ const SearchBarWrap = styled.div`
   position: relative;
 `;
 
-const SearchBarInput = styled.input`
+const SearchInput = styled.input`
   width: 100%;
   display: inline-block;
   border: none;

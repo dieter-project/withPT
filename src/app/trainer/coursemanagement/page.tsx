@@ -4,9 +4,8 @@ import styled from "styled-components";
 import Link from "next/link";
 import Image from "next/image";
 import { TrainerLayout } from "@/app/trainer/layout";
-import { Button, IconButton } from "@/styles/Trainer/TrainerButton";
-import ContentHeader from "@/components/trainer/molecules/Header/Header";
-import Footer from "@/components/trainer/organisms/Footer/TrainerFooter";
+import { EventButton } from "@/components/trainer/atoms/Button/EventButton";
+import Wrapper from "@/components/trainer/molecules/Wrapper/Wrapper";
 import "react-calendar/dist/Calendar.css";
 import arrowCircleUnderGray from "public/Trainer/icons/arrowCircleUnderGray.png";
 import purplePlusIcon from "public/Trainer/icons/plusIconWhite.png";
@@ -16,7 +15,6 @@ import redMinusIcon from "public/Trainer/icons/minusIconRed.png";
 import ModalCloseXButtonImg from "public/Trainer/Modal/close-line.png";
 import Calendar from "../coursemanagement/calendar/page";
 import { api } from "@/utils/axios";
-import { BaseContentWrap, ButtonAreaFixed } from "@/styles/Layout";
 
 const MainTopContent = styled.div`
   background-color: white;
@@ -287,28 +285,30 @@ export default function ManageMain() {
       bgColor="primary"
     >
       <>
-        <ButtonRegionWrap>
-          <Button
-            $variant="primary"
-            height="3.5rem"
-            style={{ marginRight: "1rem" }}
+        <Wrapper type="spaceBetween" marginBottom="1.5rem">
+          <EventButton
+            $eventButtonType="primary"
+            // height="3.5rem"
+            // style={{ marginRight: "1rem" }}
           >
-            <ButtonInnerRegion>
-              <Link href="/trainer/coursemanagement/courseregister">
-                <ButtonIcon src={purplePlusIcon} alt="플러스 아이콘" />
-                <span>신규수업 등록</span>
-              </Link>
-            </ButtonInnerRegion>
-          </Button>{" "}
-          <Button $variant="outlinepurple" height="3.5rem">
+            <Link href="/trainer/coursemanagement/courseregister">
+              <ButtonIcon src={purplePlusIcon} alt="플러스 아이콘" />
+              <span>신규수업 등록</span>
+            </Link>
+          </EventButton>{" "}
+          <EventButton
+            $variant="default"
+            border="1px solid var(--primary)"
+            height="3.5rem"
+          >
             <ButtonInnerRegion>
               <Link href="/trainer/membermanagement/member/regist">
                 <ButtonIcon src={purpleExcalmiIcon} alt="플러스 아이콘" />
                 <span>대기 수업</span> <span>5</span>
               </Link>
             </ButtonInnerRegion>
-          </Button>
-        </ButtonRegionWrap>
+          </EventButton>
+        </Wrapper>
 
         <PickedCenterButton onClick={toggleModal}>
           <span>{pickedCenter}</span>

@@ -11,7 +11,7 @@ export const SignupTitleWrapper = ({
 }: SignupTitleType) => {
   return (
     <div style={{ marginBottom: "1.5rem" }}>
-      <Typography variant="title1" fw={600}>
+      <Typography variant="title3" fw={600}>
         {topTitle}
       </Typography>
       <div>
