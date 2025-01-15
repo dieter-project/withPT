@@ -25,6 +25,9 @@ import {
 import { getChatRooms } from "@/services/member/chat";
 import { reqGetMemberInfo } from "@/services/member/member";
 import { PtInfos } from "@/types/member/member";
+import SockJS from "sockjs-client";
+import { Client, Stomp } from "@stomp/stompjs";
+import { getCookie } from "@/utils/cookie";
 
 interface ChatRooms {
   roomId: number;
@@ -44,6 +47,32 @@ const page = () => {
 
   const router = useRouter();
   const title = "채팅";
+
+  let client;
+
+  const connect = () => {
+    const socket = new SockJS(process.env.NEXT_PUBLIC_API_URL || "");
+    client = new Client({
+      webSocketFactory: () => socket,
+      onConnect: () => {
+        client!.subscribe(`/chat/sendMessage`);
+        console.log("소켓이 연결되었습니다.");
+      },
+      onStompError: frame => {
+        console.error("Broker reported error: " + frame.headers["message"]);
+        console.error("Additional details: " + frame.body);
+      },
+      onWebSocketClose: () => {
+        console.log("소켓 연결이 끊어졌습니다. 재연결을 시도합니다...");
+      },
+      reconnectDelay: 5000,
+      heartbeatIncoming: 4000,
+      heartbeatOutgoing: 4000,
+    });
+    client.activate();
+  };
+
+  const token = getCookie("access");
 
   const getMemberInfo = async () => {
     const {
@@ -65,6 +94,7 @@ const page = () => {
   useEffect(() => {
     handleGetChats();
     getMemberInfo();
+    connect();
   }, []);
 
   return (
