@@ -33,6 +33,7 @@ export const ChatTrainerList = styled.li`
   justify-content: space-between;
   /* border-top: 1px solid var(--border-gray300); */
   padding: 1rem 0.625rem;
+  cursor: pointer;
   
   &:last-of-type {
     border-bottom: 1px solid var(--border-gray300);

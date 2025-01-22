@@ -2,7 +2,6 @@
 
 import { LabelTitle } from "@/styles/Text";
 import React, { useEffect, useState } from "react";
-import styled from "styled-components";
 import Plus from "../../../../public/svgs/icon_plus.svg";
 import { useRouter } from "next/navigation";
 import ChatHeader from "@/components/member/chat/ChatHeader";
@@ -22,11 +21,9 @@ import {
   NewChatButton,
   ProfileCircle,
 } from "./style";
-import { getChatRooms } from "@/services/member/chat";
+import { reqGetChatRooms, reqPostChatRoom } from "@/services/member/chat";
 import { reqGetMemberInfo } from "@/services/member/member";
 import { PtInfos } from "@/types/member/member";
-import SockJS from "sockjs-client";
-import { Client, Stomp } from "@stomp/stompjs";
 import { getCookie } from "@/utils/cookie";
 
 interface ChatRooms {
@@ -48,30 +45,6 @@ const page = () => {
   const router = useRouter();
   const title = "채팅";
 
-  let client;
-
-  const connect = () => {
-    const socket = new SockJS(process.env.NEXT_PUBLIC_API_URL || "");
-    client = new Client({
-      webSocketFactory: () => socket,
-      onConnect: () => {
-        client!.subscribe(`/chat/sendMessage`);
-        console.log("소켓이 연결되었습니다.");
-      },
-      onStompError: frame => {
-        console.error("Broker reported error: " + frame.headers["message"]);
-        console.error("Additional details: " + frame.body);
-      },
-      onWebSocketClose: () => {
-        console.log("소켓 연결이 끊어졌습니다. 재연결을 시도합니다...");
-      },
-      reconnectDelay: 5000,
-      heartbeatIncoming: 4000,
-      heartbeatOutgoing: 4000,
-    });
-    client.activate();
-  };
-
   const token = getCookie("access");
 
   const getMemberInfo = async () => {
@@ -83,18 +56,24 @@ const page = () => {
 
   const handleGetChats = async () => {
     try {
-      const response = await getChatRooms();
       const {
         data: { data },
-      } = response;
+      } = await reqGetChatRooms();
+      console.log("data: ", data);
       setChatRooms(data.roomList);
+    } catch (error) {}
+  };
+
+  const handleCreateChatRoom = async (id: number) => {
+    try {
+      const response = await reqPostChatRoom({ id });
+      if (response.status === 200) handleGetChats();
     } catch (error) {}
   };
 
   useEffect(() => {
     handleGetChats();
     getMemberInfo();
-    connect();
   }, []);
 
   return (
@@ -127,7 +106,9 @@ const page = () => {
                           </ChatTrainerListInfo>
                         </div>
                         <div>
-                          <NewChatButton>
+                          <NewChatButton
+                            onClick={() => handleCreateChatRoom(pt.trainer.id)}
+                          >
                             <Plus
                               fill="#6C69FF"
                               width="0.75rem"
