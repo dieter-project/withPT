@@ -4,18 +4,18 @@ import styled from "styled-components";
 import Link from "next/link";
 import Image from "next/image";
 import moment from "moment";
-import { Button, IconButton } from "@/styles/TrainerButton";
-import { ListButton } from "@/styles/TrainerButton";
+import { Button, IconButton } from "@/styles/Trainer/TrainerButton";
+import { ListButton } from "@/styles/Trainer/TrainerButton";
 import {
   SearchBarWrap,
   SearchIcon,
   SearchBarInput,
-} from "@/styles/TrainerSearchBar";
-import Footer from "@/components/TrainerFooter";
+} from "@/styles/Trainer/TrainerSearchBar";
+import { ButtonAreaFixed } from "@/components/trainer/molecules/ButtonAreaFixed/ButtonAreaFixed";
 import { startOfWeek, addDays, format } from "date-fns";
 import "react-calendar/dist/Calendar.css";
 import searchIcon from "../../../../../public/Trainer/icons/searchLightGray.png";
-import ContentHeader from "@/components/TrainerPageTitle";
+import ContentHeader from "@/components/trainer/molecules/Header/Header";
 import purplePlusIcon from "../../../../../public/Trainer/icons/plusIconWhite.png";
 import purpleCheckIcon from "../../../../../public/Trainer/icons/checkIconPurple.png";
 import purpleExcalmiIcon from "../../../../../public/Trainer/icons/exclamationPurple.png";

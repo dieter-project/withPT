@@ -8,7 +8,7 @@ import {
   SearchBarWrap,
   SearchIcon,
   SearchBarInput,
-} from "@/styles/TrainerSearchBar";
+} from "@/styles//Trainer/TrainerSearchBar";
 import searchIcon from "../../../../../public/Trainer/icons/searchLightGray.png";
 import beforePage from "../../../../../public/icons/beforePage.png";
 import settingTabBeforeImg from "../../../../../public/Trainer/Header/settingTabBeforeRegion.png";
@@ -237,7 +237,7 @@ export default function ManageMember() {
   const getResponseTest = async () => {
     try {
       const response = await api.get(
-        `/api/v1/gyms/19/personal-trainings/members/waiting`,
+        `/api/v1/gyms/2/personal-trainings/members/waiting`,
       );
       const responseStatus = response.data.status;
       const responseData = response.data;

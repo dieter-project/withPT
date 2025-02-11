@@ -19,9 +19,12 @@
         "name": "next"
       }
     ],
+    "baseUrl": ".",
     "paths": {
-      "@/*": ["./src/*"]
-    }
+      "@/*": ["./src/*"],
+      "public/*": ["public/*"]
+    },
+    "types": ["kakao.maps.d.ts"]
   },
   "include": [
     "next-env.d.ts",
@@ -33,7 +36,8 @@
     "public/firebase-messaging-sw.js",
     "src/utils/pushNotification.js",
     "src/lib/firebase.js",
-    "src/lib/firebase.js"
+    "src/lib/firebase.js",
+    "src/lib/kakaoApi.js"
   ],
   "exclude": ["node_modules"]
 }

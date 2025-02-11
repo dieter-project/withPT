@@ -1,9 +1,8 @@
 "use client";
 import React, { useEffect } from "react";
 import Link from "next/link";
+import PageTitle from "@/components/PageTitle";
 import { BaseContentWrap } from "@/styles/Layout";
-import { useSession, signIn, signOut } from "next-auth/react";
-import WePTLogo from "../../../../public/icons/weptLogo.png";
 import {
   GoogleLoginButton,
   KakaoLoginButton,
@@ -11,6 +10,7 @@ import {
   LogoWrap,
   WePTLogoImg,
 } from "./style";
+import WePTLogo from "public/icons/weptLogo.png";
 
 const page = () => {
   const onGoogleSocialLogin = (): any => {
@@ -20,23 +20,16 @@ const page = () => {
     window.location.href = googleURL;
   };
 
-  const switchToTrainer = () => {
-    // 트레이너로 전환될 때 whitelist에 trainer, trainersignup 추가
-    persistor.persist().then(() => {
-      persistor.updateRehydratedNames(["trainer", "trainersignup"]);
-    });
-    // 추가적으로 필요한 작업 수행
-  };
-
   return (
     <>
+      <PageTitle title="" />
       <BaseContentWrap>
         <LogoWrap>
           <WePTLogoImg
             src={WePTLogo}
-            alt="위피티 메인 로고"
             width={96}
             height={138}
+            alt="위피티 메인 로고"
           />
         </LogoWrap>
         <LoginButtonWrap>
@@ -48,9 +41,6 @@ const page = () => {
           <GoogleLoginButton onClick={onGoogleSocialLogin}>
             Google로 시작하기
           </GoogleLoginButton>
-          <div className="login">
-            <Link href="/">문의하기</Link>
-          </div>
         </LoginButtonWrap>
       </BaseContentWrap>
     </>

@@ -1,34 +1,15 @@
 "use client";
+
+import React from "react";
+import { TrainerLayout } from "@/app/trainer/layout";
 import { useState, useEffect } from "react";
+import { api } from "@/utils/axios";
 import styled from "styled-components";
 import Link from "next/link";
-import { Button } from "@/styles/TrainerButton";
-import { ListButton } from "@/styles/TrainerButton";
-import Footer from "@/components/TrainerFooter";
+import ContentHeader from "@/components/trainer/molecules/Header/Header";
+import { Button } from "@/styles/Trainer/TrainerButton";
+import { ListButton } from "@/styles/Trainer/TrainerButton";
 import { startOfWeek, addDays, format } from "date-fns";
-import { api } from "@/utils/axios";
-
-const MainContainer = styled.div`
-  background-color: #ffffff;
-  min-height: 100vh;
-`;
-
-const MainHeader = styled.header`
-  position: fixed;
-  width: 100%;
-  left: 0;
-  top: 0;
-  line-height: 3.63rem;
-  background-color: #ffffff;
-  z-index: 100;
-  text-align: center;
-  font-weight: 600;
-  font-size: var(--font-xl);
-`;
-
-const MainContentWrap = styled.div`
-  padding: 5rem 1.5rem 6.2rem;
-`;
 
 const RegisNewMember = styled(Link)`
   display: block;
@@ -107,6 +88,7 @@ const ScheduleLink = styled(Link)`
 `;
 
 export default function ManageMain() {
+  const title = "회원관리";
   const today = new Date();
   const [startDate, setStartDate] = useState(startOfWeek(today));
   const endDate = addDays(startDate, 13);
@@ -130,45 +112,45 @@ export default function ManageMain() {
   }, []);
 
   return (
-    <MainContainer>
-      <MainHeader>회원 관리</MainHeader>
-      <MainContentWrap>
-        <Link href="/trainer/membermanagement/member/register">
-          {" "}
-          <Button variant="primary" height="3.5rem">
-            신규 회원 등록하기
-          </Button>
-        </Link>
-        <ManageMemberWrap>
-          <ManageTitleWrap>
-            <div>
-              <ManageTitle>회원관리</ManageTitle>
-              <ManageTitlesubTxt>총 인원수 : 31명</ManageTitlesubTxt>
-            </div>
-            <ManageTitleDate>2023.11월</ManageTitleDate>
-          </ManageTitleWrap>
+    <TrainerLayout
+      title={title}
+      hasHeader={true}
+      hasFooter={true}
+      variant={undefined}
+    >
+      <Link href="/trainer/membermanagement/member/register">
+        <Button $variant="primary" height="3.5rem">
+          신규 회원 등록하기
+        </Button>
+      </Link>
+      <ManageMemberWrap>
+        <ManageTitleWrap>
+          <div>
+            <ManageTitle>회원관리</ManageTitle>
+            <ManageTitlesubTxt>총 인원수 : 31명</ManageTitlesubTxt>
+          </div>
+          <ManageTitleDate>2023.11월</ManageTitleDate>
+        </ManageTitleWrap>
 
-          <Link href="/trainer/membermanagement/member">
-            <ListButton>
-              <CenterName>아자 아자 피트니스 센터</CenterName>
-              <MemberNum>5명</MemberNum>
-            </ListButton>
-          </Link>
-          <Link href="#!">
-            <ListButton>
-              <CenterName>으라차차 피트니스 센터</CenterName>
-              <MemberNum>5명</MemberNum>
-            </ListButton>
-          </Link>
-          <Link href="#!">
-            <ListButton>
-              <CenterName>득근득근 피트니스 센터</CenterName>
-              <MemberNum>5명</MemberNum>
-            </ListButton>
-          </Link>
-        </ManageMemberWrap>
-      </MainContentWrap>
-      <Footer />
-    </MainContainer>
+        <Link href="/trainer/membermanagement/member">
+          <ListButton>
+            <CenterName>아자 아자 피트니스 센터</CenterName>
+            <MemberNum>5명</MemberNum>
+          </ListButton>
+        </Link>
+        <Link href="#!">
+          <ListButton>
+            <CenterName>으라차차 피트니스 센터</CenterName>
+            <MemberNum>5명</MemberNum>
+          </ListButton>
+        </Link>
+        <Link href="#!">
+          <ListButton>
+            <CenterName>득근득근 피트니스 센터</CenterName>
+            <MemberNum>5명</MemberNum>
+          </ListButton>
+        </Link>
+      </ManageMemberWrap>
+    </TrainerLayout>
   );
 }

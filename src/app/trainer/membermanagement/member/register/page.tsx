@@ -1,13 +1,14 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { api } from "@/utils/axios";
 import styled from "styled-components";
 import Link from "next/link";
 import { startOfWeek, addDays, format } from "date-fns";
 import Image from "next/image";
 import arrowRightIcon from "../../../../../../public/Trainer/icons/arrowRightGray.png";
-import ContentHeader from "@/components/TrainerPageTitle";
-import { ListButton } from "@/styles/TrainerButton";
-import Footer from "@/components/TrainerFooter";
+import ContentHeader from "@/components/trainer/molecules/Header/Header";
+import { ListButton } from "@/styles/Trainer/TrainerButton";
+import Footer from "@/components/trainer/organisms/Footer/TrainerFooter";
 
 const MainContainer = styled.div`
   background-color: #ffffff;
@@ -57,16 +58,35 @@ const ArrowRightIcon = styled(Image)`
 
 export default function MemberRegist() {
   const title = "신규회원 등록";
+
+  const getResponseTest = async () => {
+    try {
+      const response = await api.get(`/api/v1/gyms/personal-trainings`);
+      const responseStatus = response.data.status;
+      const responseData = response.data;
+      console.log("통신 결과", responseData);
+      if (responseStatus === "success") {
+        console.log(responseData);
+      }
+    } catch (error) {
+      console.log("error fetching", error);
+    }
+  };
+
+  useEffect(() => {
+    getResponseTest();
+  }, []);
+
   return (
     <MainContainer>
-      <ContentHeader title={title} variant="iconBack"></ContentHeader>
+      <ContentHeader title={title} variant="withBack"></ContentHeader>
       <ManageContentWrap>
         <ManageMemberWrap>
           <ManageTitleWrap>
             <ManageTitle>센터 목록</ManageTitle>
           </ManageTitleWrap>
 
-          <Link href="/trainer/membermanagement/member/regist/search">
+          <Link href="/trainer/membermanagement/member/register/search">
             <ListButton>
               <CenterName>아자 아자 피트니스 센터</CenterName>
               <ArrowRightIcon

@@ -7,11 +7,15 @@ import {
 import member from "./reducers/memberSlice";
 import trainer from "./reducers/trainerSlice";
 import trainerSignup from "./reducers/trainerSignupSlice";
+
 import signup from "./reducers/signupSlice";
 import workoutRecord from "./reducers/workoutRecordSlice";
 import storage from "redux-persist/lib/storage/session";
 import { persistReducer, persistStore } from "redux-persist";
 import createWebStorage from "redux-persist/es/storage/createWebStorage";
+import modal from "./reducers/trainer/modalSlice";
+import signupFormSlice from "./reducers/trainer/signupFormSlice";
+import spinner from "./reducers/trainer/spinnerSlice";
 
 // const createNoopStorage = () => {
 //   return {
@@ -46,6 +50,9 @@ const rootReducer = combineReducers({
   // workoutRecord,
   trainer,
   trainerSignup,
+  modal,
+  spinner,
+  signupFormSlice,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

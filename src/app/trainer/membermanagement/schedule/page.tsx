@@ -5,7 +5,7 @@ import { format } from "date-fns";
 import ko from "date-fns/locale/ko";
 import { useState, useEffect } from "react";
 import tabBar from "../../public/tabBar.png";
-import Footer from "../../../../components/TrainerFooter";
+import Footer from "../../../../components/trainer/organisms/Footer/TrainerFooter";
 
 const MainContainer = styled.div`
   background-color: #efefef;
