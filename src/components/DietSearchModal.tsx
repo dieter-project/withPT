@@ -3,7 +3,7 @@ import { Input } from '@/styles/Input'
 import React, { SetStateAction } from 'react'
 import { styled } from 'styled-components'
 
-const MealSearchModalWrap = styled.div`
+const DietSearchModalWrap = styled.div`
   .container {
     width: 100%;
     height: 90vh;
@@ -51,7 +51,7 @@ const ListTop = styled.div`
   }
 `
 
-const RecentRegistMealList = styled.ul`
+const RecentRegistDietList = styled.ul`
   display: flex;
   gap: 0.625rem;
   margin-top: 1.25rem;
@@ -77,7 +77,7 @@ const RecentRegistMealList = styled.ul`
   }
   `
 
-const RecentSearchtMealList = styled.ul`
+const RecentSearchtDietList = styled.ul`
   li {
     width: 100%;
     display: flex;
@@ -103,7 +103,7 @@ const RecentSearchtMealList = styled.ul`
 
 export const MealSearchModal = ({ setSearchOpen } : { setSearchOpen: React.Dispatch<SetStateAction<boolean>>}) => {
   return (
-    <MealSearchModalWrap>
+    <DietSearchModalWrap>
       <div className='container'>
         <div>음식 종류 검색</div>
         <div>
@@ -152,12 +152,12 @@ export const MealSearchModal = ({ setSearchOpen } : { setSearchOpen: React.Dispa
                     <CloseBtn/>
                   </div>
                 </li>
-              </RecentSearchtMealList>
+              </RecentSearchtDietList>
             </div>
           </div>
         </div>
       </div>
       <div className='mask' onClick={() => setSearchOpen(false)}></div>
-    </MealSearchModalWrap>
+    </DietSearchModalWrap>
   )
 }

@@ -1,10 +1,10 @@
 "use client";
 
 import { MonthlyModal } from '@/components/MonthlyModal';
-import PageTitle from '@/components/PageTitle';
+import PageHeader from '@/components/PageHeader';
 import WorkoutList from '@/components/member/WorkoutList';
 import { useAppSelector } from '@/redux/hooks';
-import { WorkoutPayload, workoutRecordActions } from '@/redux/reducers/workoutRecordSlice';
+import { workoutRecordActions } from '@/redux/reducers/workoutRecordSlice';
 import { AddImgButton } from '@/styles/AddButton';
 import { Button } from '@/styles/Button';
 import { FileInput } from '@/styles/Input';
@@ -14,61 +14,11 @@ import { api } from '@/utils/axios';
 import { format } from 'date-fns';
 import { ko } from 'date-fns/locale';
 import { useRouter } from 'next/navigation';
-import React, { ChangeEvent, useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { useDispatch } from 'react-redux';
-import { styled } from 'styled-components'
-
-const DateText = styled(LabelTitle)`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 1.5rem;
-  cursor: pointer;
-  &::before {
-    content: "";
-    display: block;
-    width: 1.25rem;
-    height: 1.25rem;
-    background: url(/svgs/icon_workout.svg) no-repeat;
-    background-position: center;
-    margin-right: 4px;
-  }
-`;
-
-const AddRecordButton = styled.button`
-  width: 100%;
-  height: 110px;
-  background: url(/assets/plus.png) no-repeat;
-  background-color: var(--purple50);
-  background-position: center;
-  border-radius: 0.5rem;
-`;
-
-const ButtonWrap = styled.div`
-  display: flex;
-  gap: 0.5rem;
-`;
-
-const WorkoutImgList = styled.ul`
-  li {
-    width: 150px;
-    height: 150px;
-    border-radius: 0.5rem;
-    position: relative;
-
-    img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-
-    button {
-      position: absolute;
-      top: 0.625rem;
-      right: 0.625rem;
-    }
-  }
-`;
+import { AddRecordButton, ButtonWrap, DateText, WorkoutImgList } from './style';
+import { postExercise } from '@/services/member/exercise';
+import { WorkoutPayload } from '@/types/member/record';
 
 type ValuePiece = Date | null;
 type Value = ValuePiece | [ValuePiece, ValuePiece];
@@ -84,6 +34,7 @@ const page = () => {
 
   const router = useRouter();
   const states = useAppSelector((state) => state.workoutRecord)
+  console.log('states: ', states);
   const dispatch = useDispatch();
   const fileRef = useRef<null | HTMLInputElement>(null);
 
@@ -121,7 +72,6 @@ const page = () => {
   };
 
   const handleChangeFile = (e: React.ChangeEvent<HTMLInputElement>) => {
-    // console.log('e: ', e.target.files);
     if (e.target.files) {
       const fileArray = Array.from(e.target.files)
       setFiles([...files, ...fileArray])
@@ -130,17 +80,17 @@ const page = () => {
 
   const handleSubmit = async () => {
     const formData = new FormData();
-    const blobData = new Blob([JSON.stringify(files)], {type: 'application/json'})
-    
-    formData.append('dto', JSON.stringify(todayWorkout))
-    // files.forEach((file, index) => {
-    //   formData.append(`file${index+1}`, file)
-    // })
+    const blob = new Blob([JSON.stringify(todayWorkout)], {
+      type: 'application/json',
+    });
+    formData.append('request', blob)
     formData.append('files', JSON.stringify(files))
-    console.log('formData: ', formData);
     if (states) {
-      const response = await api.post('/api/v1/members/exercise', formData)
-      console.log('response: ', response);
+      const response = await postExercise(formData)
+      if (response.status === 200) {
+        dispatch(workoutRecordActions.workoutStateReset());
+        router.push('/member/record/workout')
+      }
     } else {
       alert('등록된 기록이 없습니다.')
       return
@@ -156,10 +106,7 @@ const page = () => {
     if (states) {
       setTodayWorkout([...todayWorkout, ...states]);
     }
-
-    return () => {
-      dispatch(workoutRecordActions.workoutStateReset());
-    };
+    // dispatch(workoutRecordActions.workoutStateReset());
   }, []);
 
   return (
@@ -173,7 +120,7 @@ const page = () => {
           setActiveDate={setActiveDate}
         />
       )}
-      <PageTitle title={title} />
+      <PageHeader back={true} title={title} />
       <BaseContentWrap>
         <DateText onClick={handleDateChange}>{dateText(recordDate)}</DateText>
         <ContentSection>
@@ -184,7 +131,7 @@ const page = () => {
               <p>아직 등록된 운동이 없어요</p> */}
             </AddRecordButton>
             : <>
-              <WorkoutList workout={todayWorkout}/>
+              <WorkoutList workout={todayWorkout} />
               <AddRecordButton
                 onClick={handleAddWorkout}
                 style={{
@@ -204,8 +151,8 @@ const page = () => {
               </li>
             </WorkoutImgList>
             : <>
-            <AddImgButton onClick={() => fileRef.current?.click()}></AddImgButton>
-            <FileInput type="file" ref={fileRef} onChange={handleChangeFile} multiple/>
+              <AddImgButton onClick={() => fileRef.current?.click()}></AddImgButton>
+              <FileInput type="file" ref={fileRef} onChange={handleChangeFile} multiple />
             </>
           }
         </ContentSection>

@@ -5,6 +5,7 @@ import { useDispatch } from 'react-redux';
 import { api } from '@/utils/axios';
 import { signupActions } from '@/redux/reducers/signupSlice';
 import { setCookie } from '@/utils/cookie';
+import { memberActions } from '@/redux/reducers/memberSlice';
 
 export default function page () {
   const searchParams = useSearchParams();
@@ -23,8 +24,9 @@ export default function page () {
       })
       // console.log('response: ', data);
       
-      if (data.accessToken) {
+      if (data.accessToken && data.refreshToken) {
         setCookie('access', data.accessToken, { path: "/" })
+        setCookie('refreshToken', data.refreshToken, { path: "/" })
         router.replace('/member/main')
       } else {
         dispatch(signupActions.saveSignupState({
@@ -35,11 +37,10 @@ export default function page () {
         router.replace('/member/signup/step1')
       }
 
-      // dispatch(memberActions.isLogin({
-      //   id: 'test',
-      //   name: 'lee',
-      //   email: 'test@test.kr'
-      // }))
+      dispatch(memberActions.isLogin({
+        id: data.id,
+        name: data.name,
+      }))
       // dispatch(memberActions.getToken('token'))
     } catch (error) {
       console.log('error: ', error);

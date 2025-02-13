@@ -1,38 +1,25 @@
 'use client'
 
-import PageTitle from '@/components/PageTitle'
-import JoinStep from '@/components/SignUpStep'
+import PageHeader from '@/components/PageHeader'
 import { useRouter } from 'next/navigation'
 import React, { useEffect, useRef, useState } from 'react'
 import { Button } from '@/styles/Button'
 import { LabelTitle, SignUpTitleText, SignUpSubtext } from '@/styles/Text'
-import { styled } from 'styled-components'
-import { useDispatch } from 'react-redux'
-import { signupActions } from '@/redux/reducers/signupSlice'
-import { useAppSelector } from '@/redux/hooks'
 import { InputWrap } from '@/styles/Input'
 import { SignUpTitleWrap } from '@/styles/SignupForm'
 import { BaseContentWrap, ButtonAreaFixed } from '@/styles/Layout'
-import { HelperText, WeightInput } from '@/app/member/signup/step3/styles'
-
-
+import { WeightInput } from '@/app/member/signup/step3/styles'
+import { getMemberInfo, patchMemberWeight } from '@/services/member/member'
 
 const page = () => {
   const title = '목표 설정'
   const router = useRouter()
-  const dispatch = useDispatch()
-  const states = useAppSelector((state) => state.signup)
+
   const inputRef = useRef<HTMLInputElement | null>(null)
-  let helperTextFlag = false
-  let helperText = ""
-  
   const [inputData, setInputData] = useState({
     targetWeight: ""
   })
-
-  interface Input {
-    targetWeight: string
-  }
+  const [currWeight, setCurrWeight] = useState(null)
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setInputData({
@@ -41,30 +28,29 @@ const page = () => {
     })
   }
 
-  // useEffect(() => {
+  const getWeight = async () => {
+    const { data: { data } } = await getMemberInfo()
+    console.log('data: ', data);
+    setInputData({...inputData, targetWeight: data.weight})
+    setCurrWeight(data.weight)
+  }
 
-  // }, [inputData.targetWeight])
-
-  const handleNext = () => {
-    if (inputData.targetWeight.length <= 0 && inputRef.current !== null) {
-      inputRef.current.focus()
-      return false;
+  const handleSubmit = async () => {
+    try {
+      await patchMemberWeight(inputData)
+      router.push(`/member/mypage`)
+    } catch (error) {
+      console.log('error: ', error);
     }
-
-    dispatch(signupActions.saveSignupState({
-      targetWeight: inputData.targetWeight.trim(),
-    }))
-
-    router.push(`/member/signup/step4`)
   }
   
   useEffect(() => {
-    console.log('states: ', states);
+    getWeight()
   }, [])
 
   return (
   <>
-    <PageTitle title={title}/>
+    <PageHeader back={true} title={title}/>
     <BaseContentWrap>
       <div>
         <SignUpTitleWrap>
@@ -73,7 +59,7 @@ const page = () => {
         </SignUpTitleWrap>
         <div>
           <WeightInput>
-            <LabelTitle>목표체중</LabelTitle>
+            <LabelTitle>현재 목표체중</LabelTitle>
             <InputWrap>
               <input 
                 type="text" 
@@ -86,18 +72,14 @@ const page = () => {
               />
               <span>kg</span>
             </InputWrap>
-            {inputData.targetWeight.length > 0 && 
-              <HelperText>
-                {`현재 체중에서 ${Number(states.weight) - Number(inputData.targetWeight)}kg 감량이 목표시군요!`}
-              </HelperText>}
           </WeightInput>
         </div>
       </div>
-      <ButtonAreaFixed $nav={false}>
+      <ButtonAreaFixed $nav={true}>
         <Button 
           $variant='primary' 
-          onClick={handleNext}
-        >다음</Button>
+          onClick={handleSubmit}
+        >저장하기</Button>
       </ButtonAreaFixed>
     </BaseContentWrap>
   </>

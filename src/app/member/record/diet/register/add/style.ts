@@ -9,6 +9,6 @@ export const ContentsWrap = styled(BaseContentWrap)`
   justify-content: space-between;
 `
 
-export const MealTypeInput = styled.div`
+export const DietTypeInput = styled.div`
   margin-bottom: 1.5rem;
 `

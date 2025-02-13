@@ -1,12 +1,10 @@
 "use client";
 
-import React, { ChangeEvent, SetStateAction, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { styled } from 'styled-components';
 import { Input, InputRowWrap, InputWrap, Select } from '@/styles/Input';
 import { Button, CloseBtn } from '@/styles/Button';
-import { todayDate } from '@/constants/record';
-import { api } from '@/utils/axios';
-import { WeightRecord } from '@/types/member/record';
+import { BodyInfoRecordRequest, WeightRecordRequest } from '@/types/member/record';
 import { postBody } from '@/services/member/body';
 
 const Title = styled.div`
@@ -84,15 +82,15 @@ const DateWrap = styled.div`
 interface ModalProps {
   displayModal: boolean;
   setDisplayModal: React.Dispatch<React.SetStateAction<boolean>>;
-  todayWeight: WeightRecord;
-  setTodayWeight: React.Dispatch<React.SetStateAction<WeightRecord>>;
+  bodyInfo: BodyInfoRecordRequest;
+  setBodyInfo: React.Dispatch<React.SetStateAction<BodyInfoRecordRequest>>;
 }
 
 export const WeightEditModal = ({
   displayModal,
   setDisplayModal,
-  todayWeight,
-  setTodayWeight
+  bodyInfo,
+  setBodyInfo
 }: ModalProps) => {
   const [date, setDate] = useState({
     year: new Date().getFullYear(),
@@ -110,20 +108,20 @@ export const WeightEditModal = ({
   }
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setTodayWeight({
-      ...todayWeight,
+    setBodyInfo((prev: any) => ({
+      ...prev,
       [e.target.name]: e.target.value
-    })
+    }))
   }
 
   const handleSubmit = async () => {
     const recordDate = `${date.year}-${date.month.padStart(2, '0')}-${date.date.padStart(2, '0')}`
     console.log('recordDate: ', recordDate);
     const body = {
-      bmi: todayWeight.bmi,
-      bodyFatPercentage: todayWeight.bodyFatPercentage,
-      skeletalMuscle: todayWeight.skeletalMuscle,
-      bodyRecordDate: recordDate
+      bmi: bodyInfo.bmi,
+      bodyFatPercentage: bodyInfo.bodyFatPercentage,
+      skeletalMuscle: bodyInfo.skeletalMuscle,
+      uploadDate: recordDate
     }
     const response = await postBody(body)
     console.log('response: ', response);
@@ -153,7 +151,7 @@ export const WeightEditModal = ({
               <label>골격근량</label>
               <InputWrap>
                 <Input
-                  value={todayWeight.skeletalMuscle}
+                  value={bodyInfo.skeletalMuscle}
                   name='skeletalMuscle'
                   onChange={handleInputChange}
                 />
@@ -164,7 +162,7 @@ export const WeightEditModal = ({
               <label>체지방률</label>
               <InputWrap>
                 <Input
-                  value={todayWeight.bodyFatPercentage}
+                  value={bodyInfo.bodyFatPercentage}
                   name='bodyFatPercentage'
                   onChange={handleInputChange}
                 />
@@ -175,11 +173,11 @@ export const WeightEditModal = ({
               <label>BMI</label>
               <InputWrap>
                 <Input
-                  value={todayWeight.bmi}
+                  value={bodyInfo.bmi}
                   name='bmi'
                   onChange={handleInputChange}
                 />
-                <span>%</span>
+                <span>kg</span>
               </InputWrap>
             </InputRowWrap>
             <InputRowWrap>

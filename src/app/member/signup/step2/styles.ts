@@ -11,7 +11,7 @@ export const RadioButton = styled.div`
     display: none;
   }
   
-  input[type='radio'] + .meal-item {
+  input[type='radio'] + .diet-item {
     width: 100%;
     height: 104px;
     overflow: hidden;
@@ -24,7 +24,7 @@ export const RadioButton = styled.div`
     cursor: pointer;
   }
 
-  input[type='radio']:checked + .meal-item {
+  input[type='radio']:checked + .diet-item {
     background-color: var(--purple100);
     border: 1px solid var(--primary);
     color: var(--primary);
@@ -34,7 +34,7 @@ export const RadioButton = styled.div`
   }
 `
 
-export const MealText = styled.div`
+export const DietText = styled.div`
   h3 {
     font-weight: var(--font-semibold);
   }
@@ -52,7 +52,7 @@ export const MealText = styled.div`
   }
 `
 
-export const MealIcon = styled.span`
+export const DietIcon = styled.span`
   display: block;
   width: 3.75rem;
   height: 3.75rem;

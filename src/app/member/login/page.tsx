@@ -1,6 +1,6 @@
 'use client';
 
-import PageTitle from '@/components/PageTitle';
+import PageHeader from '@/components/PageHeader';
 import { BaseContentWrap } from '@/styles/Layout';
 import { getCsrfToken, signIn, useSession } from 'next-auth/react';
 import Link from 'next/link';
@@ -25,7 +25,7 @@ const page = () => {
 
   return (
     <>
-      <PageTitle title='' />
+      <PageHeader title='' back={true}/>
       <BaseContentWrap>
         <LogoWrap>
           <Image 

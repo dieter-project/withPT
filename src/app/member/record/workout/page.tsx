@@ -12,17 +12,25 @@ import React, { useEffect, useState } from 'react'
 import Plus from '../../../../../public/svgs/icon_plus.svg'
 import { TitleWrap, WorkoutImg, WorkoutImgGrid, WorkoutList, WorkoutListDetail, WorkoutListTitle } from './style';
 import { format } from 'date-fns';
+import { useAppSelector } from '@/redux/hooks';
+import PageHeader from '@/components/PageHeader';
+import { SettingIcon } from '@/styles/components/Header';
+import SettingMenu from '@/components/SettingMenu';
+import { getExerciseByDate } from '@/services/member/exercise';
+import { BODY_PART } from '@/constants/record';
 
 
 const page = () => {
   const [workout, setWorkout] = useState<WorkoutPayload[]>([])
+  const [isOpen, setIsOpen] = useState(false)
   const router = useRouter()
-  const date = format(new Date(), 'yyyy-MM-dd')
+  const today = format(new Date(), 'yyyy-MM-dd')
+  const user = useAppSelector((state) => state.member)
 
   const handleGetWorkout = async () => {
-    const { data } = await api.get(`/api/v1/members/exercise?dateTime=${date}`)
-
-    setWorkout(data.exercise)
+    const { data: { data } } = await getExerciseByDate(today)
+    if (data === null) return
+    setWorkout(data.exerciseInfos)
   }
 
   const handleGetWorkoutGoal = async () => {
@@ -32,45 +40,26 @@ const page = () => {
   useEffect(() => {
     handleGetWorkout()
     handleGetWorkoutGoal()
-    console.log('workout: ', workout.length);
-    // setWorkout([
-    //   {
-    //     exerciseDate: '2023-11-14',
-    //     title: '힙 어브덕션',
-    //     weight: 30,
-    //     set: 3,
-    //     times: 15,
-    //     hour: null,
-    //     bookmarkYn: null,
-    //     bodyPart: '',
-    //     exerciseType: 'ANAEROBIC',
-    //   }, {
-    //     exerciseDate: '2023-11-14',
-    //     title: '불타는 전신 운동',
-    //     weight: null,
-    //     set: null,
-    //     times: null,
-    //     hour: 60,
-    //     bookmarkYn: null,
-    //     bodyPart: 'WHOLE_BODY',
-    //     exerciseType: 'AEROBIC',
-    //   }, {
-    //     exerciseDate: '2023-11-14',
-    //     title: '폼롤러 스트레칭',
-    //     weight: null,
-    //     set: null,
-    //     times: null,
-    //     hour: 20,
-    //     bookmarkYn: null,
-    //     bodyPart: 'WHOLE_BODY',
-    //     exerciseType: 'STRETCHING',
-    //   }
-    // ])
   }, [])
+
+  const headerRight =
+  {
+    path: "/record",
+    component: <SettingIcon onClick={() => setIsOpen(!isOpen)} />,
+  }
+
+  const menu = <>
+    <div onClick={() => { }}>운동 수정하기</div>
+    <div onClick={() => { }}>운동 삭제하기</div>
+  </>
+
+  const convertPart = (part: string) => {
+    return BODY_PART.find(p => p.value === part)?.title
+  }
 
   return (
     <>
-      <Header back={true} bookmark={true} calendar={true} />
+      <PageHeader back={true} title='운동기록' rightElement={headerRight} />
       <BaseContentWrap>
         <section>
           달력
@@ -79,7 +68,9 @@ const page = () => {
           <GoalBox>
             <div>
               <p>이번주 목표까지 3회 남았어요</p>
-              <div>운동을 아직 하지 않으셨어요ㅜ</div>
+              {(workout?.length === 0 || workout === undefined)
+                ? <div>운동을 아직 하지 않으셨어요ㅜ</div>
+                : <div>오늘도 오운완! 잘하셨어요 {user.name}님:)</div>}
             </div>
             <div>
               <img src="/images/weight_achv.png" alt="" />
@@ -103,11 +94,17 @@ const page = () => {
                           <div>
                             <WorkoutListTitle>{workout.title}</WorkoutListTitle>
                             <WorkoutListDetail>
-                              {workout.bodyPart && <div>{workout.bodyPart},</div>}
-                              {workout.weight && <div>{workout.weight}kg </div>}
-                              {workout.times && <div>x {workout.times}분</div>}
-                              {workout.set && <div>x {workout.set}set</div>}
-                              {workout.hour && <div>{workout.hour}분</div>}
+                              {workout.bodyParts &&
+                                (workout.bodyParts.map((part, index) => {
+                                  return (
+                                    <div key={index}>{convertPart(part)},&nbsp;</div>
+                                  )
+                                }))
+                              }
+                              {workout.weight > 0 && <div>{workout.weight}kg&nbsp;</div>}
+                              {workout.exerciseTime > 0 && <div>x {workout.exerciseTime}분&nbsp;</div>}
+                              {workout.exerciseSet > 0 && <div>x {workout.exerciseSet}set&nbsp;</div>}
+                              {workout.times > 0 && <div>{workout.times}분</div>}
                             </WorkoutListDetail>
                           </div>
                         </WorkoutList>
@@ -130,11 +127,11 @@ const page = () => {
               </TitleWrap>
               <WorkoutImgGrid>
                 <ul>
-                  {workout?.map(() => {
+                  {workout?.map((_, index) => {
                     return (
-                      <li>
+                      <li key={index}>
                         <WorkoutImg>
-                          <img src="" alt="" />
+                          {/* <img src="" alt="" /> */}
                         </WorkoutImg>
                       </li>
                     )
@@ -146,6 +143,7 @@ const page = () => {
           }
         </ContentSection>
       </BaseContentWrap>
+      {isOpen && <SettingMenu contents={menu} />}
     </>
   )
 }

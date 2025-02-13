@@ -1,86 +1,97 @@
 "use client";
 
-import PageTitle from "@/components/PageTitle";
+import PageHeader from "@/components/PageHeader";
+import MonthlyCalendar from "@/components/member/MonthlyCalendar";
+import { getLessonsDays } from "@/services/member/training";
 import { Button } from "@/styles/Button";
 import { BaseContentWrap, ContentSection, RoundBox } from "@/styles/Layout";
 import { LabelTitle } from "@/styles/Text";
 import { api } from "@/utils/axios";
-import { signIn, useSession } from "next-auth/react";
-import React, { useEffect } from "react";
+import { format } from "date-fns";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import React, { useEffect, useState } from "react";
+import { Value } from "react-calendar/dist/cjs/shared/types";
 import { styled } from "styled-components";
-
-const ScheduleDate = styled.div`
-  border-bottom: 1px solid var(--border-gray300);
-  padding: 0 0.625rem;
-`;
-
-const ScheduleDetail = styled.div`
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 1.25rem;
-  padding: 0.75rem 0.625rem 0;
-  div {
-    display: flex;
-    align-items: center;
-    &:first-child {
-      display: flex;
-      font-weight: var(--font-semibold);
-      &::before {
-        content: "";
-        display: block;
-        width: 0.625rem;
-        height: 0.625rem;
-        border-radius: 50%;
-        background-color: var(--primary);
-        margin-right: 0.625rem;
-      }
-    }
-    &:last-child {
-      font-size: var(--font-s);
-    }
-  }
-`;
+import { EmptyTodayDiet } from "../main/styles";
+import { ExclamationMark } from "../chat/style";
+import { ScheduleDate, ScheduleDetail } from "./styles";
+import { LessonInfos } from "@/types/member/schedule";
+import EmptyData from "@/components/member/EmptyData";
 
 const page = () => {
   const title = "나의 수업일정";
+  const [markDate, setMarkDate] = useState([]);
+  const [activeDate, setActiveDate] = useState<Value>(new Date());
+  const [lessonInfos, setLessonInfos] = useState<LessonInfos[]>([]);
+  const searchParams = useSearchParams();
+  const search = searchParams.get("date");
 
-  const getSchedule = async () => {
-    const response = await api.get("");
+  const getSchedule = async (activeDate: Value) => {
+    const date = format(new Date(String(activeDate)), "yyyy-MM-dd");
+
+    if (activeDate) {
+      const { data } = await getLessonsDays({ date });
+      setLessonInfos(data.data.lessonInfos);
+    }
   };
+
+  const onChange = (value: Value) => {
+    setActiveDate(value);
+  };
+
+  useEffect(() => {
+    if (search) {
+      setActiveDate(new Date(search));
+    }
+  }, [search]);
+
+  useEffect(() => {
+    getSchedule(activeDate);
+  }, [activeDate]);
 
   return (
     <>
-      <PageTitle title={title} />
+      <PageHeader back title={title} />
       <BaseContentWrap>
         <ContentSection>
-          <RoundBox variant="outline">달력</RoundBox>
+          <RoundBox variant="outline">
+            <MonthlyCalendar
+              activeDate={activeDate}
+              setActiveDate={setActiveDate}
+              markDate={markDate}
+              onChange={onChange}
+              // handleClick={handleDayClick}
+            />
+          </RoundBox>
         </ContentSection>
         <ContentSection>
           <LabelTitle>수업일정</LabelTitle>
           <div>
-            <ul>
-              <li>
-                <ScheduleDate>
-                  <LabelTitle>11. 15 목요일</LabelTitle>
-                </ScheduleDate>
-                <ScheduleDetail>
-                  <div>10:00 ~ 10:50</div>
-                  <div>with 김땡땡 트레이너</div>
-                </ScheduleDetail>
-              </li>
-              <li>
-                <ScheduleDate>
-                  <LabelTitle>11. 17 토요일</LabelTitle>
-                </ScheduleDate>
-                <ScheduleDetail>
-                  <div>14:00 ~ 14:50</div>
-                  <div>with 근육맨 트레이너</div>
-                </ScheduleDetail>
-              </li>
-            </ul>
+            {lessonInfos.length > 0 ? (
+              <ul>
+                {lessonInfos?.map(info => (
+                  <li key={info.lesson.id}>
+                    <ScheduleDate>
+                      <LabelTitle>
+                        {format(
+                          new Date(info.lesson.schedule.date),
+                          "MM. dd EEE",
+                        )}
+                      </LabelTitle>
+                    </ScheduleDate>
+                    <ScheduleDetail>
+                      <div>10:00 ~ 10:50</div>
+                      <div>with {info.trainer.name}</div>
+                    </ScheduleDetail>
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <EmptyData text="등록된 수업이 없습니다." />
+            )}
           </div>
           <div>
-            <Button variant="primary">수업 예약하기</Button>
+            <Button $variant="primary">수업 예약하기</Button>
           </div>
         </ContentSection>
       </BaseContentWrap>

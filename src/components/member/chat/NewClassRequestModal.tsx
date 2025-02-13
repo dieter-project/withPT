@@ -5,7 +5,7 @@ import React, { useState } from 'react'
 import styled from 'styled-components'
 
 
-const MealList = styled.ul`
+const DietList = styled.ul`
   li {
     width: 100%;
     padding: 0.825rem;

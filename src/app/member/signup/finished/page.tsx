@@ -1,6 +1,6 @@
 "use client";
 
-import PageTitle from '@/components/PageTitle'
+import PageHeader from '@/components/PageHeader'
 import { Button } from '@/styles/Button'
 import { ButtonAreaFixed } from '@/styles/Layout'
 import { SignUpSubtext, SignUpTitleText } from '@/styles/Text'
@@ -27,7 +27,7 @@ const page = () => {
   };
   return (
     <>
-      <PageTitle title={title} />
+      <PageHeader back={true} title={title} />
       <FinishedPageWrap>
         <img src="" alt="" />
         <CheckWrap>

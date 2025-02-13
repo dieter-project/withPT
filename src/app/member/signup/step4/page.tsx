@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import PageTitle from "@/components/PageTitle";
+import PageHeader from "@/components/PageHeader";
 import JoinStep from "@/components/SignUpStep";
 import { useAppSelector } from "@/redux/hooks";
 import { signupActions } from "@/redux/reducers/signupSlice";
@@ -92,7 +92,7 @@ const page = () => {
 
   return (
     <>
-      <PageTitle title={title} />
+      <PageHeader back={true} title={title} />
       <BaseContentWrap>
         <JoinStep active={"4"} />
         <div>

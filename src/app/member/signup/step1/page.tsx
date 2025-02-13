@@ -1,31 +1,19 @@
 "use client";
 
-import PageTitle from "@/components/PageTitle";
-import JoinStep from "@/components/SignUpStep";
-import { useRouter } from "next/navigation";
-import React, { useEffect, useRef, useState } from "react";
-import { LabelTitle, SignUpTitleText, SignUpSubtext } from "@/styles/Text";
-import { Input, InputRowWrap, InputWrap } from "@/styles/Input";
-import { Button } from "@/styles/Button";
-import { useDispatch } from "react-redux";
-import { signupActions } from "@/redux/reducers/signupSlice";
-import { BaseContentWrap, ButtonAreaFixed } from "@/styles/Layout";
-import { SignUpInputContainer, SignUpTitleWrap } from "@/styles/SignupForm";
-import { useAppSelector } from "@/redux/hooks";
-import { RadioButton } from "./styles";
-interface Ibirth {
-  year: string;
-  month: string;
-  date: string;
-}
-
-interface Imember {
-  name: string;
-  birth: Ibirth | string;
-  sex: string;
-  height: string;
-  weight: string;
-}
+import PageHeader from '@/components/PageHeader'
+import JoinStep from '@/components/SignUpStep'
+import { useRouter } from 'next/navigation'
+import React, { useEffect, useRef, useState } from 'react'
+import { LabelTitle, SignUpTitleText, SignUpSubtext } from '@/styles/Text'
+import { Input, InputRowWrap, InputWrap } from '@/styles/Input'
+import { Button } from '@/styles/Button'
+import { useDispatch } from 'react-redux'
+import { signupActions } from '@/redux/reducers/signupSlice'
+import { BaseContentWrap, ButtonAreaFixed } from '@/styles/Layout'
+import { SignUpInputContainer, SignUpTitleWrap } from '@/styles/SignupForm'
+import { useAppSelector } from '@/redux/hooks'
+import { RadioButton } from './styles'
+import { Imember } from '@/types/member/member';
 
 const page = () => {
   const [inputData, setInputData] = useState<Imember>({
@@ -154,7 +142,7 @@ const page = () => {
 
   return (
     <>
-      <PageTitle title={title} />
+      <PageHeader back={true} title={title} />
       <BaseContentWrap>
         <JoinStep active={"1"} />
         <div>

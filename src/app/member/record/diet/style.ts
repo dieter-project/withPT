@@ -36,9 +36,10 @@ export const GraphWrap = styled.div`
   .nutrition-graph {
     width: 100%;
     display: flex;
+    align-items: center;
     flex-direction: column;
   }
-  `
+`
 
 export const NutritionProgress = styled.div`
   width: 100%;
@@ -84,9 +85,9 @@ export const ProgressWrap = styled.div<ProgressProps>`
 `
 
 
-export const MealList = styled.li`
+export const DietList = styled.li`
   display: flex;
-  .meal-img {
+  .diet-img {
     width: 140px;
     height: 140px;
     border-radius: 0.5rem;
@@ -95,7 +96,8 @@ export const MealList = styled.li`
       object-fit: cover;
     }
   }
-  .meal-detail {
+  .diet-detail {
+    flex: 1;
     > div {
       &:first-child {
         display: flex;

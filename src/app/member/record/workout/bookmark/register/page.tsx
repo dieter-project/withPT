@@ -1,8 +1,9 @@
 "use client";
 
-import PageTitle from "@/components/PageTitle";
+import PageHeader from "@/components/PageHeader";
 import { BODY_PART, EXERCISE_TYPE } from "@/constants/record";
 import { workoutRecordActions } from "@/redux/reducers/workoutRecordSlice";
+import { postBookmark } from "@/services/member/bookmark";
 import { Button } from "@/styles/Button";
 import { CategoryPartList } from "@/styles/CategoryPartList";
 import { Input, InputRowWrap, InputWrap } from "@/styles/Input";
@@ -15,13 +16,12 @@ import { useDispatch } from "react-redux";
 const page = () => {
   const title = "운동북마크 입력";
   const [inputData, setInputData] = useState({
-    exerciseDate: "",
     title: "",
     weight: 0,
-    set: 0,
+    exerciseSet: 0,
     times: 0,
     hour: 0,
-    bodyPart: "WHOLE_BODY",
+    bodyPart: "FULL_BODY",
     exerciseType: "AEROBIC",
   });
 
@@ -43,9 +43,12 @@ const page = () => {
     });
   };
 
-  const handleAddRecord = () => {
-    dispatch(workoutRecordActions.addWorkoutState(inputData));
-    router.push("/member/record/workout/bookmark");
+  const handleAddRecord = async () => {
+    try {
+      await postBookmark(inputData)
+    } catch (error) {
+      console.log('error: ', error);
+    }
   };
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -59,22 +62,10 @@ const page = () => {
     console.log("inputData: ", inputData);
   }, [inputData]);
 
-  useEffect(() => {
-    const date = searchParams.get("date");
-    // dispatch(workoutRecordActions.addWorkoutState({
-    //   exerciseDate: date
-    // }))
-    if (date) {
-      setInputData({
-        ...inputData,
-        exerciseDate: date,
-      });
-    }
-  }, []);
 
   return (
     <>
-      <PageTitle title={title} />
+      <PageHeader back={true} title={title} />
       <BaseContentWrap>
         <FormWrap>
           <LabelTitle>운동명</LabelTitle>
@@ -158,7 +149,7 @@ const page = () => {
                     type="text"
                     name="set"
                     onChange={handleInputChange}
-                    value={inputData.set}
+                    value={inputData.exerciseSet}
                   />
                   <span>set</span>
                 </InputWrap>

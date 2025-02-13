@@ -1,12 +1,15 @@
 import { styled } from "styled-components";
 
-export const Input = styled.input`
-  width: 100%;
+export const Input = styled.input<{ $width?: string }>`
+  width: ${props => props.$width ? props.$width : "100%"};
   height: 48px;
   border: none;
   border-radius: 0.5rem;
   background-color: var(--purple50);
   padding: 0 0.625rem;
+  &:disabled {
+    color: var(--border-gray400);
+  }
 `
 
 export const Select = styled.select`

@@ -15,7 +15,7 @@ import {
   ChatSubmitButton
 } from './style';
 import SockJS from 'sockjs-client';
-import { MealShareModal } from '@/components/member/chat/MealShareModal';
+import { DietShareModal } from '@/components/member/chat/DietShareModal';
 import { ChatBody } from '@/components/member/chat/ChatBody';
 import { TrainerRequestModal } from '@/components/member/chat/TrainerRequestModal';
 import { MemberRequestModal } from '@/components/member/chat/MemberRequestModal';
@@ -26,7 +26,7 @@ let socket = new SockJS('');
 const page = () => {
   const [chatRooms, setChatRooms] = useState([]);
   const [showFunction, setShowFunction] = useState(false)
-  const [mealModal, setMealModal] = useState(false);
+  const [dietModal, setDietModal] = useState(false);
   const [trainerRequestModal, setTrainerRequestModal] = useState(false);
   const [memberRequestModal, setMemberRequestModal] = useState(false);
   
@@ -51,10 +51,10 @@ const page = () => {
 
   return (
     <>
-      {mealModal &&
-        <MealShareModal
-          displayModal={mealModal}
-          setDisplayModal={setMealModal}
+      {dietModal &&
+        <DietShareModal
+          displayModal={dietModal}
+          setDisplayModal={setDietModal}
         />}
       {trainerRequestModal &&
         <TrainerRequestModal
@@ -92,9 +92,9 @@ const page = () => {
                 <ChatFunctionText>사진 업로드</ChatFunctionText>
                 <FileInput type="file" ref={fileInputRef}/>
               </div>
-              <div onClick={() => setMealModal(true)}>
+              <div onClick={() => setDietModal(true)}>
                 <ChatFunctionIcon>
-                  <img src="/svgs/icon_chat_meal.svg" alt="" />
+                  <img src="/svgs/icon_chat_diet.svg" alt="" />
                 </ChatFunctionIcon>
                 <ChatFunctionText>식단전송</ChatFunctionText>
               </div>

@@ -23,17 +23,28 @@ import { api } from '@/utils/axios';
 import { todayDate } from '@/constants/record';
 import { WeightEditModal } from '@/components/WeightEditModal';
 import { FileInput } from '@/styles/Input';
-import { WeightRecord } from '@/types/member/record';
+import { BodyInfo, BodyInfoRecordRequest, Weight, WeightRecordRequest } from '@/types/member/record';
 import { getBody, postBodyImage, postWeight } from '@/services/member/body';
+import { Skeleton } from 'antd';
+import { format } from 'date-fns';
+import { ko } from 'date-fns/locale';
 
 const page = () => {
-  const [todayWeight, setTodayWeight] = useState<WeightRecord>({
+  const [weightInput, setWeightInput] = useState<WeightRecordRequest>({
+    weight: 0,
+    uploadDate: todayDate
+  })
+
+  const [bodyInfoInput, setBodyInfoInput] = useState<BodyInfoRecordRequest>({
     bmi: 0,
     bodyFatPercentage: 0,
     skeletalMuscle: 0,
-    weight: 0,
-    bodyRecordDate: todayDate
+    uploadDate: todayDate
   })
+  const [todayBodyInfos, setTodayBodyInfos] = useState<{
+    weights: Weight[],
+    bodyInfo: BodyInfo
+  }>()
   const [displayModal, setDisplayModal] = useState(false);
   const [files, setFiles] = useState<File[]>([])
   const [isFocus, setIsFocus] = useState(false)
@@ -43,16 +54,11 @@ const page = () => {
 
   const title = '체중'
 
-  const handleGetWeight = async () => {
+  const handleGetBodyInfo = async () => {
     try {
-      const { data } = await getBody(todayDate);
+      const { data: { data } } = await getBody(todayDate);
       console.log('data: ', data);
-      if (data) {
-        setTodayWeight({
-          ...todayWeight,
-          ...data.data
-        })
-      }
+      setTodayBodyInfos(data)
     } catch (error) {
       console.log('error: ', error);
     }
@@ -62,16 +68,16 @@ const page = () => {
   const handleWeightChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setShowBtn(true)
     const weight = event.target.value.replace(/[^0-9]/g, "")
-    setTodayWeight({
-      ...todayWeight,
+    setWeightInput({
+      ...weightInput,
       weight: Number(weight)
     })
   }
 
   const handleWeightSave = async () => {
     const response = await postWeight({
-      bodyRecordDate: todayDate,
-      weight: todayWeight.weight
+      uploadDate: todayDate,
+      weight: weightInput.weight
     })
     console.log('response: ', response);
     setShowBtn(false)
@@ -84,32 +90,44 @@ const page = () => {
   const handleChangeFile = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
       const fileArray = Array.from(e.target.files)
-      console.log('fileArray: ', fileArray);
       setFiles(prev => [...prev, ...fileArray])
     }
-    // console.log('files: ', files);
-
   }
 
   useEffect(() => {
     if (files.length > 0) {
       const formData = new FormData();
-      files.forEach((ele, idx) => {
-        formData.append('files', files[idx])
+      files.forEach((file, idx) => {
+        formData.append('files', file)
       })
       handleBodyPhotoSubmit(formData)
     }
   }, [files])
 
   const handleBodyPhotoSubmit = async (files: FormData) => {
-    const response = await postBodyImage({
-      files
-    })
+    const response = await postBodyImage(files)
     console.log('response: ', response);
   }
 
   useEffect(() => {
-    handleGetWeight()
+    if (todayBodyInfos) {
+      setWeightInput(prev => ({
+        ...prev,
+        weight: todayBodyInfos.weights[0].weight,
+        uploadDate: todayBodyInfos.weights[0].recentUploadDate
+      }))
+      setBodyInfoInput(prev => ({
+        ...prev,
+        bmi: todayBodyInfos.bodyInfo.bmi,
+        bodyFatPercentage: todayBodyInfos.bodyInfo.bodyFatPercentage,
+        skeletalMuscle: todayBodyInfos.bodyInfo.skeletalMuscle,
+        uploadDate: todayBodyInfos.bodyInfo.recentUploadDate
+      }))
+    }
+  }, [todayBodyInfos])
+
+  useEffect(() => {
+    handleGetBodyInfo()
   }, [])
 
   return (
@@ -117,8 +135,8 @@ const page = () => {
       {displayModal && <WeightEditModal
         displayModal={displayModal}
         setDisplayModal={setDisplayModal}
-        todayWeight={todayWeight}
-        setTodayWeight={setTodayWeight}
+        bodyInfo={bodyInfoInput}
+        setBodyInfo={setBodyInfoInput}
       />}
       <Header back={true} title={title} />
       <BaseContentWrap>
@@ -139,13 +157,15 @@ const page = () => {
         <ContentSection>
           <TitleWrap>
             <LabelTitle>체중</LabelTitle>
-            <div className='recent-date'>최근기록 11월 15일</div>
+            {todayBodyInfos
+              ? <div className='recent-date'>최근기록 {format(new Date(todayBodyInfos.weights[0].recentUploadDate), 'MM월 dd일')}</div>
+              : <div className='recent-date'>최근기록이 없습니다</div>}
           </TitleWrap>
           <WeightBox variant='purple'>
             <WeightInput isFocus={isFocus}>
               <input
                 type="text"
-                value={todayWeight.weight}
+                value={weightInput.weight}
                 onChange={handleWeightChange}
                 onFocus={() => setIsFocus(true)}
                 onBlur={() => setIsFocus(false)}
@@ -158,16 +178,18 @@ const page = () => {
         <ContentSection>
           <TitleWrap>
             <LabelTitle>신체 정보</LabelTitle>
-            <div className='recent-date'>최근기록이 없습니다</div>
+            {todayBodyInfos
+              ? <div className='recent-date'>최근기록 {format(new Date(todayBodyInfos.bodyInfo.recentUploadDate), 'MM월 dd일')}</div>
+              : <div className='recent-date'>최근기록이 없습니다</div>}
           </TitleWrap>
           <WeightDetail>
-            {todayWeight.skeletalMuscle > 0
+            {bodyInfoInput.skeletalMuscle > 0
               ? <>
                 <AddDetailButton variant='purple' onClick={() => setDisplayModal(true)}>
                   <PlusRound>
                     <Plus fill="white" width="0.75rem" height="0.75rem" />
                   </PlusRound>
-                  <CompositionValueText>21.8%</CompositionValueText>
+                  <CompositionValueText>{bodyInfoInput.skeletalMuscle} kg</CompositionValueText>
                   <CompositionText>골격근량</CompositionText>
                 </AddDetailButton>
               </>
@@ -179,13 +201,13 @@ const page = () => {
                   <CompositionText>골격근량</CompositionText>
                 </AddDetailButton>
               </>}
-            {todayWeight.bodyFatPercentage > 0
+            {bodyInfoInput.bodyFatPercentage > 0
               ? <>
                 <AddDetailButton variant='purple' onClick={() => setDisplayModal(true)}>
                   <PlusRound>
                     <Plus fill="white" width="0.75rem" height="0.75rem" />
                   </PlusRound>
-                  <CompositionValueText>29.1%</CompositionValueText>
+                  <CompositionValueText>{bodyInfoInput.bodyFatPercentage} %</CompositionValueText>
                   <CompositionText>체지방률</CompositionText>
                 </AddDetailButton>
               </>
@@ -197,13 +219,13 @@ const page = () => {
                   <CompositionText>체지방률</CompositionText>
                 </AddDetailButton>
               </>}
-            {todayWeight.bmi > 0
+            {bodyInfoInput.bmi > 0
               ? <>
                 <AddDetailButton variant='purple' onClick={() => setDisplayModal(true)}>
                   <PlusRound>
                     <Plus fill="white" width="0.75rem" height="0.75rem" />
                   </PlusRound>
-                  <CompositionValueText>22.4%</CompositionValueText>
+                  <CompositionValueText>{bodyInfoInput.bmi} Kg</CompositionValueText>
                   <CompositionText>BMI</CompositionText>
                 </AddDetailButton>
               </>

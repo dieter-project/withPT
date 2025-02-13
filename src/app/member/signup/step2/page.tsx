@@ -1,6 +1,6 @@
 "use client";
 
-import PageTitle from "@/components/PageTitle";
+import PageHeader from "@/components/PageHeader";
 import JoinStep from "@/components/SignUpStep";
 import { targetDiet } from "@/constants/signup";
 import { useAppSelector } from "@/redux/hooks";
@@ -12,7 +12,7 @@ import { SignUpTitleText, SignUpSubtext } from "@/styles/Text";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { MealIcon, MealText, RadioButton } from "./styles";
+import { DietIcon, DietText, RadioButton } from "./styles";
 
 const page = () => {
   const title = "식단 설정";
@@ -47,7 +47,7 @@ const page = () => {
 
   return (
     <>
-      <PageTitle title={title} />
+      <PageHeader back={true} title={title} />
       <BaseContentWrap>
         <JoinStep active={"2"} />
         <div>
@@ -62,17 +62,17 @@ const page = () => {
                   <input
                     key={index}
                     type="radio"
-                    name="meal"
+                    name="diet"
                     value={diet.vlaue}
                     onChange={handleOnChange}
                   />
-                  <div className="meal-item">
-                    <MealText>
+                  <div className="diet-item">
+                    <DietText>
                       <h3>{diet.title}</h3>
                       <div>{diet.subtitle}</div>
                       <p>{diet.balance}</p>
-                    </MealText>
-                    <MealIcon
+                    </DietText>
+                    <DietIcon
                       style={{
                         background: `url(${diet.icon}) no-repeat`,
                         backgroundColor: "white",
