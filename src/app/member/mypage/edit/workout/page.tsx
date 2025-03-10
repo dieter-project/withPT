@@ -11,7 +11,7 @@ import { useRouter } from 'next/navigation'
 import { useDispatch } from 'react-redux'
 import { exerciseFrequency } from '@/constants/signup'
 import { RadioButton, RecommendBadge } from '@/app/member/signup/step4/styles'
-import { getMemberInfo, patchMemberExercise } from '@/services/member/member'
+import { reqGetMemberInfo, reqPatchMemberExercise } from '@/services/member/member'
 
 const page = () => {
   const title = '목표 설정'
@@ -22,7 +22,7 @@ const page = () => {
   })
   
   const getWorkout = async () => {
-    const { data: { data } } = await getMemberInfo()
+    const { data: { data } } = await reqGetMemberInfo()
     setInputData({...inputData, exerciseFrequency: data.exerciseFrequency})
   }
 
@@ -35,7 +35,7 @@ const page = () => {
 
   const handleSubmit = async () => {
     try {
-      await patchMemberExercise(inputData)
+      await reqPatchMemberExercise(inputData)
       router.replace('/member/mypage')
     } catch (error) {
       console.log('error: ', error);

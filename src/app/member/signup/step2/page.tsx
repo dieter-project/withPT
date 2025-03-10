@@ -58,9 +58,8 @@ const page = () => {
           <RadioButton>
             {targetDiet?.map((diet, index) => {
               return (
-                <label>
+                <label key={index}>
                   <input
-                    key={index}
                     type="radio"
                     name="diet"
                     value={diet.vlaue}

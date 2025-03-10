@@ -11,17 +11,14 @@ import { CheckAnimation, CheckWrap, FinishedPageWrap } from './styles';
 const page = () => {
   const title = '가입 완료'
   const router = useRouter()
-  const role = window.sessionStorage.getItem('role')
+  const role = window.localStorage.getItem('role')
   
   const handleStart = () => {
+    window.sessionStorage.removeItem('role')
     if (role === 'MEMBER') {
-      window.localStorage.setItem('role', 'MEMBER')
-      window.sessionStorage.removeItem('role')
       router.replace('/member/main')
     }
     if (role === 'TRAINER') {
-      window.localStorage.setItem('role', 'TRAINER')
-      window.sessionStorage.removeItem('role')
       router.replace('/trainer/main')
     }
   };

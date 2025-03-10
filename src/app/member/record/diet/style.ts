@@ -25,27 +25,27 @@ export const MyGoal = styled.section`
   .goal-contents {
     display: flex;
   }
-`
+`;
 
 export const GraphWrap = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
   margin: 1.5rem 0;
-  
+
   .nutrition-graph {
     width: 100%;
     display: flex;
     align-items: center;
     flex-direction: column;
   }
-`
+`;
 
 export const NutritionProgress = styled.div`
   width: 100%;
   gap: 0.625rem;
   display: flex;
-`
+`;
 
 export const ProgressWrap = styled.div<ProgressProps>`
   width: 100%;
@@ -63,39 +63,46 @@ export const ProgressWrap = styled.div<ProgressProps>`
     &::-webkit-progress-bar {
       background-color: var(--purple100);
     }
-    ${props => props.type === 'carb' && css`
-      &::-webkit-progress-value {
-        border-radius:0.625rem;
-        background: var(--carbohydrate);
-      }
-    `}
-    ${props => props.type === 'prot' && css`
-      &::-webkit-progress-value {
-        border-radius:0.625rem;
-        background: var(--protein);
-      }
-    `}
-    ${props => props.type === 'fats' && css`
-      &::-webkit-progress-value {
-        border-radius:0.625rem;
-        background: var(--fat);
-      }
-    `}
+    ${props =>
+      props.type === "carb" &&
+      css`
+        &::-webkit-progress-value {
+          border-radius: 0.625rem;
+          background: var(--carbohydrate);
+        }
+      `}
+    ${props =>
+      props.type === "prot" &&
+      css`
+        &::-webkit-progress-value {
+          border-radius: 0.625rem;
+          background: var(--protein);
+        }
+      `}
+    ${props =>
+      props.type === "fats" &&
+      css`
+        &::-webkit-progress-value {
+          border-radius: 0.625rem;
+          background: var(--fat);
+        }
+      `}
   }
-`
+`;
 
+export const DietSectionTitle = styled.div`
+  border-bottom: 1px solid var(--border-gray);
+`;
 
 export const DietList = styled.li`
   display: flex;
-  .diet-img {
-    width: 140px;
-    height: 140px;
-    border-radius: 0.5rem;
-    margin-right: 0.625rem;
-    img {
-      object-fit: cover;
-    }
+  padding: 1rem;
+  cursor: pointer;
+
+  &:not(:last-child) {
+    border-bottom: 1px solid var(--border-gray);
   }
+
   .diet-detail {
     flex: 1;
     > div {
@@ -112,7 +119,7 @@ export const DietList = styled.li`
     .calorie {
       color: var(--font-gray700);
     }
-    .nutrition { 
+    .nutrition {
       font-size: var(--font-s);
     }
     .menu {
@@ -120,8 +127,19 @@ export const DietList = styled.li`
       color: var(--font-gray500);
     }
   }
-`
+`;
 
 export const TrainerFeedback = styled(RoundBox)`
   font-size: var(--font-s);
-`
+`;
+
+export const ImageWrap = styled.div`
+  width: 140px;
+  height: 140px;
+  border-radius: 0.5rem;
+  margin-right: 0.625rem;
+  overflow: hidden;
+  img {
+    object-fit: cover;
+  }
+`;

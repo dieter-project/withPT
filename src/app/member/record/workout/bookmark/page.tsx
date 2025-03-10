@@ -11,6 +11,8 @@ import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { styled } from "styled-components";
 import { BookmarkList, DetailText, EmptyBookmark, NameText } from "./style";
+import { useDispatch } from "react-redux";
+import { workoutRecordActions } from "@/redux/reducers/workoutRecordSlice";
 
 type BookmarkPayload = {
   title: string | null;
@@ -29,39 +31,28 @@ const page = () => {
   const settingOption = ["운동 추가하기", "운동 삭제하기"];
 
   const router = useRouter();
+  const dispatch = useDispatch();
 
   const handleGetBookmark = async () => {
     try {
-      const { data: { data } } = await getBookmarks();
-      setBookmarks(data)
+      const {
+        data: { data },
+      } = await getBookmarks();
+      setBookmarks(data);
     } catch (error) {
-      console.log('error: ', error);
+      console.log("error: ", error);
     }
+  };
+
+  const handleSelectBookmark = (bookmark: BookmarkPayload) => {
+    dispatch(
+      workoutRecordActions.addWorkoutState({ ...bookmark, bookmarkYn: false }),
+    );
+    router.push("/member/record/workout/register");
   };
 
   useEffect(() => {
     handleGetBookmark();
-    // setBookmarks([
-    //   ...bookmarks,
-    //   {
-    //     title: "레그프레스",
-    //     weight: 35,
-    //     set: 3,
-    //     times: 12,
-    //     hour: null,
-    //     bodyPart: null,
-    //     exerciseType: null,
-    //   },
-    //   {
-    //     title: "힙 어브덕션",
-    //     weight: 35,
-    //     set: 3,
-    //     times: 12,
-    //     hour: null,
-    //     bodyPart: null,
-    //     exerciseType: null,
-    //   },
-    // ]);
   }, []);
 
   return (
@@ -76,7 +67,10 @@ const page = () => {
               <ul>
                 {bookmarks?.map((bookmark, index) => {
                   return (
-                    <li key={index}>
+                    <li
+                      key={index}
+                      onClick={() => handleSelectBookmark(bookmark)}
+                    >
                       {deleteMode && (
                         <Checkbox>
                           <input type="checkbox" />
@@ -102,17 +96,25 @@ const page = () => {
             <ExclamationMark>!</ExclamationMark>
             <div>북마크에 등록된 운동이 없어요.</div>
             <div>
-              회원님께서 자주 하는 운동을<br /> 
+              회원님께서 자주 하는 운동을
+              <br />
               하단 추가하기를 통해 직접 등록해 주세요!
             </div>
           </EmptyBookmark>
         )}
       </BaseContentWrap>
-      {bookmarks.length < 1 &&
+      {bookmarks.length < 1 && (
         <ButtonAreaFixed $nav>
-          <Button $variant='primary' onClick={() => router.push('/member/record/workout/bookmark/register')}>북마크 등록하기</Button>
+          <Button
+            $variant="primary"
+            onClick={() =>
+              router.push("/member/record/workout/bookmark/register")
+            }
+          >
+            북마크 등록하기
+          </Button>
         </ButtonAreaFixed>
-      }
+      )}
     </>
   );
 };

@@ -1,19 +1,20 @@
 "use client";
 
-import PageHeader from '@/components/PageHeader';
-import { BODY_PART, EXERCISE_TYPE } from '@/constants/record';
-import { workoutRecordActions } from '@/redux/reducers/workoutRecordSlice';
-import { Button } from '@/styles/Button';
-import { CategoryPartList } from '@/styles/CategoryPartList';
-import { Input, InputRowWrap, InputWrap } from '@/styles/Input';
-import { BaseContentWrap, ButtonAreaFixed, FormWrap } from '@/styles/Layout';
-import { LabelTitle } from '@/styles/Text';
-import { ToggleButton } from '@/styles/TogglButton';
-import { useRouter, useSearchParams } from 'next/navigation';
-import React, { useEffect, useState } from 'react'
-import { useDispatch } from 'react-redux';
-import { BookmarkButton, BookmarkSaveToggle } from './style';
-import { WorkoutPayload } from '@/types/member/record';
+import PageHeader from "@/components/PageHeader";
+import { BODY_PART, EXERCISE_TYPE } from "@/constants/record";
+import { workoutRecordActions } from "@/redux/reducers/workoutRecordSlice";
+import { Button } from "@/styles/Button";
+import { CategoryPartList } from "@/styles/CategoryPartList";
+import { Input, InputRowWrap, InputWrap } from "@/styles/Input";
+import { BaseContentWrap, ButtonAreaFixed, FormWrap } from "@/styles/Layout";
+import { LabelTitle } from "@/styles/Text";
+import { ToggleButton } from "@/styles/TogglButton";
+import { useRouter, useSearchParams } from "next/navigation";
+import React, { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { BookmarkButton, BookmarkSaveToggle } from "./style";
+import { WorkoutPayload } from "@/types/member/record";
+import { getBodyBookmarkCheck } from "@/services/member/bookmark";
 
 const page = () => {
   const [inputData, setInputData] = useState<WorkoutPayload>({
@@ -24,27 +25,33 @@ const page = () => {
     times: 0,
     exerciseTime: 0,
     bookmarkYn: false,
-    bodyParts: '',
+    bodyParts: "",
     specificBodyParts: [],
     exerciseType: "AEROBIC",
   });
   const dispatch = useDispatch();
   const searchParams = useSearchParams();
   const router = useRouter();
-  const [bodyPart, setBodyPart] = useState<any[] | undefined>([])
-  const [specificBodyParts, setSpecificBodyParts] = useState<any[] | undefined>([])
+  const [bodyPart, setBodyPart] = useState<any[] | undefined>([]);
+  const [specificBodyParts, setSpecificBodyParts] = useState<any[] | undefined>(
+    [],
+  );
 
   useEffect(() => {
-    const selectedBodyPart = EXERCISE_TYPE.find(type => type.value === inputData.exerciseType)?.bodyPart
-    setBodyPart(selectedBodyPart)
-  }, [inputData.exerciseType])
+    const selectedBodyPart = EXERCISE_TYPE.find(
+      type => type.value === inputData.exerciseType,
+    )?.bodyPart;
+    setBodyPart(selectedBodyPart);
+  }, [inputData.exerciseType]);
 
   useEffect(() => {
     if (bodyPart) {
-      const selectedSpecificBodyParts = bodyPart.find(part => part.value === inputData.bodyParts)?.specificBodyParts
-      setSpecificBodyParts(selectedSpecificBodyParts)
+      const selectedSpecificBodyParts = bodyPart.find(
+        part => part.value === inputData.bodyParts,
+      )?.specificBodyParts;
+      setSpecificBodyParts(selectedSpecificBodyParts);
     }
-  }, [inputData.bodyParts])
+  }, [inputData.bodyParts]);
 
   const handleChoiceExerciseType = (exerciseType: string) => {
     setInputData({
@@ -54,24 +61,27 @@ const page = () => {
   };
 
   const handleChoiceBodyPart = (bodyParts: string) => {
-      setInputData({
-        ...inputData,
-        bodyParts
-      })
+    setInputData({
+      ...inputData,
+      bodyParts,
+    });
   };
 
   const handleChoiceSpecificBodyPart = (bodyPart: string) => {
     if (!inputData.specificBodyParts?.includes(bodyPart)) {
       setInputData({
         ...inputData,
-        specificBodyParts: [...inputData.specificBodyParts, bodyPart]
-      })
+        specificBodyParts: [...inputData.specificBodyParts, bodyPart],
+      });
     } else {
-      inputData.specificBodyParts.splice(inputData.specificBodyParts.indexOf(bodyPart), 1)
+      inputData.specificBodyParts.splice(
+        inputData.specificBodyParts.indexOf(bodyPart),
+        1,
+      );
       setInputData({
         ...inputData,
-        specificBodyParts: [...inputData.specificBodyParts]
-      })
+        specificBodyParts: [...inputData.specificBodyParts],
+      });
     }
   };
 
@@ -83,29 +93,42 @@ const page = () => {
     }
   };
 
-  const handleAddRecord = () => {
+  const handleAddRecord = async () => {
+    if (inputData.bookmarkYn) {
+      const {
+        data: { data },
+      } = await getBodyBookmarkCheck({ title: inputData.title });
+      if (data.duplicated) {
+        alert(data.message);
+        return;
+      }
+    }
     dispatch(workoutRecordActions.addWorkoutState(inputData));
     router.push("/member/record/workout/register");
   };
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const numberValue = event.target.name === 'weight' || event.target.name === 'set' || event.target.name === 'times' || event.target.name === 'hour'
+    const numberValue =
+      event.target.name === "weight" ||
+      event.target.name === "set" ||
+      event.target.name === "times" ||
+      event.target.name === "hour";
     if (numberValue) {
       setInputData({
         ...inputData,
-        [event.target.name]: Number(event.target.value)
-      })
+        [event.target.name]: Number(event.target.value),
+      });
     } else {
       setInputData({
         ...inputData,
-        [event.target.name]: event.target.value
-      })
+        [event.target.name]: event.target.value,
+      });
     }
-  }
+  };
 
-  useEffect(() => {
-    console.log("inputData: ", inputData);
-  }, [inputData]);
+  // useEffect(() => {
+  //   console.log("inputData: ", inputData);
+  // }, [inputData]);
 
   useEffect(() => {
     const date = searchParams.get("date");
@@ -124,7 +147,12 @@ const page = () => {
     <>
       <PageHeader back={true} title={"운동 입력"} />
       <BaseContentWrap>
-        <BookmarkButton $variant="outline" onClick={() => router.push('/member/record/workout/bookmark')}>북마크에서 가져오기</BookmarkButton>
+        <BookmarkButton
+          $variant="outline"
+          onClick={() => router.push("/member/record/workout/bookmark")}
+        >
+          북마크에서 가져오기
+        </BookmarkButton>
         <FormWrap>
           <LabelTitle>운동명</LabelTitle>
           <Input
@@ -153,7 +181,7 @@ const page = () => {
             })}
           </CategoryPartList>
         </FormWrap>
-        {bodyPart !== undefined &&
+        {bodyPart !== undefined && (
           <FormWrap>
             <LabelTitle>부위</LabelTitle>
             <CategoryPartList>
@@ -162,15 +190,18 @@ const page = () => {
                   <li
                     key={index}
                     onClick={() => handleChoiceBodyPart(part.value)}
-                    className={inputData.bodyParts === part.value ? "active" : ""}
+                    className={
+                      inputData.bodyParts === part.value ? "active" : ""
+                    }
                   >
                     {part.title}
                   </li>
                 );
               })}
             </CategoryPartList>
-          </FormWrap>}
-        {specificBodyParts !== undefined &&
+          </FormWrap>
+        )}
+        {specificBodyParts !== undefined && (
           <FormWrap>
             <LabelTitle>상세 부위</LabelTitle>
             <CategoryPartList>
@@ -179,14 +210,19 @@ const page = () => {
                   <li
                     key={index}
                     onClick={() => handleChoiceSpecificBodyPart(part.value)}
-                    className={inputData.specificBodyParts?.includes(part.value) ? "active" : ""}
+                    className={
+                      inputData.specificBodyParts?.includes(part.value)
+                        ? "active"
+                        : ""
+                    }
                   >
                     {part.title}
                   </li>
                 );
               })}
             </CategoryPartList>
-          </FormWrap>}
+          </FormWrap>
+        )}
         <FormWrap>
           <LabelTitle>운동 내용</LabelTitle>
           <InputRowWrap>
@@ -246,7 +282,9 @@ const page = () => {
           </ToggleButton>
         </BookmarkSaveToggle>
         <ButtonAreaFixed $nav>
-          <Button $variant='primary' onClick={handleAddRecord}>추가하기</Button>
+          <Button $variant="primary" onClick={handleAddRecord}>
+            추가하기
+          </Button>
         </ButtonAreaFixed>
       </BaseContentWrap>
     </>

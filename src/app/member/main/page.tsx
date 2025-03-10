@@ -28,13 +28,14 @@ import {
   getLessonsMonthly,
   getPersonalTrainers,
 } from "@/services/member/training";
-import { getMemberInfo } from "@/services/member/member";
+import { reqGetMemberInfo } from "@/services/member/member";
 import { getDietByDate } from "@/services/member/diet";
 import { MemberInfo } from "@/types/member/member";
 import { convertGoal } from "@/utils/convertGoal";
 import { ScheduleDates } from "@/types/member/schedule";
 import MonthlyCalendar from "@/components/member/MonthlyCalendar";
 import EmptyData from "@/components/member/EmptyData";
+import { DietRecord, WorkoutRecord } from "@/types/member/record";
 
 const page = () => {
   const router = useRouter();
@@ -42,7 +43,7 @@ const page = () => {
   const memberInit = {
     id: 0,
     email: "",
-    oauthProvider: "",
+    authProvider: "",
     loginType: "",
     name: "",
     height: 0,
@@ -59,8 +60,8 @@ const page = () => {
   };
 
   const [tabClick, setTabClick] = useState("1");
-  const [todayDiet, setTodayDiet] = useState("");
-  const [todayWorkout, setTodayWorkout] = useState([]);
+  const [todayDiet, setTodayDiet] = useState<DietRecord>();
+  const [todayWorkout, setTodayWorkout] = useState<WorkoutRecord>();
   const [markDate, setMarkDate] = useState([]);
   const [activeDate, setActiveDate] = useState<ScheduleDates>(today);
   const [trainers, setTrainers] = useState([]);
@@ -88,8 +89,8 @@ const page = () => {
     try {
       const {
         data: { data },
-      } = await getMemberInfo();
-      setMemberInfo(data);
+      } = await reqGetMemberInfo();
+      setMemberInfo(data.memberInfo);
     } catch (error) {
       console.log("error: ", error);
     }
@@ -136,7 +137,7 @@ const page = () => {
   }, []);
 
   useEffect(() => {
-    handleGetTrainers(memberInfo.id);
+    if (memberInfo.id) handleGetTrainers(memberInfo.id);
   }, [memberInfo]);
 
   return (
@@ -149,7 +150,7 @@ const page = () => {
             <GoalContents>
               <div>
                 <span></span>
-                <div>{convertGoal("diet", memberInfo.dietType)}식단</div>
+                <div>{convertGoal("diet", memberInfo.dietType)} 식단</div>
               </div>
               <div>
                 <span></span>
@@ -182,7 +183,7 @@ const page = () => {
             <div>
               {tabClick === "1" ? (
                 <>
-                  {todayDiet?.length > 0 ? (
+                  {todayDiet && todayDiet.dietInfos.length > 0 ? (
                     <TodayDiet>
                       <TodayDietContents>
                         <div>
@@ -211,12 +212,14 @@ const page = () => {
                     <EmptyData
                       text="아직 등록된 식단이 없어요."
                       subText="눌러서 오늘의 식단을 입력해 주세요"
-                      onClick={() => router.push('/member/record/diet/register')}
+                      onClick={() =>
+                        router.push("/member/record/diet/register")
+                      }
                     />
                   )}
                 </>
               ) : (
-                <WorkoutList workout={todayWorkout} />
+                <WorkoutList workout={todayWorkout?.exerciseInfos} />
               )}
             </div>
           </div>

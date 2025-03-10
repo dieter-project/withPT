@@ -1,18 +1,18 @@
-'use client';
+"use client";
 
-import React from 'react'
-import PageHeader from '@/components/PageHeader';
+import React from "react";
+import PageHeader from "@/components/PageHeader";
 
 const page = () => {
-  const title = '식단 입력'
-  
+  const title = "식단 입력";
+
   return (
     <>
-      <PageHeader back={true} title={title}/>
+      <PageHeader back={true} title={title} />
       <div>
         <div>
           <div>운동명 입력</div>
-          <input type="text" placeholder='제목을 입력하세요' />
+          <input type="text" placeholder="제목을 입력하세요" />
         </div>
         <div>
           <div>분류</div>
@@ -39,7 +39,8 @@ const page = () => {
             <input type="text" />
           </div>
           <div>
-            <input type="text" /> x <input type="text" /> x <input type="text" />
+            <input type="text" /> x <input type="text" /> x{" "}
+            <input type="text" />
           </div>
         </div>
       </div>
@@ -49,7 +50,7 @@ const page = () => {
       </div>
       <button>저장하기</button>
     </>
-  )
-}
+  );
+};
 
-export default page
+export default page;

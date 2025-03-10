@@ -1,21 +1,21 @@
 import { api } from "@/utils/axios"
 
-export const getMemberInfo = async () => {
+export const reqGetMemberInfo = async () => {
   return await api.get(`/api/v1/members/info`)
 }
 
-export const patchMemberInfo = async (data: {}) => {
+export const reqPatchMemberInfo = async (data: {}) => {
   return await api.patch(`/api/v1/members/info`, data)
 }
 
-export const patchMemberWeight = async (data: {}) => {
+export const reqPatchMemberWeight = async (data: {}) => {
   return await api.patch(`/api/v1/members/info/weight`, data)
 }
 
-export const patchMemberExercise = async (data: {}) => {
+export const reqPatchMemberExercise = async (data: {}) => {
   return await api.patch(`/api/v1/members/info/exercise`, data)
 }
 
-export const patchMemberDiet = async (data: {}) => {
+export const reqPatchMemberDiet = async (data: {}) => {
   return await api.patch(`/api/v1/members/info/diet`, data)
 }

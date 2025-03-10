@@ -2,10 +2,10 @@
 import React, { useEffect } from 'react'
 import { useRouter, useSearchParams } from "next/navigation";
 import { useDispatch } from 'react-redux';
-import { api } from '@/utils/axios';
 import { signupActions } from '@/redux/reducers/signupSlice';
 import { setCookie } from '@/utils/cookie';
 import { memberActions } from '@/redux/reducers/memberSlice';
+import { requestKakaoLogin } from '@/services/member/auth';
 
 export default function page () {
   const searchParams = useSearchParams();
@@ -18,28 +18,28 @@ export default function page () {
   const handleGetAuthCode = async () => {
     let role = sessionRole || localRole
     try {
-      const { data: { data } } = await api.post('/api/v1/oauth/kakao',{
-        authorizationCode: code,
-        role: "MEMBER"
+      const { data: { data } } = await requestKakaoLogin({
+        authorizationCode: code || '',
+        role: role || ''
       })
       // console.log('response: ', data);
       
-      if (data.accessToken && data.refreshToken) {
-        setCookie('access', data.accessToken, { path: "/" })
-        setCookie('refreshToken', data.refreshToken, { path: "/" })
+      if (data.loginInfo.accessToken && data.loginInfo.refreshToken) {
+        setCookie('access', data.loginInfo.accessToken, { path: "/" })
+        setCookie('refreshToken', data.loginInfo.refreshToken, { path: "/" })
         router.replace('/member/main')
       } else {
         dispatch(signupActions.saveSignupState({
-          email: data.email,
-          oauthProvider: data.oauthProvider,
-          role: data.role,
+          email: data.loginInfo.email,
+          authProvider: data.loginInfo.authProvider,
+          role: data.loginInfo.role,
         }))
         router.replace('/member/signup/step1')
       }
 
       dispatch(memberActions.isLogin({
-        id: data.id,
-        name: data.name,
+        id: data.loginInfo.id,
+        name: data.loginInfo.name,
       }))
       // dispatch(memberActions.getToken('token'))
     } catch (error) {

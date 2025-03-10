@@ -25,3 +25,33 @@ export const InputResetBtn = styled.button`
   background: url("/svgs/icon_input_reset.svg") no-repeat;
   background-position: center;
 `
+
+export const PlusButton = styled.button`
+  position: relative;
+  width: 2rem;
+  height: 2rem;
+
+  &::before {
+    display: block;
+    content: '';
+    width: 2px;
+    height: 1rem;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    background-color: var(--font-gray700);
+  }
+  
+  &::after {
+    display: block;
+    content: '';
+    width: 1rem;
+    height: 2px;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    background-color: var(--font-gray700);
+  }
+`

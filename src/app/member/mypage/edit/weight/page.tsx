@@ -9,7 +9,7 @@ import { InputWrap } from '@/styles/Input'
 import { SignUpTitleWrap } from '@/styles/SignupForm'
 import { BaseContentWrap, ButtonAreaFixed } from '@/styles/Layout'
 import { WeightInput } from '@/app/member/signup/step3/styles'
-import { getMemberInfo, patchMemberWeight } from '@/services/member/member'
+import { reqGetMemberInfo, reqPatchMemberWeight } from '@/services/member/member'
 
 const page = () => {
   const title = '목표 설정'
@@ -29,7 +29,7 @@ const page = () => {
   }
 
   const getWeight = async () => {
-    const { data: { data } } = await getMemberInfo()
+    const { data: { data } } = await reqGetMemberInfo()
     console.log('data: ', data);
     setInputData({...inputData, targetWeight: data.weight})
     setCurrWeight(data.weight)
@@ -37,7 +37,7 @@ const page = () => {
 
   const handleSubmit = async () => {
     try {
-      await patchMemberWeight(inputData)
+      await reqPatchMemberWeight(inputData)
       router.push(`/member/mypage`)
     } catch (error) {
       console.log('error: ', error);
