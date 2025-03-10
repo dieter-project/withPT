@@ -3,18 +3,18 @@ import { useEffect, useState } from "react";
 import styled from "styled-components";
 import Link from "next/link";
 import Image from "next/image";
-import { Container, ContentBody } from "@/styles/TrainerLayout";
-import { Button, IconButton } from "@/styles/TrainerButton";
-import ContentHeader from "@/components/TrainerPageTitle";
-import Footer from "@/components/TrainerFooter";
+import { TrainerLayout } from "@/app/trainer/layout";
+import { EventButton } from "@/components/trainer/atoms/Button/EventButton";
+import Wrapper from "@/components/trainer/molecules/Wrapper/Wrapper";
 import "react-calendar/dist/Calendar.css";
-import arrowCircleUnderGray from "../../../../public/Trainer/icons/arrowCircleUnderGray.png";
-import purplePlusIcon from "../../../../public/Trainer/icons/plusIconWhite.png";
-import purpleCheckIcon from "../../../../public/Trainer/icons/checkIconPurple.png";
-import purpleExcalmiIcon from "../../../../public/Trainer/icons/exclamationPurple.png";
-import redMinusIcon from "../../../../public/Trainer/icons/minusIconRed.png";
-import ModalCloseXButtonImg from "../../../../public/Trainer/Modal/close-line.png";
+import arrowCircleUnderGray from "public/Trainer/icons/arrowCircleUnderGray.png";
+import purplePlusIcon from "public/Trainer/icons/plusIconWhite.png";
+import purpleCheckIcon from "public/Trainer/icons/checkIconPurple.png";
+import purpleExcalmiIcon from "public/Trainer/icons/exclamationPurple.png";
+import redMinusIcon from "public/Trainer/icons/minusIconRed.png";
+import ModalCloseXButtonImg from "public/Trainer/Modal/close-line.png";
 import Calendar from "../coursemanagement/calendar/page";
+import { api } from "@/utils/axios";
 
 const MainTopContent = styled.div`
   background-color: white;
@@ -75,14 +75,6 @@ const ModalWrap = styled.div`
   transition: 0.3s;
 `;
 
-const ModalCloseButton = styled.button`
-  background-color: var(--primary);
-  width: 100%;
-  color: var(--white);
-  border-radius: 0.5rem;
-  padding: 1.5vh 0;
-`;
-
 const ModalDimmed = styled.div`
   z-index: -1;
   width: 100%;
@@ -128,10 +120,6 @@ const CenterName = styled.div`
   color: var(--font-gray400);
 `;
 
-const CourseMemberTopTxt = styled.div``;
-
-const CourseMemberBottomTxt = styled.div``;
-
 const CourseConfirmed = styled.div`
   display: flex;
   align-items: center;
@@ -174,14 +162,9 @@ const PickedCenterButton = styled.button`
 `;
 
 const ArrowCircleUnderGray = styled(Image)`
-  display: inline-block;
   width: 1rem;
   line-height: 1rem;
   margin-left: 0.5rem;
-`;
-
-const ColorContentBody = styled(ContentBody)`
-  padding: 5rem 0rem 3.2rem 0rem;
 `;
 
 const CourseListRightWrap = styled.div`
@@ -273,45 +256,69 @@ export default function ManageMain() {
     setPickedCenter(centerName);
   };
 
-  return (
-    <Container>
-      <ContentHeader title={title} variant="center"></ContentHeader>
-      <ColorContentBody>
-        <MainTopContent>
-          <ButtonRegionWrap>
-            {" "}
-            <Button
-              variant="primary"
-              height="3.5rem"
-              style={{ marginRight: "1rem" }}
-            >
-              <ButtonInnerRegion>
-                <Link href="/trainer/coursemanagement/courseregister">
-                  <ButtonIcon src={purplePlusIcon} alt="플러스 아이콘" />
-                  <span>신규수업 등록</span>
-                </Link>
-              </ButtonInnerRegion>
-            </Button>{" "}
-            <Button variant="outlinepurple" height="3.5rem">
-              <ButtonInnerRegion>
-                <Link href="/trainer/membermanagement/member/regist">
-                  <ButtonIcon src={purpleExcalmiIcon} alt="플러스 아이콘" />
-                  <span>대기 수업</span> <span>5</span>
-                </Link>
-              </ButtonInnerRegion>
-            </Button>
-          </ButtonRegionWrap>
+  const getResponseTest = async () => {
+    try {
+      const response = await api.get(
+        `/api/v1/lessons?gym=${19}&date=${"2024-05-25"}&status=${"RESERVED"}`,
+      );
+      const responseStatus = response.data.status;
+      const responseData = response.data;
+      console.log("통신 결과", responseData);
+      if (responseStatus === "success") {
+        console.log(responseData);
+      }
+    } catch (error) {
+      console.log("error fetching", error);
+    }
+  };
 
-          <PickedCenterButton onClick={toggleModal}>
-            <span>{pickedCenter}</span>
-            <ArrowCircleUnderGray
-              src={arrowCircleUnderGray}
-              alt="리스트 선택하는 아래 화살표 아이콘"
-            />
-          </PickedCenterButton>
-          <Calendar onChange={onChange} value={value} />
-        </MainTopContent>
-        <ManageCourseWrap>
+  useEffect(() => {
+    getResponseTest();
+  }, []);
+
+  return (
+    <TrainerLayout
+      title={title}
+      hasHeader={true}
+      hasFooter={true}
+      variant="withBack"
+      bgColor="primary"
+    >
+      <>
+        <Wrapper type="spaceBetween" marginBottom="1.5rem">
+          <EventButton
+            $eventButtonType="primary"
+            // height="3.5rem"
+            // style={{ marginRight: "1rem" }}
+          >
+            <Link href="/trainer/coursemanagement/courseregister">
+              <ButtonIcon src={purplePlusIcon} alt="플러스 아이콘" />
+              <span>신규수업 등록</span>
+            </Link>
+          </EventButton>{" "}
+          <EventButton
+            $variant="default"
+            border="1px solid var(--primary)"
+            height="3.5rem"
+          >
+            <ButtonInnerRegion>
+              <Link href="/trainer/membermanagement/member/regist">
+                <ButtonIcon src={purpleExcalmiIcon} alt="플러스 아이콘" />
+                <span>대기 수업</span> <span>5</span>
+              </Link>
+            </ButtonInnerRegion>
+          </EventButton>
+        </Wrapper>
+
+        <PickedCenterButton onClick={toggleModal}>
+          <span>{pickedCenter}</span>
+          <ArrowCircleUnderGray
+            src={arrowCircleUnderGray}
+            alt="리스트 선택하는 아래 화살표 아이콘"
+          />
+        </PickedCenterButton>
+        <Calendar onChange={onChange} value={value} />
+        <div>
           <ManageTitleWrap>
             <div>
               <ManageTitle>11월 15일 (수)</ManageTitle>
@@ -376,9 +383,8 @@ export default function ManageMain() {
               </CenterList>
             </Link>
           </ul>
-        </ManageCourseWrap>
-      </ColorContentBody>
-      <Footer />
+        </div>
+      </>
       {isModalOpen && (
         <Modal>
           <ModalWrap style={{ bottom: showModalContent ? "-30%" : "-100%" }}>
@@ -408,6 +414,6 @@ export default function ManageMain() {
           <ModalDimmed></ModalDimmed>
         </Modal>
       )}
-    </Container>
+    </TrainerLayout>
   );
 }

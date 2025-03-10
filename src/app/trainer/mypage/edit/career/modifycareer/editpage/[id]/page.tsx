@@ -3,14 +3,13 @@ import { useState, useEffect } from "react";
 import Image from "next/image";
 import styled from "styled-components";
 import Link from "next/link";
-import ContentHeader from "@/components/TrainerPageTitle";
-import JoinStep from "@/components/Trainer/TrSignUpStep";
-import { DeleteInputXbutton } from "@/styles/TrainerInput";
-import { Container, ContentBody } from "@/styles/TrainerLayout";
-import { NoIconInput } from "@/styles/TrainerInput";
-import { Button } from "@/styles/TrainerButton";
-import Footer from "@/components/TrainerFooter";
-import { yearsToMonths } from "date-fns";
+import ContentHeader from "@/components/trainer/molecules/Header/Header";
+import { DeleteInputXbutton } from "@/styles/Trainer/TrainerInput";
+import { Container, ContentBody } from "@/styles/Trainer/TrainerLayout";
+import { NoIconInput } from "@/styles/Trainer/TrainerInput";
+import { Button } from "@/styles/Trainer/TrainerButton";
+import Footer from "@/components/trainer/organisms/Footer/TrainerFooter";
+import { ButtonAreaFixed } from "@/components/trainer/molecules/ButtonAreaFixed/ButtonAreaFixed";
 
 const ContentInnerBody = styled.div``;
 
@@ -147,6 +146,7 @@ const SignupFormWrap = styled.div`
 `;
 
 const RegisterItemWrap = styled.div`
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -157,37 +157,29 @@ const RegisterContentTitle = styled.div`
   width: 15%;
 `;
 
+const FlexWrap = styled.div`
+  display: flex;
+`;
+
 export default function EditPage() {
-  const title = "경력";
-
+  const title = "경력수정";
   const [centerName, setCenterName] = useState<string | null>(null);
-
   const currentYear = new Date().getFullYear();
   const currentMonth = new Date().getMonth();
   const [selectedYear, setSelectedYear] = useState(currentYear);
   const [selectedMonth, setSelectedMonth] = useState(currentMonth);
-  const years: number[] = [];
-  const months: number[] = [];
 
-  for (let year = currentYear - 50; year <= currentYear; year++) {
-    years.push(year);
-  }
-
-  for (let month = 1; month <= 12; month++) {
-    months.push(month);
-  }
-
-  const handleYearChange = e => {
+  const handleYearChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedYear(parseInt(e.target.value));
   };
 
-  const handleMonthChange = e => {
+  const handleMonthChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedMonth(parseInt(e.target.value));
   };
 
   return (
     <Container>
-      <ContentHeader title={title} variant="iconBack"></ContentHeader>
+      <ContentHeader title={title} variant="withBack"></ContentHeader>
       <ContentBody>
         <ContentInnerBody>
           {/* 경력 */}
@@ -220,36 +212,9 @@ export default function EditPage() {
                 // onChange={handleInputChange}
               ></NoIconInput>
             </RegisterItemWrap>
-            <RegisterItemWrap>
+            <FlexWrap>
               <RegisterContentTitle>기간</RegisterContentTitle>
-              {/* <label> 
-        
-         </label> */}
-              <select
-                id="year"
-                value={selectedYear}
-                onChange={handleYearChange}
-              >
-                {years.map(year => (
-                  <option key={year} value={year}>
-                    {year}
-                  </option>
-                ))}
-              </select>
-              <select
-                id="month"
-                value={selectedMonth}
-                onChange={handleMonthChange}
-              >
-                {months.map(month => (
-                  <option key={month} value={month}>
-                    {month}
-                  </option>
-                ))}
-              </select>
-            </RegisterItemWrap>
-
-            <Button variant="outlinegray">수정하기</Button>
+            </FlexWrap>
           </RegisterAllWrap>
         </ContentInnerBody>
         <Footer />

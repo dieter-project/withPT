@@ -2,6 +2,8 @@ import { Middleware, Store, combineReducers } from "redux";
 import { persistReducer, persistStore } from "redux-persist";
 import storage from "redux-persist/lib/storage/session";
 import memberReducer from "../redux/reducers/memberSlice";
+import trainerReducer from "../redux/reducers/trainerSlice";
+
 import {
   EnhancedStore,
   ThunkAction,
@@ -12,13 +14,13 @@ import { MakeStore, createWrapper } from "next-redux-wrapper";
 
 const persistConfig = {
   key: "root",
-  storage,
+  storage: typeof window !== "undefined" ? storage : null,
   // whitelist: ['auth'],
   timeout: 5000,
 };
 
 const rootReducer = combineReducers({
-  // trainer: trainerReducer,
+  trainer: trainerReducer,
   member: memberReducer,
 });
 

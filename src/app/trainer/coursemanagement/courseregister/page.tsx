@@ -4,18 +4,18 @@ import styled from "styled-components";
 import Link from "next/link";
 import Image from "next/image";
 import moment from "moment";
-import { Button, IconButton } from "@/styles/TrainerButton";
-import { ListButton } from "@/styles/TrainerButton";
+import { Button, IconButton } from "@/styles/Trainer/TrainerButton";
+import { ListButton } from "@/styles/Trainer/TrainerButton";
 import {
   SearchBarWrap,
   SearchIcon,
   SearchBarInput,
-} from "@/styles/TrainerSearchBar";
-import Footer from "@/components/TrainerFooter";
+} from "@/styles/Trainer/TrainerSearchBar";
+import { ButtonAreaFixed } from "@/components/trainer/molecules/ButtonAreaFixed/ButtonAreaFixed";
 import { startOfWeek, addDays, format } from "date-fns";
 import "react-calendar/dist/Calendar.css";
 import searchIcon from "../../../../../public/Trainer/icons/searchLightGray.png";
-import ContentHeader from "@/components/TrainerPageTitle";
+import ContentHeader from "@/components/trainer/molecules/Header/Header";
 import purplePlusIcon from "../../../../../public/Trainer/icons/plusIconWhite.png";
 import purpleCheckIcon from "../../../../../public/Trainer/icons/checkIconPurple.png";
 import purpleExcalmiIcon from "../../../../../public/Trainer/icons/exclamationPurple.png";
@@ -26,6 +26,8 @@ import modalCloseXButtonImg from "../../../../../public/Trainer/Modal/close-line
 import toggleOnButtonImg from "../../../../../public/Trainer/icons/toggleOffButton.png";
 import toggleOffButtonImg from "../../../../../public/Trainer/icons/toggleOnButton.png";
 import Calendar from "../calendar/page";
+import { NoIconInput } from "@/styles/TrainerInput";
+import { DeleteInputXbutton } from "@/styles/TrainerInput";
 
 const MainContainer = styled.div`
   background-color: var(--white);
@@ -131,26 +133,32 @@ const TimeButton = styled.button`
 `;
 
 const SearchListWrap = styled.ul`
-  height: 13.5rem;
+  height: 13rem;
   overflow-y: scroll;
+  margin-top: 0.5rem;
 `;
 
 const SearchItemWrap = styled.li`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border: 1px solid gray;
+  border: 1px solid var(--border-gray400);
   border-radius: 0.5rem;
-  padding: 1rem;
+  padding: 0.8rem;
+  margin-bottom: 0.5rem;
 `;
 
 const SearchItemName = styled.div`
   display: inline-block;
-  margin-right: 1rem;
+  margin-right: 0.4rem;
 `;
 const SearchItemInfo = styled.div`
   display: inline-block;
   width: 5rem;
+  background-color: var(--purple100);
+  color: var(--font-secondary);
+  border-radius: 0.5rem;
+  text-align: center;
 `;
 const SearchItemNeedInfo = styled.div`
   display: flex;
@@ -161,7 +169,6 @@ const SearchItemNeedInfo = styled.div`
 const PickedCenterButton = styled.button`
   font-size: var(--font-l);
   font-weight: bold;
-  margin-bottom: 0.6rem;
 `;
 
 const ArrowCircleUnderGray = styled(Image)`
@@ -173,6 +180,14 @@ const ArrowCircleUnderGray = styled(Image)`
 
 const ContentTitle = styled.h4`
   font-weight: 500;
+`;
+
+const SearchWrap = styled.div`
+  position: relative;
+`;
+
+const ContentRegion = styled.div`
+  margin: 1rem 0;
 `;
 
 const dayList = [
@@ -245,80 +260,128 @@ export default function ManageMain() {
             alt="리스트 선택하는 아래 화살표 아이콘"
           />
         </PickedCenterButton>
-        <ContentTitle>회원검색</ContentTitle>
-        <SearchBarWrap>
-          <SearchIcon
-            src={searchIcon}
-            alt="검색 회색 돋보기 아이콘"
-          ></SearchIcon>
+        <ContentRegion>
+          <ContentTitle>회원검색</ContentTitle>
+          <SearchWrap>
+            <NoIconInput
+              name="name"
+              type="text"
+              required
+              value={searchText || ""}
+              onChange={e => setSearchText(e.target.value)}
+              // onChange={handleInputChange}
+            ></NoIconInput>
+            <DeleteInputXbutton
+              onClick={() => {
+                setSearchText(null);
+              }}
+            ></DeleteInputXbutton>
+          </SearchWrap>
+          <SearchListWrap>
+            <SearchItemWrap>
+              <div>
+                <SearchItemName>조은혜</SearchItemName>
+                <SearchItemInfo>25세 / 여</SearchItemInfo>
+              </div>
+              <SearchItemNeedInfo>
+                <Image
+                  src={purpleExcalmiIcon}
+                  alt="상세정보 입력 필요 알림 아이콘"
+                />
+                <div>상세정보 입력 필요</div>
+              </SearchItemNeedInfo>
+            </SearchItemWrap>
+            <SearchItemWrap>
+              <div>
+                <SearchItemName>조은혜</SearchItemName>
+                <SearchItemInfo>25세 / 여</SearchItemInfo>
+              </div>
+              <SearchItemNeedInfo>
+                <Image
+                  src={purpleExcalmiIcon}
+                  alt="상세정보 입력 필요 알림 아이콘"
+                />
+                <div>상세정보 입력 필요</div>
+              </SearchItemNeedInfo>
+            </SearchItemWrap>
+            <SearchItemWrap>
+              <div>
+                <SearchItemName>조은혜</SearchItemName>
+                <SearchItemInfo>25세 / 여</SearchItemInfo>
+              </div>
+              <SearchItemNeedInfo>
+                <Image
+                  src={purpleExcalmiIcon}
+                  alt="상세정보 입력 필요 알림 아이콘"
+                />
+                <div>상세정보 입력 필요</div>
+              </SearchItemNeedInfo>
+            </SearchItemWrap>
+            <SearchItemWrap>
+              <div>
+                <SearchItemName>조은혜</SearchItemName>
+                <SearchItemInfo>25세 / 여</SearchItemInfo>
+              </div>
+              <SearchItemNeedInfo>
+                <Image
+                  src={purpleExcalmiIcon}
+                  alt="상세정보 입력 필요 알림 아이콘"
+                />
+                <div>상세정보 입력 필요</div>
+              </SearchItemNeedInfo>
+            </SearchItemWrap>
+          </SearchListWrap>
+        </ContentRegion>
+        <ContentRegion>
+          <ToggleContentButton onClick={toggleDateTap}>
+            <ToggleContentInnerWrap>
+              <ContentTitle>날짜 선택</ContentTitle>
+              {isDateTapOpen && (
+                <Image src={toggleOnButtonImg} alt="토글 열림 아이콘" />
+              )}
+              {!isDateTapOpen && (
+                <Image src={toggleOffButtonImg} alt="토글 닫힘 아이콘" />
+              )}
+            </ToggleContentInnerWrap>
+          </ToggleContentButton>
+          {isDateTapOpen && <Calendar onChange={onChange} value={value} />}
+        </ContentRegion>
 
-          <SearchBarInput
-            type="text"
-            name="센터 검색바"
-            placeholder="검색"
-            onChange={e => setSearchText(e.target.value)}
-          ></SearchBarInput>
-        </SearchBarWrap>
-        <SearchListWrap>
-          <SearchItemWrap>
-            <div>
-              <SearchItemName>조은혜</SearchItemName>
-              <SearchItemInfo>25세 / 여</SearchItemInfo>
-            </div>
-            <SearchItemNeedInfo>
-              <Image
-                src={purpleExcalmiIcon}
-                alt="상세정보 입력 필요 알림 아이콘"
-              />
-              <div>상세정보 입력 필요</div>
-            </SearchItemNeedInfo>
-          </SearchItemWrap>
-        </SearchListWrap>
-        <ToggleContentButton onClick={toggleDateTap}>
-          <ToggleContentInnerWrap>
-            <div>날짜 선택</div>
-            {isDateTapOpen && (
-              <Image src={toggleOnButtonImg} alt="토글 열림 아이콘" />
-            )}
-            {!isDateTapOpen && (
-              <Image src={toggleOffButtonImg} alt="토글 닫힘 아이콘" />
-            )}
-          </ToggleContentInnerWrap>
-        </ToggleContentButton>
-        {isDateTapOpen && <Calendar onChange={onChange} value={value} />}
-        <ToggleContentButton onClick={toggleTimeTap}>
-          <ToggleContentInnerWrap>
-            <div>시간 선택</div>
-            {isTimeTapOpen && (
-              <Image src={toggleOnButtonImg} alt="토글 열림 아이콘" />
-            )}
-            {!isTimeTapOpen && (
-              <Image src={toggleOffButtonImg} alt="토글 닫힘 아이콘" />
-            )}
-          </ToggleContentInnerWrap>
-        </ToggleContentButton>
-        {isTimeTapOpen && (
-          <TimeChoiceWrap>
-            <div>오전</div>
-            <TimeButtonWrap>
-              <TimeButton>10:00</TimeButton>
-              <TimeButton>11:00</TimeButton>
-              <TimeButton>12:00</TimeButton>
-              <TimeButton>12:00</TimeButton>
-              <TimeButton>12:00</TimeButton>
-              <TimeButton>12:00</TimeButton>
-            </TimeButtonWrap>
-            <div>오후</div>
-            <TimeButtonWrap>
-              <TimeButton>10:00</TimeButton>
-              <TimeButton>11:00</TimeButton>
-              <TimeButton>12:00</TimeButton>
-              <TimeButton>12:00</TimeButton>
-              <TimeButton>12:00</TimeButton>
-              <TimeButton>12:00</TimeButton>
-            </TimeButtonWrap>
-          </TimeChoiceWrap>
-        )}
+        <ContentRegion>
+          <ToggleContentButton onClick={toggleTimeTap}>
+            <ToggleContentInnerWrap>
+              <ContentTitle>시간 선택</ContentTitle>
+              {isTimeTapOpen && (
+                <Image src={toggleOnButtonImg} alt="토글 열림 아이콘" />
+              )}
+              {!isTimeTapOpen && (
+                <Image src={toggleOffButtonImg} alt="토글 닫힘 아이콘" />
+              )}
+            </ToggleContentInnerWrap>
+          </ToggleContentButton>
+          {isTimeTapOpen && (
+            <TimeChoiceWrap>
+              <div>오전</div>
+              <TimeButtonWrap>
+                <TimeButton>10:00</TimeButton>
+                <TimeButton>11:00</TimeButton>
+                <TimeButton>12:00</TimeButton>
+                <TimeButton>12:00</TimeButton>
+                <TimeButton>12:00</TimeButton>
+                <TimeButton>12:00</TimeButton>
+              </TimeButtonWrap>
+              <div>오후</div>
+              <TimeButtonWrap>
+                <TimeButton>10:00</TimeButton>
+                <TimeButton>11:00</TimeButton>
+                <TimeButton>12:00</TimeButton>
+                <TimeButton>12:00</TimeButton>
+                <TimeButton>12:00</TimeButton>
+                <TimeButton>12:00</TimeButton>
+              </TimeButtonWrap>
+            </TimeChoiceWrap>
+          )}
+        </ContentRegion>
         <Button variant="primary">등록하기</Button>
       </MainContentWrap>
       {isModalOpen && (
@@ -339,7 +402,12 @@ export default function ManageMain() {
                     >
                       <CenterChooseContent>
                         <span>{center}</span>
-                        <Image src={purpleCheckIcon} alt="보라색 체크 아이콘" />
+                        {pickedCenter === center && (
+                          <Image
+                            src={purpleCheckIcon}
+                            alt="보라색 체크 아이콘"
+                          />
+                        )}
                       </CenterChooseContent>
                     </CenterChooseButton>
                   );

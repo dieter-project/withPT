@@ -5,11 +5,11 @@ import Image from "next/image";
 import styled from "styled-components";
 import Link from "next/link";
 import beforePage from "../../../../../public/icons/beforePage.png";
-import { Button } from "@/styles/TrainerButton";
+import { Button } from "@/styles/Trainer/TrainerButton";
 import { NoIconInput } from "@/styles/TrainerInput";
 import { useDispatch } from "react-redux";
 import { useAppSelector } from "@/redux/hooks";
-import ContentHeader from "@/components/TrainerPageTitle";
+import ContentHeader from "@/components/trainer/molecules/Header/Header";
 import profileNoImg from "../../../../../../public/Trainer/Mypage/profile-no-image.png";
 
 interface Trbirth {
@@ -252,7 +252,7 @@ export default function myinfo() {
 
   return (
     <MainContainer>
-      <ContentHeader title={title} variant="iconBack"></ContentHeader>
+      <ContentHeader title={title} variant="withBack"></ContentHeader>
       <MainContentWrap>
         <ProfileInputWrap>
           <ProfileLabel className="input-file-button" htmlFor="input-file">

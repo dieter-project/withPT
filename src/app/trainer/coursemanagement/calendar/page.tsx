@@ -46,11 +46,9 @@ const ReactCalender = ({ onChange, value }) => {
     .react-calendar__navigation button:enabled:hover,
     .react-calendar__navigation button:enabled:focus {
       border-radius: 20px 20px 0 0;
-      /* background-color: pink; */
     }
     .react-calendar__month-view {
       abbr {
-        // 텍스트
         border-bottom: none !important;
         font-size: 14px;
         font-weight: 400;
@@ -73,7 +71,7 @@ const ReactCalender = ({ onChange, value }) => {
       height: 3.3rem;
       text-align: center;
     }
-    /*hover, focus, 선택됐을 시 */
+
     .react-calendar__tile:enabled:hover,
     .react-calendar__tile:enabled:focus,
     .react-calendar__tile--active {

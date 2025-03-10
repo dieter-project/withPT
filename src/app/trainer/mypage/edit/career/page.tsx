@@ -3,10 +3,9 @@ import { useState, useEffect } from "react";
 import Image from "next/image";
 import styled from "styled-components";
 import Link from "next/link";
-import ContentHeader from "@/components/TrainerPageTitle";
-import JoinStep from "@/components/Trainer/TrSignUpStep";
+import ContentHeader from "@/components/trainer/molecules/Header/Header";
 import { Container, ContentBody } from "@/styles/TrainerLayout";
-import Footer from "@/components/TrainerFooter";
+import Footer from "@/components/trainer/organisms/Footer/TrainerFooter";
 import ModalCloseXButtonImg from "../../../../../../public/Trainer/Modal/close-line.png";
 import showMoreIcon from "../../../../../../public/Trainer/Mypage/show-more-icon.png";
 import searchIconImg from "../../../../../../public/searchLight.png";
@@ -469,7 +468,7 @@ export default function myinfo() {
 
   return (
     <Container>
-      <ContentHeader title={title} variant="iconBack"></ContentHeader>
+      <ContentHeader title={title} variant="withBack"></ContentHeader>
       <ContentBody>
         <ContentInnerBody>
           {/* 경력 */}
