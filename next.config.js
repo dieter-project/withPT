@@ -5,7 +5,7 @@ const nextConfig = {
     styledComponents: true,
   },
   experimental: {
-    appDir: true
+    appDir: true,
   },
   webpack: config => {
     config.module.rules.push({
@@ -13,6 +13,9 @@ const nextConfig = {
       use: ["@svgr/webpack"],
     });
     return config;
+  },
+  images: {
+    domains: ["withpt-s3.s3.ap-northeast-2.amazonaws.com"],
   },
   // async rewrites() {
   //   return [
