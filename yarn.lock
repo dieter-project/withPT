@@ -1907,10 +1907,10 @@
   "resolved" "https://registry.npmjs.org/@rushstack/eslint-patch/-/eslint-patch-1.3.2.tgz"
   "version" "1.3.2"
 
-"@stomp/stompjs@^7.0.0":
-  "integrity" "sha512-fGdq4wPDnSV/KyOsjq4P+zLc8MFWC3lMmP5FBgLWKPJTYcuCbAIrnRGjB7q2jHZdYCOD5vxLuFoKIYLy5/u8Pw=="
-  "resolved" "https://registry.npmjs.org/@stomp/stompjs/-/stompjs-7.0.0.tgz"
-  "version" "7.0.0"
+"@stomp/stompjs@^7.0.1":
+  "integrity" "sha512-qip3juB0JiInS70QSYVdgMoNLxbrRwDiYN5xx6b/RWcy/vSIUUZKLQOkSJTH2Z0x3rOvDHT/sPvs9gDJM32Yzg=="
+  "resolved" "https://registry.npmjs.org/@stomp/stompjs/-/stompjs-7.0.1.tgz"
+  "version" "7.0.1"
 
 "@svgr/babel-plugin-add-jsx-attribute@8.0.0":
   "integrity" "sha512-b9MIk7yhdS1pMCZM8VeNfUlSKVRhsHZNMl5O9SfaX0l0t5wjdgu4IDzGB8bpnGBBOjGST3rRFVsaaEtI4W6f7g=="
