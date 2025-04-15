@@ -1,7 +1,6 @@
 import { useState, useEffect, useRef, useCallback } from "react";
-import { Client, IFrame, IMessage } from "@stomp/stompjs";
+import { Client, IFrame, IMessage, IStompSocket, Stomp } from "@stomp/stompjs";
 import SockJS from "sockjs-client";
-import { client } from "stompjs";
 import { getCookie } from "@/utils/cookie";
 
 interface Message {
@@ -11,32 +10,36 @@ interface Message {
 }
 
 export const useWebSocketChat = (roomId: number) => {
+  console.log('roomId: ', roomId);
   const [messages, setMessages] = useState<Message[]>([]);
   const clientRef = useRef<Client | null>(null);
 
-  const SOCKET_URL = "http://13.124.80.64/ws-stomp";
+  const SOCKET_URL = "http://13.124.80.64/ws-stomp/";
   const CHAT_SUB_URL = `/exchange/chat.exchange/room.${roomId}`;
   const CHAT_SEND_URL = "/pub/chat/sendMessage";
   const CHAT_READ_URL = "/pub/chat/readMessage";
   const token = getCookie("access");
 
   useEffect(() => {
-    const socket = new SockJS(SOCKET_URL);
+    // const socket = new SockJS(SOCKET_URL);
     const client = new Client({
-      brokerURL: 'ws://13.124.80.64/ws-stomp',
-      // webSocketFactory: () => socket,
-      // connectHeaders: {
-      //   Authorization: `Bearer ${token}`,
-      // },
+      brokerURL: "ws://13.124.80.64/ws-stomp",
+      // webSocketFactory: () => socket as IStompSocket,
+      connectHeaders: {
+        Authorization: `Bearer ${token}`,
+      },
+      debug: (str) => {
+        console.log("STOMP Debug: ", str);
+      },
       reconnectDelay: 5000,
       heartbeatIncoming: 4000,
       heartbeatOutgoing: 4000,
 
       onConnect: (conn: IFrame) => {
-        console.log('[+] WebSocket 연결이 되었습니다.', conn);
+        console.log("[+] WebSocket 연결이 되었습니다.", conn);
         client.subscribe(CHAT_SUB_URL, (message: IMessage) => {
           const receiveData = JSON.parse(message.body);
-          setMessages((prevMessages) => [
+          setMessages(prevMessages => [
             ...prevMessages,
             {
               content: receiveData.content,
@@ -45,28 +48,29 @@ export const useWebSocketChat = (roomId: number) => {
           ]);
         });
       },
-      onDisconnect: () => console.log("WebSocket 연결 해제"),
-      onStompError: frame => console.error("STOMP 오류", frame),
+      // onDisconnect: () => console.log("WebSocket 연결 해제"),
+      onWebSocketClose: close => {
+        console.log("[-] WebSocket 연결이 종료 되었습니다.", close);
+      },
+      // 웹 소켓 연결 에러
+      onWebSocketError: error => {
+        console.error("[-] 웹 소켓 연결 오류가 발생하였습니다.", error);
+      },
+      // STOMP 프로토콜 에러
+      onStompError: frame => {
+        console.error("Broker reported error: " + frame.headers["message"]);
+        console.error("Additional details: " + frame.body);
+      },
     });
 
-    // client.onConnect = frame => {
-    //   console.log("WebSocket 연결됨", frame);
-    //   clientRef.current = client;
+    // if (typeof WebSocket !== "function") {
+    //   // For SockJS you need to set a factory that creates a new SockJS instance
+    //   // to be used for each (re)connect
+    //   client.webSocketFactory = function () {
+    //     return new SockJS(SOCKET_URL) as unknown as IStompSocket;
+    //   };
+    // }
 
-    //   client.subscribe(CHAT_TOPIC, message => {
-    //     const receivedMessage: Message = JSON.parse(message.body);
-    //     setMessages(prev => [...prev, receivedMessage]);
-    //   });
-    // };
-
-    client.onStompError = frame => {
-      console.error("Broker reported error:", frame.headers["message"]);
-      console.error("Additional details:", frame.body);
-    };
-
-    client.onDisconnect = frame => {
-      console.log("Disconnected:", frame);
-    };
     client.activate();
 
     return () => {
