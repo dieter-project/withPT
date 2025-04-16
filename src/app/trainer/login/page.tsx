@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect } from "react";
 import Link from "next/link";
-import PageTitle from "@/components/PageTitle";
+import PageHeader from "@/components/PageHeader";
 import { BaseContentWrap } from "@/styles/Layout";
 import {
   GoogleLoginButton,
@@ -10,7 +10,6 @@ import {
   LogoWrap,
   WePTLogoImg,
 } from "./style";
-import WePTLogo from "public/icons/weptLogo.png";
 
 const page = () => {
   const onGoogleSocialLogin = (): any => {
@@ -22,11 +21,11 @@ const page = () => {
 
   return (
     <>
-      <PageTitle title="" />
+      <PageHeader title="" back={true}/>
       <BaseContentWrap>
         <LogoWrap>
           <WePTLogoImg
-            src={WePTLogo}
+            src={'/images/symbol_logo_vertical.png'}
             width={96}
             height={138}
             alt="위피티 메인 로고"
