@@ -21,11 +21,20 @@ import {
   NewChatButton,
   ProfileCircle,
 } from "./style";
-import { reqGetChatRooms, reqPostChatRoom } from "@/services/member/chat";
+import { reqGetChatRoomContent, reqGetChatRooms, reqPostChatRoom } from "@/services/member/chat";
 import { reqGetMemberInfo } from "@/services/member/member";
 import { PtInfos } from "@/types/member/member";
 import { getCookie } from "@/utils/cookie";
 
+interface Partner {
+  id: number
+  name: string
+  email: string
+  role: string
+  imageUrl: string
+  birth: string
+  sex: string
+}
 interface ChatRooms {
   roomId: number;
   identifier: string;
@@ -35,6 +44,7 @@ interface ChatRooms {
   lastReadChatId: number;
   lastChat: string;
   lastModifiedDate: string;
+  partner: Partner
 }
 const page = () => {
   const [chatRooms, setChatRooms] = useState<ChatRooms[]>([]);
@@ -59,7 +69,6 @@ const page = () => {
       const {
         data: { data },
       } = await reqGetChatRooms();
-      console.log("data: ", data);
       setChatRooms(data.roomList);
     } catch (error) {}
   };
@@ -144,7 +153,7 @@ const page = () => {
                             </Checkbox>
                           )}
                           <ProfileCircle>
-                            <img src="" alt="" />
+                            <img src={room.partner.imageUrl} alt="" />
                           </ProfileCircle>
                           <ChatTrainerListInfo>
                             <div>{room.roomName}</div>
