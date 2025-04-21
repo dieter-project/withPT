@@ -1,7 +1,7 @@
 "use client";
 
-import PageHeader from "@/components/PageHeader";
-import JoinStep from "@/components/SignUpStep";
+import PageHeader from "@/components/member/layout/PageHeader";
+import JoinStep from "@/components/member/signup/SignUpStep";
 import { targetDiet } from "@/constants/signup";
 import { useAppSelector } from "@/redux/hooks";
 import { signupActions } from "@/redux/reducers/signupSlice";

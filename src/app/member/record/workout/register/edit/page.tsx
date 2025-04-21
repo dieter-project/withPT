@@ -1,6 +1,6 @@
 "use client";
 
-import PageHeader from "@/components/PageHeader";
+import PageHeader from "@/components/member/layout/PageHeader";
 import { Button } from "@/styles/Button";
 import { CategoryPartList } from "@/styles/CategoryPartList";
 import { Input, InputRowWrap, InputWrap } from "@/styles/Input";

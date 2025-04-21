@@ -1,7 +1,7 @@
 'use client';
 
-import Header from "@/components/Header";
-import PageHeader from "@/components/PageHeader";
+import Header from "@/components/member/layout/Header";
+import PageHeader from "@/components/member/layout/PageHeader";
 import { Input, InputRowWrap, InputWrap } from "@/styles/Input";
 import { BaseContentWrap, ButtonAreaFixed } from "@/styles/Layout";
 import { SignUpInputContainer } from "@/styles/SignupForm";

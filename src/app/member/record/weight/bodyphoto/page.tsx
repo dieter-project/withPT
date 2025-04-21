@@ -1,6 +1,6 @@
 'use client';
 
-import PageHeader from '@/components/PageHeader';
+import PageHeader from '@/components/member/layout/PageHeader';
 import { BodyPhotoModal } from '@/components/member/record/BodyPhotoModal';
 import { Checkbox } from '@/styles/Input';
 import { BaseContentWrap } from '@/styles/Layout';

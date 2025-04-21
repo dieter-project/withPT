@@ -1,6 +1,6 @@
 "use client";
 
-import PageHeader from "@/components/PageHeader";
+import PageHeader from "@/components/member/layout/PageHeader";
 import { api } from "@/utils/axios";
 import React, { useEffect, useState } from "react";
 import { styled } from "styled-components";

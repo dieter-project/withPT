@@ -1,7 +1,7 @@
 import React from "react";
 import type { Metadata } from "next";
 import { QueryErrorResetBoundary } from "@tanstack/react-query";
-import AuthContext from "@/components/AuthContext";
+import AuthContext from "@/components/common/AuthContext";
 import StyledComponentsRegistry from "@/lib/StyledComponentsRegistry";
 import { Providers } from "../redux/provider";
 import ReactQueryProviders from "@/utils/react-query-provider";

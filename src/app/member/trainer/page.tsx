@@ -1,12 +1,12 @@
 'use client';
 
-import PageHeader from '@/components/PageHeader';
+import PageHeader from '@/components/member/layout/PageHeader';
 import { api } from '@/utils/axios';
 import React, { useEffect, useState } from 'react'
 import { styled } from 'styled-components'
 import { LabelTitle } from '@/styles/Text';
 import { BaseContentWrap, ContentSection, RoundBox } from '@/styles/Layout';
-import { TrainerSwipe } from '@/components/TrainerSwipe';
+import { TrainerSwipe } from '@/components/member/main/TrainerSwipe';
 
 const TrainerInfoWrap = styled(RoundBox)`
   width: 100%;

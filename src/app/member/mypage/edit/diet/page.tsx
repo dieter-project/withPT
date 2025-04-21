@@ -1,7 +1,7 @@
 'use client'
 
 import { DietIcon, DietText, RadioButton } from '@/app/member/signup/step2/styles'
-import PageHeader from '@/components/PageHeader'
+import PageHeader from '@/components/member/layout/PageHeader'
 import { targetDiet } from '@/constants/signup'
 import { useAppSelector } from '@/redux/hooks'
 import { reqGetMemberInfo, reqPatchMemberDiet } from '@/services/member/member'

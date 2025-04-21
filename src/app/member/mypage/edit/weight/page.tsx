@@ -1,6 +1,6 @@
 'use client'
 
-import PageHeader from '@/components/PageHeader'
+import PageHeader from '@/components/member/layout/PageHeader'
 import { useRouter } from 'next/navigation'
 import React, { useEffect, useRef, useState } from 'react'
 import { Button } from '@/styles/Button'

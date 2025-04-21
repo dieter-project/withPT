@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useMemo, useState } from "react";
-import Header from "@/components/Header";
+import Header from "@/components/member/layout/Header";
 import { BaseContentWrap, ContentSection } from "@/styles/Layout";
 import { LabelTitle } from "@/styles/Text";
 import { useRouter } from "next/navigation";
@@ -13,7 +13,7 @@ import { MemberInfo } from "@/types/member/member";
 import { getRecord } from "@/services/member/record";
 import { WeeklyCalendar } from "@/components/member/common/WeeklyCalendar";
 import { format } from "date-fns";
-import PageHeader from "@/components/PageHeader";
+import PageHeader from "@/components/member/layout/PageHeader";
 import { CalendarIcon } from "@/styles/components/Header";
 type WeeklyRecord = {
   [date: string]: {

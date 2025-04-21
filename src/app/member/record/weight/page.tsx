@@ -1,6 +1,6 @@
 "use client";
 
-import Header from "@/components/Header";
+import Header from "@/components/member/layout/Header";
 import { BaseContentWrap, ContentSection, RoundBox } from "@/styles/Layout";
 import { GoalBox } from "@/styles/RecordPage";
 import { LabelTitle } from "@/styles/Text";
@@ -21,7 +21,7 @@ import {
 } from "./style";
 import { api } from "@/utils/axios";
 import { todayDate } from "@/constants/record";
-import { WeightEditModal } from "@/components/WeightEditModal";
+import { WeightEditModal } from "@/components/member/modal/WeightEditModal";
 import { FileInput } from "@/styles/Input";
 import {
   BodyInfo,

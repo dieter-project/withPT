@@ -1,6 +1,6 @@
 "use client";
 
-import PageHeader from "@/components/PageHeader";
+import PageHeader from "@/components/member/layout/PageHeader";
 import { SettingIcon } from "@/styles/components/Header";
 import { BaseContentWrap, ContentSection } from "@/styles/Layout";
 import { DateText } from "../register/style";
@@ -11,7 +11,7 @@ import { WorkoutInfo } from "@/types/member/record";
 import { deleteExercise, getExercise } from "@/services/member/exercise";
 import { BODY_PART, EXERCISE_TYPE } from "@/constants/record";
 import { Hr, Label, TypeBlock } from "./style";
-import SettingMenu from "@/components/SettingMenu";
+import SettingMenu from "@/components/member/layout/SettingMenu";
 
 const page = ({ params }: { params: { id: number } }) => {
   const [isOpen, setIsOpen] = useState(false);

@@ -1,6 +1,6 @@
 'use client';
 
-import Header from "@/components/Header";
+import Header from "@/components/member/layout/Header";
 import { BaseContentWrap, ContentSection } from "@/styles/Layout";
 import { LabelTitle } from "@/styles/Text";
 import { GoalIcon, GoalListItem, GoalValue, MenuList, NextArrow, ProfileWrap } from "./styles";

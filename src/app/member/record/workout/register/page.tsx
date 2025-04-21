@@ -1,8 +1,8 @@
 "use client";
 
-import { MonthlyModal } from "@/components/MonthlyModal";
-import PageHeader from "@/components/PageHeader";
-import WorkoutList from "@/components/member/WorkoutList";
+import { MonthlyModal } from "@/components/member/modal/MonthlyModal";
+import PageHeader from "@/components/member/layout/PageHeader";
+import WorkoutList from "@/components/member/record/WorkoutList";
 import { useAppSelector } from "@/redux/hooks";
 import { workoutRecordActions } from "@/redux/reducers/workoutRecordSlice";
 import { AddImgButton } from "@/styles/AddButton";
