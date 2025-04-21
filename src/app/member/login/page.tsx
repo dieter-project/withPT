@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import PageHeader from "@/components/PageHeader";
+import PageHeader from "@/components/member/layout/PageHeader";
 import { BaseContentWrap } from "@/styles/Layout";
 import { signIn } from "next-auth/react";
 import {

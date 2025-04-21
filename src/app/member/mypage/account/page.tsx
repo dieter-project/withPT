@@ -1,7 +1,7 @@
 'use client';
 
-import Header from "@/components/Header";
-import PageHeader from "@/components/PageHeader";
+import Header from "@/components/member/layout/Header";
+import PageHeader from "@/components/member/layout/PageHeader";
 import { BaseContentWrap, ContentSection } from "@/styles/Layout";
 import { LabelTitle } from "@/styles/Text";
 import { api } from "@/utils/axios";
@@ -10,7 +10,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { MenuList } from "../styles";
 import { logout } from "@/services/member/auth";
-import { WithdrawModal } from "@/components/member/WithdrawModal";
+import { WithdrawModal } from "@/components/member/modal/WithdrawModal";
 
 const page = () => {
   const title = "계정관리"

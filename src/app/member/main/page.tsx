@@ -1,12 +1,12 @@
 "use client";
 
-import Header from "@/components/Header";
+import Header from "@/components/member/layout/Header";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { ExclamationMark, LabelTitle } from "@/styles/Text";
 import { ContentSection } from "@/styles/Layout";
-import MemberBottomNav from "@/components/MemberBottomNav";
-import { TrainerSwipe } from "@/components/TrainerSwipe";
+import MemberBottomNav from "@/components/member/layout/MemberBottomNav";
+import { TrainerSwipe } from "@/components/member/main/TrainerSwipe";
 import {
   EmptyTodayDiet,
   GoalContents,
@@ -19,7 +19,7 @@ import {
   TodayTab,
 } from "./styles";
 import DonutChart from "@/components/member/main/DonutChart";
-import WorkoutList from "@/components/member/WorkoutList";
+import WorkoutList from "@/components/member/record/WorkoutList";
 import { format } from "date-fns";
 import { ko } from "date-fns/locale";
 import { getExerciseByDate } from "@/services/member/exercise";
@@ -33,8 +33,8 @@ import { getDietByDate } from "@/services/member/diet";
 import { MemberInfo } from "@/types/member/member";
 import { convertGoal } from "@/utils/convertGoal";
 import { ScheduleDates } from "@/types/member/schedule";
-import MonthlyCalendar from "@/components/member/MonthlyCalendar";
-import EmptyData from "@/components/member/EmptyData";
+import MonthlyCalendar from "@/components/member/record/MonthlyCalendar";
+import EmptyData from "@/components/member/record/EmptyData";
 import { DietRecord, WorkoutRecord } from "@/types/member/record";
 
 const page = () => {

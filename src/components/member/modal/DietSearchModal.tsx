@@ -1,7 +1,7 @@
-import { CloseBtn, InputResetBtn } from '@/styles/Button'
-import { Input } from '@/styles/Input'
-import React, { SetStateAction } from 'react'
-import { styled } from 'styled-components'
+import { CloseBtn, InputResetBtn } from "@/styles/Button";
+import { Input } from "@/styles/Input";
+import React, { SetStateAction } from "react";
+import { styled } from "styled-components";
 
 const DietSearchModalWrap = styled.div`
   .container {
@@ -21,7 +21,7 @@ const DietSearchModalWrap = styled.div`
     background-color: rgba(0, 0, 0, 0.5);
     z-index: 200;
   }
-`
+`;
 
 const InputWrap = styled.div`
   display: flex;
@@ -30,7 +30,7 @@ const InputWrap = styled.div`
   input {
     width: 90%;
   }
-`
+`;
 
 const ListTop = styled.div`
   display: flex;
@@ -49,7 +49,7 @@ const ListTop = styled.div`
     background-color: #f3f3f3;
     border-radius: 4px;
   }
-`
+`;
 
 const RecentRegistDietList = styled.ul`
   display: flex;
@@ -68,14 +68,14 @@ const RecentRegistDietList = styled.ul`
     display: flex;
     align-items: center;
     justify-content: center;
-    
+
     button {
       position: absolute;
       top: 0.625rem;
       right: 0.625rem;
     }
   }
-  `
+`;
 
 const RecentSearchtDietList = styled.ul`
   li {
@@ -97,67 +97,69 @@ const RecentSearchtDietList = styled.ul`
       }
     }
   }
-`
+`;
 
-
-
-export const MealSearchModal = ({ setSearchOpen } : { setSearchOpen: React.Dispatch<SetStateAction<boolean>>}) => {
+export const MealSearchModal = ({
+  setSearchOpen,
+}: {
+  setSearchOpen: React.Dispatch<SetStateAction<boolean>>;
+}) => {
   return (
     <DietSearchModalWrap>
-      <div className='container'>
+      <div className="container">
         <div>음식 종류 검색</div>
         <div>
           <InputWrap>
-            <Input type="text" placeholder='종류를 검색해보세요'/>
+            <Input type="text" placeholder="종류를 검색해보세요" />
             <div>
-              <InputResetBtn/>
+              <InputResetBtn />
             </div>
           </InputWrap>
           <div>
             <ListTop>
               <div>최근에 등록된 식단</div>
-              <button className='all-delete'>전체삭제</button>
+              <button className="all-delete">전체삭제</button>
             </ListTop>
             <div>
-              <RecentRegistMealList>
+              <RecentRegistDietList>
                 <li>
                   <div>견과류와 요거트</div>
                   <button>X</button>
                 </li>
-              </RecentRegistMealList>
+              </RecentRegistDietList>
             </div>
           </div>
           <div>
             <ListTop>
               <div>최근 검색어</div>
-              <button className='all-delete'>전체삭제</button>
+              <button className="all-delete">전체삭제</button>
             </ListTop>
             <div>
-              <RecentSearchtMealList>
+              <RecentRegistDietList>
                 <li>
                   <div>햇반 작은 공기</div>
                   <div>
-                    <CloseBtn/>
+                    <CloseBtn />
                   </div>
                 </li>
                 <li>
                   <div>두부</div>
                   <div>
-                    <CloseBtn/>
+                    <CloseBtn />
                   </div>
                 </li>
-                <li className='not-result'>
+                <li className="not-result">
                   <div>트러플소금으로 0개 검색되었습니다</div>
                   <div>
-                    <CloseBtn/>
+                    <CloseBtn />
                   </div>
                 </li>
-              </RecentSearchtDietList>
+              </RecentRegistDietList>
             </div>
           </div>
         </div>
       </div>
-      <div className='mask' onClick={() => setSearchOpen(false)}></div>
+      <div className="mask" onClick={() => setSearchOpen(false)}></div>
     </DietSearchModalWrap>
-  )
-}
+  );
+};

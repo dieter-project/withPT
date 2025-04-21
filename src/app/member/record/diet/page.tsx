@@ -1,6 +1,6 @@
 "use client";
 
-import Header from "@/components/Header";
+import Header from "@/components/member/layout/Header";
 import { AddRecordButton } from "@/styles/AddButton";
 import { BaseContentWrap, ContentSection } from "@/styles/Layout";
 import { LabelTitle } from "@/styles/Text";
@@ -22,10 +22,10 @@ import dynamic from "next/dynamic";
 import { DietRecord } from "@/types/member/record";
 import { DIET_CATEGORY } from "@/constants/record";
 import { FlexRowBetween } from "@/styles/components/Flex";
-import PageHeader from "@/components/PageHeader";
+import PageHeader from "@/components/member/layout/PageHeader";
 import { CalendarIcon } from "@/styles/components/Header";
 import { PlusButton } from "@/styles/Button";
-import { EmptyImg } from "@/components/style/common/EmptyImg";
+import { EmptyImg } from "@/components/common/EmptyImg";
 
 const ReactApexChart = dynamic(() => import("react-apexcharts"), {
   ssr: false,

@@ -1,8 +1,8 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import PageHeader from "@/components/PageHeader";
-import JoinStep from "@/components/SignUpStep";
+import PageHeader from "@/components/member/layout/PageHeader";
+import JoinStep from "@/components/member/signup/SignUpStep";
 import { useAppSelector } from "@/redux/hooks";
 import { signupActions } from "@/redux/reducers/signupSlice";
 import { Button } from "@/styles/Button";

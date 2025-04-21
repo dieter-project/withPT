@@ -17,13 +17,13 @@ import {
 } from "./style";
 import { format } from "date-fns";
 import { useAppSelector } from "@/redux/hooks";
-import PageHeader from "@/components/PageHeader";
+import PageHeader from "@/components/member/layout/PageHeader";
 import {
   BookmarkIcon,
   CalendarIcon,
   SettingIcon,
 } from "@/styles/components/Header";
-import SettingMenu from "@/components/SettingMenu";
+import SettingMenu from "@/components/member/layout/SettingMenu";
 import { getExerciseByDate } from "@/services/member/exercise";
 import { BODY_PART, EXERCISE_TYPE } from "@/constants/record";
 import { WorkoutRecord } from "@/types/member/record";

@@ -1,5 +1,5 @@
 'use client'
-import MemberBottomNav from "@/components/MemberBottomNav"
+import MemberBottomNav from "@/components/member/layout/MemberBottomNav"
 import { usePathname } from "next/navigation"
 
 export default function MemberLayout({

@@ -1,6 +1,6 @@
 "use client";
 
-import PageHeader from "@/components/PageHeader";
+import PageHeader from "@/components/member/layout/PageHeader";
 import { BODY_PART, EXERCISE_TYPE } from "@/constants/record";
 import { workoutRecordActions } from "@/redux/reducers/workoutRecordSlice";
 import { Button } from "@/styles/Button";

@@ -1,6 +1,6 @@
 "use client";
 
-import PageHeader from "@/components/PageHeader";
+import PageHeader from "@/components/member/layout/PageHeader";
 import { NOTIFICATIONS_TYPE } from "@/constants/notification";
 import { reqGetNotifications } from "@/services/member/notifications";
 import { BaseContentWrap } from "@/styles/Layout";

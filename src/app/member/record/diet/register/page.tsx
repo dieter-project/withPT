@@ -1,7 +1,7 @@
 "use client";
 
-import PageHeader from "@/components/PageHeader";
-import { TimeModal } from "@/components/TimeModal";
+import PageHeader from "@/components/member/layout/PageHeader";
+import { TimeModal } from "@/components/member/modal/TimeModal";
 import { AddImgButton } from "@/styles/AddButton";
 import { Button } from "@/styles/Button";
 import { CategoryPartList } from "@/styles/CategoryPartList";

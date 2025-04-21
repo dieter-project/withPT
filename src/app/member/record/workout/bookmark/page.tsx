@@ -1,7 +1,7 @@
 "use client";
 
-import Header from "@/components/Header";
-import { SettingPopup } from "@/components/SettingPopup";
+import Header from "@/components/member/layout/Header";
+import { SettingPopup } from "@/components/member/record/SettingPopup";
 import { getBookmarks } from "@/services/member/bookmark";
 import { Button } from "@/styles/Button";
 import { Checkbox } from "@/styles/Input";

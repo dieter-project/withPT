@@ -1,7 +1,7 @@
 "use client";
 
-import PageHeader from "@/components/PageHeader";
-import JoinStep from "@/components/SignUpStep";
+import PageHeader from "@/components/member/layout/PageHeader";
+import JoinStep from "@/components/member/signup/SignUpStep";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useRef, useState } from "react";
 import { Button } from "@/styles/Button";

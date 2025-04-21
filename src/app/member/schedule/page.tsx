@@ -1,7 +1,7 @@
 "use client";
 
-import PageHeader from "@/components/PageHeader";
-import MonthlyCalendar from "@/components/member/MonthlyCalendar";
+import PageHeader from "@/components/member/layout/PageHeader";
+import MonthlyCalendar from "@/components/member/record/MonthlyCalendar";
 import { getLessonsDays } from "@/services/member/training";
 import { Button } from "@/styles/Button";
 import { BaseContentWrap, ContentSection, RoundBox } from "@/styles/Layout";
@@ -16,7 +16,7 @@ import { EmptyTodayDiet } from "../main/styles";
 import { ExclamationMark } from "../chat/style";
 import { ScheduleDate, ScheduleDetail } from "./styles";
 import { LessonInfos } from "@/types/member/schedule";
-import EmptyData from "@/components/member/EmptyData";
+import EmptyData from "@/components/member/record/EmptyData";
 
 const page = () => {
   const title = "나의 수업일정";

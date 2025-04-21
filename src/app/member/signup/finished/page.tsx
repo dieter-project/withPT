@@ -1,6 +1,6 @@
 "use client";
 
-import PageHeader from '@/components/PageHeader'
+import PageHeader from '@/components/member/layout/PageHeader'
 import { Button } from '@/styles/Button'
 import { ButtonAreaFixed } from '@/styles/Layout'
 import { SignUpSubtext, SignUpTitleText } from '@/styles/Text'

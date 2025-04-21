@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import PageHeader from "@/components/PageHeader";
+import PageHeader from "@/components/member/layout/PageHeader";
 
 const page = () => {
   const title = "식단 입력";

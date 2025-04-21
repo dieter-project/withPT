@@ -1,6 +1,6 @@
 "use client";
 
-import PageHeader from "@/components/PageHeader";
+import PageHeader from "@/components/member/layout/PageHeader";
 import { BaseContentWrap, ContentSection } from "@/styles/Layout";
 import { LabelTitle } from "@/styles/Text";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -12,8 +12,8 @@ import { format } from "date-fns";
 import { ko } from "date-fns/locale";
 import { SettingIcon } from "@/styles/components/Header";
 import { DIET_CATEGORY } from "@/constants/record";
-import SettingMenu from "@/components/SettingMenu";
-import { EmptyImg } from "@/components/style/common/EmptyImg";
+import SettingMenu from "@/components/member/layout/SettingMenu";
+import { EmptyImg } from "@/components/common/EmptyImg";
 
 const page = ({ params }: { params: { id: number } }) => {
   const [isOpen, setIsOpen] = useState(false);
