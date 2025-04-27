@@ -22,7 +22,13 @@ const nextConfig = {
     return config;
   },
   images: {
-    domains: ["withpt-s3.s3.ap-northeast-2.amazonaws.com"],
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "withpt-s3.s3.ap-northeast-2.amazonaws.com",
+        pathname: "/**", 
+      },
+    ],
   },
   // async rewrites() {
   //   return [
