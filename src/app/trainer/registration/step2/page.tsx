@@ -3,11 +3,11 @@
 import React, { useCallback } from "react";
 import { useRouter } from "next/navigation";
 import { TrainerLayout } from "@/app/trainer/layout";
-import { SignupTitleWrapper } from "@/components/trainer/molecules/Wrapper/SignupTitleWrapper";
-import { ButtonAreaFixed } from "@/components/trainer/molecules/ButtonAreaFixed/ButtonAreaFixed";
-import JoinStep from "@/components/trainer/molecules/SignupStep/SignUpStep";
-import { SearchCenter } from "@/components/trainer/molecules/Modal/searchCenter/SearchCenter";
-import { EventButton } from "@/components/trainer/atoms/Button/EventButton";
+import { SignupTitleWrapper } from "@/components/trainer/molecules/wrapper/SignupTitleWrapper";
+import { ButtonAreaFixed } from "@/components/trainer/molecules/buttonAreaFixed/ButtonAreaFixed";
+import JoinStep from "@/components/trainer/molecules/signupStep/SignUpStep";
+import { SearchCenter } from "@/components/trainer/molecules/modal/searchCenter/SearchCenter";
+import { EventButton } from "@/components/trainer/atoms/button/EventButton";
 import { useModal } from "@/context/trainer/ModalContext";
 import { useStep2 } from "@/hooks/trainer/registration/useStep2";
 

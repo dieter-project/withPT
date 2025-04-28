@@ -2,7 +2,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { styled } from "styled-components";
 import { Icon } from "@/components/trainer/atoms/SvgIcon/SvgIcon";
-import { Typography } from "@/components/trainer/atoms/Typography/TypoGraphy.styles";
+import { Typography } from "@/components/trainer/atoms/typography/TypoGraphy.styles";
 
 type HeaderVariant = "default" | "withBack" | "center" | "plus" | "logo";
 

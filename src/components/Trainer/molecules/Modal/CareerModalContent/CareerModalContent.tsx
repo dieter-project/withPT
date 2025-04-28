@@ -1,13 +1,13 @@
 import React, { useState, useMemo, useCallback } from "react";
 import { useModal } from "@/context/trainer/ModalContext";
-import Wrapper from "@/components/trainer/molecules/Wrapper/Wrapper";
-import { NoIconInput } from "@/components/trainer/atoms/Input/Input.styles";
-import { Typography } from "@/components/trainer/atoms/Typography/TypoGraphy.styles";
+import Wrapper from "@/components/trainer/molecules/wrapper/Wrapper";
+import { NoIconInput } from "@/components/trainer/atoms/input/Input.styles";
+import { Typography } from "@/components/trainer/atoms/typography/TypoGraphy.styles";
 import { Spacer } from "@/components/trainer/atoms/Spacing/Spacing.styles";
 
-import { EventButton } from "@/components/trainer/atoms/Button/EventButton";
-import { SearchCenter } from "@/components/trainer/molecules/Modal/searchCenter/SearchCenter";
-import { SearchBarButton } from "@/components/trainer/molecules/SearchBar/SearchBarButton";
+import { EventButton } from "@/components/trainer/atoms/button/EventButton";
+import { SearchCenter } from "@/components/trainer/molecules/modal/searchCenter/SearchCenter";
+import { SearchBarButton } from "@/components/trainer/molecules/searchBar/SearchBarButton";
 import { useStep4 } from "@/hooks/trainer/registration/useStep4";
 
 type Step = "careerInput" | "centerSearch";

@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
-import { Typography } from "@/components/trainer/atoms/Typography/TypoGraphy.styles";
-import CloseXButton from "@/components/trainer/atoms/Button/CloseXButton";
+import { Typography } from "@/components/trainer/atoms/typography/TypoGraphy.styles";
+import CloseXButton from "@/components/trainer/atoms/button/CloseXButton";
 
 interface ScheduleItemCardProps {
   day: string;

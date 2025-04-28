@@ -5,10 +5,10 @@ import {
   FieldError,
 } from "react-hook-form";
 import { ChangeEvent } from "react";
-import Wrapper from "@/components/trainer/molecules/Wrapper/Wrapper";
-import { NameField } from "../../molecules/RegisterFieldItem/NameField";
-import { BirthField } from "../../molecules/RegisterFieldItem/BirthField";
-import { GenderField } from "../../molecules/RegisterFieldItem/GenderField";
+import Wrapper from "@/components/trainer/molecules/wrapper/Wrapper";
+import { NameField } from "@/components/trainer/molecules/registerFieldItem/NameField";
+import { BirthField } from "@/components/trainer/molecules/registerFieldItem/BirthField";
+import { GenderField } from "@/components/trainer/molecules/registerFieldItem/GenderField";
 
 interface FormFieldsProps {
   form: {

@@ -1,5 +1,5 @@
 import { styled } from "styled-components";
-import { CheckRegisterItem } from "@/components/trainer/atoms/Button/CheckRegisterItem";
+import { CheckRegisterItem } from "@/components/trainer/atoms/button/CheckRegisterItem";
 import { Icon } from "@/components/trainer/atoms/SvgIcon/SvgIcon";
 
 type ButtonVariant = "primary" | "purple50" | "purple75" | "default";
