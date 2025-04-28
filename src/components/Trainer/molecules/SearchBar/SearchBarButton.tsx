@@ -1,6 +1,6 @@
-import Wrapper from "@/components/trainer/molecules/Wrapper/Wrapper";
+import Wrapper from "@/components/trainer/molecules/wrapper/Wrapper";
 import { Icon } from "@/components/trainer/atoms/SvgIcon/SvgIcon";
-import { Typography } from "@/components/trainer/atoms/Typography/TypoGraphy.styles";
+import { Typography } from "@/components/trainer/atoms/typography/TypoGraphy.styles";
 
 export const SearchBarButton = () => {
   return (

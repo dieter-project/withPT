@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { DefaultModalProps } from "@/types/trainer/modal";
-import CloseXButton from "@/components/trainer/atoms/Button/CloseXButton";
+import CloseXButton from "@/components/trainer/atoms/button/CloseXButton";
 
 export const DefaultModalComponent = ({
   title,

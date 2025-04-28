@@ -1,6 +1,6 @@
-import Wrapper from "@/components/trainer/molecules/Wrapper/Wrapper";
-import { Typography } from "@/components/trainer/atoms/Typography/TypoGraphy.styles";
-import { ScheduleItemCard } from "@/components/trainer/atoms/Card/ScheduleItemCard";
+import Wrapper from "@/components/trainer/molecules/wrapper/Wrapper";
+import { Typography } from "@/components/trainer/atoms/typography/TypoGraphy.styles";
+import { ScheduleItemCard } from "@/components/trainer/atoms/card/ScheduleItemCard";
 import { formatDays } from "@/utils/Trainer/dateUtil";
 
 interface ScheduleItem {

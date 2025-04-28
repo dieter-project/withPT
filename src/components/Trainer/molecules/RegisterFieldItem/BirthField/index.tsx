@@ -1,8 +1,8 @@
 import { Controller, Control } from "react-hook-form";
 import { ChangeEvent } from "react";
 import { Icon } from "@/components/trainer/atoms/SvgIcon/SvgIcon";
-import LabelField from "@/components/trainer/molecules/LabelField";
-import { NoIconInput } from "@/components/trainer/atoms/Input/Input.styles";
+import LabelField from "@/components/trainer/molecules/labelField";
+import { NoIconInput } from "@/components/trainer/atoms/input/Input.styles";
 
 interface BirthFieldProps {
   control: Control<any>;

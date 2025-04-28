@@ -1,4 +1,4 @@
-import { Typography } from "@/components/trainer/atoms/Typography/TypoGraphy.styles";
+import { Typography } from "@/components/trainer/atoms/typography/TypoGraphy.styles";
 
 interface SignupTitleType {
   topTitle: string;

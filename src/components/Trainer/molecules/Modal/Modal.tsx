@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { styled } from "styled-components";
 import { useModalEffect } from "@/hooks/trainer/modal/useModalEffect";
-import CloseXButton from "@/components/trainer/atoms/Button/CloseXButton";
+import CloseXButton from "@/components/trainer/atoms/button/CloseXButton";
 import ReactDOM from "react-dom";
 
 const ModalContainer = styled.div`

@@ -1,7 +1,7 @@
 "use client";
 
 import React, { createContext, useContext, useCallback, useState } from "react";
-import { ModalPortal } from "@/components/trainer/molecules/Modal/ModalPortal";
+import { ModalPortal } from "@/components/trainer/molecules/modal/ModalPortal";
 import { ModalProps } from "@/types/trainer/modal";
 
 interface ModalContextValue {

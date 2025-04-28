@@ -1,4 +1,4 @@
-import { EventButton } from "@/components/trainer/atoms/Button/EventButton";
+import { EventButton } from "@/components/trainer/atoms/button/EventButton";
 import styled from "styled-components";
 
 interface NextButtonProps {

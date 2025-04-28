@@ -1,5 +1,5 @@
 import React from "react";
-import { ScheduleListCard } from "@/components/trainer/atoms/Card/ScheduleListCard";
+import { ScheduleListCard } from "@/components/trainer/atoms/card/ScheduleListCard";
 
 interface ScheduleListProps {
   schedules: Array<{

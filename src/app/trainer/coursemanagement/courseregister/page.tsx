@@ -11,11 +11,11 @@ import {
   SearchIcon,
   SearchBarInput,
 } from "@/styles/Trainer/TrainerSearchBar";
-import { ButtonAreaFixed } from "@/components/trainer/molecules/ButtonAreaFixed/ButtonAreaFixed";
+import { ButtonAreaFixed } from "@/components/trainer/molecules/buttonAreaFixed/ButtonAreaFixed";
 import { startOfWeek, addDays, format } from "date-fns";
 import "react-calendar/dist/Calendar.css";
 import searchIcon from "../../../../../public/Trainer/icons/searchLightGray.png";
-import ContentHeader from "@/components/trainer/molecules/Header/Header";
+import ContentHeader from "@/components/trainer/molecules/header/Header";
 import purplePlusIcon from "../../../../../public/Trainer/icons/plusIconWhite.png";
 import purpleCheckIcon from "../../../../../public/Trainer/icons/checkIconPurple.png";
 import purpleExcalmiIcon from "../../../../../public/Trainer/icons/exclamationPurple.png";

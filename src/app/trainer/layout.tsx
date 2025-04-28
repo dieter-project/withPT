@@ -2,7 +2,7 @@
 
 import React from "react";
 import { styled } from "styled-components";
-import PageHeader from "@/components/trainer/molecules/Header/Header";
+import PageHeader from "@/components/trainer/molecules/header/Header";
 import Footer from "@/components/trainer/organisms/Footer/TrainerFooter";
 import {
   LayoutProvider,
