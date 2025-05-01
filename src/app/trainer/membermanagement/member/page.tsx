@@ -8,12 +8,12 @@ import {
   SearchBarWrap,
   SearchIcon,
   SearchBarInput,
-} from "@/styles//Trainer/TrainerSearchBar";
-import searchIcon from "../../../../../public/Trainer/icons/searchLightGray.png";
+} from "@/styles/trainer/TrainerSearchBar";
+import searchIcon from "../../../../../public/trainer/icons/searchLightGray.png";
 import beforePage from "../../../../../public/icons/beforePage.png";
-import settingTabBeforeImg from "../../../../../public/Trainer/Header/settingTabBeforeRegion.png";
-import settingTabImg from "../../../../../public/Trainer/Header/settingTabTwoRegion.png";
-import setting from "../../../../../public/Trainer/setting.jpg";
+import settingTabBeforeImg from "../../../../../public/trainer/Header/settingTabBeforeRegion.png";
+import settingTabImg from "../../../../../public/trainer/Header/settingTabTwoRegion.png";
+import setting from "../../../../../public/trainer/setting.jpg";
 import { api } from "@/utils/axios";
 
 const MemberItem = ({ member, isSelected, toggleSelection }) => {

@@ -13,7 +13,7 @@ import { setCookie } from "@/utils/cookie";
 import { ButtonAreaFixed } from "@/components/trainer/molecules/buttonAreaFixed/ButtonAreaFixed";
 import { useModal } from "@/context/trainer/ModalContext";
 import { Typography } from "@/components/trainer/atoms/typography/TypoGraphy.styles";
-import { Icon } from "@/components/trainer/atoms/SvgIcon/SvgIcon";
+import { Icon } from "@/components/trainer/atoms/svgIcon/SvgIcon";
 import { CareerModalContent } from "@/components/trainer/molecules/modal/careerModalContent/CareerModalContent";
 
 export default function Step4() {

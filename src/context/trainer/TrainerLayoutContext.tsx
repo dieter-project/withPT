@@ -6,7 +6,7 @@ interface LayoutConfig {
   showHeader: boolean;
   showFooter: boolean;
   title: string;
-  variant: "withBack" | "center" | "plus";
+  variant: "withBack" | "center" | "plus" | "logo";
   selectedAction: string;
   onPlusClick?: () => void;
 }

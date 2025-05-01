@@ -3,12 +3,13 @@ import { useModal } from "@/context/trainer/ModalContext";
 import Wrapper from "@/components/trainer/molecules/wrapper/Wrapper";
 import { NoIconInput } from "@/components/trainer/atoms/input/Input.styles";
 import { Typography } from "@/components/trainer/atoms/typography/TypoGraphy.styles";
-import { Spacer } from "@/components/trainer/atoms/Spacing/Spacing.styles";
+import { Spacer } from "@/components/trainer/atoms/spacing/Spacing.styles";
 
 import { EventButton } from "@/components/trainer/atoms/button/EventButton";
 import { SearchCenter } from "@/components/trainer/molecules/modal/searchCenter/SearchCenter";
 import { SearchBarButton } from "@/components/trainer/molecules/searchBar/SearchBarButton";
 import { useStep4 } from "@/hooks/trainer/registration/useStep4";
+import { PlaceInfo } from "@/model/trainer/signUp";
 
 type Step = "careerInput" | "centerSearch";
 

@@ -2,10 +2,10 @@ import React, { useState } from "react";
 import Wrapper from "@/components/trainer/molecules/wrapper/Wrapper";
 import { useHandleCenterSchedule } from "@/hooks/trainer/modal/useEnterCenterSchedule";
 import { EventButton } from "@/components/trainer/atoms/button/EventButton";
-import { DateAndTimeSelector } from "../DateAndTimeSelector/DateAndTimeSelector";
-import { isTimeOverlapping } from "@/utils/Trainer/time";
+import { DateAndTimeSelector } from "../dateAndTimeSelector/DateAndTimeSelector";
+import { isTimeOverlapping } from "@/utils/trainer/time";
 import { useModal } from "@/context/trainer/ModalContext";
-import { CenterScheduleItemLists } from "@/components/trainer/organisms/centerScheduleItemLists/CenterScheduleItemLists";
+import { CenterScheduleItemLists } from "@/components/trainer/organisms/CenterScheduleItemLists";
 import { ButtonAreaFixed } from "@/components/trainer/molecules/buttonAreaFixed/ButtonAreaFixed";
 
 interface EnterCenterScheduleProps {

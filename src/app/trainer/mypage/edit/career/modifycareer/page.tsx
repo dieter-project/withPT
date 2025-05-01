@@ -5,11 +5,9 @@ import styled from "styled-components";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import ContentHeader from "@/components/trainer/molecules/header/Header";
-import { Container, ContentBody } from "@/styles/TrainerLayout";
-import { NoIconInput } from "@/styles/TrainerInput";
-import { Button } from "@/styles/Trainer/TrainerButton";
 import Footer from "@/components/trainer/organisms/Footer/TrainerFooter";
-import { FlexDivWrap, Purpl50Div } from "@/styles/TrainerStyledDiv";
+import { ContentBody } from "@/app/trainer/layout";
+import { NoIconInput } from "@/components/trainer/atoms/input/Input.styles";
 
 const ContentInnerBody = styled.div``;
 

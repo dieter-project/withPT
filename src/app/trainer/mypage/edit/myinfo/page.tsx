@@ -5,12 +5,12 @@ import Image from "next/image";
 import styled from "styled-components";
 import Link from "next/link";
 import beforePage from "../../../../../public/icons/beforePage.png";
-import { Button } from "@/styles/Trainer/TrainerButton";
+import { Button } from "@/styles/trainer/TrainerButton";
 import { NoIconInput } from "@/styles/TrainerInput";
 import { useDispatch } from "react-redux";
 import { useAppSelector } from "@/redux/hooks";
 import ContentHeader from "@/components/trainer/molecules/header/Header";
-import profileNoImg from "../../../../../../public/Trainer/Mypage/profile-no-image.png";
+import profileNoImg from "../../../../../../public/trainer/Mypage/profile-no-image.png";
 
 interface Trbirth {
   year: string;

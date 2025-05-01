@@ -7,12 +7,12 @@ import { TrainerLayout } from "@/app/trainer/layout";
 import { EventButton } from "@/components/trainer/atoms/button/EventButton";
 import Wrapper from "@/components/trainer/molecules/wrapper/Wrapper";
 import "react-calendar/dist/Calendar.css";
-import arrowCircleUnderGray from "public/Trainer/icons/arrowCircleUnderGray.png";
-import purplePlusIcon from "public/Trainer/icons/plusIconWhite.png";
-import purpleCheckIcon from "public/Trainer/icons/checkIconPurple.png";
-import purpleExcalmiIcon from "public/Trainer/icons/exclamationPurple.png";
-import redMinusIcon from "public/Trainer/icons/minusIconRed.png";
-import ModalCloseXButtonImg from "public/Trainer/Modal/close-line.png";
+import arrowCircleUnderGray from "public/trainer/icons/arrowCircleUnderGray.png";
+import purplePlusIcon from "public/trainer/icons/plusIconWhite.png";
+import purpleCheckIcon from "public/trainer/icons/checkIconPurple.png";
+import purpleExcalmiIcon from "public/trainer/icons/exclamationPurple.png";
+import redMinusIcon from "public/trainer/icons/minusIconRed.png";
+import ModalCloseXButtonImg from "public/trainer/Modal/close-line.png";
 import Calendar from "../coursemanagement/calendar/page";
 import { api } from "@/utils/axios";
 
