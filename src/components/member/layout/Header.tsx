@@ -1,8 +1,7 @@
-import { BaseHeader } from "@/styles/Layout";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import React, { SetStateAction } from "react";
-import { styled } from "styled-components";
+import { BackButton, BellIcon, BookmarkIcon, CalendarIcon, HomeHeader, PageHeader, SettingIcon } from "../../common/layout/Header.style";
 
 interface HeaderProps {
   title?: string;
@@ -13,53 +12,6 @@ interface HeaderProps {
   setting?: boolean;
   setIsPopupMenuOpen?: SetStateAction<boolean>;
 }
-
-const HomeHeader = styled(BaseHeader)`
-  padding: 0 1.25rem;
-`;
-
-const PageHeader = styled(BaseHeader)`
-  padding: 0 1.25rem;
-  height: 3.5rem;
-  > div:last-child {
-    display: flex;
-    gap: 0.5rem;
-  }
-`;
-
-const BackButton = styled.button`
-  width: 0.75rem;
-  height: 0.75rem;
-  border-left: 2px solid var(--black);
-  border-bottom: 2px solid var(--black);
-  transform: rotate(45deg);
-  overflow: hidden;
-  text-indent: -999px;
-`;
-const HeaderIcon = styled.div`
-  width: 1.75rem;
-  height: 1.75rem;
-  overflow: hidden;
-  text-indent: -999px;
-`;
-
-const BellIcon = styled(HeaderIcon)`
-  background: url(/svgs/icon_bell.svg) no-repeat;
-  background-position: center;
-  cursor: pointer;
-`;
-const BookmarkIcon = styled(HeaderIcon)`
-  background: url(/svgs/icon_bookmark.svg) no-repeat;
-  background-position: center;
-`;
-const CalendarIcon = styled(HeaderIcon)`
-  background: url(/svgs/icon_calendar.svg) no-repeat;
-  background-position: center;
-`;
-const SettingIcon = styled(HeaderIcon)`
-  background: url(/svgs/icon_setting.svg) no-repeat;
-  background-position: center;
-`;
 
 const Header = ({
   title,
