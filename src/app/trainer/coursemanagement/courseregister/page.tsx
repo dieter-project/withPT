@@ -1,33 +1,18 @@
 "use client";
 import { useEffect, useState } from "react";
 import styled from "styled-components";
-import Link from "next/link";
 import Image from "next/image";
-import moment from "moment";
-import { Button, IconButton } from "@/styles/Trainer/TrainerButton";
-import { ListButton } from "@/styles/Trainer/TrainerButton";
-import {
-  SearchBarWrap,
-  SearchIcon,
-  SearchBarInput,
-} from "@/styles/Trainer/TrainerSearchBar";
-import { ButtonAreaFixed } from "@/components/trainer/molecules/ButtonAreaFixed/ButtonAreaFixed";
-import { startOfWeek, addDays, format } from "date-fns";
 import "react-calendar/dist/Calendar.css";
-import searchIcon from "../../../../../public/Trainer/icons/searchLightGray.png";
 import ContentHeader from "@/components/trainer/molecules/Header/Header";
-import purplePlusIcon from "../../../../../public/Trainer/icons/plusIconWhite.png";
 import purpleCheckIcon from "../../../../../public/Trainer/icons/checkIconPurple.png";
 import purpleExcalmiIcon from "../../../../../public/Trainer/icons/exclamationPurple.png";
-import redMinusIcon from "../../../../../public/Trainer/icons/minusIconRed.png";
 import "react-calendar/dist/Calendar.css";
 import arrowCircleUnderGray from "../../../../../public/Trainer/icons/arrowCircleUnderGray.png";
 import modalCloseXButtonImg from "../../../../../public/Trainer/Modal/close-line.png";
 import toggleOnButtonImg from "../../../../../public/Trainer/icons/toggleOffButton.png";
 import toggleOffButtonImg from "../../../../../public/Trainer/icons/toggleOnButton.png";
 import Calendar from "../calendar/page";
-import { NoIconInput } from "@/styles/TrainerInput";
-import { DeleteInputXbutton } from "@/styles/TrainerInput";
+import { Button } from "@/styles/Button";
 
 const MainContainer = styled.div`
   background-color: var(--white);
@@ -247,7 +232,7 @@ export default function ManageMain() {
 
   const title = "신규 지점 등록";
 
-  const [searchText, setSearchText] = useState(null);
+  const [searchText, setSearchText] = useState<string | null>(null);
 
   return (
     <MainContainer>
@@ -263,19 +248,19 @@ export default function ManageMain() {
         <ContentRegion>
           <ContentTitle>회원검색</ContentTitle>
           <SearchWrap>
-            <NoIconInput
+            <input
               name="name"
               type="text"
               required
               value={searchText || ""}
               onChange={e => setSearchText(e.target.value)}
               // onChange={handleInputChange}
-            ></NoIconInput>
-            <DeleteInputXbutton
+            ></input>
+            <button
               onClick={() => {
                 setSearchText(null);
               }}
-            ></DeleteInputXbutton>
+            ></button>
           </SearchWrap>
           <SearchListWrap>
             <SearchItemWrap>
@@ -382,7 +367,7 @@ export default function ManageMain() {
             </TimeChoiceWrap>
           )}
         </ContentRegion>
-        <Button variant="primary">등록하기</Button>
+        <Button $variant="primary">등록하기</Button>
       </MainContentWrap>
       {isModalOpen && (
         <Modal>

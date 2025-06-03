@@ -5,11 +5,8 @@ import styled from "styled-components";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import ContentHeader from "@/components/trainer/molecules/Header/Header";
-import { Container, ContentBody } from "@/styles/TrainerLayout";
-import { NoIconInput } from "@/styles/TrainerInput";
-import { Button } from "@/styles/Trainer/TrainerButton";
 import Footer from "@/components/trainer/organisms/Footer/TrainerFooter";
-import { FlexDivWrap, Purpl50Div } from "@/styles/TrainerStyledDiv";
+import { Button } from "@/styles/Button";
 
 const ContentInnerBody = styled.div``;
 
@@ -94,40 +91,40 @@ export default function ModifyCareer() {
         variant="plus"
         onPlusClick={handlePlusClick}
       />
-      <ContentBody style={{ paddingTop: "3rem" }}>
+      <div style={{ paddingTop: "3rem" }}>
         <ContentInnerBody>
           {registerWraps.map((registerWrap, index) => (
             <RegisterWrap key={index}>
               <RegisterItemWrap>
                 <RegisterContentTitle>센터</RegisterContentTitle>
-                <Purpl50Div $width={100}>센터이름</Purpl50Div>
+                <div>센터이름</div>
               </RegisterItemWrap>
               <RegisterItemWrap>
                 <RegisterContentTitle>직책</RegisterContentTitle>
-                <NoIconInput name="name" type="text" required />
+                <input name="name" type="text" required />
               </RegisterItemWrap>
               <RegisterItemWrap>
                 <RegisterContentTitle>기간</RegisterContentTitle>
-                <FlexDivWrap>
-                  <Purpl50Div $width={30} $marginRight={6}>
+                <div>
+                  <div>
                     응?
-                  </Purpl50Div>
-                  <Purpl50Div $width={30} $marginRight={6}>
+                  </div>
+                  <div>
                     응?
-                  </Purpl50Div>
-                </FlexDivWrap>
+                  </div>
+                </div>
               </RegisterItemWrap>
               <RegisterItemWrap>
                 <RegisterContentTitle>기간</RegisterContentTitle>
-                <FlexDivWrap>
-                  <Purpl50Div $width={30} $marginRight={6}>
+                <div>
+                  <div>
                     응?
-                  </Purpl50Div>
-                  <Purpl50Div $width={30} $marginRight={6}>
+                  </div>
+                  <div>
                     응?
-                  </Purpl50Div>
+                  </div>
                   <div>재직중</div>
-                </FlexDivWrap>
+                </div>
               </RegisterItemWrap>
               <Link
                 href={`/trainer/mypage/edit/career/modifycareer/editpage/${index}`}
@@ -138,7 +135,7 @@ export default function ModifyCareer() {
           ))}
         </ContentInnerBody>
         <Footer />
-      </ContentBody>
+      </div>
     </div>
   );
 }

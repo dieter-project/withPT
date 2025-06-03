@@ -4,12 +4,7 @@ import Image from "next/image";
 import styled from "styled-components";
 import Link from "next/link";
 import ContentHeader from "@/components/trainer/molecules/Header/Header";
-import { DeleteInputXbutton } from "@/styles/Trainer/TrainerInput";
-import { Container, ContentBody } from "@/styles/Trainer/TrainerLayout";
-import { NoIconInput } from "@/styles/Trainer/TrainerInput";
-import { Button } from "@/styles/Trainer/TrainerButton";
 import Footer from "@/components/trainer/organisms/Footer/TrainerFooter";
-import { ButtonAreaFixed } from "@/components/trainer/molecules/ButtonAreaFixed/ButtonAreaFixed";
 
 const ContentInnerBody = styled.div``;
 
@@ -178,39 +173,39 @@ export default function EditPage() {
   };
 
   return (
-    <Container>
+    <div>
       <ContentHeader title={title} variant="withBack"></ContentHeader>
-      <ContentBody>
+      <div>
         <ContentInnerBody>
           {/* 경력 */}
           <RegisterAllWrap>
             <RegisterItemWrap>
               <RegisterContentTitle>센터</RegisterContentTitle>
-              <NoIconInput
+              <input
                 name="name"
                 type="text"
                 required
                 value={centerName || ""}
                 onChange={e => setCenterName(e.target.value)}
                 // onChange={handleInputChange}
-              ></NoIconInput>
-              <DeleteInputXbutton
+              ></input>
+              <button
                 onClick={() => {
                   setCenterName(null);
                 }}
               >
                 {" "}
-              </DeleteInputXbutton>
+              </button>
             </RegisterItemWrap>
             <RegisterItemWrap>
               <RegisterContentTitle>직책</RegisterContentTitle>
-              <NoIconInput
+              <input
                 name="name"
                 type="text"
                 required
                 // value={inputData.name}
                 // onChange={handleInputChange}
-              ></NoIconInput>
+              ></input>
             </RegisterItemWrap>
             <FlexWrap>
               <RegisterContentTitle>기간</RegisterContentTitle>
@@ -218,7 +213,7 @@ export default function EditPage() {
           </RegisterAllWrap>
         </ContentInnerBody>
         <Footer />
-      </ContentBody>
-    </Container>
+      </div>
+    </div>
   );
 }

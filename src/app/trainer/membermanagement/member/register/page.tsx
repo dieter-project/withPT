@@ -7,7 +7,6 @@ import { startOfWeek, addDays, format } from "date-fns";
 import Image from "next/image";
 import arrowRightIcon from "../../../../../../public/Trainer/icons/arrowRightGray.png";
 import ContentHeader from "@/components/trainer/molecules/Header/Header";
-import { ListButton } from "@/styles/Trainer/TrainerButton";
 import Footer from "@/components/trainer/organisms/Footer/TrainerFooter";
 
 const MainContainer = styled.div`
@@ -87,31 +86,31 @@ export default function MemberRegist() {
           </ManageTitleWrap>
 
           <Link href="/trainer/membermanagement/member/register/search">
-            <ListButton>
+            <button>
               <CenterName>아자 아자 피트니스 센터</CenterName>
               <ArrowRightIcon
                 src={arrowRightIcon}
                 alt="회원 등록 페이지 아이콘"
               />
-            </ListButton>
+            </button>
           </Link>
           <Link href="/trainer/membermanagement/member">
-            <ListButton>
+            <button>
               <CenterName>아자 아자 피트니스 센터</CenterName>
               <ArrowRightIcon
                 src={arrowRightIcon}
                 alt="회원 등록 페이지 아이콘"
               />
-            </ListButton>
+            </button>
           </Link>
           <Link href="/trainer/membermanagement/member">
-            <ListButton>
+            <button>
               <CenterName>아자 아자 피트니스 센터</CenterName>
               <ArrowRightIcon
                 src={arrowRightIcon}
                 alt="회원 등록 페이지 아이콘"
               />
-            </ListButton>
+            </button>
           </Link>
         </ManageMemberWrap>
       </ManageContentWrap>

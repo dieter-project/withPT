@@ -2,12 +2,7 @@
 import { useState, useEffect } from "react";
 import { api } from "@/utils/axios";
 import styled from "styled-components";
-import Link from "next/link";
-import { startOfWeek, addDays, format } from "date-fns";
-import Image from "next/image";
-import arrowRightIcon from "../../../../../../../public/Trainer/icons/arrowRightGray.png";
 import ContentHeader from "@/components/trainer/molecules/Header/Header";
-import { ListButton } from "@/styles/Trainer/TrainerButton";
 
 const MainContainer = styled.div`
   background-color: #ffffff;
