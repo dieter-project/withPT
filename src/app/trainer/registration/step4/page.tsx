@@ -3,18 +3,18 @@ import React, { useState, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import { useAppSelector } from "@/redux/hooks";
 import { useDispatch } from "react-redux";
-import { EventButton } from "@/components/trainer/atoms/Button/EventButton";
-import JoinStep from "@/components/trainer/molecules/SignupStep/SignUpStep";
-import Wrapper from "@/components/trainer/molecules/Wrapper/Wrapper";
+import { EventButton } from "@/components/trainer/atoms/button/EventButton";
+import JoinStep from "@/components/trainer/molecules/signupStep/SignUpStep";
+import Wrapper from "@/components/trainer/molecules/wrapper/Wrapper";
 import { TrainerLayout } from "@/app/trainer/layout";
-import { SignupTitleWrapper } from "@/components/trainer/molecules/Wrapper/SignupTitleWrapper";
+import { SignupTitleWrapper } from "@/components/trainer/molecules/wrapper/SignupTitleWrapper";
 import { api } from "@/utils/axios";
 import { setCookie } from "@/utils/cookie";
-import { ButtonAreaFixed } from "@/components/trainer/molecules/ButtonAreaFixed/ButtonAreaFixed";
+import { ButtonAreaFixed } from "@/components/trainer/molecules/buttonAreaFixed/ButtonAreaFixed";
 import { useModal } from "@/context/trainer/ModalContext";
-import { Typography } from "@/components/trainer/atoms/Typography/TypoGraphy.styles";
-import { Icon } from "@/components/trainer/atoms/SvgIcon/SvgIcon";
-import { CareerModalContent } from "@/components/trainer/molecules/Modal/CareerModalContent/CareerModalContent";
+import { Typography } from "@/components/trainer/atoms/typography/TypoGraphy.styles";
+import { Icon } from "@/components/trainer/atoms/svgIcon/SvgIcon";
+import { CareerModalContent } from "@/components/trainer/molecules/modal/careerModalContent/CareerModalContent";
 
 export default function Step4() {
   const router = useRouter();

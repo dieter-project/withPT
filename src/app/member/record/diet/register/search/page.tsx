@@ -1,7 +1,7 @@
 "use client";
 
-import { DietSearchModal } from '@/components/DietSearchModal';
-import PageHeader from '@/components/PageHeader';
+import { DietSearchModal } from '@/components/member/modal/DietSearchModal';
+import PageHeader from '@/components/member/layout/PageHeader';
 import { Button } from '@/styles/Button';
 import { Input, InputRowWrap, InputWrap } from '@/styles/Input';
 import { BaseContentWrap } from '@/styles/Layout';

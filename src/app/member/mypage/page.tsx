@@ -1,13 +1,13 @@
 'use client';
 
-import Header from "@/components/Header";
+import Header from "@/components/member/layout/Header";
 import { BaseContentWrap, ContentSection } from "@/styles/Layout";
 import { LabelTitle } from "@/styles/Text";
 import { GoalIcon, GoalListItem, GoalValue, MenuList, NextArrow, ProfileWrap } from "./styles";
 import { useRouter } from "next/navigation";
 import { logout } from "@/services/member/auth";
 import { useEffect, useState } from "react";
-import { getMemberInfo } from "@/services/member/member";
+import { reqGetMemberInfo } from "@/services/member/member";
 import { MemberInfo } from "@/types/member/member";
 import { convertGoal } from "@/utils/convertGoal";
 
@@ -17,7 +17,7 @@ const page = () => {
   const [memberInfo, setMemberInfo] = useState<MemberInfo>({
     id: 0,
     email: "",
-    oauthProvider: "",
+    authProvider: "",
     loginType: "",
     name: "",
     height: 0,
@@ -35,7 +35,7 @@ const page = () => {
 
   const getMember = async () => {
     try {
-      const { data: { data } } = await getMemberInfo();
+      const { data: { data } } = await reqGetMemberInfo();
       setMemberInfo(data)
     } catch (error) {
       console.log('error: ', error);

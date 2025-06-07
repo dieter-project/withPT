@@ -1,8 +1,8 @@
 import React from "react";
 import styled from "styled-components";
-import Wrapper from "@/components/trainer/molecules/Wrapper/Wrapper";
-import { Typography } from "@/components/trainer/atoms/Typography/TypoGraphy.styles";
-import { TimeDropdown } from "@/components/trainer/atoms/Select/TimeDropdown";
+import Wrapper from "@/components/trainer/molecules/wrapper/Wrapper";
+import { Typography } from "@/components/trainer/atoms/typography/TypoGraphy.styles";
+import { TimeDropdown } from "@/components/trainer/atoms/select/TimeDropdown";
 
 interface DateAndTimeSelectorProps {
   days: string[];

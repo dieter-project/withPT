@@ -1,7 +1,7 @@
 import { forwardRef } from "react";
+import type { IconProps } from "@/types/common/icon";
 import { icons } from "./constants";
 import { SvgIcon } from "./SvgIcon.styles";
-import type { IconProps } from "@/types/common/icon";
 
 export const Icon = forwardRef<SVGSVGElement, IconProps>(
   ({ name, size = 24, color, className, pd, ...props }, ref) => {

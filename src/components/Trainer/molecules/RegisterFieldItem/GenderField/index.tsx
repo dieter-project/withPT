@@ -1,8 +1,8 @@
 import { styled } from "styled-components";
 import { UseFormRegister } from "react-hook-form";
-import LabelField from "@/components/trainer/molecules/LabelField";
-import { Label } from "@/components/trainer/atoms/Label/Label.styles";
-import Wrapper from "@/components/trainer/molecules/Wrapper/Wrapper";
+import { Label } from "@/components/trainer/atoms/label/Label.styles";
+import Wrapper from "@/components/trainer/molecules/wrapper/Wrapper";
+import LabelField from "../../LabelField";
 
 interface GenderFieldProps {
   register: UseFormRegister<any>;

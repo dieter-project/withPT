@@ -1,6 +1,6 @@
 import { UseFormRegister, FieldError } from "react-hook-form";
-import LabelField from "../../LabelField";
-import { NoIconInput } from "@/components/trainer/atoms/Input/Input.styles";
+import { NoIconInput } from "@/components/trainer/atoms/input/Input.styles";
+import LabelField from "@/components/trainer/molecules/LabelField";
 
 interface NameFieldProps {
   register: UseFormRegister<any>;

@@ -1,8 +1,8 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { api } from "@/utils/axios";
 import styled from "styled-components";
-import ContentHeader from "@/components/trainer/molecules/Header/Header";
+import ContentHeader from "@/components/trainer/molecules/header/Header";
 
 const MainContainer = styled.div`
   background-color: #ffffff;

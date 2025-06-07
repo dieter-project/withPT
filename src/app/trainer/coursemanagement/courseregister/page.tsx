@@ -3,15 +3,16 @@ import { useEffect, useState } from "react";
 import styled from "styled-components";
 import Image from "next/image";
 import "react-calendar/dist/Calendar.css";
-import ContentHeader from "@/components/trainer/molecules/Header/Header";
-import purpleCheckIcon from "../../../../../public/Trainer/icons/checkIconPurple.png";
-import purpleExcalmiIcon from "../../../../../public/Trainer/icons/exclamationPurple.png";
+import ContentHeader from "@/components/trainer/molecules/header/Header";
+import purpleCheckIcon from "../../../../../public/trainer/icons/checkIconPurple.png";
+import purpleExcalmiIcon from "../../../../../public/trainer/icons/exclamationPurple.png";
 import "react-calendar/dist/Calendar.css";
-import arrowCircleUnderGray from "../../../../../public/Trainer/icons/arrowCircleUnderGray.png";
-import modalCloseXButtonImg from "../../../../../public/Trainer/Modal/close-line.png";
-import toggleOnButtonImg from "../../../../../public/Trainer/icons/toggleOffButton.png";
-import toggleOffButtonImg from "../../../../../public/Trainer/icons/toggleOnButton.png";
+import arrowCircleUnderGray from "../../../../../public/trainer/icons/arrowCircleUnderGray.png";
+import modalCloseXButtonImg from "../../../../../public/trainer/Modal/close-line.png";
+import toggleOnButtonImg from "../../../../../public/trainer/icons/toggleOffButton.png";
+import toggleOffButtonImg from "../../../../../public/trainer/icons/toggleOnButton.png";
 import Calendar from "../calendar/page";
+import { NoIconInput } from "@/components/trainer/atoms/input/Input.styles";
 import { Button } from "@/styles/Button";
 
 const MainContainer = styled.div`

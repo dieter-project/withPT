@@ -193,5 +193,5 @@ export const DIET_CATEGORY = [
 ]
 
 const timezone = 1000 * 60 * 60 * 9
-export const todayDate = format(Date.now() + timezone, 'yyyy-MM-dd')
-export const thisMonth = format(Date.now() + timezone, 'yyyy-MM')
+export const todayDate = format(Date.now(), 'yyyy-MM-dd')
+export const thisMonth = format(Date.now(), 'yyyy-MM')

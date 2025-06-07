@@ -1,10 +1,24 @@
 import React from "react";
 import styled from "styled-components";
-import Wrapper from "@/components/trainer/molecules/Wrapper/Wrapper";
+import Wrapper from "@/components/trainer/molecules/wrapper/Wrapper";
 
 interface LabelFieldProps {
-  type: "default" | "column" | "spaceBetween";
-  innertype?: "default" | "column" | "spaceBetween";
+  type:
+    | "default"
+    | "columnDefault"
+    | "columnCenter"
+    | "spaceBetween"
+    | "flexStartCenter"
+    | "card"
+    | "block";
+  innertype?:
+    | "default"
+    | "columnDefault"
+    | "columnCenter"
+    | "spaceBetween"
+    | "flexStartCenter"
+    | "card"
+    | "block";
   label: string;
   children: React.ReactNode;
 }
@@ -16,7 +30,6 @@ const LabelField = ({ type, innertype, label, children }: LabelFieldProps) => {
       <Wrapper type={innertype}> {children}</Wrapper>
     </Wrapper>
   );
-  x;
 };
 
 export default LabelField;

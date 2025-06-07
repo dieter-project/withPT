@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect } from "react";
 import Link from "next/link";
-import PageHeader from "@/components/PageHeader";
+import PageHeader from "@/components/member/layout/PageHeader";
 import { BaseContentWrap } from "@/styles/Layout";
 import {
   GoogleLoginButton,

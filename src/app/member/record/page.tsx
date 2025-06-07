@@ -1,18 +1,20 @@
 "use client";
 
 import React, { useEffect, useMemo, useState } from "react";
-import Header from "@/components/Header";
+import Header from "@/components/member/layout/Header";
 import { BaseContentWrap, ContentSection } from "@/styles/Layout";
 import { LabelTitle } from "@/styles/Text";
 import { useRouter } from "next/navigation";
 import { ArrowWrap, RecordBoxWrap } from "./styles";
 import { NextArrow } from "../mypage/styles";
 import { thisMonth } from "@/constants/record";
-import { getMemberInfo } from "@/services/member/member";
+import { reqGetMemberInfo } from "@/services/member/member";
 import { MemberInfo } from "@/types/member/member";
 import { getRecord } from "@/services/member/record";
 import { WeeklyCalendar } from "@/components/member/common/WeeklyCalendar";
 import { format } from "date-fns";
+import PageHeader from "@/components/member/layout/PageHeader";
+import { CalendarIcon } from "@/styles/components/Header";
 type WeeklyRecord = {
   [date: string]: {
     diet: {
@@ -51,6 +53,7 @@ const page = () => {
   const [weekly, setWeekly] = useState<WeeklyRecord | null>(null);
   const [targetDate, setTargetDate] = useState(new Date());
   const [memberInfo, setMemberInfo] = useState<MemberInfo>();
+  const [showModal, setShowModal] = useState(false);
   const router = useRouter();
 
   const dietSubText = useMemo(() => {
@@ -61,7 +64,7 @@ const page = () => {
     try {
       const {
         data: { data: memberInfo },
-      } = await getMemberInfo();
+      } = await reqGetMemberInfo();
       setMemberInfo(memberInfo);
     } catch (error) {
       console.log("error: ", error);
@@ -101,7 +104,14 @@ const page = () => {
 
   return (
     <>
-      <Header back={true} bookmark={true} calendar={true} />
+      {/* <Header back={true} bookmark={true} calendar={true} /> */}
+      <PageHeader
+        back={false}
+        title="나의 기록"
+        rightElement={
+          <CalendarIcon onClick={() => setShowModal(true)}></CalendarIcon>
+        }
+      />
       <BaseContentWrap>
         <WeeklyCalendar weekly={weekly} onChange={handleDateChange} />
         <ContentSection>

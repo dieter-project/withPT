@@ -5,8 +5,9 @@ import styled from "styled-components";
 import Link from "next/link";
 import { startOfWeek, addDays, format } from "date-fns";
 import Image from "next/image";
-import arrowRightIcon from "../../../../../../public/Trainer/icons/arrowRightGray.png";
-import ContentHeader from "@/components/trainer/molecules/Header/Header";
+import arrowRightIcon from "../../../../../../public/trainer/icons/arrowRightGray.png";
+import ContentHeader from "@/components/trainer/molecules/header/Header";
+import { ListButton } from "@/styles/trainer/TrainerButton";
 import Footer from "@/components/trainer/organisms/Footer/TrainerFooter";
 
 const MainContainer = styled.div`

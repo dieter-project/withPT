@@ -15,6 +15,7 @@ const HeaderIcon = styled.div`
   height: 1.75rem;
   overflow: hidden;
   text-indent: -999px;
+  cursor: pointer;
 `
 
 export const BellIcon = styled(HeaderIcon)`

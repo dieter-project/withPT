@@ -1,10 +1,10 @@
 "use client";
 
 import { TrainerLayout } from "@/app/trainer/layout";
-import { Typography } from "@/components/trainer/atoms/Typography/TypoGraphy.styles";
-import { Icon } from "@/components/trainer/atoms/SvgIcon/SvgIcon";
-import { ButtonAreaFixed } from "@/components/trainer/molecules/ButtonAreaFixed/ButtonAreaFixed";
-import Wrapper from "@/components/trainer/molecules/Wrapper/Wrapper";
+import { Typography } from "@/components/trainer/atoms/typography/TypoGraphy.styles";
+import { Icon } from "@/components/trainer/atoms/svgIcon/SvgIcon";
+import { ButtonAreaFixed } from "@/components/trainer/molecules/buttonAreaFixed/ButtonAreaFixed";
+import Wrapper from "@/components/trainer/molecules/wrapper/Wrapper";
 import { useRouter } from "next/navigation";
 
 export default function Finished() {

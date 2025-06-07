@@ -1,10 +1,10 @@
 'use client'
 
 import { DietIcon, DietText, RadioButton } from '@/app/member/signup/step2/styles'
-import PageHeader from '@/components/PageHeader'
+import PageHeader from '@/components/member/layout/PageHeader'
 import { targetDiet } from '@/constants/signup'
 import { useAppSelector } from '@/redux/hooks'
-import { getMemberInfo, patchMemberDiet } from '@/services/member/member'
+import { reqGetMemberInfo, reqPatchMemberDiet } from '@/services/member/member'
 import { Button } from '@/styles/Button'
 import { BaseContentWrap, ButtonAreaFixed } from '@/styles/Layout'
 import { SignUpInputContainer } from '@/styles/SignupForm'
@@ -20,7 +20,7 @@ const page = () => {
   })
 
   const getDiet = async () => {
-    const { data: { data } } = await getMemberInfo()
+    const { data: { data } } = await reqGetMemberInfo()
     setInputData({ ...inputData, dietType: data.dietType })
   }
 
@@ -30,7 +30,7 @@ const page = () => {
 
   const handleSubmit = async () => {
     try {
-      await patchMemberDiet(inputData);
+      await reqPatchMemberDiet(inputData);
       router.push(`/member/mypage`)
     } catch (error) {
       console.log('error: ', error);

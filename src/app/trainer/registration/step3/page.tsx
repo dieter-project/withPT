@@ -3,16 +3,16 @@ import React, { useState, useCallback, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
 import { TrainerLayout } from "@/app/trainer/layout";
-import { ButtonAreaFixed } from "@/components/trainer/molecules/ButtonAreaFixed/ButtonAreaFixed";
-import { SignupTitleWrapper } from "@/components/trainer/molecules/Wrapper/SignupTitleWrapper";
-import JoinStep from "@/components/trainer/molecules/SignupStep/SignUpStep";
-import { EventButton } from "@/components/trainer/atoms/Button/EventButton";
-import { EnterCenterSchedule } from "@/components/trainer/molecules/Modal/EnterCenterSchedule/EnterCenterSchedule";
+import { ButtonAreaFixed } from "@/components/trainer/molecules/buttonAreaFixed/ButtonAreaFixed";
+import { SignupTitleWrapper } from "@/components/trainer/molecules/wrapper/SignupTitleWrapper";
+import JoinStep from "@/components/trainer/molecules/signupStep/SignUpStep";
+import { EventButton } from "@/components/trainer/atoms/button/EventButton";
+import { EnterCenterSchedule } from "@/components/trainer/molecules/modal/enterCenterSchedule/EnterCenterSchedule";
 import { GymsInfo, WorkSchedule } from "@/model/trainer/signUp";
 import { RootState } from "@/redux/store";
 import { useModal } from "@/context/trainer/ModalContext";
 import { signupActions } from "@/redux/reducers/trainerSignupSlice";
-import { TotalCenterSchedules } from "@/components/trainer/organisms/TotalCenterSchedules/TotalCenterSchedules";
+import { TotalCenterSchedules } from "@/components/trainer/organisms/totalCenterSchedules/TotalCenterSchedules";
 
 export default function Step3() {
   const router = useRouter();

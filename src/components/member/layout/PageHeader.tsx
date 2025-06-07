@@ -1,15 +1,12 @@
-import { BaseHeader } from '@/styles/Layout';
-import { useRouter, useSearchParams } from 'next/navigation';
-import React, { useRef } from 'react'
-import { styled } from 'styled-components';
+import { BaseHeader } from "@/styles/Layout";
+import { useRouter, useSearchParams } from "next/navigation";
+import React, { useRef } from "react";
+import { styled } from "styled-components";
 
 interface Props {
   back: boolean;
   title: string;
-  rightElement?: {
-    path: string;
-    component: React.ReactNode;
-  };
+  rightElement?: React.ReactNode;
 }
 
 const HeaderWrap = styled(BaseHeader)`
@@ -18,7 +15,7 @@ const HeaderWrap = styled(BaseHeader)`
   display: flex;
   align-items: center;
   justify-content: space-between;
-`
+`;
 
 const BackButton = styled.button`
   width: 0.75rem;
@@ -28,7 +25,7 @@ const BackButton = styled.button`
   transform: rotate(45deg);
   overflow: hidden;
   text-indent: -999px;
-`
+`;
 
 const PageHeader = ({ back, title, rightElement }: Props) => {
   const router = useRouter();
@@ -36,18 +33,16 @@ const PageHeader = ({ back, title, rightElement }: Props) => {
   return (
     <HeaderWrap>
       <div>
-        {
-          back &&
-          <BackButton
-            onClick={() => router.back()}
-            className='back-btn'
-          >뒤로</BackButton>
-        }
+        {back && (
+          <BackButton onClick={() => router.back()} className="back-btn">
+            뒤로
+          </BackButton>
+        )}
       </div>
       <h1>{title}</h1>
-      <div>{rightElement?.component}</div>
+      <div>{rightElement}</div>
     </HeaderWrap>
-  )
-}
+  );
+};
 
 export default PageHeader;

@@ -1,6 +1,6 @@
 "use client";
 
-import PageHeader from "@/components/PageHeader";
+import PageHeader from "@/components/member/layout/PageHeader";
 import { BODY_PART, EXERCISE_TYPE } from "@/constants/record";
 import { workoutRecordActions } from "@/redux/reducers/workoutRecordSlice";
 import { postBookmark } from "@/services/member/bookmark";
@@ -45,9 +45,9 @@ const page = () => {
 
   const handleAddRecord = async () => {
     try {
-      await postBookmark(inputData)
+      await postBookmark(inputData);
     } catch (error) {
-      console.log('error: ', error);
+      console.log("error: ", error);
     }
   };
 
@@ -61,7 +61,6 @@ const page = () => {
   useEffect(() => {
     console.log("inputData: ", inputData);
   }, [inputData]);
-
 
   return (
     <>
@@ -168,7 +167,9 @@ const page = () => {
           </InputRowWrap>
         </FormWrap>
         <ButtonAreaFixed $nav>
-          <Button $variant='primary' onClick={handleAddRecord}>추가하기</Button>
+          <Button $variant="primary" onClick={handleAddRecord}>
+            추가하기
+          </Button>
         </ButtonAreaFixed>
       </BaseContentWrap>
     </>

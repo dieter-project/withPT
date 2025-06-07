@@ -1,9 +1,9 @@
 "use client";
 import React from "react";
 import { TrainerLayout } from "@/app/trainer/layout";
-import { SignupTitleWrapper } from "@/components/trainer/molecules/Wrapper/SignupTitleWrapper";
-import JoinStep from "@/components/trainer/molecules/SignupStep/SignUpStep";
-import { ButtonAreaFixed } from "@/components/trainer/molecules/ButtonAreaFixed/ButtonAreaFixed";
+import { SignupTitleWrapper } from "@/components/trainer/molecules/wrapper/SignupTitleWrapper";
+import JoinStep from "@/components/trainer/molecules/signupStep/SignUpStep";
+import { ButtonAreaFixed } from "@/components/trainer/molecules/buttonAreaFixed/ButtonAreaFixed";
 import { useStep1 } from "@/hooks/trainer/registration/useStep1";
 import { RegistrationFormFields } from "@/components/trainer/organisms/RegistrationFormFields";
 

@@ -7,12 +7,12 @@ import { useState, useEffect } from "react";
 import styled from "styled-components";
 import Image from "next/image";
 import Link from "next/link";
-import { Typography } from "@/components/trainer/atoms/Typography/TypoGraphy.styles";
-import changeClassImg from "/public/Trainer/Main/changeClass.png";
-import foodFeedbackImg from "/public/Trainer/Main/foodFeedback.png";
-import newClassImg from "/public/Trainer/Main/newClass.png";
+import { Typography } from "@/components/trainer/atoms/typography/TypoGraphy.styles";
+import changeClassImg from "/public/trainer/Main/changeClass.png";
+import foodFeedbackImg from "/public/trainer/Main/foodFeedback.png";
+import newClassImg from "/public/trainer/Main/newClass.png";
 import { useMontlyMemberStatics } from "@/hooks/trainer/main/useMain";
-import { MemberChart } from "@/components/trainer/molecules/Chart/MemberChart";
+import { MemberChart } from "@/components/trainer/molecules/chart/MemberChart";
 
 const TrainerMainWrap = styled.div`
   background-color: #ffffff;

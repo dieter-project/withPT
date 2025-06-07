@@ -1,8 +1,9 @@
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { styled } from "styled-components";
-import { Icon } from "@/components/trainer/atoms/SvgIcon/SvgIcon";
-import { Typography } from "@/components/trainer/atoms/Typography/TypoGraphy.styles";
+import { Icon } from "@/components/trainer/atoms/svgIcon/SvgIcon";
+import { Typography } from "@/components/trainer/atoms/typography/TypoGraphy.styles";
+import { PageHeader } from "@/components/common/layout/Header.style";
 
 type HeaderVariant = "default" | "withBack" | "center" | "plus" | "logo";
 
@@ -40,7 +41,7 @@ const PlusButton = styled.button`
   font-size: var(--font-xl);
 `;
 
-export const PageHeader = ({
+export const Header = ({
   title,
   variant = "default",
   onPlusClick,
@@ -60,7 +61,7 @@ export const PageHeader = ({
       );
     }
     if (variant === "logo") {
-      return <Icon name="logo" size={80} />;
+      return <Icon name="logo" size={64} />;
     }
     return null;
   };
@@ -98,12 +99,12 @@ export const PageHeader = ({
   };
 
   return (
-    <StyledHeader $variant={variant}>
+    <PageHeader>
       {renderLeft()}
       {renderCenter()}
       {renderRight()}
-    </StyledHeader>
+    </PageHeader>
   );
 };
 
-export default PageHeader;
+export default Header;

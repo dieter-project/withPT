@@ -1,12 +1,13 @@
-'use client';
+"use client";
 
-import PageHeader from '@/components/PageHeader';
-import { api } from '@/utils/axios';
-import React, { useEffect, useState } from 'react'
-import { styled } from 'styled-components'
-import Timeline from '../../../../../public/svgs/icon_timeline.svg'
-import { LabelTitle } from '@/styles/Text';
-import { BaseContentWrap, ContentSection, RoundBox } from '@/styles/Layout';
+import PageHeader from "@/components/member/layout/PageHeader";
+import { api } from "@/utils/axios";
+import React, { useEffect, useState } from "react";
+import { styled } from "styled-components";
+import Timeline from "../../../../../public/svgs/icon_timeline.svg";
+import { LabelTitle } from "@/styles/Text";
+import { BaseContentWrap, ContentSection, RoundBox } from "@/styles/Layout";
+import { getPersonalTrainerAwards, getPersonalTrainerCareers, getPersonalTrainerCertificates, getPersonalTrainerEducation } from "@/services/member/training";
 
 const InfoWrap = styled(RoundBox)`
   li {
@@ -29,7 +30,7 @@ const InfoWrap = styled(RoundBox)`
       text-align: right;
     }
   }
-   
+
   .more-view {
     border-top: 1px solid var(--border-gray300);
     font-size: var(--font-s);
@@ -51,7 +52,7 @@ const InfoWrap = styled(RoundBox)`
       margin-left: 0.5rem;
     }
   }
-`
+`;
 
 const LicenseWrap = styled(InfoWrap)`
   li {
@@ -61,41 +62,48 @@ const LicenseWrap = styled(InfoWrap)`
     > div:last-child {
       flex: 4;
     }
-
   }
-`
+`;
 
 const page = ({ params }: { params: { id: number } }) => {
-  let title = '트레이너'
-  const trainerId = params.id
-  const [trainerData, setTrainerData] = useState({
-    
-  })
-  
+  let title = "트레이너";
+  const trainerId = params.id;
+  const [education, setEducation] = useState();
+  const [certificates, setCertificates] = useState();
+  const [careers, setCareers] = useState();
+  const [pageable, setPageable] = useState({
+    page: 0,
+    size: 1,
+    sort: [],
+  });
+
   useEffect(() => {
-    console.log('trainerId: ', trainerId);
-  }, [])
+    console.log("trainerId: ", trainerId);
+    handleGetTrainer();
+  }, []);
 
   const handleGetTrainer = async () => {
     try {
-      const response = await api.get('')  
-
+      const [eduResponse, certResponse, carResponse] = await Promise.all([
+        getPersonalTrainerEducation(trainerId, pageable),
+        getPersonalTrainerCertificates(trainerId, pageable),
+        getPersonalTrainerCareers(trainerId, pageable),
+      ]);
+      setEducation(eduResponse.data.data)
+      setCertificates(certResponse.data.data)
+      setCareers(carResponse.data.data)
     } catch (error) {
-      console.log('error: ', error);
+      console.log("error: ", error);
     }
-  }
-
-  const handleMoreHistory = async () => {
-    
-  }
+  };
 
   return (
     <>
-      <PageHeader back={true} title={title}/>
+      <PageHeader back={true} title={title} />
       <BaseContentWrap>
         <ContentSection>
           <LabelTitle>경력 입력</LabelTitle>
-          <InfoWrap variant='purple'>
+          <InfoWrap variant="purple">
             <ul>
               <li>
                 <div>2022.08 ~ 현재</div>
@@ -110,7 +118,7 @@ const page = ({ params }: { params: { id: number } }) => {
                 <div>엑슬휘트니스 PT</div>
               </li>
             </ul>
-            <div className='more-view'>
+            <div className="more-view">
               <div>더보기</div>
               <span></span>
             </div>
@@ -118,7 +126,7 @@ const page = ({ params }: { params: { id: number } }) => {
         </ContentSection>
         <ContentSection>
           <LabelTitle>자격증/수상/교육</LabelTitle>
-          <LicenseWrap variant='purple'>
+          <LicenseWrap variant="purple">
             <ul>
               <li>
                 <div>2023.03</div>
@@ -133,7 +141,7 @@ const page = ({ params }: { params: { id: number } }) => {
                 <div>운동해결전략 및 운동처방 교육 / 한국인재교육원</div>
               </li>
             </ul>
-            <div className='more-view'>
+            <div className="more-view">
               <div>더보기</div>
               <span></span>
             </div>
@@ -141,7 +149,7 @@ const page = ({ params }: { params: { id: number } }) => {
         </ContentSection>
         <ContentSection>
           <LabelTitle>학력사항</LabelTitle>
-          <InfoWrap variant='purple'>
+          <InfoWrap variant="purple">
             <ul>
               <li>
                 <div>2023. 03</div>
@@ -152,7 +160,7 @@ const page = ({ params }: { params: { id: number } }) => {
         </ContentSection>
       </BaseContentWrap>
     </>
-  )
-}
+  );
+};
 
-export default page
+export default page;

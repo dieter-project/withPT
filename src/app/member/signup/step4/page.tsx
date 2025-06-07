@@ -1,8 +1,8 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import PageHeader from "@/components/PageHeader";
-import JoinStep from "@/components/SignUpStep";
+import PageHeader from "@/components/member/layout/PageHeader";
+import JoinStep from "@/components/member/signup/SignUpStep";
 import { useAppSelector } from "@/redux/hooks";
 import { signupActions } from "@/redux/reducers/signupSlice";
 import { Button } from "@/styles/Button";
@@ -16,6 +16,7 @@ import { memberActions } from "@/redux/reducers/memberSlice";
 import { RadioButton, RecommendBadge } from "./styles";
 import { exerciseFrequency } from "@/constants/signup";
 import { setCookie } from "@/utils/cookie";
+import { requestSignup } from "@/services/member/auth";
 
 const page = () => {
   const title = "목표 설정";
@@ -38,12 +39,9 @@ const page = () => {
     dispatch(
       signupActions.saveSignupState({
         exerciseFrequency: inputData.exerciseFrequency,
-        // email: "test@test.kr",
-        //   oauthProvider: "KAKAO",
-        // nickname: "test"
       }),
     );
-    console.log("states: ", states);
+    // console.log("states: ", states);
   }, [inputData.exerciseFrequency]);
 
   const handleSubmit = async () => {
@@ -60,7 +58,7 @@ const page = () => {
     }
 
     try {
-      const response = await api.post('/api/v1/members/sign-up', states)
+      const response = await requestSignup(states)
 
       if (response.data.data.accessToken) {
         // dispatch(memberActions.getToken(response.data.data.accessToken))
@@ -73,7 +71,7 @@ const page = () => {
         // const now = Date.now()
         setCookie("access", response.data.data.accessToken, { path: "/" })
         setCookie("refreshToken", response.data.data.refreshToken, { path: "/" })
-
+        localStorage.setItem('role', response.data.data.role)
         router.replace('/member/signup/finished')
       } else {
         //alert

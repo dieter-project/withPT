@@ -1,31 +1,17 @@
-import { PayloadAction, createSlice, current } from "@reduxjs/toolkit";
+import { SignupRequest } from "@/types/common/auth";
+import { createSlice } from "@reduxjs/toolkit";
 
-export type SignupState = {
-  email: string | null,
-  name: string | null,
-  birth: string | null,
-  sex: string | null,
-  height: number | null,
-  weight: number | null,
-  dietType: string | null,
-  exerciseFrequency: number | null,
-  targetWeight: number | null,
-  oauthProvider: string | null,
-  role: string | null
-};
-
-let initialState: SignupState = {
-  email: null,
-  name: null,
-  birth: null,
-  sex: null,
-  height: null,
-  weight: null,
-  dietType: null,
-  exerciseFrequency: null,
-  targetWeight: null,
-  oauthProvider: null,
-  role: null
+let initialState: SignupRequest = {
+  email: '',
+  name: '',
+  birth: '',
+  sex: '',
+  height: 0,
+  weight: 0,
+  dietType: '',
+  targetWeight: 0,
+  exerciseFrequency: '',
+  authProvider: '',
 }
 
 const signupSlice = createSlice({

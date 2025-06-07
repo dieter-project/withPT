@@ -3,8 +3,11 @@ import { useState, useEffect } from "react";
 import Image from "next/image";
 import styled from "styled-components";
 import Link from "next/link";
-import ContentHeader from "@/components/trainer/molecules/Header/Header";
+import ContentHeader from "@/components/trainer/molecules/header/Header";
 import Footer from "@/components/trainer/organisms/Footer/TrainerFooter";
+import { ButtonAreaFixed } from "@/components/trainer/molecules/buttonAreaFixed/ButtonAreaFixed";
+import { Container, ContentBody } from "@/app/trainer/layout";
+import { NoIconInput } from "@/components/trainer/atoms/input/Input.styles";
 
 const ContentInnerBody = styled.div``;
 

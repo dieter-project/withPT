@@ -21,7 +21,7 @@ export const postWeight = async (data: {}) => {
 }
 
 export const postBodyImage = async (data: FormData) => {
-  return await api.post(`/api/v1/members/record/body-info/image`, data, {
+  return await api.post(`/api/v1/members/record/images/body-info`, data, {
     headers: {
       'Content-Type': 'multipart/form-data'
     }

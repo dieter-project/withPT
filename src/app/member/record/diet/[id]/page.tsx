@@ -1,194 +1,152 @@
-'use client';
+"use client";
 
-import PageHeader from '@/components/PageHeader';
-import { BaseContentWrap, ContentSection } from '@/styles/Layout';
-import { LabelTitle } from '@/styles/Text';
-import { api } from '@/utils/axios';
-import { usePathname, useRouter } from 'next/navigation';
-import React, { useEffect } from 'react'
-import ReactApexChart from 'react-apexcharts';
-import { styled } from 'styled-components'
-
-const DateText = styled(LabelTitle)`
-  text-align: center;
-`
-
-const ImgContainer = styled.div`
-  div {
-    width: 100%;
-    height: 21.25rem;
-    margin-bottom: 1.5rem;
-    img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-  }
-`
-
-const GraphWrap = styled.div`
-  margin-bottom: 1.5rem;
-  .bar {
-    width: 100%;
-    height: 15px;
-    border-radius: 2px;
-    display: flex;
-
-    > div {
-      &:nth-child(1) {
-        flex: 30%;
-        background-color: var(--yellow);
-      }
-      &:nth-child(2) {
-        flex: 40%;
-        background-color: var(--coral);
-      }
-      &:nth-child(3) {
-        flex: 20%;
-        background-color: var(--mint);
-      }
-    }
-  }
-  .legend {
-    display: flex;
-    margin-top: 1.125rem;
-    font-size: var(--font-xs);
-    > div {
-        display: flex;
-        align-items: center;
-
-        &::before {
-          content: "";
-          display: block;
-          width: 0.75rem;
-          height: 0.75rem;
-          border-radius: 2px;
-          margin-right: 5px;
-        }
-
-        &:nth-child(1) {
-          &::before {
-            background-color: var(--yellow);
-          }
-        }
-        &:nth-child(2) {
-          &::before {
-            background-color: var(--coral);
-          }
-        }
-        &:nth-child(3) {
-          &::before {
-            background-color: var(--mint);
-          }
-        }
-
-        span {
-          display: block;
-          margin-left: 0.625rem;
-          margin-right: 0.625rem;
-        }
-      }
-  }
-`
-
-const DietList = styled.div`
-  .list-top {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    > div:last-child {
-      font-size: var(--font-s);
-      strong {
-        font-weight: var(--font-semibold);
-      }
-    }
-  }
-  ul {
-    border-bottom: 1px solid var(--border-gray300);
-    margin: 0.625rem 0;
-    li {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 0.625rem 0;
-
-      .detail {
-        font-size: var(--font-s);
-      }
-    }
-  }
-`
+import PageHeader from "@/components/member/layout/PageHeader";
+import { BaseContentWrap, ContentSection } from "@/styles/Layout";
+import { LabelTitle } from "@/styles/Text";
+import { useRouter, useSearchParams } from "next/navigation";
+import React, { useEffect, useState } from "react";
+import { DateText, DietList, GraphWrap, ImgContainer } from "./style";
+import { deleteDiets, getDiets } from "@/services/member/diet";
+import { DietInfos } from "@/types/member/record";
+import { format } from "date-fns";
+import { ko } from "date-fns/locale";
+import { SettingIcon } from "@/styles/components/Header";
+import { DIET_CATEGORY } from "@/constants/record";
+import SettingMenu from "@/components/member/layout/SettingMenu";
+import { EmptyImg } from "@/components/common/EmptyImg";
 
 const page = ({ params }: { params: { id: number } }) => {
-  const title = '식단'
-  const dietId = params.id
-  
-  useEffect(() => {
-    console.log('dietId: ', dietId);
-  }, [])
+  const [isOpen, setIsOpen] = useState(false);
+  const [diets, setDiets] = useState<DietInfos>({
+    id: 0,
+    dietFoods: [],
+    dietCategory: "",
+    dietTime: new Date().toISOString(),
+    totalCalorie: 0,
+    totalProtein: 0,
+    totalCarbohydrate: 0,
+    totalFat: 0,
+    images: [],
+  });
+  const searchParams = useSearchParams();
+  const dietId = searchParams.get("dietId");
+  const dietInfoId = params.id;
+  const router = useRouter();
 
   const getDiet = async () => {
-    const response = await api.get(``)
+    const { data } = await getDiets(Number(dietId), dietInfoId);
+    setDiets(data.data);
+  };
+
+  function getMeridiem(date: Date) {
+    const hours = date.getHours();
+    return hours < 12 ? "am" : "pm";
   }
-  
+
+  const handleDeleteDiet = async () => {
+    const response = await deleteDiets(Number(dietId), dietInfoId);
+    if (response.status === 200) router.replace("/member/record/diet");
+  };
+
+  const dietCategory =
+    DIET_CATEGORY.find(cate => cate.value === diets.dietCategory)?.title || "";
+
+  const menu = (
+    <>
+      <div onClick={() => router.push("/member/record/diet/register")}>
+        식단 수정하기
+      </div>
+      <div onClick={handleDeleteDiet}>식단 삭제하기</div>
+    </>
+  );
+
+  useEffect(() => {
+    if (dietId && dietInfoId) getDiet();
+  }, []);
+
   return (
     <>
-      <PageHeader title={title} back={true}/>
+      {isOpen && <SettingMenu contents={menu} />}
+      <PageHeader
+        title={`${dietCategory} 식단`}
+        back={true}
+        rightElement={<SettingIcon onClick={() => setIsOpen(!isOpen)} />}
+      />
       <BaseContentWrap>
         <ContentSection>
-          <DateText>2023년 11월 15일(목) 08:30 am</DateText>
+          <DateText>
+            {format(new Date(diets.dietTime), "yyyy년 MM월 dd일 (EE) hh:mm", {
+              locale: ko,
+            })}{" "}
+            {getMeridiem(new Date(diets.dietTime))}
+          </DateText>
           <ImgContainer>
-            <div>
-              <img src="" alt="" />
-            </div>
+            {diets.images.length > 0 ? (
+              diets.images.map(image => {
+                return (
+                  <div>
+                    <img src="" alt="" />
+                  </div>
+                );
+              })
+            ) : (
+              <div>
+                <EmptyImg />
+              </div>
+            )}
           </ImgContainer>
         </ContentSection>
         <ContentSection>
           <LabelTitle>영양소 비율</LabelTitle>
           <GraphWrap>
-            <div className='bar'>
-              <div></div>
-              <div></div>
-              <div></div>
+            <div className="bar">
+              <div style={{ flex: `${diets.totalCarbohydrate / 100}` }}></div>
+              <div style={{ flex: `${diets.totalProtein / 100}` }}></div>
+              <div style={{ flex: `${diets.totalFat / 100}` }}></div>
             </div>
-            <div className='legend'>
+            <div className="legend">
               <div>
-                <div>탄수화물</div> 
-                <span>50g</span>
+                <div>탄수화물</div>
+                <span>{diets.totalCarbohydrate}g</span>
               </div>
               <div>
                 <div>단백질</div>
-                <span>20g</span>
+                <span>{diets.totalProtein}g</span>
               </div>
               <div>
                 <div>지방</div>
-                <span>10g</span>
+                <span>{diets.totalFat}g</span>
               </div>
             </div>
           </GraphWrap>
         </ContentSection>
         <ContentSection>
           <DietList>
-            <div className='list-top'>
+            <div className="list-top">
               <LabelTitle>식단</LabelTitle>
-              <div>총 칼로리 <strong>360 kcal</strong></div>
+              <div>
+                총 칼로리 <strong>{diets.totalCalorie} kcal</strong>
+              </div>
             </div>
             <ul>
-              <li>
-                <div>
-                  <div>그릭요거트</div>
-                  <div className='detail'>1개, 150g</div>
-                </div>
-                <div>
-                  180 kcal
-                </div>
-              </li>
+              {diets.dietFoods?.map(diet => (
+                <li key={diet.id}>
+                  <div>
+                    <div>{diet.name}</div>
+                    <div className="detail">
+                      {diet.capacity}
+                      {diet.units}
+                    </div>
+                  </div>
+                  <div>{diet.calories} kcal</div>
+                </li>
+              ))}
             </ul>
           </DietList>
         </ContentSection>
       </BaseContentWrap>
     </>
-  )
-}
+  );
+};
 
-export default page
+export default page;
