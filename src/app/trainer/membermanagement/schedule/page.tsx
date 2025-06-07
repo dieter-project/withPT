@@ -1,11 +1,5 @@
 "use client";
 import styled from "styled-components";
-import Link from "next/link";
-import { format } from "date-fns";
-import ko from "date-fns/locale/ko";
-import { useState, useEffect } from "react";
-import tabBar from "../../public/tabBar.png";
-import Footer from "../../../../components/trainer/organisms/Footer/TrainerFooter";
 
 const MainContainer = styled.div`
   background-color: #efefef;
@@ -155,7 +149,6 @@ export default function ManagementSchedule() {
           </div>
         </div>
       </MainContentWrap>
-      <Footer />
     </MainContainer>
   );
 }

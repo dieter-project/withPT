@@ -1,5 +1,5 @@
 import React from "react";
-import { Icon } from "@/components/trainer/atoms/svgIcon/SvgIcon";
+import { Icon } from "@/components/common/svgIcon/SvgIcon";
 import { styled } from "styled-components";
 
 interface SearchBarProps {

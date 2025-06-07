@@ -2,7 +2,7 @@ import React from "react";
 import { styled } from "styled-components";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
-import { Icon } from "@/components/trainer/atoms/svgIcon/SvgIcon";
+import { Icon } from "@/components/common/svgIcon/SvgIcon";
 import { FooterIconProps } from "@/types/common/icon";
 
 const MainFooter = styled.footer`

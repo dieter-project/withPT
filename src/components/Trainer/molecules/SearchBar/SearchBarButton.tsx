@@ -1,5 +1,5 @@
 import Wrapper from "@/components/trainer/molecules/wrapper/Wrapper";
-import { Icon } from "@/components/trainer/atoms/svgIcon/SvgIcon";
+import { Icon } from "@/components/common/svgIcon/SvgIcon";
 import { Typography } from "@/components/trainer/atoms/typography/TypoGraphy.styles";
 
 export const SearchBarButton = () => {

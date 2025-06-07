@@ -1,7 +1,7 @@
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { styled } from "styled-components";
-import { Icon } from "@/components/trainer/atoms/svgIcon/SvgIcon";
+import { Icon } from "@/components/common/svgIcon/SvgIcon";
 import { Typography } from "@/components/trainer/atoms/typography/TypoGraphy.styles";
 import { PageHeader } from "@/components/common/layout/Header.style";
 

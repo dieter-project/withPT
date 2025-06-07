@@ -1,6 +1,6 @@
 import { styled } from "styled-components";
 import { CheckRegisterItem } from "@/components/trainer/atoms/button/CheckRegisterItem";
-import { Icon } from "@/components/trainer/atoms/svgIcon/SvgIcon";
+import { Icon } from "@/components/common/svgIcon/SvgIcon";
 
 type ButtonVariant = "primary" | "purple50" | "purple75" | "default";
 type IconType = "plusCircleMono" | "plusGray" | "plusPurple";

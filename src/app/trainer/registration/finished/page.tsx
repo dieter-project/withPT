@@ -2,7 +2,7 @@
 
 import { TrainerLayout } from "@/app/trainer/layout";
 import { Typography } from "@/components/trainer/atoms/typography/TypoGraphy.styles";
-import { Icon } from "@/components/trainer/atoms/svgIcon/SvgIcon";
+import { Icon } from "@/components/common/svgIcon/SvgIcon";
 import { ButtonAreaFixed } from "@/components/trainer/molecules/buttonAreaFixed/ButtonAreaFixed";
 import Wrapper from "@/components/trainer/molecules/wrapper/Wrapper";
 import { useRouter } from "next/navigation";
