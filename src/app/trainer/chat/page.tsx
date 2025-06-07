@@ -1,6 +1,5 @@
 "use client";
 import styled from "styled-components";
-import Footer from "@/components/trainer/organisms/Footer/TrainerFooter";
 
 const MainContainer = styled.div`
   background-color: #efefef;
@@ -73,7 +72,6 @@ export default function Main() {
         </TrainerMainWrap>
         <MainTitle>회원 통계</MainTitle>
       </MainContentWrap>
-      <Footer />
     </MainContainer>
   );
 }

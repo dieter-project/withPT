@@ -5,7 +5,6 @@ import styled from "styled-components";
 import Link from "next/link";
 import ContentHeader from "@/components/trainer/molecules/header/Header";
 import { Container, ContentBody } from "@/styles/TrainerLayout";
-import Footer from "@/components/trainer/organisms/Footer/TrainerFooter";
 import ModalCloseXButtonImg from "../../../../../../public/trainer/Modal/close-line.png";
 import showMoreIcon from "../../../../../../public/trainer/Mypage/show-more-icon.png";
 import searchIconImg from "../../../../../../public/searchLight.png";
@@ -692,7 +691,6 @@ export default function myinfo() {
             </TrainerResume>
           </RegisterAllWrap>
         </ContentInnerBody>
-        <Footer />
       </ContentBody>
     </Container>
   );

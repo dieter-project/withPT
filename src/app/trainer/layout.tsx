@@ -3,12 +3,12 @@
 import React from "react";
 import { styled } from "styled-components";
 import PageHeader from "@/components/trainer/molecules/header/Header";
-import Footer from "@/components/trainer/organisms/Footer/TrainerFooter";
 import {
   LayoutProvider,
   useLayout,
 } from "@/context/trainer/TrainerLayoutContext";
 import { useHeaderFooter } from "@/hooks/trainer/common/useHeaderFooter";
+import BottomNav from "@/components/common/layout/BottomNav";
 
 interface TrainerLayoutProps {
   children: React.ReactNode;
@@ -48,7 +48,7 @@ const TrainerLayout: React.FC<TrainerLayoutProps> = ({
           />
         )}
         {children}
-        {layoutConfig.showFooter && <Footer />}
+        {layoutConfig.showFooter && <BottomNav role="trainer" />}
       </ContentBody>
     </Container>
   );

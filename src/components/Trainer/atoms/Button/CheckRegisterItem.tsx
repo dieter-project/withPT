@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { Icon } from "@/components/trainer/atoms/svgIcon/SvgIcon";
+import { Icon } from "@/components/common/svgIcon/SvgIcon";
 
 interface CheckRegisterItemProps {
   status?: "gray" | "purple";
