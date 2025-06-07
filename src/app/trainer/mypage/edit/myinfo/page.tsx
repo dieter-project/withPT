@@ -140,7 +140,7 @@ export default function myinfo() {
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [selectedGender, setSelectedGender] = useState<string | null>(null);
 
-  const handleImageChange = e => {
+  const handleImageChange = (e: any) => {
     const file = e.target.files[0];
     setSelectedImage(file);
   };
@@ -158,10 +158,10 @@ export default function myinfo() {
 
   const router = useRouter();
   const dispatch = useDispatch();
-  const inputRef = useRef<null[] | HTMLInputElement[]>([]);
+  const inputRef = useRef<null[] | HTMLLabelElement[] | HTMLInputElement[]>([]);
   const states = useAppSelector(state => state.trainerSignup);
 
-  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleInputChange = (event: any) => {
     const { name, value } = event.target;
 
     if (name === "year" || name === "month" || name === "date") {
@@ -244,7 +244,7 @@ export default function myinfo() {
 
   useEffect(() => {}, []);
 
-  const onChangeImage = e => {
+  const onChangeImage = (e: any) => {
     const file = e.target.files[0];
     const imageUrl = URL.createObjectURL(file);
     setSelectedImage(imageUrl);
@@ -284,20 +284,20 @@ export default function myinfo() {
           <SignupFormInnerWrap>
             <FormTitle>이름</FormTitle>
             <TrRegisItemWrap>
-              <NoIconInput
+              <input
                 name="name"
                 type="text"
                 required
                 value={inputData.name}
                 onChange={handleInputChange}
-              ></NoIconInput>
+              ></input>
             </TrRegisItemWrap>
           </SignupFormInnerWrap>
           <SignupFormInnerWrap>
             <FormTitle>성별</FormTitle>
             <TrRegisItemWrap>
               <TrGenderLabel
-                name="sex"
+                id="sex"
                 htmlFor="radio-box1"
                 selected={selectedGender === "남자"}
                 onChange={handleInputChange}
@@ -334,7 +334,7 @@ export default function myinfo() {
           <SignupFormInnerWrap>
             <FormTitle>생년월일</FormTitle>
             <TrRegisItemWrap>
-              <NoIconInput
+              <input
                 type="text"
                 name="year"
                 value={
@@ -347,9 +347,9 @@ export default function myinfo() {
                 ref={element => (inputRef.current[1] = element)}
                 style={{ textAlign: "center" }}
                 required
-              ></NoIconInput>
+              ></input>
               <Slash>/</Slash>
-              <NoIconInput
+              <input
                 type="text"
                 name="month"
                 maxLength={2}
@@ -363,13 +363,13 @@ export default function myinfo() {
                 inputMode="decimal"
                 style={{ textAlign: "center" }}
                 required
-              ></NoIconInput>
+              ></input>
             </TrRegisItemWrap>
           </SignupFormInnerWrap>
         </SignupFormWrap>
         <ButtonAreaFixed>
           <Link href="/trainer/signup/step2" passHref>
-            <Button variant="primary" onClick={handleNext}>
+            <Button $variant="primary" onClick={handleNext}>
               저장하기
             </Button>
           </Link>

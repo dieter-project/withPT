@@ -176,39 +176,39 @@ export default function EditPage() {
   };
 
   return (
-    <Container>
+    <div>
       <ContentHeader title={title} variant="withBack"></ContentHeader>
-      <ContentBody>
+      <div>
         <ContentInnerBody>
           {/* 경력 */}
           <RegisterAllWrap>
             <RegisterItemWrap>
               <RegisterContentTitle>센터</RegisterContentTitle>
-              <NoIconInput
+              <input
                 name="name"
                 type="text"
                 required
                 value={centerName || ""}
                 onChange={e => setCenterName(e.target.value)}
                 // onChange={handleInputChange}
-              ></NoIconInput>
-              <DeleteInputXbutton
+              ></input>
+              <button
                 onClick={() => {
                   setCenterName(null);
                 }}
               >
                 {" "}
-              </DeleteInputXbutton>
+              </button>
             </RegisterItemWrap>
             <RegisterItemWrap>
               <RegisterContentTitle>직책</RegisterContentTitle>
-              <NoIconInput
+              <input
                 name="name"
                 type="text"
                 required
                 // value={inputData.name}
                 // onChange={handleInputChange}
-              ></NoIconInput>
+              ></input>
             </RegisterItemWrap>
             <FlexWrap>
               <RegisterContentTitle>기간</RegisterContentTitle>
@@ -216,7 +216,7 @@ export default function EditPage() {
           </RegisterAllWrap>
         </ContentInnerBody>
         <Footer />
-      </ContentBody>
-    </Container>
+      </div>
+    </div>
   );
 }

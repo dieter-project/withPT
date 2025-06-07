@@ -233,7 +233,7 @@ export default function ManageMain() {
 
   const title = "신규 지점 등록";
 
-  const [searchText, setSearchText] = useState(null);
+  const [searchText, setSearchText] = useState<string | null>(null);
 
   return (
     <MainContainer>
@@ -249,19 +249,19 @@ export default function ManageMain() {
         <ContentRegion>
           <ContentTitle>회원검색</ContentTitle>
           <SearchWrap>
-            <NoIconInput
+            <input
               name="name"
               type="text"
               required
               value={searchText || ""}
               onChange={e => setSearchText(e.target.value)}
               // onChange={handleInputChange}
-            ></NoIconInput>
-            <DeleteInputXbutton
+            ></input>
+            <button
               onClick={() => {
                 setSearchText(null);
               }}
-            ></DeleteInputXbutton>
+            ></button>
           </SearchWrap>
           <SearchListWrap>
             <SearchItemWrap>

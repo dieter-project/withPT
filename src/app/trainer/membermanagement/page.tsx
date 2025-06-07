@@ -6,10 +6,8 @@ import { useState, useEffect } from "react";
 import { api } from "@/utils/axios";
 import styled from "styled-components";
 import Link from "next/link";
-import ContentHeader from "@/components/trainer/molecules/header/Header";
-import { Button } from "@/styles/trainer/TrainerButton";
-import { ListButton } from "@/styles/trainer/TrainerButton";
 import { startOfWeek, addDays, format } from "date-fns";
+import { Button } from "@/styles/Button";
 
 const RegisNewMember = styled(Link)`
   display: block;
@@ -119,7 +117,7 @@ export default function ManageMain() {
       variant={undefined}
     >
       <Link href="/trainer/membermanagement/member/register">
-        <Button $variant="primary" height="3.5rem">
+        <Button $variant="primary">
           신규 회원 등록하기
         </Button>
       </Link>
@@ -133,22 +131,22 @@ export default function ManageMain() {
         </ManageTitleWrap>
 
         <Link href="/trainer/membermanagement/member">
-          <ListButton>
+          <button>
             <CenterName>아자 아자 피트니스 센터</CenterName>
             <MemberNum>5명</MemberNum>
-          </ListButton>
+          </button>
         </Link>
         <Link href="#!">
-          <ListButton>
+          <button>
             <CenterName>으라차차 피트니스 센터</CenterName>
             <MemberNum>5명</MemberNum>
-          </ListButton>
+          </button>
         </Link>
         <Link href="#!">
-          <ListButton>
+          <button>
             <CenterName>득근득근 피트니스 센터</CenterName>
             <MemberNum>5명</MemberNum>
-          </ListButton>
+          </button>
         </Link>
       </ManageMemberWrap>
     </TrainerLayout>
