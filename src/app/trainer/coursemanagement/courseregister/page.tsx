@@ -1,33 +1,19 @@
 "use client";
 import { useEffect, useState } from "react";
 import styled from "styled-components";
-import Link from "next/link";
 import Image from "next/image";
-import moment from "moment";
-import { Button, IconButton } from "@/styles/Trainer/TrainerButton";
-import { ListButton } from "@/styles/Trainer/TrainerButton";
-import {
-  SearchBarWrap,
-  SearchIcon,
-  SearchBarInput,
-} from "@/styles/Trainer/TrainerSearchBar";
-import { ButtonAreaFixed } from "@/components/trainer/molecules/buttonAreaFixed/ButtonAreaFixed";
-import { startOfWeek, addDays, format } from "date-fns";
 import "react-calendar/dist/Calendar.css";
-import searchIcon from "../../../../../public/Trainer/icons/searchLightGray.png";
 import ContentHeader from "@/components/trainer/molecules/header/Header";
-import purplePlusIcon from "../../../../../public/Trainer/icons/plusIconWhite.png";
-import purpleCheckIcon from "../../../../../public/Trainer/icons/checkIconPurple.png";
-import purpleExcalmiIcon from "../../../../../public/Trainer/icons/exclamationPurple.png";
-import redMinusIcon from "../../../../../public/Trainer/icons/minusIconRed.png";
+import purpleCheckIcon from "../../../../../public/trainer/icons/checkIconPurple.png";
+import purpleExcalmiIcon from "../../../../../public/trainer/icons/exclamationPurple.png";
 import "react-calendar/dist/Calendar.css";
-import arrowCircleUnderGray from "../../../../../public/Trainer/icons/arrowCircleUnderGray.png";
-import modalCloseXButtonImg from "../../../../../public/Trainer/Modal/close-line.png";
-import toggleOnButtonImg from "../../../../../public/Trainer/icons/toggleOffButton.png";
-import toggleOffButtonImg from "../../../../../public/Trainer/icons/toggleOnButton.png";
+import arrowCircleUnderGray from "../../../../../public/trainer/icons/arrowCircleUnderGray.png";
+import modalCloseXButtonImg from "../../../../../public/trainer/Modal/close-line.png";
+import toggleOnButtonImg from "../../../../../public/trainer/icons/toggleOffButton.png";
+import toggleOffButtonImg from "../../../../../public/trainer/icons/toggleOnButton.png";
 import Calendar from "../calendar/page";
-import { NoIconInput } from "@/styles/TrainerInput";
-import { DeleteInputXbutton } from "@/styles/TrainerInput";
+import { NoIconInput } from "@/components/trainer/atoms/input/Input.styles";
+import { Button } from "@/styles/Button";
 
 const MainContainer = styled.div`
   background-color: var(--white);
@@ -382,7 +368,7 @@ export default function ManageMain() {
             </TimeChoiceWrap>
           )}
         </ContentRegion>
-        <Button variant="primary">등록하기</Button>
+        <Button $variant="primary">등록하기</Button>
       </MainContentWrap>
       {isModalOpen && (
         <Modal>

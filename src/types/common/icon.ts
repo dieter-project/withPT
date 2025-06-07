@@ -1,4 +1,4 @@
-import { icons } from "@/components/trainer/atoms/SvgIcon/constants";
+import { icons } from "@/components/trainer/atoms/svgIcon/constants";
 
 export type IconName = keyof typeof icons;
 

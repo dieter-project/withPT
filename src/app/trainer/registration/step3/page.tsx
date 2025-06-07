@@ -7,7 +7,7 @@ import { ButtonAreaFixed } from "@/components/trainer/molecules/buttonAreaFixed/
 import { SignupTitleWrapper } from "@/components/trainer/molecules/wrapper/SignupTitleWrapper";
 import JoinStep from "@/components/trainer/molecules/signupStep/SignUpStep";
 import { EventButton } from "@/components/trainer/atoms/button/EventButton";
-import { EnterCenterSchedule } from "@/components/trainer/molecules/modal/EnterCenterSchedule/EnterCenterSchedule";
+import { EnterCenterSchedule } from "@/components/trainer/molecules/modal/enterCenterSchedule/EnterCenterSchedule";
 import { GymsInfo, WorkSchedule } from "@/model/trainer/signUp";
 import { RootState } from "@/redux/store";
 import { useModal } from "@/context/trainer/ModalContext";

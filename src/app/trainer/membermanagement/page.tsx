@@ -7,8 +7,8 @@ import { api } from "@/utils/axios";
 import styled from "styled-components";
 import Link from "next/link";
 import ContentHeader from "@/components/trainer/molecules/header/Header";
-import { Button } from "@/styles/Trainer/TrainerButton";
-import { ListButton } from "@/styles/Trainer/TrainerButton";
+import { Button } from "@/styles/trainer/TrainerButton";
+import { ListButton } from "@/styles/trainer/TrainerButton";
 import { startOfWeek, addDays, format } from "date-fns";
 
 const RegisNewMember = styled(Link)`

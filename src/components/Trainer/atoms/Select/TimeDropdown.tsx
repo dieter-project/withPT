@@ -1,5 +1,5 @@
 import { styled } from "styled-components";
-import { generateTimeOptions } from "@/utils/Trainer/timeOptions";
+import { generateTimeOptions } from "@/utils/trainer/timeOptions";
 
 interface TimeDropdownProps {
   selectedTime: string;

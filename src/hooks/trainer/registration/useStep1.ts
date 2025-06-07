@@ -1,6 +1,6 @@
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
-import { getLastDayOfMonth } from "@/utils/Trainer/getLastDayOfMonth";
+import { getLastDayOfMonth } from "@/utils/trainer/getLastDayOfMonth";
 
 interface Step1FormData {
   name: string;

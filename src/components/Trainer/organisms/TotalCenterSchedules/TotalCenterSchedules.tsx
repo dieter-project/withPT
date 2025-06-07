@@ -3,7 +3,7 @@ import { ScheduleListCard } from "@/components/trainer/atoms/card/ScheduleListCa
 
 interface ScheduleListProps {
   schedules: Array<{
-    days: string;
+    days: string[];
     startTime: string;
     endTime: string;
   }>;

@@ -5,7 +5,7 @@ import { SignupTitleWrapper } from "@/components/trainer/molecules/wrapper/Signu
 import JoinStep from "@/components/trainer/molecules/signupStep/SignUpStep";
 import { ButtonAreaFixed } from "@/components/trainer/molecules/buttonAreaFixed/ButtonAreaFixed";
 import { useStep1 } from "@/hooks/trainer/registration/useStep1";
-import { RegistrationFormFields } from "@/components/trainer/organisms/registrationFormFields";
+import { RegistrationFormFields } from "@/components/trainer/organisms/RegistrationFormFields";
 
 const STEP_CONFIG = {
   STEP: "1",
