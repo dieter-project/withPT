@@ -6,6 +6,7 @@ import {
 } from "@reduxjs/toolkit";
 import member from "./reducers/memberSlice";
 import trainer from "./reducers/trainerSlice";
+import userInfo from "./reducers/userInfoSlice";
 import trainerSignup from "./reducers/trainerSignupSlice";
 
 import signup from "./reducers/signupSlice";
@@ -49,6 +50,7 @@ const persistConfig = {
     "member",
     "trainer",
     "trainerSignup",
+    "userInfo",
   ], //적용할 리듀서
   timeout: 1000,
 };
@@ -59,6 +61,7 @@ const rootReducer = combineReducers({
   // workoutRecord,
   trainer,
   member,
+  userInfo,
   signup,
   workoutRecord,
   dietRecord,

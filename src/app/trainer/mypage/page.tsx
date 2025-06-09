@@ -3,6 +3,9 @@ import styled from "styled-components";
 import Link from "next/link";
 import Image from "next/image";
 import stepLigntIcon from "../../../../public/trainer/Mypage/check-step-light.png";
+import { useEffect } from "react";
+import { useAppSelector } from "@/redux/hooks";
+import { reqGetTrainerInfo } from "@/services/trainer/trainer";
 
 const MainContainer = styled.div``;
 
@@ -132,11 +135,24 @@ const CenterModifyButton = styled.button`
 let datanum = 1;
 
 export default function Mypage() {
+  const states = useAppSelector(state => state.userInfo);
+  
   const contentList = [
     { title: "공지사항", link: "/trainer/main" },
     { title: "로그아웃", link: "/trainer/main" },
     { title: "계정관리", link: "/trainer/main" },
   ];
+  
+  const handleCareerData = async () => {
+    if (!states.id) return;
+    const response = await reqGetTrainerInfo(states.id);
+    console.log('response: ', response);
+  };
+
+  useEffect(() => {
+    handleCareerData();
+  }, []);
+
   return (
     <MainContainer>
       <MainHeader>마이페이지</MainHeader>

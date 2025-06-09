@@ -13,9 +13,12 @@ import {
 import { setCookie } from "@/utils/cookie";
 import { useRouter } from "next/navigation";
 import axios from "axios";
+import { useDispatch } from "react-redux";
+import { userInfoActions } from "@/redux/reducers/userInfoSlice";
 
 const page = () => {
   const route = useRouter();
+  const dispatch = useDispatch();
 
   const onGoogleSocialLogin = (): any => {
     const redirectUri = "http://localhost:3000/api/callback/google";
@@ -47,6 +50,11 @@ const page = () => {
         const refreshToken = response.data.data.loginInfo.refreshToken;
         setCookie("access", accessToken);
         setCookie("refreshToken", refreshToken);
+        dispatch(userInfoActions.isLogin({
+          id: response.data.data.loginInfo.id,
+          name: response.data.data.loginInfo.name,
+          email: response.data.data.loginInfo.email,
+        }))
         route.replace("/trainer/main");
       }
     } catch (err) {}
